@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nashville Bookstores — Heart's Library</title>
+<meta name="description" content="Nine independent bookstores in and around Nashville — Parnassus, The Bookshop, Defunct, Landmark, and more.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomEase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+
+<!-- (theme toggle retired — site is light-only) -->
+
+<!-- Design system + shared components — single source of truth.
+     Order: tokens → component primitives → site-wide → motion →
+     page-specific component CSS. -->
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components/buttons.css">
+<link rel="stylesheet" href="css/components/eyebrow.css">
+<link rel="stylesheet" href="css/components/header.css">
+<link rel="stylesheet" href="css/components/sticky-filter.css">
+<link rel="stylesheet" href="css/components/back-to-top.css">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/motion.css">
+<link rel="stylesheet" href="css/components/city-page.css">
+</head>
+
+<body>
+
+<div class="atmosphere" id="atmosphere"></div>
+
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="wordmark">
+      <svg class="logo logo-heart" viewBox="0 0 24 22" aria-hidden="true" focusable="false">
+        <path d="M12 20.4 C 5.5 16.5, 1.5 12, 1.5 7.6 C 1.5 4.5, 4 2, 7 2 C 9 2, 10.8 3.1, 12 4.9 C 13.2 3.1, 15 2, 17 2 C 20 2, 22.5 4.5, 22.5 7.6 C 22.5 12, 18.5 16.5, 12 20.4 Z" />
+      </svg>
+      <span class="logo-text">Heart's Library</span>
+    </a>
+    <nav class="primary">
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button" aria-haspopup="menu" aria-expanded="false">Lists</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="fiction.html" role="menuitem">Fiction</a>
+          <a href="nonfiction.html" role="menuitem">Non-Fiction</a>
+        </div>
+      </div>
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger active" type="button" aria-haspopup="menu" aria-expanded="false">Bookstores</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="bookstores.html" class="all-link" role="menuitem">All bookstores</a>
+          <a href="bookstores-chicago.html" role="menuitem">Chicago</a>
+          <a href="bookstores-nashville.html" role="menuitem" class="active">Nashville</a>
+          <a href="bookstores-new-york.html" role="menuitem">New York</a>
+          <a href="bookstores-bay-area.html" role="menuitem">Bay Area</a>
+          <a href="bookstores-los-angeles.html" role="menuitem">Los Angeles</a>
+        </div>
+      </div>
+      <a href="dashboards.html">Dashboards</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button"
+            aria-label="Open navigation menu"
+            aria-controls="navDrawer"
+            aria-expanded="false">
+      <span class="toggle-icon" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile drawer + scrim — wired up by site.js's setupMobileNav. -->
+<div class="nav-scrim" id="navScrim" aria-hidden="true"></div>
+<aside class="nav-drawer" id="navDrawer" aria-label="Site navigation">
+  <div class="nav-drawer-header">
+    <span class="nav-drawer-eyebrow">Heart's Library</span>
+  </div>
+  <ul class="nav-drawer-list">
+    <li><a href="index.html">Home</a></li>
+    <li>
+      <span class="drawer-section-label">Lists</span>
+      <ul class="drawer-sublist">
+        <li><a href="fiction.html">Fiction</a></li>
+        <li><a href="nonfiction.html">Non-Fiction</a></li>
+      </ul>
+    </li>
+    <li>
+      <span class="drawer-section-label">Bookstores</span>
+      <ul class="drawer-sublist">
+        <li><a href="bookstores.html">All bookstores</a></li>
+        <li><a href="bookstores-chicago.html">Chicago</a></li>
+        <li><a href="bookstores-nashville.html" class="active">Nashville</a></li>
+        <li><a href="bookstores-new-york.html">New York</a></li>
+        <li><a href="bookstores-bay-area.html">Bay Area</a></li>
+        <li><a href="bookstores-los-angeles.html">Los Angeles</a></li>
+      </ul>
+    </li>
+    <li><a href="dashboards.html">Dashboards</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-drawer-footer">A library of one</div>
+</aside>
+
+<main>
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="bookstores.html">Bookstores</a>
+    <span class="sep" aria-hidden="true"></span>
+    <span class="current" aria-current="page">Nashville</span>
+  </nav>
+
+  <section class="chapter-title" id="chapterTitle">
+    <div class="chapter-stage">
+      <div class="chapter-eyebrow">
+        <span>2023 — 2027</span>
+        <span class="pip">·</span>
+        <span>Currently here</span>
+      </div>
+      <h2>
+        Where I am <span class="accent">now</span>.
+      </h2>
+      <p class="chapter-deck">
+        Nine independent bookstores in and around Nashville — most of this list and its groupings come from <a href="https://styleblueprint.com/everyday/nashville-independent-bookstores/" target="_blank" rel="noopener">StyleBlueprint's guide</a>, with Parnassus being the one I know best from living here.
+      </p>
+      <div class="chapter-meta">
+        <div class="item">Compiled<strong>April 2026</strong></div>
+        <div class="item">Shops<strong>9 — seven in city, two outside</strong></div>
+        <div class="item">Source<strong>StyleBlueprint · Brianna Goebel</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGION FILTER — sticky beneath the header -->
+  <section class="sticky-filter" data-sticky-filter aria-label="Region filter">
+    <div class="sticky-filter-inner">
+      <span class="sticky-filter-label">Region</span>
+      <div class="btn-group" role="group" aria-label="Filter shops by region">
+        <button class="btn btn--filter btn--sm" type="button" data-filter="all" aria-pressed="true">All <span class="count">9</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="city" aria-pressed="false">In the city <span class="count">7</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="outside" aria-pressed="false">Outside Nashville <span class="count">2</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGION 1 — In the city -->
+  <section class="region-block" data-region="city" id="region-city">
+    <div class="region-stage">
+      <div class="region-eyebrow"><span>Region One</span></div>
+      <div class="region-headrow">
+        <h3 class="region-name">In the city <span class="count-pill">seven</span></h3>
+        <a href="https://styleblueprint.com/everyday/nashville-independent-bookstores/" target="_blank" rel="noopener" class="region-source">Source · StyleBlueprint ↗</a>
+      </div>
+      <ol class="shops-list">
+
+        <li class="shop-entry" data-region="city">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.parnassusbooks.net/" target="_blank" rel="noopener"><span class="name-text">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Green Hills</span>
+            </div>
+            <p class="shop-blurb highlight">Ann Patchett's independent bookstore, co-owned with Karen Hayes. Opened in 2011 after Nashville lost its last two independents — a deliberate act of <em>putting a bookstore back</em>. Thoughtfully stocked, author events most weeks, a resident dog or two. The standard-bearer, and the one I actually shop at.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="city">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://thebookshopnashville.com/" target="_blank" rel="noopener"><span class="name-text">The Bookshop</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">East Nashville</span>
+            </div>
+            <p class="shop-blurb">A 500-square-foot <em>"nook for people who love beautiful books,"</em> curated by owner Joelle Harr, a former book editor with two decades in the business. Tight, carefully-chosen stock across science, literary fiction, cooking, history, memoir. Runs an annual reading challenge.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="city">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.defunctbooks.com/" target="_blank" rel="noopener"><span class="name-text">Defunct Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">East Nashville <span class="dot">·</span> Five Points</span>
+            </div>
+            <p class="shop-blurb">Used, out-of-print, and rare. Started in Iowa City in 2003, moved to Nashville in 2015. Strong across mythology, graphic novels, biography — <em>the kind of shop where you don't arrive with a specific title and leave with three</em>.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="city">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.fairytalesnashville.com/" target="_blank" rel="noopener"><span class="name-text">Fairytales Bookstore</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">East Nashville</span>
+            </div>
+            <p class="shop-blurb">The children's and YA specialist. Colorful, child-friendly, and — convenient for a double-stop — just steps from Defunct Books.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="city">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.novelettebooksellers.com/" target="_blank" rel="noopener"><span class="name-text">Novelette Booksellers</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">East Nashville</span>
+            </div>
+            <p class="shop-blurb">Woman-owned, open since June 2022. Fiction, graphic novels, nonfiction, romance. Monthly book clubs that come bundled with the book. One of the newer voices in Nashville's literary scene.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="city">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://rhinobooksellers.com/" target="_blank" rel="noopener"><span class="name-text">Rhino Booksellers</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Sylvan Park</span>
+            </div>
+            <p class="shop-blurb">Used and rare, owned by songwriter Fred Koller (who co-wrote with Shel Silverstein). Opened 2001. Specializes in the arts, photography, music, and film. <em>Floor-to-ceiling stacks you could disappear into.</em></p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="city">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.mckaybooks.com/" target="_blank" rel="noopener"><span class="name-text">McKay's Nashville</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Bellevue</span>
+            </div>
+            <p class="shop-blurb">The two-story juggernaut. Used books across every imaginable genre, plus vinyl, CDs, movies, games, instruments, electronics. Bring maps (they supply them at the end of each aisle). Trade-ins for cash or store credit. <em>An institution.</em></p>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+  <!-- REGION 2 — Outside Nashville -->
+  <section class="region-block" data-region="outside" id="region-outside">
+    <div class="region-stage">
+      <div class="region-eyebrow"><span>Region Two</span></div>
+      <div class="region-headrow">
+        <h3 class="region-name">Outside Nashville <span class="count-pill">two</span></h3>
+        <a href="https://styleblueprint.com/everyday/nashville-independent-bookstores/" target="_blank" rel="noopener" class="region-source">Source · StyleBlueprint ↗</a>
+      </div>
+      <ol class="shops-list">
+
+        <li class="shop-entry" data-region="outside">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.landmarkbooksellers.com/" target="_blank" rel="noopener"><span class="name-text">Landmark Booksellers</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Franklin</span>
+            </div>
+            <p class="shop-blurb">Downtown Franklin, on Main Street — the oldest commercial building in town, with columns made from solid poplar trunks. Classic novels, Southern Americana, local authors, rare books. Started in 2005 by Joel and Carol Tomlin as a post-kids-grown <em>"life calling"</em> they could do together. Worth the drive even if you don't buy anything.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="outside">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://harpersbookstore.square.site/" target="_blank" rel="noopener"><span class="name-text">Harper's Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Lebanon</span>
+            </div>
+            <p class="shop-blurb">Lebanon's only independent. Weekly specials, staff picks, strong YA and romance sections, a cozy kid-reading corner. Accepts used books and media for store credit. <em>A real small-town indie of the kind that's getting rarer everywhere.</em></p>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+  <section class="credit">
+    <div class="credit-stage">
+      <div class="credit-block">
+        <div class="credit-kicker">Credit where it's due</div>
+        <h3 class="credit-headline">This list is <em>StyleBlueprint's</em>, not mine.</h3>
+        <div class="credit-body">
+          <p>Seven of the nine shops above I have not yet visited. Brianna Goebel and the team at <a href="https://styleblueprint.com/everyday/nashville-independent-bookstores/" target="_blank" rel="noopener">StyleBlueprint</a> did the legwork, organized the neighborhoods, and wrote the descriptions. My only contribution was pulling it into a cleaner format, and sharing a genuine note about Parnassus because it's the one I know.</p>
+          <p>Read the <a href="https://styleblueprint.com/everyday/nashville-independent-bookstores/" target="_blank" rel="noopener">full StyleBlueprint piece</a> — it has photos, addresses, and more context than I can reproduce here.</p>
+        </div>
+        <div class="credit-signoff">
+          <span><span class="mark">¶</span>C.H. · Franklin, TN</span>
+          <span>Nashville · 9 of 9</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="next-city">
+    <div class="next-city-inner">
+      <a href="bookstores-chicago.html" class="next-city-row" id="nextCityRow">
+        <div class="next-city-label">Next in the timeline · 2027 —</div>
+        <div>
+          <h3 class="next-city-name">Chicago, <em>Illinois</em></h3>
+          <p class="next-city-blurb">Where I'm headed. Fifty indie bookstores, all of them already mapped out.</p>
+        </div>
+        <span class="next-city-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="end-page" id="endPage">
+    <div class="end-stage">
+      <span class="ornament">❦</span>
+      <h2>
+        Nine shops, <em>currently here</em>.
+      </h2>
+      <p>
+        That's the Nashville list as I know it now. Parnassus is the one. The rest I'm getting to. Pick the next city, or wander the rest of the library.
+      </p>
+      <div class="end-links">
+        <a href="bookstores.html">All cities</a>
+        <a href="bookstores-chicago.html">Chicago</a>
+        <a href="fiction.html">Best of Fiction</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
+    <div class="end-footer">
+      <div class="left">A library of one. Franklin → Chicago.</div>
+      <div class="right">
+        <a href="#">Newsletter</a>
+        <a href="#">RSS</a>
+        <a href="mailto:hello@heartslibrary.com">Contact</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Back-to-top button — site.js's setupBackToTop wires it up.
+     Hidden until the user scrolls past 600px; smooth-scrolls
+     to top on click; shifts focus back to the wordmark for a11y. -->
+<button class="btn btn--icon back-to-top" id="backToTop"
+        type="button"
+        aria-label="Back to top"
+        aria-hidden="true">
+  <svg viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+    <path d="M9 14 V4 M4 9 L9 4 L14 9" />
+  </svg>
+</button>
+
+<script src="js/motion.js"></script>
+<script src="js/site.js"></script>
+<script src="js/components/city-page.js"></script>
+
+</body>
+</html>

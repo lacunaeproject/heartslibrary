@@ -1,0 +1,85 @@
+/* ════════════════════════════════════════════════════════
+   COMPONENT — BACK-TO-TOP
+   Fixed-position FAB that appears after the user scrolls
+   past a threshold and smooth-scrolls them back to top.
+
+   Built on .btn .btn--icon — same hover/focus motion language
+   as every other button. The fab-positioning rules are the
+   only thing this file owns.
+   ════════════════════════════════════════════════════════ */
+
+.back-to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: var(--z-back-top);
+  background: color-mix(in srgb, var(--paper) 94%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-color: color-mix(in srgb, var(--ink) 18%, transparent);
+  box-shadow: var(--shadow-2);
+
+  /* Initial — hidden, slid down. JS adds .is-visible. */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out),
+    visibility 0s linear var(--dur-base),
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+.back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+.back-to-top:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: var(--shadow-3);
+  transform: translateY(-2px);
+}
+.back-to-top:active { transform: translateY(0); }
+
+.back-to-top svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+/* Mobile: tighten edge spacing, ensure tap target stays solid. */
+@media (max-width: 760px) {
+  .back-to-top {
+    right: 16px;
+    bottom: 16px;
+  }
+}
+
+/* If the sticky filter bar is on this page AND visible AND
+   we're on a narrow viewport, drop the fab a little so it
+   doesn't crowd the bottom. The body class is set by JS when
+   needed. */
+body.has-sticky-filter .back-to-top {
+  /* keeps the same; spacing handled by viewport rules above */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top { transition: opacity var(--dur-base), visibility 0s; transform: none; }
+  .back-to-top.is-visible { transform: none; }
+  .back-to-top:hover { transform: none; }
+}

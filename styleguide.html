@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style Guide — Heart's Library</title>
+<meta name="description" content="The Heart's Library design + motion system. Live primitives for audit and iteration.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomEase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+
+<!-- (theme toggle retired — site is light-only) -->
+
+<!-- Design system + shared components — single source of truth.
+     Order: tokens → component primitives → site-wide → motion →
+     page-specific component CSS. -->
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components/buttons.css">
+<link rel="stylesheet" href="css/components/eyebrow.css">
+<link rel="stylesheet" href="css/components/header.css">
+<link rel="stylesheet" href="css/components/sticky-filter.css">
+<link rel="stylesheet" href="css/components/back-to-top.css">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/motion.css">
+<link rel="stylesheet" href="css/components/styleguide.css">
+</head>
+
+<body>
+
+<div class="atmosphere" id="atmosphere"></div>
+
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="wordmark">
+      <svg class="logo logo-heart" viewBox="0 0 24 22" aria-hidden="true" focusable="false">
+        <path d="M12 20.4 C 5.5 16.5, 1.5 12, 1.5 7.6 C 1.5 4.5, 4 2, 7 2 C 9 2, 10.8 3.1, 12 4.9 C 13.2 3.1, 15 2, 17 2 C 20 2, 22.5 4.5, 22.5 7.6 C 22.5 12, 18.5 16.5, 12 20.4 Z" />
+      </svg>
+      <span class="logo-text">Heart's Library</span>
+    </a>
+    <nav class="primary">
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button" aria-haspopup="menu" aria-expanded="false">Lists</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="fiction.html" role="menuitem">Fiction</a>
+          <a href="nonfiction.html" role="menuitem">Non-Fiction</a>
+        </div>
+      </div>
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button" aria-haspopup="menu" aria-expanded="false">Bookstores</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="bookstores.html" class="all-link" role="menuitem">All bookstores</a>
+          <a href="bookstores-chicago.html" role="menuitem">Chicago</a>
+          <a href="bookstores-nashville.html" role="menuitem">Nashville</a>
+          <a href="bookstores-new-york.html" role="menuitem">New York</a>
+          <a href="bookstores-bay-area.html" role="menuitem">Bay Area</a>
+          <a href="bookstores-los-angeles.html" role="menuitem">Los Angeles</a>
+        </div>
+      </div>
+      <a href="dashboards.html">Dashboards</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button"
+            aria-label="Open navigation menu"
+            aria-controls="navDrawer"
+            aria-expanded="false">
+      <span class="toggle-icon" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile drawer + scrim — wired up by site.js's setupMobileNav. -->
+<div class="nav-scrim" id="navScrim" aria-hidden="true"></div>
+<aside class="nav-drawer" id="navDrawer" aria-label="Site navigation">
+  <div class="nav-drawer-header">
+    <span class="nav-drawer-eyebrow">Heart's Library</span>
+  </div>
+  <ul class="nav-drawer-list">
+    <li><a href="index.html">Home</a></li>
+    <li>
+      <span class="drawer-section-label">Lists</span>
+      <ul class="drawer-sublist">
+        <li><a href="fiction.html">Fiction</a></li>
+        <li><a href="nonfiction.html">Non-Fiction</a></li>
+      </ul>
+    </li>
+    <li>
+      <span class="drawer-section-label">Bookstores</span>
+      <ul class="drawer-sublist">
+        <li><a href="bookstores.html">All bookstores</a></li>
+        <li><a href="bookstores-chicago.html">Chicago</a></li>
+        <li><a href="bookstores-nashville.html">Nashville</a></li>
+        <li><a href="bookstores-new-york.html">New York</a></li>
+        <li><a href="bookstores-bay-area.html">Bay Area</a></li>
+        <li><a href="bookstores-los-angeles.html">Los Angeles</a></li>
+      </ul>
+    </li>
+    <li><a href="dashboards.html">Dashboards</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-drawer-footer">A library of one</div>
+</aside>
+
+<main>
+
+  <!-- ═══ CHAPTER TITLE ═══ -->
+  <section class="chapter-title tall" id="chapterTitle">
+    <div class="chapter-stage">
+      <div class="chapter-eyebrow">
+        <span>Style Guide</span>
+        <span class="pip">·</span>
+        <span>Audit &amp; Iterate</span>
+      </div>
+      <h2>
+        The system, <em>on the table</em>.
+      </h2>
+      <p class="chapter-deck">
+        Every primitive the site is built from. Live, not screenshotted — scroll through and feel each one.
+      </p>
+      <div class="chapter-meta">
+        <div class="item">Compiled<strong>April 2026</strong></div>
+        <div class="item">Sections<strong>Six</strong></div>
+        <div class="item">Demos<strong>Live · in-page</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ I — FOUNDATIONS ═══ -->
+  <section class="sg-section" id="foundations">
+    <div class="sg-marker">
+      <span class="sg-num">§ I</span>
+      <span class="sg-label">Foundations</span>
+      <span class="sg-sublabel">Color, type scale, type pairings, spacing — the source of truth.</span>
+    </div>
+    <div class="sg-content">
+
+      <!-- ── Color ── -->
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Color</h3>
+          <span class="sg-counter">12 tokens · L &amp; D pair</span>
+        </div>
+        <p class="sg-block-deck">
+          Every color is a CSS custom property. Each swatch shows both <em>light</em> and <em>dark</em> theme values — split vertically.
+          The tokens themselves are defined in <code class="sg-mono">css/tokens.css</code>.
+        </p>
+
+        <div class="sg-color-group">
+          <div class="sg-color-group-title">Surface</div>
+          <div class="sg-color-grid">
+            <div class="sg-color" data-token="paper">
+              <div class="sg-color-swatch split"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">--paper</span>
+                <span class="sg-color-hexes"><span class="sg-hex-light"></span><span class="sg-hex-dark"></span></span>
+                <span class="sg-color-use">Page surface — the body background.</span>
+              </div>
+            </div>
+            <div class="sg-color" data-token="paper-sunk">
+              <div class="sg-color-swatch split"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">--paper-sunk</span>
+                <span class="sg-color-hexes"><span class="sg-hex-light"></span><span class="sg-hex-dark"></span></span>
+                <span class="sg-color-use">Sunken plates — covers, mats, panel fills.</span>
+              </div>
+            </div>
+            <div class="sg-color" data-token="rule">
+              <div class="sg-color-swatch split"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">--rule</span>
+                <span class="sg-color-hexes"><span class="sg-hex-light"></span><span class="sg-hex-dark"></span></span>
+                <span class="sg-color-use">Hairline rules between rows.</span>
+              </div>
+            </div>
+            <div class="sg-color" data-token="rule-strong">
+              <div class="sg-color-swatch split"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">--rule-strong</span>
+                <span class="sg-color-hexes"><span class="sg-hex-light"></span><span class="sg-hex-dark"></span></span>
+                <span class="sg-color-use">Heavier section dividers.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sg-color-group">
+          <div class="sg-color-group-title">Ink</div>
+          <div class="sg-color-grid">
+            <div class="sg-color" data-token="ink">
+              <div class="sg-color-swatch split"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">--ink</span>
+                <span class="sg-color-hexes"><span class="sg-hex-light"></span><span class="sg-hex-dark"></span></span>
+                <span class="sg-color-use">Headlines, body text, foreground.</span>
+              </div>
+            </div>
+            <div class="sg-color" data-token="ink-soft">
+              <div class="sg-color-swatch split"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">--ink-soft</span>
+                <span class="sg-color-hexes"><span class="sg-hex-light"></span><span class="sg-hex-dark"></span></span>
+                <span class="sg-color-use">Decks, body that's a step quieter.</span>
+              </div>
+            </div>
+            <div class="sg-color" data-token="marginalia">
+              <div class="sg-color-swatch split"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">--marginalia</span>
+                <span class="sg-color-hexes"><span class="sg-hex-light"></span><span class="sg-hex-dark"></span></span>
+                <span class="sg-color-use">Mono captions, eyebrows, meta.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sg-color-group">
+          <div class="sg-color-group-title">Accent + state</div>
+          <div class="sg-color-grid">
+            <div class="sg-color" data-token="accent">
+              <div class="sg-color-swatch split"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">--accent</span>
+                <span class="sg-color-hexes"><span class="sg-hex-light"></span><span class="sg-hex-dark"></span></span>
+                <span class="sg-color-use">The single color that does work — links, eyebrows, accents.</span>
+              </div>
+            </div>
+            <div class="sg-color" data-token="accent-quiet">
+              <div class="sg-color-swatch split"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">--accent-quiet</span>
+                <span class="sg-color-hexes"><span class="sg-hex-light"></span><span class="sg-hex-dark"></span></span>
+                <span class="sg-color-use">A step quieter — pressed states, dashboard topic = conflict.</span>
+              </div>
+            </div>
+            <div class="sg-color" data-token="accent-ink">
+              <div class="sg-color-swatch split"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">--accent-ink</span>
+                <span class="sg-color-hexes"><span class="sg-hex-light"></span><span class="sg-hex-dark"></span></span>
+                <span class="sg-color-use">Foreground that sits on top of accent surfaces.</span>
+              </div>
+            </div>
+            <div class="sg-color" data-token="mark">
+              <div class="sg-color-swatch split"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">--mark</span>
+                <span class="sg-color-hexes"><span class="sg-hex-light"></span><span class="sg-hex-dark"></span></span>
+                <span class="sg-color-use">Selection highlight / TBR section accent.</span>
+              </div>
+            </div>
+            <div class="sg-color" data-token="mark-ink">
+              <div class="sg-color-swatch split"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">--mark-ink</span>
+                <span class="sg-color-hexes"><span class="sg-hex-light"></span><span class="sg-hex-dark"></span></span>
+                <span class="sg-color-use">Foreground for highlighted text.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sg-caption">
+          <strong>Hover/active derivations</strong> are produced inline with <code>color-mix(in srgb, var(--accent) N%, transparent)</code> rather than precomputed tokens — every hover state computes from the base accent at 6–60% alpha.
+        </div>
+      </div>
+
+      <!-- ── Book color palette ── -->
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Book color palette</h3>
+          <span class="sg-counter">10 hand-mapped panels · printed-paper register</span>
+        </div>
+        <p class="sg-block-deck">
+          Each book on the homepage gets its own full-bleed colored panel. The colors are chosen as deliberate editorial gestures, drawn from the Pelican / Penguin Classics / serious-nonfiction-jacket lineage — mid-saturated, slightly warm, ink-on-uncoated-stock. <em>One color per book, locked.</em> The theme toggle does not affect book sections; the book's identity IS its color. The defining table lives in <code class="sg-mono">index.html → BOOK_COLORS</code>.
+        </p>
+
+        <div class="sg-color-group">
+          <div class="sg-color-group-title">The ten</div>
+          <div class="sg-color-grid">
+            <div class="sg-color">
+              <div class="sg-color-swatch" style="background: #3d2818;"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">№ 01 · Twelve Years a Slave</span>
+                <span class="sg-color-hexes" style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.16em;">#3D2818</span>
+                <span class="sg-color-use">Burnt umber. Archival document weight.</span>
+              </div>
+            </div>
+            <div class="sg-color">
+              <div class="sg-color-swatch" style="background: #6e3818;"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">№ 02 · Lonesome Dove</span>
+                <span class="sg-color-hexes" style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.16em;">#6E3818</span>
+                <span class="sg-color-use">Weathered saddle leather, dust-on-canvas.</span>
+              </div>
+            </div>
+            <div class="sg-color">
+              <div class="sg-color-swatch" style="background: #7a2820;"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">№ 03 · The Fire Next Time</span>
+                <span class="sg-color-hexes" style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.16em;">#7A2820</span>
+                <span class="sg-color-use">Deep brick red, civil-rights era.</span>
+              </div>
+            </div>
+            <div class="sg-color">
+              <div class="sg-color-swatch" style="background: #1f2530;"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">№ 04 · Between the World and Me</span>
+                <span class="sg-color-hexes" style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.16em;">#1F2530</span>
+                <span class="sg-color-use">Deep ink navy. Modern, urgent, quiet.</span>
+              </div>
+            </div>
+            <div class="sg-color">
+              <div class="sg-color-swatch" style="background: #4a5e54;"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">№ 05 · Demon Copperhead</span>
+                <span class="sg-color-hexes" style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.16em;">#4A5E54</span>
+                <span class="sg-color-use">Weathered green-grey, Appalachian.</span>
+              </div>
+            </div>
+            <div class="sg-color">
+              <div class="sg-color-swatch" style="background: #5a1a18;"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">№ 06 · East of Eden</span>
+                <span class="sg-color-hexes" style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.16em;">#5A1A18</span>
+                <span class="sg-color-use">Deep oxblood. Leather-bound canvas.</span>
+              </div>
+            </div>
+            <div class="sg-color">
+              <div class="sg-color-swatch" style="background: #244a52;"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">№ 07 · Project Hail Mary</span>
+                <span class="sg-color-hexes" style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.16em;">#244A52</span>
+                <span class="sg-color-use">Deep teal. Bell Labs report cover.</span>
+              </div>
+            </div>
+            <div class="sg-color">
+              <div class="sg-color-swatch" style="background: #1f1410;"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">№ 08 · Autobiography of Malcolm X</span>
+                <span class="sg-color-hexes" style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.16em;">#1F1410</span>
+                <span class="sg-color-use">Black with red undertone.</span>
+              </div>
+            </div>
+            <div class="sg-color">
+              <div class="sg-color-swatch" style="background: #5a4e3a;"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">№ 09 · Stoner</span>
+                <span class="sg-color-hexes" style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.16em;">#5A4E3A</span>
+                <span class="sg-color-use">Vellum / olive. NYRB Classics quiet.</span>
+              </div>
+            </div>
+            <div class="sg-color">
+              <div class="sg-color-swatch" style="background: #7a5a30;"></div>
+              <div class="sg-color-meta">
+                <span class="sg-color-name">№ 10 · Hundred Years' War on Palestine</span>
+                <span class="sg-color-hexes" style="font-family: var(--mono); font-size: 10px; opacity: 0.55; letter-spacing: 0.16em;">#7A5A30</span>
+                <span class="sg-color-use">Desert ochre. Levantine archival.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sg-caption">
+          <strong>Application</strong><span class="sep">·</span>Each book section's <code class="sg-mono">style</code> attribute sets <code class="sg-mono">--book-bg</code> + <code class="sg-mono">--page-fg</code> + <code class="sg-mono">--page-accent</code>.
+          The full-bleed band is painted by a <code class="sg-mono">.book-page::before</code> pseudo-element using <code class="sg-mono">left: 50%; margin-left: -50vw; width: 100vw</code>. Hard cuts between books — no transitions, no gradient morph, no grain overlay. The book's mood becomes the room you're reading it in.
+        </div>
+      </div>
+
+      <!-- ── Type scale ── -->
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Type scale</h3>
+          <span class="sg-counter">Newsreader · Bricolage Grotesque · JetBrains Mono</span>
+        </div>
+        <p class="sg-block-deck">
+          Every ramp at its real size. The font is <em>Newsreader</em> (variable, opsz + wght axes), with <em>Bricolage Grotesque</em> for the wordmark and CTAs, and <em>JetBrains Mono</em> for captions.
+        </p>
+
+        <div class="sg-type-scale">
+          <div class="sg-type-row">
+            <p class="sg-type-sample sg-type-display-poster" style="font-family: 'Unbounded', 'Bricolage Grotesque', sans-serif; font-weight: 700; font-variation-settings: 'wght' 700; font-size: clamp(56px, 7vw, 104px); line-height: 1.04; letter-spacing: -0.028em;">The ten I'd <em style="font-family: var(--serif); font-style: italic; font-weight: 500; letter-spacing: -0.02em; color: var(--accent);">hand over</em> first.</p>
+            <div class="sg-caption"><strong>Display poster (hero)</strong><span class="sep">·</span>Unbounded 700<span class="sep">·</span>clamp(56px → 7vw → 104px)<span class="sep">·</span>line-height 1.04<span class="sep">·</span>tracking -0.028em<span class="sep">·</span><code class="sg-mono">.chapter-title h2</code><span class="sep">·</span>accent words drop to Newsreader 500 italic in <code class="sg-mono">--accent</code> (matches the v44 em pattern)</div>
+          </div>
+          <div class="sg-type-row">
+            <p class="sg-type-sample sg-type-display" style="font-family: 'Unbounded', 'Bricolage Grotesque', sans-serif; font-weight: 700; font-variation-settings: 'wght' 700; font-size: clamp(36px, 4.4vw, 64px); line-height: 1.08; letter-spacing: -0.024em;">A library of <em style="font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--accent); letter-spacing: -0.02em;">one</em>.</p>
+            <div class="sg-caption"><strong>Display (end stage)</strong><span class="sep">·</span>Unbounded 700<span class="sep">·</span>clamp(36px → 4.4vw → 64px)<span class="sep">·</span>line-height 1.08<span class="sep">·</span>tracking -0.024em<span class="sep">·</span><code class="sg-mono">.end-stage h2</code><span class="sep">·</span>colophon scale — sits closer to body register than the hero</div>
+          </div>
+          <div class="sg-type-row">
+            <p class="sg-type-sample sg-type-headline" style="font-family: 'Unbounded', 'Bricolage Grotesque', sans-serif; font-weight: 700; font-variation-settings: 'wght' 700; letter-spacing: -0.04em; line-height: 1.06;">Where I've been <em style="font-family: var(--serif); font-style: italic; font-weight: 500; letter-spacing: -0.018em;">buying</em> books</p>
+            <div class="sg-caption"><strong>Headline</strong><span class="sep">·</span>Unbounded 700<span class="sep">·</span>clamp(32px → 2.6vw → 48px)<span class="sep">·</span>tracking -0.04em<span class="sep">·</span>line-height 1.06<span class="sep">·</span><code class="sg-mono">.book-page-text h2</code> · color inherits <code class="sg-mono">--page-fg</code> (the accent does the work elsewhere) · subtitle (<code class="sg-mono">.sub</code>) holds the same 700 weight so title + subtitle read as one continuous headline · italic <em>em</em> drops to Newsreader 500 italic (v44 accent pattern, matches <code class="sg-mono">.chapter-title h2 em</code>)</div>
+          </div>
+          <div class="sg-type-row">
+            <p class="sg-type-sample sg-type-subhead">A short atlas</p>
+            <div class="sg-caption"><strong>Subhead</strong><span class="sep">·</span>Newsreader 500<span class="sep">·</span>opsz 28<span class="sep">·</span>28px<span class="sep">·</span><code class="sg-mono">.atlas-eyebrow</code></div>
+          </div>
+          <div class="sg-type-row">
+            <p class="sg-type-sample sg-type-deck allow-wrap">Hearing out someone you'll never meet, and taking them seriously enough to let them change your mind.</p>
+            <div class="sg-caption"><strong>Deck</strong><span class="sep">·</span>Newsreader 400<span class="sep">·</span>opsz 22<span class="sep">·</span>22px<span class="sep">·</span>line-height 1.6<span class="sep">·</span><code class="sg-mono">.chapter-deck</code><span class="sep">·</span><code class="sg-mono">.dashboard-deck</code></div>
+          </div>
+          <div class="sg-type-row">
+            <p class="sg-type-sample sg-type-body-large allow-wrap">I came to reading late. Before that: drew sports stars as a kid, studied illustration at California College of the Arts, drifted out of making images into operations.</p>
+            <div class="sg-caption"><strong>Body — large</strong><span class="sep">·</span>Newsreader 400<span class="sep">·</span>opsz 18<span class="sep">·</span>18px<span class="sep">·</span><code class="sg-mono">.movement-body</code></div>
+          </div>
+          <div class="sg-type-row">
+            <p class="sg-type-sample sg-type-body allow-wrap">I read this expecting history. What I got was a man's voice — clear, exact, unsentimental — describing twelve years of being denied his name. Northup is a careful witness even when the cruelty is at its most theatrical.</p>
+            <div class="sg-caption"><strong>Body</strong><span class="sep">·</span>Newsreader 400<span class="sep">·</span>opsz 16<span class="sep">·</span>16px<span class="sep">·</span><code class="sg-mono">.book-page-text .review-body</code><span class="sep">·</span><code class="sg-mono">.author-bio</code><span class="sep">·</span>The book-page review IS the body content; no summary blurb in front of it.</div>
+          </div>
+          <div class="sg-type-row">
+            <p class="sg-type-sample sg-type-meta">Solomon Northup · Memoir · 1853 · 336 pages</p>
+            <div class="sg-caption"><strong>Meta</strong><span class="sep">·</span>Newsreader 500<span class="sep">·</span>opsz 14<span class="sep">·</span>14px<span class="sep">·</span><code class="sg-mono">.book-page-meta .item</code></div>
+          </div>
+          <div class="sg-type-row">
+            <p class="sg-type-sample sg-type-eyebrow">§ I — The Shortlist</p>
+            <div class="sg-caption"><strong>Eyebrow</strong><span class="sep">·</span>JetBrains Mono<span class="sep">·</span>14px<span class="sep">·</span>tracking 0.20em<span class="sep">·</span>uppercase<span class="sep">·</span><code class="sg-mono">.chapter-eyebrow</code></div>
+          </div>
+          <div class="sg-type-row">
+            <p class="sg-type-sample sg-type-caption">Reading Time · ≈ 4,800 pages</p>
+            <div class="sg-caption"><strong>Caption</strong><span class="sep">·</span>JetBrains Mono<span class="sep">·</span>12px<span class="sep">·</span>tracking 0.16em<span class="sep">·</span><code class="sg-mono">.chapter-meta .item label</code></div>
+          </div>
+          <div class="sg-type-row">
+            <p class="sg-type-sample sg-type-tiny">Compiled · April 2026 · A library of one</p>
+            <div class="sg-caption"><strong>Tiny</strong><span class="sep">·</span>JetBrains Mono<span class="sep">·</span>11px<span class="sep">·</span>tracking 0.22em<span class="sep">·</span><code class="sg-mono">.note-label</code><span class="sep">·</span><code class="sg-mono">.purchase-table::before</code><span class="sep">·</span><code class="sg-mono">.works-label</code></div>
+          </div>
+          <div class="sg-type-row">
+            <p class="sg-type-sample sg-type-mono">function setupCurtain() { ... }</p>
+            <div class="sg-caption"><strong>Mono utility</strong><span class="sep">·</span>JetBrains Mono<span class="sep">·</span>14px<span class="sep">·</span>tracking 0<span class="sep">·</span>code, captions, debug</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Type pairings ── -->
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Type pairings</h3>
+          <span class="sg-counter">In context</span>
+        </div>
+        <p class="sg-block-deck">
+          The actual headline + body combinations the site uses, lifted from the live pages. Newsreader does both display and body, so pairings are about <em>weight, opsz, and italic-as-accent</em> — not changing typeface.
+        </p>
+
+        <div class="sg-pair-grid">
+          <div class="sg-pair">
+            <span class="sg-pair-tag">Hero pair · chapter-title + chapter-deck</span>
+            <div class="sg-pair-headline">A library of <em>one</em>.</div>
+            <div class="sg-pair-body">That's the ten. The full lists, the city-by-city bookstore index, and the dashboards live one click deeper.</div>
+            <div class="sg-pair-byline">Newsreader 600 / 400 · opsz 72 / 22</div>
+          </div>
+          <div class="sg-pair">
+            <span class="sg-pair-tag">Book pair · book-title + by + review (drop cap)</span>
+            <div class="sg-pair-headline">Stoner</div>
+            <div class="sg-pair-byline" style="margin-bottom: 16px;">by John Williams</div>
+            <div class="sg-pair-body" style="font-size: var(--t-100); margin-bottom: 0;">The premise is the joke — a man's whole life, told in 280 pages, in which essentially nothing of consequence happens. He marries badly, raises a daughter he loves, teaches Latin literature to undergraduates who don't care.</div>
+            <div class="sg-pair-byline" style="border-top: 0; padding-top: 8px; color: color-mix(in srgb, var(--ink) 55%, transparent);">Review IS the body content — no summary blurb in front of it. Drop cap on the first paragraph (Newsreader italic 600, accent color, 3.4em float-left) earns the editorial register.</div>
+          </div>
+          <div class="sg-pair">
+            <span class="sg-pair-tag">Editorial pair · pull-quote + attribution</span>
+            <div class="sg-pair-headline" style="font-style: italic; font-weight: 500;">Hearing out someone you'll never meet, and taking them seriously enough to let them change your mind.</div>
+            <div class="sg-pair-byline" style="border-top: 0; padding-top: 0; color: var(--accent);">— What a book is actually good for</div>
+          </div>
+          <div class="sg-pair">
+            <span class="sg-pair-tag">List pair · book-title (sans) + author</span>
+            <div class="sg-pair-headline" style="font-family: var(--display); font-weight: 600; font-variation-settings: 'wdth' 100, 'opsz' 24; font-size: var(--t-200);">Demon Copperhead</div>
+            <div class="sg-pair-body" style="font-size: var(--t-100);">Barbara Kingsolver · Fiction · 2022</div>
+            <div class="sg-pair-byline">Bricolage Grotesque 600 · book-list rows</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Spacing ── -->
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Spacing</h3>
+          <span class="sg-counter">19 primitives · 4–160px</span>
+        </div>
+        <p class="sg-block-deck">
+          Base 4px. Primitives <code class="sg-mono">--s-1</code> through <code class="sg-mono">--s-19</code>. Sections compose <em>semantic</em> tokens (<code class="sg-mono">--pad-page-tall</code>, <code class="sg-mono">--gap-stage</code>, etc.) using clamp + viewport units — see <code class="sg-mono">css/tokens.css</code>.
+        </p>
+
+        <div class="sg-spacing">
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-1</span><span class="sg-spacing-px">4px</span><span class="sg-spacing-bar" style="width:4px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-2</span><span class="sg-spacing-px">8px</span><span class="sg-spacing-bar" style="width:8px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-3</span><span class="sg-spacing-px">12px</span><span class="sg-spacing-bar" style="width:12px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-4</span><span class="sg-spacing-px">16px</span><span class="sg-spacing-bar" style="width:16px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-5</span><span class="sg-spacing-px">20px</span><span class="sg-spacing-bar" style="width:20px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-6</span><span class="sg-spacing-px">24px</span><span class="sg-spacing-bar" style="width:24px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-7</span><span class="sg-spacing-px">28px</span><span class="sg-spacing-bar" style="width:28px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-8</span><span class="sg-spacing-px">32px</span><span class="sg-spacing-bar" style="width:32px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-9</span><span class="sg-spacing-px">36px</span><span class="sg-spacing-bar" style="width:36px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-10</span><span class="sg-spacing-px">40px</span><span class="sg-spacing-bar" style="width:40px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-11</span><span class="sg-spacing-px">44px</span><span class="sg-spacing-bar" style="width:44px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-12</span><span class="sg-spacing-px">48px</span><span class="sg-spacing-bar" style="width:48px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-13</span><span class="sg-spacing-px">56px</span><span class="sg-spacing-bar" style="width:56px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-14</span><span class="sg-spacing-px">64px</span><span class="sg-spacing-bar" style="width:64px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-15</span><span class="sg-spacing-px">80px</span><span class="sg-spacing-bar" style="width:80px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-16</span><span class="sg-spacing-px">96px</span><span class="sg-spacing-bar" style="width:96px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-17</span><span class="sg-spacing-px">112px</span><span class="sg-spacing-bar" style="width:112px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-18</span><span class="sg-spacing-px">128px</span><span class="sg-spacing-bar" style="width:128px;"></span></div>
+          <div class="sg-spacing-row"><span class="sg-spacing-name">--s-19</span><span class="sg-spacing-px">160px</span><span class="sg-spacing-bar" style="width:160px;"></span></div>
+        </div>
+
+        <div class="sg-caption">
+          <strong>Layout</strong><span class="sep">·</span><code class="sg-mono">--max-container 1600px</code><span class="sep">·</span><code class="sg-mono">--gutter 56px</code><span class="sep">·</span><code class="sg-mono">--gutter-content 90px</code><span class="sep">·</span><code class="sg-mono">--gutter-mobile 28px</code>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ II — MOTION REGISTER ═══ -->
+  <section class="sg-section" id="motion">
+    <div class="sg-marker">
+      <span class="sg-num">§ II</span>
+      <span class="sg-label">Motion register</span>
+      <span class="sg-sublabel">Easing curves, durations, scrub values, reduced-motion behavior.</span>
+    </div>
+    <div class="sg-content">
+
+      <!-- ── Easings ── -->
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Easing curves</h3>
+          <span class="sg-counter">Hover the cell, hit Replay</span>
+        </div>
+        <p class="sg-block-deck">
+          Editorial register: long roll-outs, soft landings. <em>power3.out</em> is the workhorse for entrances; <em>expo.out</em> for word reveals; <em>inkIn</em> is a custom curve used to ease the variable-font weight axis on the homepage hero.
+        </p>
+
+        <div class="sg-motion-grid">
+          <div class="sg-motion-cell" data-easing="power2.out" data-duration="1.0">
+            <div class="sg-motion-cell-name">power2.out
+              <span class="sg-motion-cell-when">Light decel — short UI moves, fades</span>
+            </div>
+            <div class="sg-motion-track"><span class="sg-motion-puck"></span></div>
+            <button class="sg-motion-replay" type="button">Replay</button>
+            <div class="sg-motion-cell-mono">ease: 'power2.out'</div>
+          </div>
+
+          <div class="sg-motion-cell" data-easing="power3.out" data-duration="1.0">
+            <div class="sg-motion-cell-name">power3.out
+              <span class="sg-motion-cell-when">Default — entrance reveals, decks, meta</span>
+            </div>
+            <div class="sg-motion-track"><span class="sg-motion-puck"></span></div>
+            <button class="sg-motion-replay" type="button">Replay</button>
+            <div class="sg-motion-cell-mono">ease: 'power3.out'</div>
+          </div>
+
+          <div class="sg-motion-cell" data-easing="expo.out" data-duration="1.0">
+            <div class="sg-motion-cell-name">expo.out
+              <span class="sg-motion-cell-when">Word-reveal — hero headlines, atlas rows</span>
+            </div>
+            <div class="sg-motion-track"><span class="sg-motion-puck"></span></div>
+            <button class="sg-motion-replay" type="button">Replay</button>
+            <div class="sg-motion-cell-mono">ease: 'expo.out'</div>
+          </div>
+
+          <div class="sg-motion-cell" data-easing="back.out(1.4)" data-duration="1.0">
+            <div class="sg-motion-cell-name">back.out(1.4)
+              <span class="sg-motion-cell-when">Reserved — ornament stamps only (❦)</span>
+            </div>
+            <div class="sg-motion-track"><span class="sg-motion-puck"></span></div>
+            <button class="sg-motion-replay" type="button">Replay</button>
+            <div class="sg-motion-cell-mono">ease: 'back.out(1.4)'</div>
+          </div>
+
+          <div class="sg-motion-cell" data-easing="power2.inOut" data-duration="1.0">
+            <div class="sg-motion-cell-name">power2.inOut
+              <span class="sg-motion-cell-when">Symmetric — accent-weight settle, dividers draw</span>
+            </div>
+            <div class="sg-motion-track"><span class="sg-motion-puck"></span></div>
+            <button class="sg-motion-replay" type="button">Replay</button>
+            <div class="sg-motion-cell-mono">ease: 'power2.inOut'</div>
+          </div>
+
+          <div class="sg-motion-cell" data-easing="inkIn" data-duration="1.1">
+            <div class="sg-motion-cell-name">inkIn (custom)
+              <span class="sg-motion-cell-when">Variable-font wght axis — homepage hero only</span>
+            </div>
+            <div class="sg-motion-track"><span class="sg-motion-puck"></span></div>
+            <button class="sg-motion-replay" type="button">Replay</button>
+            <div class="sg-motion-cell-mono">CustomEase.create('inkIn', 'M0,0 C0.65,0 0.5,1 1,1')</div>
+          </div>
+
+          <div class="sg-motion-cell" data-easing="cubic-bezier(0.22, 0.61, 0.36, 1)" data-duration="1.0">
+            <div class="sg-motion-cell-name">cubic-bezier(.22,.61,.36,1)
+              <span class="sg-motion-cell-when">CSS-side default — hovers, transitions</span>
+            </div>
+            <div class="sg-motion-track"><span class="sg-motion-puck"></span></div>
+            <button class="sg-motion-replay" type="button">Replay</button>
+            <div class="sg-motion-cell-mono">transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1)</div>
+          </div>
+
+          <div class="sg-motion-cell" data-easing="cubic-bezier(0.65, 0, 0.35, 1)" data-duration="1.0">
+            <div class="sg-motion-cell-name">cubic-bezier(.65,0,.35,1)
+              <span class="sg-motion-cell-when">Slow-in slow-out — page curtain</span>
+            </div>
+            <div class="sg-motion-track"><span class="sg-motion-puck"></span></div>
+            <button class="sg-motion-replay" type="button">Replay</button>
+            <div class="sg-motion-cell-mono">transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Duration ramp ── -->
+      <div class="sg-block" data-sg-block="duration">
+        <div class="sg-block-head">
+          <h3>Duration ramp</h3>
+          <span class="sg-counter">Same easing, three durations</span>
+        </div>
+        <p class="sg-block-deck">
+          The same <code class="sg-mono">power3.out</code> at three durations. Lower-bound 0.4s for UI feedback. Upper bound around 1.4s for hero reveals — past that and the user is waiting on the page.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div class="sg-duration-row" data-duration="0.4">
+            <span class="sg-duration-label">0.4s — short</span>
+            <div class="sg-motion-track"><span class="sg-motion-puck"></span></div>
+          </div>
+          <div class="sg-duration-row" data-duration="0.9">
+            <span class="sg-duration-label">0.9s — medium</span>
+            <div class="sg-motion-track"><span class="sg-motion-puck"></span></div>
+          </div>
+          <div class="sg-duration-row" data-duration="1.4">
+            <span class="sg-duration-label">1.4s — long</span>
+            <div class="sg-motion-track"><span class="sg-motion-puck"></span></div>
+          </div>
+        </div>
+        <button class="sg-motion-replay" type="button">Replay all</button>
+
+        <div class="sg-caption">
+          <strong>0.4s</strong> — UI feedback, mini lift on hover<span class="sep">·</span><strong>0.6–0.9s</strong> — entrance defaults<span class="sep">·</span><strong>1.0–1.4s</strong> — hero word-reveals, ornament stamps<span class="sep">·</span><strong>1.4s+</strong> — programmatic scrolls only, never tweens (Lenis is currently disabled site-wide; native smooth-scroll falls through)
+        </div>
+      </div>
+
+      <!-- ── Scrub demo ── -->
+      <div class="sg-block" data-sg-block="scrub">
+        <div class="sg-block-head">
+          <h3>Scrub vs toggle</h3>
+          <span class="sg-counter">Scroll past — see the difference</span>
+        </div>
+        <p class="sg-block-deck">
+          Scrub binds a tween's progress to scroll position 1:1. <em>scrub: 0.6</em> adds a 0.6s smoothing lag — the eased flavor used on parallax moments like the chapter-stage scroll-out, TBR drift, and portrait drift. The toggle version plays once at the entry threshold and ignores the rest. <strong>Book-page sections do not scrub</strong> — they animate on enter/exit only, so the user's scroll feels free.
+        </p>
+
+        <div class="sg-scrub">
+          <div class="sg-scrub-cell is-scrub">
+            <div class="sg-scrub-cell-label">scrub: 0.6 — eased</div>
+            <div class="sg-scrub-cell-sample">
+              <div class="sg-scrub-mark">Q</div>
+            </div>
+          </div>
+          <div class="sg-scrub-cell is-toggle">
+            <div class="sg-scrub-cell-label">toggleActions: play none none reverse</div>
+            <div class="sg-scrub-cell-sample">
+              <div class="sg-scrub-mark">Q</div>
+            </div>
+          </div>
+        </div>
+        <div class="sg-caption">
+          <code class="sg-mono">scrollTrigger: { trigger, start: 'top 80%', end: 'bottom 30%', scrub: 0.6 }</code>
+        </div>
+      </div>
+
+      <!-- ── Reduced motion ── -->
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Reduced motion</h3>
+          <span class="sg-counter">prefers-reduced-motion: reduce</span>
+        </div>
+        <p class="sg-block-deck">
+          When the OS-level reduce-motion flag is set, the system disables: <em>page curtain</em>, <em>ink cursor</em>, <em>magnetic affordance</em>, <em>scroll-driven scrubs</em>, <em>word-mask reveals</em>, <em>image fade-in</em>, <em>reading-progress bar</em>, and <em>headline exhale</em>. CSS hovers and theme transitions remain. The toggle below simulates the state on this page only — site-wide overrides require the OS-level setting.
+        </p>
+
+        <div class="sg-rm-control">
+          <span class="sg-rm-control-label">Simulate reduced-motion (this page only)</span>
+          <span class="sg-rm-control-state" id="sgRMState">Off</span>
+          <button class="sg-rm-toggle" id="sgRMToggle" type="button" aria-pressed="false" aria-label="Toggle reduced-motion simulation"></button>
+        </div>
+        <div class="sg-caption">
+          <code class="sg-mono">html.sg-rm-simulated</code> — applied to documentElement; demos check it before tweening.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ III — COMPONENTS ═══ -->
+  <section class="sg-section" id="components">
+    <div class="sg-marker">
+      <span class="sg-num">§ III</span>
+      <span class="sg-label">Components</span>
+      <span class="sg-sublabel">Live demos — buttons, links, cursor, header, curtain, progress, image fade.</span>
+    </div>
+    <div class="sg-content">
+
+      <!-- ── Buttons ── -->
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Buttons</h3>
+          <span class="sg-counter">Primary · secondary · ghost · magnetic</span>
+        </div>
+        <p class="sg-block-deck">
+          Type-first buttons. There's no rectangle of color — affordance comes from the type weight, the underline, and the arrow.
+        </p>
+
+        <div class="sg-button-row">
+          <div class="sg-btn-cell">
+            <span class="sg-btn-cell-name">Primary · CTA</span>
+            <button class="sg-btn sg-btn-primary" type="button">Open the dashboard <span class="sg-btn-arrow">→</span></button>
+            <div class="sg-caption"><code class="sg-mono">.dashboard-cta</code><span class="sep">·</span>underline draws on hover, arrow flicks +6px</div>
+          </div>
+          <div class="sg-btn-cell">
+            <span class="sg-btn-cell-name">Secondary · bordered</span>
+            <button class="sg-btn sg-btn-secondary" type="button">Read the list</button>
+            <div class="sg-caption"><code class="sg-mono">.sg-btn-secondary</code><span class="sep">·</span>1px ink-25%, accent on hover</div>
+          </div>
+          <div class="sg-btn-cell">
+            <span class="sg-btn-cell-name">Ghost · type-only</span>
+            <button class="sg-btn sg-btn-ghost" type="button">More from this list</button>
+            <div class="sg-caption"><code class="sg-mono">.sg-btn-ghost</code><span class="sep">·</span>underline draws on hover, no border</div>
+          </div>
+          <div class="sg-btn-cell">
+            <span class="sg-btn-cell-name">Magnetic · primary</span>
+            <button class="sg-btn sg-btn-primary" type="button" data-magnetic data-magnetic-strength="20">
+              <span class="magnetic-inner">Pull me <span class="sg-btn-arrow">→</span></span>
+            </button>
+            <div class="sg-caption"><code class="sg-mono">[data-magnetic]</code><span class="sep">·</span>strength 20px outer<span class="sep">·</span>11px inner (.magnetic-inner)<span class="sep">·</span>quickTo dur 0.55s</div>
+          </div>
+        </div>
+
+        <div class="sg-caption">
+          <strong>Defaults</strong>: theme-toggle = 8px, fab = 10px, wordmark = 4px, magnetic-inner = 0.55× outer. Set via <code class="sg-mono">data-magnetic-strength="N"</code>. Auto-disabled on coarse pointers.
+        </div>
+      </div>
+
+      <!-- ── Animated underlines ── -->
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Animated underlines</h3>
+          <span class="sg-counter">Three variants</span>
+        </div>
+        <p class="sg-block-deck">
+          Hover any link to see the underline behavior. The end-link variant is the most distinctive — the existing line retreats from the right while the new one draws from the left, two-stage.
+        </p>
+
+        <div class="sg-link-grid">
+          <div class="sg-link-cell sg-link-nav">
+            <span class="sg-pair-tag">Nav · draw-from-left</span>
+            <ul class="sg-link-list">
+              <li><a href="#">Lists</a></li>
+              <li><a href="#">Bookstores</a></li>
+              <li><a href="#">Dashboards</a></li>
+              <li><a href="#">About</a></li>
+            </ul>
+            <div class="sg-caption"><code class="sg-mono">nav.primary a:not(.theme-toggle-link)</code><span class="sep">·</span>scaleX 0→1 from left<span class="sep">·</span>0.5s cubic-bezier(.22,.61,.36,1)</div>
+          </div>
+
+          <div class="sg-link-cell sg-link-end">
+            <span class="sg-pair-tag">End-link · two-stage retreat</span>
+            <ul class="sg-link-list">
+              <li><a href="#">Best of Fiction</a></li>
+              <li><a href="#">Best of Nonfiction</a></li>
+              <li><a href="#">Bookstores by city</a></li>
+            </ul>
+            <div class="sg-caption"><code class="sg-mono">.end-links a</code><span class="sep">·</span>existing line scales out from right, new line draws in from left (+0.12s)<span class="sep">·</span>0.55s</div>
+          </div>
+
+          <div class="sg-link-cell sg-link-filter">
+            <span class="sg-pair-tag">Filter · partial-active state</span>
+            <ul class="sg-link-list">
+              <li><button type="button" aria-pressed="true">All</button></li>
+              <li><button type="button" aria-pressed="false">Literary</button></li>
+              <li><button type="button" aria-pressed="false">Speculative</button></li>
+              <li><button type="button" aria-pressed="false">Contemporary</button></li>
+            </ul>
+            <div class="sg-caption"><code class="sg-mono">.list-filter-btn</code><span class="sep">·</span>aria-pressed=true → solid<span class="sep">·</span>hover → 40% draw, soft accent<span class="sep">·</span>0.55s</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Book-page section anatomy ── -->
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Book-page section</h3>
+          <span class="sg-counter">Full-bleed colored panel · 3-row grid</span>
+        </div>
+        <p class="sg-block-deck">
+          The flagship layout primitive of the homepage. Each book is its own full-bleed monochromatic panel butted directly against its neighbors — no transitions, no fades, hard color cuts at every section edge. The mental model isn't "hero with gradient." It's <em>this section is the cover, expanded to fill the screen</em>.
+        </p>
+
+        <div class="sg-pair" style="display: block; padding: 0; overflow: hidden; border-radius: 4px;">
+          <div style="background: #5a1a18; color: #e8d8a8; padding: 36px 40px; position: relative;">
+            <div style="display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 32px;">
+              <div style="aspect-ratio: 0.66/1; max-width: 140px; background: rgba(0,0,0,0.25); border-radius: 4px 1px 1px 4px;"></div>
+              <div>
+                <div style="font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.7; margin-bottom: 12px;">№ 06 — of 10 · The Shortlist</div>
+                <div style="font-family: var(--serif); font-weight: 500; font-size: 26px; line-height: 1.1; color: #d4b878; margin-bottom: 8px;">East of Eden</div>
+                <div style="font-family: var(--serif); font-weight: 500; font-size: 13px; opacity: 0.92; margin-bottom: 18px;"><span style="font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6;">by</span> John Steinbeck</div>
+                <div style="width: 36px; height: 1px; background: currentColor; opacity: 0.32; margin-bottom: 16px;"></div>
+                <div style="font-family: var(--serif); font-size: 13px; line-height: 1.6;">
+                  <span style="font-family: var(--serif); font-style: italic; font-weight: 600; font-size: 2.4em; line-height: 0.85; color: #d4b878; float: left; padding: 0.05em 0.12em 0 0; margin-top: 0.05em;">T</span>his is Steinbeck swinging for the fences. The ambition is enormous, the canvas is enormous, the question is enormous…
+                </div>
+              </div>
+            </div>
+            <div style="margin-top: 20px; padding-top: 14px; border-top: 1px solid rgba(232, 216, 168, 0.18); display: flex; gap: 24px; font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.7;">
+              <span style="opacity: 0.6;">FIRST PUBLISHED</span><span>1952</span>
+              <span style="opacity: 0.6;">PAGES</span><span>601</span>
+              <span style="opacity: 0.6;">FIELD</span><span>FICTION</span>
+            </div>
+          </div>
+          <div style="background: #244a52; color: #e8e4d6; padding: 24px 40px;">
+            <div style="font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.7;">№ 07 — Project Hail Mary · the next book takes over with a hard color cut</div>
+          </div>
+        </div>
+        <div class="sg-caption" style="margin-top: 14px;">
+          <strong>Markup</strong><span class="sep">·</span><code class="sg-mono">&lt;section class="book-page" style="--book-bg: #5a1a18; --page-fg: #e8d8a8; --page-accent: #d4b878;"&gt;</code>
+        </div>
+
+        <div class="sg-caption">
+          <strong>Grid</strong><span class="sep">·</span><code class="sg-mono">grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr)</code><span class="sep">·</span><code class="sg-mono">grid-template-rows: auto auto auto</code>
+          <br><strong>Cover</strong><span class="sep">·</span>col 1, row 1 / span 2<span class="sep">·</span>top-aligned with title<span class="sep">·</span>size <code class="sg-mono">clamp(240px, 23vw, 380px)</code>
+          <br><strong>Editorial measure</strong><span class="sep">·</span><code class="sg-mono">max-width: 60ch</code> on both <code class="sg-mono">.book-page-text</code> and <code class="sg-mono">.book-page-author</code><span class="sep">·</span>review, byline, purchase-table, bio, and works list all inherit the same column width — the right column reads as one coherent measure, not three different widths
+          <br><strong>Title block</strong><span class="sep">·</span>col 2, row 1<span class="sep">·</span>book-page-num + h2 + by + divider + review-body + purchase-table — review IS the body content
+          <br><strong>About author</strong><span class="sep">·</span>col 2, row 2<span class="sep">·</span>kicker + author-name + author-bio + works-list
+          <br><strong>Meta footer</strong><span class="sep">·</span>col 1 / -1, row 3<span class="sep">·</span>spans both columns, hairline-topped strip
+          <br><strong>Full-bleed bg</strong><span class="sep">·</span><code class="sg-mono">.book-page::before</code> with <code class="sg-mono">left: 50%; margin-left: -50vw; width: 100vw</code><span class="sep">·</span>paints <code class="sg-mono">--book-bg</code> edge-to-edge while content stays at 1600px max
+        </div>
+      </div>
+
+      <!-- ── Editorial list (Where to Find / Also by) ── -->
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Editorial list</h3>
+          <span class="sg-counter">One spec · two surfaces · bordered table + divided arrow cell</span>
+        </div>
+        <p class="sg-block-deck">
+          The canonical linked-list component on the book page. Used by both <em>Where to Find</em> (sourcing CTA below the review) and <em>Also by [Author]</em> (other works in the author block). Both share <strong>the same exact spec</strong> — bordered table, sans display name in Bricolage Grotesque 600/14px, mono small-caps meta on the right, oversized ↗ in its own framed cell separated by a vertical accent rule. The works list adds a kicker label above ("Also by Williams"); the purchase table doesn't need one (Bookshop.org is its own context). Spacing above each block is <code class="sg-mono">var(--s-8)</code> = 32px — a quiet section break between the editorial prose and the linked list, with explicit <code class="sg-mono">margin-bottom: 0</code> on the preceding prose so margin-collapse can't shrink the gap. The kicker (when present) sits <code class="sg-mono">var(--s-5)</code> = 20px above the table.
+        </p>
+
+        <div class="sg-pair-grid">
+          <div class="sg-pair" style="display: block; padding: 24px 28px;">
+            <span class="sg-pair-tag">Where to Find · sourcing CTA · no kicker</span>
+            <div style="border: 1px solid var(--accent); margin-top: 14px;">
+              <a href="#" style="display: flex; align-items: stretch; text-decoration: none; color: var(--ink); border-bottom: 1px solid var(--accent);">
+                <span style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex: 1; min-width: 0; padding: 14px 22px;">
+                  <span style="font-family: var(--display); font-weight: 600; font-size: 14px; line-height: 1.35; letter-spacing: -0.003em; font-variation-settings: 'wdth' 100, 'opsz' 14, 'wght' 600; white-space: nowrap;">Bookshop.org</span>
+                  <span style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.55; flex-shrink: 0;">Online</span>
+                </span>
+                <span style="display: flex; align-items: center; justify-content: center; padding: 0 22px; font-family: var(--mono); font-size: 18px; color: var(--accent); opacity: 0.8; border-left: 1px solid var(--accent);">↗</span>
+              </a>
+              <a href="#" style="display: flex; align-items: stretch; text-decoration: none; color: var(--ink); border-bottom: 1px solid var(--accent);">
+                <span style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex: 1; min-width: 0; padding: 14px 22px;">
+                  <span style="font-family: var(--display); font-weight: 600; font-size: 14px; line-height: 1.35; letter-spacing: -0.003em; font-variation-settings: 'wdth' 100, 'opsz' 14, 'wght' 600; white-space: nowrap;">Three Lives &amp; Co.</span>
+                  <span style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.55; flex-shrink: 0;">New York</span>
+                </span>
+                <span style="display: flex; align-items: center; justify-content: center; padding: 0 22px; font-family: var(--mono); font-size: 18px; color: var(--accent); opacity: 0.8; border-left: 1px solid var(--accent);">↗</span>
+              </a>
+              <a href="#" style="display: flex; align-items: stretch; text-decoration: none; color: var(--ink);">
+                <span style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex: 1; min-width: 0; padding: 14px 22px;">
+                  <span style="font-family: var(--display); font-weight: 600; font-size: 14px; line-height: 1.35; letter-spacing: -0.003em; font-variation-settings: 'wdth' 100, 'opsz' 14, 'wght' 600; white-space: nowrap;">Library Hold</span>
+                  <span style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.55; flex-shrink: 0;">WorldCat</span>
+                </span>
+                <span style="display: flex; align-items: center; justify-content: center; padding: 0 22px; font-family: var(--mono); font-size: 18px; color: var(--accent); opacity: 0.8; border-left: 1px solid var(--accent);">↗</span>
+              </a>
+            </div>
+            <div class="sg-pair-byline" style="border-top: 0; padding-top: 12px;"><code class="sg-mono">.purchase-table</code><span class="sep">·</span>no kicker — source names self-evident</div>
+          </div>
+
+          <div class="sg-pair" style="display: block; padding: 24px 28px;">
+            <span class="sg-pair-tag">Also by · works list · with kicker</span>
+            <div style="margin-top: 14px;">
+              <span style="display: block; font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink); opacity: 0.55; margin-bottom: 20px;">Also by Williams</span>
+              <ul style="list-style: none; margin: 0; padding: 0; border: 1px solid var(--accent);">
+                <li style="border-bottom: 1px solid var(--accent);">
+                  <a href="#" style="display: flex; align-items: stretch; text-decoration: none; color: var(--ink);">
+                    <span style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex: 1; min-width: 0; padding: 14px 22px;">
+                      <span style="font-family: var(--display); font-weight: 600; font-size: 14px; line-height: 1.35; letter-spacing: -0.003em; font-variation-settings: 'wdth' 100, 'opsz' 14, 'wght' 600; white-space: nowrap;">Augustus</span>
+                      <span style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; opacity: 0.55; flex-shrink: 0;">1972</span>
+                    </span>
+                    <span style="display: flex; align-items: center; justify-content: center; padding: 0 22px; font-family: var(--mono); font-size: 18px; color: var(--accent); opacity: 0.8; border-left: 1px solid var(--accent);">↗</span>
+                  </a>
+                </li>
+                <li style="border-bottom: 1px solid var(--accent);">
+                  <a href="#" style="display: flex; align-items: stretch; text-decoration: none; color: var(--ink);">
+                    <span style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex: 1; min-width: 0; padding: 14px 22px;">
+                      <span style="font-family: var(--display); font-weight: 600; font-size: 14px; line-height: 1.35; letter-spacing: -0.003em; font-variation-settings: 'wdth' 100, 'opsz' 14, 'wght' 600; white-space: nowrap;">Butcher's Crossing</span>
+                      <span style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; opacity: 0.55; flex-shrink: 0;">1960</span>
+                    </span>
+                    <span style="display: flex; align-items: center; justify-content: center; padding: 0 22px; font-family: var(--mono); font-size: 18px; color: var(--accent); opacity: 0.8; border-left: 1px solid var(--accent);">↗</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" style="display: flex; align-items: stretch; text-decoration: none; color: var(--ink);">
+                    <span style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex: 1; min-width: 0; padding: 14px 22px;">
+                      <span style="font-family: var(--display); font-weight: 600; font-size: 14px; line-height: 1.35; letter-spacing: -0.003em; font-variation-settings: 'wdth' 100, 'opsz' 14, 'wght' 600; white-space: nowrap;">Nothing But the Night</span>
+                      <span style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; opacity: 0.55; flex-shrink: 0;">1948</span>
+                    </span>
+                    <span style="display: flex; align-items: center; justify-content: center; padding: 0 22px; font-family: var(--mono); font-size: 18px; color: var(--accent); opacity: 0.8; border-left: 1px solid var(--accent);">↗</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="sg-pair-byline" style="border-top: 0; padding-top: 12px;"><code class="sg-mono">.author-works</code><span class="sep">·</span>kicker via <code class="sg-mono">.works-label</code><span class="sep">·</span>same anatomy as <code class="sg-mono">.purchase-table</code></div>
+          </div>
+        </div>
+
+        <div class="sg-caption">
+          <strong>Container</strong><span class="sep">·</span>1px solid <code class="sg-mono">var(--page-accent)</code><span class="sep">·</span><code class="sg-mono">margin-top: var(--s-12)</code> (48px section break above)
+          <br><strong>Divider</strong><span class="sep">·</span>1px <code class="sg-mono">var(--page-accent)</code> between rows (last-child none) + vertical 1px before each arrow cell
+          <br><strong>Row</strong><span class="sep">·</span>2-cell flex<span class="sep">·</span><code class="sg-mono">align-items: stretch</code><span class="sep">·</span>padding lives on cells (info: 14px 22px<span class="sep">·</span>arrow: 0 22px)
+          <br><strong>Title (left)</strong><span class="sep">·</span>Bricolage Grotesque 600<span class="sep">·</span>14px (Meta scale per styleguide)<span class="sep">·</span>opsz 14<span class="sep">·</span>tracking -0.003em<span class="sep">·</span><code class="sg-mono">white-space: nowrap</code>
+          <br><strong>Meta (right of info cell)</strong><span class="sep">·</span>JetBrains Mono 10px<span class="sep">·</span>tracking 0.18em<span class="sep">·</span>uppercase<span class="sep">·</span>opacity 0.55
+          <br><strong>Arrow cell</strong><span class="sep">·</span>fixed width<span class="sep">·</span><code class="sg-mono">border-left: 1px solid var(--page-accent)</code><span class="sep">·</span>↗ centered<span class="sep">·</span>JetBrains Mono 18px<span class="sep">·</span>accent color<span class="sep">·</span>opacity 0.8
+          <br><strong>Hover</strong><span class="sep">·</span>whole row bg <code class="sg-mono">color-mix(--page-accent 10%, transparent)</code><span class="sep">·</span>color → accent<span class="sep">·</span>↗ opacity → 1 + <code class="sg-mono">translate(2px, -2px)</code>
+          <br><strong>Difference</strong><span class="sep">·</span>only <code class="sg-mono">.author-works</code> renders the kicker label above the table — sourcing names speak for themselves
+        </div>
+      </div>
+
+      <!-- ── Ink cursor ── -->
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Ink cursor</h3>
+          <span class="sg-counter">(hover: hover) only · live across the page</span>
+        </div>
+        <p class="sg-block-deck">
+          A 12px accent dot follows the mouse with a 0.32s power3.out smoothing — reads as <em>intent</em>, not a 1:1 follower. <code class="sg-mono">mix-blend-mode: difference</code> keeps it visible across surfaces. Hover any of the zones below to feel the affordance changes.
+        </p>
+
+        <div class="sg-cursor-pad">
+          <div class="sg-cursor-pad-zone">
+            <strong>Default · 12px dot</strong>
+            Move the cursor over this body text. The dot stays at its default size and switches to a vertical text-bar over body copy.
+          </div>
+          <div class="sg-cursor-pad-zone">
+            <strong>Link · 36px pad</strong>
+            Hover <a href="#" style="color: var(--accent); border-bottom: 1px solid currentColor;">this link</a> or any button — the cursor scales up to 36px at 55% opacity.
+          </div>
+          <div class="sg-cursor-pad-zone">
+            <strong>Press · 8px contracted</strong>
+            Click and hold inside this zone. The cursor contracts to 8px while down, expands back on release.
+          </div>
+        </div>
+
+        <div class="sg-caption">
+          <code class="sg-mono">.ink-cursor</code><span class="sep">·</span>z-index 9998<span class="sep">·</span>display: none on (pointer: coarse) | (hover: none) | (prefers-reduced-motion: reduce)<span class="sep">·</span>state classes: <code class="sg-mono">.is-visible</code> <code class="sg-mono">.is-link</code> <code class="sg-mono">.is-text</code> <code class="sg-mono">.is-down</code>
+        </div>
+      </div>
+
+      <!-- ── Header condensation ── -->
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Header condensation</h3>
+          <span class="sg-counter">Hero-aware</span>
+        </div>
+        <p class="sg-block-deck">
+          On pages with a hero <code class="sg-mono">.chapter-title</code>, the header stays transparent while the headline is in view — the hero reads as <em>one continuous frame</em>. The moment the chapter-title's bottom edge passes 80px (clear of the header itself), <code class="sg-mono">.scrolled</code> is added: paper-88% backdrop blur, hairline ink-8% border.
+        </p>
+
+        <div class="sg-header-mock">
+          <div class="sg-header-mock-row">
+            <div class="sg-header-mock-state">
+              <span class="sg-header-mock-tag">Default · over hero</span>
+              <span class="sg-header-mock-mark">Heart's Library</span>
+              <span class="sg-header-mock-padding">padding 18px / 56px</span>
+            </div>
+            <div class="sg-header-mock-state scrolled">
+              <span class="sg-header-mock-tag">.scrolled · past hero</span>
+              <span class="sg-header-mock-mark">Heart's Library</span>
+              <span class="sg-header-mock-padding">padding 14px / 56px</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sg-caption">
+          <code class="sg-mono">header.scrolled</code><span class="sep">·</span><code class="sg-mono">background: color-mix(in srgb, var(--paper) 88%, transparent)</code><span class="sep">·</span><code class="sg-mono">backdrop-filter: blur(12px)</code><span class="sep">·</span>padding shift 18px → 14px in 0.45s
+        </div>
+      </div>
+
+      <!-- ── Curtain demo ── -->
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Page-transition curtain</h3>
+          <span class="sg-counter">In-place — no navigation</span>
+        </div>
+        <p class="sg-block-deck">
+          A paper-toned panel slides up to cover the document, holds, then slides off the top. The serif <em>❦</em> mark is the editorial signal. Triggered automatically on same-origin link clicks; click below to scrub through it without navigating.
+        </p>
+
+        <div class="sg-curtain-demo">
+          <button class="sg-btn sg-btn-primary" id="sgCurtainPlay" type="button">
+            Play the curtain <span class="sg-btn-arrow">→</span>
+          </button>
+          <div class="sg-caption"><code class="sg-mono">.page-curtain.up</code> (translateY 0%) → hold 750ms → <code class="sg-mono">.page-curtain.down</code> (translateY -100%)<span class="sep">·</span>0.65s up, 0.85s down<span class="sep">·</span>cubic-bezier(.65,0,.35,1)<span class="sep">·</span>auto-bypassed in reduced motion + on bfcache restore</div>
+        </div>
+      </div>
+
+      <!-- ── Reading progress ── -->
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Reading progress</h3>
+          <span class="sg-counter">Hairline at the very top</span>
+        </div>
+        <p class="sg-block-deck">
+          Look up — the live 1px accent bar at the very top of the viewport is filling as you scroll through this page. Single rAF dispatch per scroll event, ties into Lenis when present.
+        </p>
+
+        <div class="sg-callout">
+          <div class="sg-callout-arrow">↑</div>
+          <div class="sg-callout-text">
+            The mark you see filling at the top edge <em>is</em> the demo. Scroll up and down — it's the actual sitewide instance, not a copy.
+          </div>
+        </div>
+        <div class="sg-caption">
+          <code class="sg-mono">.reading-progress</code> · <code class="sg-mono">.reading-progress-bar</code><span class="sep">·</span>scaleX 0→1, transform-origin left center<span class="sep">·</span>z-index 9997<span class="sep">·</span>injected by motion.js boot
+        </div>
+      </div>
+
+      <!-- ── Image fade-in ── -->
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Image fade-in</h3>
+          <span class="sg-counter">On decode, not on load</span>
+        </div>
+        <p class="sg-block-deck">
+          Every <code class="sg-mono">img</code> ships with the warm-up class. When the browser finishes decoding, <code class="sg-mono">.is-loaded</code> flips and the image eases in over 0.7s. Replays here force a fresh fetch so the fade re-fires.
+        </p>
+
+        <div class="sg-img-demo">
+          <div class="sg-img-frame">
+            <img id="sgImgFrame" src="https://heartslibrary.com/covers/stoner.jpg" data-src="https://heartslibrary.com/covers/stoner.jpg" alt="Stoner cover" />
+          </div>
+          <div class="sg-img-info">
+            <button class="sg-btn sg-btn-ghost" id="sgImgReplay" type="button">Replay fade-in</button>
+            <div class="sg-caption"><code class="sg-mono">img.img-load-fade</code> → <code class="sg-mono">.is-loaded</code><span class="sep">·</span>opacity 0 → 1 in 0.7s ease<span class="sep">·</span>MutationObserver picks up dynamically-rendered covers (homepage, TBR shelf)<span class="sep">·</span>opt-out: <code class="sg-mono">data-no-fade</code></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ IV — SCROLL MOMENTS (REFERENCED) ═══ -->
+  <section class="sg-section" id="scroll-moments">
+    <div class="sg-marker">
+      <span class="sg-num">§ IV</span>
+      <span class="sg-label">Scroll moments</span>
+      <span class="sg-sublabel">Page-level GSAP work — referenced here, not duplicated.</span>
+    </div>
+    <div class="sg-content">
+
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Page-level scroll choreography</h3>
+          <span class="sg-counter">9 named moments</span>
+        </div>
+        <p class="sg-block-deck">
+          Each row below is a real moment that ships on a real page. Click through to see it in context — replicating them here would lie about how they feel in their actual layouts.
+        </p>
+
+        <div class="sg-spec-wrap">
+          <table class="sg-spec">
+            <thead>
+              <tr>
+                <th>Moment</th>
+                <th>What it does</th>
+                <th>Easing / scrub</th>
+                <th>Lives in</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Chapter-title ink-in</th>
+                <td>SplitText word-mask reveal of the headline; per-word font-variation-settings <code class="sg-mono">wght</code> climbs 300 → 700 (accent words 850 then 700). Then the scroll-bound <em>exhale</em> takes over: as user scrolls toward exit, weight thins 700 → 580 and tracking tightens -0.028em → -0.040em. Plus a cursor <em>magnet</em>: chars within 140px of the pointer lift toward it (max -10px) with quadratic falloff and <code class="sg-mono">gsap.quickTo</code> smoothing. Idle-still — only animates on scroll or hover.<span class="sg-spec-snippet">Stagger 60ms on entrance · words rise out of overflow:hidden line wrappers</span></td>
+                <td class="mono">expo.out (mask)<br>inkIn (weight)<br>back.out(1.4) (ornament)</td>
+                <td><a href="index.html">index.html</a><br>(also site.js · all chapter-title pages)</td>
+              </tr>
+              <tr>
+                <th>Chapter-stage scroll-out</th>
+                <td>The chapter-stage parallaxes off the top: yPercent -22, opacity 1 → 0.15 as user starts scrolling away. Mini-shelf scrolls at a different rate (yPercent -10).<span class="sg-spec-snippet">Layered depth between near plane (type) and far plane (shelf)</span></td>
+                <td class="mono">scrub: 0.6<br>start: 'top top'<br>end: 'bottom 30%'</td>
+                <td><a href="index.html">index.html</a></td>
+              </tr>
+              <tr>
+                <th>Book-page natural scroll</th>
+                <td>Sections are full-bleed colored panels with <code class="sg-mono">min-height: 100vh</code> and bottom padding for reading buffer. Three lightweight ScrollTriggers per section, callbacks only — no pin, no scrub. Cover plays a discrete entry timeline (yPercent 24 → 0, rotateX -4 → 0, scale 0.97 → 1, opacity 0 → 1, 0.85s power3.out) on enter, holds rock-still through the dwell, plays a calm exit on leave.<span class="sg-spec-snippet">Hard color cuts between books are automatic — section A's <code>::before</code> ends, section B's begins.</span></td>
+                <td class="mono">no pin, no scrub<br>1. Entry · top 75%<br>2. Active · top 50% / bottom 50%<br>3. Exit · bottom 25%</td>
+                <td><a href="index.html#book-1">index.html</a> books 1–10</td>
+              </tr>
+              <tr>
+                <th>TBR scroll-out</th>
+                <td>The tbr-stage parallaxes off the top after dwelling — yPercent 0 → -16, opacity 1 → 0.6.</td>
+                <td class="mono">scrub: 0.6<br>start: 'center center'</td>
+                <td><a href="index.html#tbrPage">index.html</a></td>
+              </tr>
+              <tr>
+                <th>Atlas row reveals</th>
+                <td>Each atlas row plays a per-row timeline: row fades in, "when" date slides from -8px, "where" location runs SplitText word-mask.<span class="sg-spec-snippet">35ms stagger between words — reads as continuous prose</span></td>
+                <td class="mono">expo.out (mask)<br>power3.out (date)<br>start: 'top 86%'<br>play none none reverse</td>
+                <td><a href="about.html">about.html</a></td>
+              </tr>
+              <tr>
+                <th>Pull-quote line-mask</th>
+                <td>SplitText splits the quote into lines + words; words rise out of mask line-wrappers. Ornament <em>❦</em> stamps in first, attribution comes 1.1s later.<span class="sg-spec-snippet">45ms stagger · long roll-out duration 1.0s</span></td>
+                <td class="mono">expo.out (words)<br>back.out(1.4) (ornament)</td>
+                <td><a href="about.html">about.html</a></td>
+              </tr>
+              <tr>
+                <th>Portrait drift</th>
+                <td>After the portrait lands, it drifts upward yPercent -12 across the first movement section. Tiny shift — reads as breath, not motion.</td>
+                <td class="mono">scrub: 0.8<br>start: 'top 60%'<br>end: 'bottom top'</td>
+                <td><a href="about.html">about.html</a></td>
+              </tr>
+              <tr>
+                <th>City-row reveals</th>
+                <td>Per-row timeline: left rule scaleY 0→1, tick scaleY, dates fade-up, headline word-mask reveal, blurb + locale, shop count tweens 0 → target.<span class="sg-spec-snippet">Number stamp uses proxy + onUpdate to write integer text</span></td>
+                <td class="mono">power3.out (rule)<br>expo.out (words)<br>play none none reverse</td>
+                <td><a href="bookstores.html">bookstores.html</a></td>
+              </tr>
+              <tr>
+                <th>Region block reveals</th>
+                <td>Per-region timeline on city-page: eyebrow + drawn dash, region name word-rise, source line, shop entries staggered. Active-region tracking when "All" filter is on.</td>
+                <td class="mono">expo.out (name)<br>power3.out (shops)<br>0.07s stagger</td>
+                <td><a href="bookstores-los-angeles.html">bookstores-*.html</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ V — DASHBOARD PRIMITIVES ═══ -->
+  <section class="sg-section" id="dashboard-primitives">
+    <div class="sg-marker">
+      <span class="sg-num">§ V</span>
+      <span class="sg-label">Dashboard primitives</span>
+      <span class="sg-sublabel">Rule-draws-down, count-up, word-reveal — replay any of them in place.</span>
+    </div>
+    <div class="sg-content">
+
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Rule draws down</h3>
+          <span class="sg-counter">Card edge appears top → bottom</span>
+        </div>
+        <p class="sg-block-deck">
+          Replaces the static <code class="sg-mono">border-left</code> with an animatable bar driven by <code class="sg-mono">--rule-scale</code>. Tweened from 0 → 1 with power3.out as the card scrolls in.
+        </p>
+        <div class="sg-dash-cell" id="sgDashRuleCell" style="--rule-scale: 1;">
+          <div class="sg-dash-cell-content">
+            <div class="sg-dash-cell-figure">75,200<span>+</span></div>
+            <div class="sg-dash-cell-label">violent deaths estimated by the Gaza Mortality Survey through Jan 2025 — The Lancet Global Health</div>
+          </div>
+          <div class="sg-dash-cell-controls">
+            <button class="sg-motion-replay" id="sgDashRulePlay" type="button">Replay rule</button>
+          </div>
+        </div>
+        <div class="sg-caption"><code class="sg-mono">gsap.fromTo(card, { '--rule-scale': 0 }, { '--rule-scale': 1, duration: 1.05, ease: 'power3.out' })</code></div>
+      </div>
+
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Count-up · format preserved</h3>
+          <span class="sg-counter">Tweens the number, restores the markup</span>
+        </div>
+        <p class="sg-block-deck">
+          Each figure captures its <em>original innerHTML</em>. The tween writes a proxy <code class="sg-mono">{ n: 0 }</code> over 1.2s power2.out. On every frame, only the numeric token in the original is replaced — punctuation, %, +, T, ×, super/subscripts all survive.
+        </p>
+        <div class="sg-dash-cell" style="--rule-scale: 1;">
+          <div class="sg-dash-cell-content">
+            <div class="sg-dash-cell-figure" data-sg-count>30.5%</div>
+            <div class="sg-dash-cell-label">of U.S. household wealth held by the top 1% — Federal Reserve · Q1 2024</div>
+          </div>
+          <div class="sg-dash-cell-controls">
+            <button class="sg-motion-replay" id="sgDashCountPlay" type="button">Replay count</button>
+          </div>
+        </div>
+        <div class="sg-dash-cell" style="--rule-scale: 1;">
+          <div class="sg-dash-cell-content">
+            <div class="sg-dash-cell-figure" data-sg-count>$2.7<span>T</span></div>
+            <div class="sg-dash-cell-label">combined net worth of the 12 wealthiest Americans — Bloomberg Billionaires Index</div>
+          </div>
+          <div class="sg-dash-cell-controls">
+            <span class="sg-caption" style="text-align:right;"><code class="sg-mono">[data-sg-count]</code></span>
+          </div>
+        </div>
+        <div class="sg-caption"><code class="sg-mono">el.innerHTML = original.replace(/-?\d+(?:[.,]\d+)?/, formatted)</code><span class="sep">·</span>handles decimals, commas, suffix tags</div>
+      </div>
+
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>Word reveal</h3>
+          <span class="sg-counter">Per-word mask + expo.out</span>
+        </div>
+        <p class="sg-block-deck">
+          The editorial column on dashboard cards. <code class="sg-mono">HL.splitWords</code> wraps each word in <code class="sg-mono">.word &gt; .word-inner</code>, the inner spans tween yPercent 110 → 0 with 60ms stagger. Replay to re-run.
+        </p>
+        <div class="sg-dash-cell sg-replay-block" style="--rule-scale: 1;">
+          <div class="sg-dash-cell-content">
+            <div class="sg-dash-cell-body" id="sgDashWordTarget">
+              The racial and gender dimensions of wealth concentration. The top 1% owns roughly 30.5% of the country's wealth; the bottom 50% owns 2.5%. Broken down by race and by gender, <em>the history on the Nonfiction page stops being history</em>.
+            </div>
+          </div>
+          <div class="sg-dash-cell-controls">
+            <button class="sg-motion-replay" id="sgDashWordPlay" type="button">Replay reveal</button>
+          </div>
+        </div>
+        <div class="sg-caption"><code class="sg-mono">window.HL.splitWords(el)</code> returns inner spans · <code class="sg-mono">stagger: 0.06 · ease: 'expo.out' · yPercent: 110 → 0</code></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ VI — PUBLIC API ═══ -->
+  <section class="sg-section" id="api">
+    <div class="sg-marker">
+      <span class="sg-num">§ VI</span>
+      <span class="sg-label">Public API</span>
+      <span class="sg-sublabel">window.HL — what's exposed, what it does.</span>
+    </div>
+    <div class="sg-content">
+
+      <div class="sg-block">
+        <div class="sg-block-head">
+          <h3>HL.motion</h3>
+          <span class="sg-counter">From js/motion.js</span>
+        </div>
+        <p class="sg-block-deck">
+          Initialised on every page that loads <code class="sg-mono">js/motion.js</code>. Components can read <code class="sg-mono">prefersReducedMotion</code> for guards or call <code class="sg-mono">scrollTo</code> when they want a programmatic jump that rides Lenis easing.
+        </p>
+
+        <div class="sg-spec-wrap">
+          <table class="sg-api">
+            <thead>
+              <tr>
+                <th>Member</th>
+                <th>Kind</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="member">HL.motion.prefersReducedMotion</td>
+                <td class="kind">boolean (read-only)</td>
+                <td class="desc">True when the OS-level <code>prefers-reduced-motion: reduce</code> media query matches. Components should branch on this before tweening.</td>
+              </tr>
+              <tr>
+                <td class="member">HL.motion.isCoarsePointer</td>
+                <td class="kind">boolean (read-only)</td>
+                <td class="desc">True on touch devices and other coarse-pointer inputs. Used to suppress Lenis, the ink cursor, and magnetic affordance.</td>
+              </tr>
+              <tr>
+                <td class="member">HL.motion.lenis</td>
+                <td class="kind">Lenis instance | null</td>
+                <td class="desc"><strong>Currently disabled</strong> — <code>initLenis()</code> returns <code>null</code> early because the 1.15s duration / 0.085 lerp interpolation produced perceptible input-lag on long pages. The hook is preserved so re-enabling is one-line, and any code that already guards on <code>lenis &amp;&amp; …</code> continues to work. When live, this is the active Lenis instance (or null on coarse pointer / reduced motion / CDN failure).</td>
+              </tr>
+              <tr>
+                <td class="member">HL.motion.scrollTo(target, options?)</td>
+                <td class="kind">function</td>
+                <td class="desc">Scroll to an element, selector, or absolute Y. With Lenis disabled, calls native <code>scrollIntoView({behavior:'smooth'})</code>. If Lenis is re-enabled, uses <code>lenis.scrollTo</code> with default duration 1.4 + cubic-out easing; options forward to Lenis (<code>{ duration, offset, easing }</code>).</td>
+              </tr>
+              <tr>
+                <td class="member">HL.splitWords(el)</td>
+                <td class="kind">function</td>
+                <td class="desc">DIY word-splitter. Wraps each word in <code>&lt;span class="word"&gt;&lt;span class="word-inner"&gt;…&lt;/span&gt;&lt;/span&gt;</code>. Preserves nested elements (<code>&lt;em&gt;</code>, accent spans). Returns the array of inner spans — tween those, not the outers.</td>
+              </tr>
+              <tr>
+                <td class="member">HL.makeDrawable(el)</td>
+                <td class="kind">function</td>
+                <td class="desc">Adds <code>.draw-line</code> to an element so it starts at <code>scaleX(0)</code> with left transform-origin. Pair with <code>gsap.to(el, { scaleX: 1 })</code> for the in-draw effect. Used on dashes and dividers throughout.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="sg-caption">
+          <strong>Loaded by</strong><span class="sep">·</span>js/motion.js (HL.motion namespace, plus the boot logic)<span class="sep">·</span>js/site.js (HL.splitWords, HL.makeDrawable, HL.prefersReducedMotion)<span class="sep">·</span><strong>Order</strong><span class="sep">·</span>motion.js loads first, site.js second
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ END / COLOPHON ═══ -->
+  <section class="end-page" id="endPage">
+    <div class="end-stage">
+      <span class="ornament">❦</span>
+      <h2>
+        Edit, <em>then watch it ripple</em>.
+      </h2>
+      <p>
+        Every primitive on this page reads from the same tokens.css and motion.css the rest of the site uses — change a value once, this guide updates with it. Use it as the audit surface; iterate from here.
+      </p>
+      <div class="end-links">
+        <a href="index.html">Homepage</a>
+        <a href="about.html">About</a>
+        <a href="bookstores.html">Bookstores</a>
+        <a href="dashboards.html">Dashboards</a>
+      </div>
+    </div>
+    <div class="end-footer">
+      <div class="left">A library of one. Franklin → Chicago.</div>
+      <div class="right">
+        <a href="#foundations">§ I Foundations</a>
+        <a href="#motion">§ II Motion</a>
+        <a href="#components">§ III Components</a>
+        <a href="#api">§ VI API</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="js/motion.js"></script>
+<script src="js/site.js"></script>
+<script src="js/components/styleguide.js"></script>
+
+</body>
+</html>

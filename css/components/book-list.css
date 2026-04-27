@@ -1,0 +1,375 @@
+/* ════════════════════════════════════════════════════════
+   COMPONENT — BOOK LIST
+   Editorial list of books, used by fiction.html and
+   nonfiction.html. Each row is a cover + serif title +
+   italic author + Newsreader blurb + footer with bookstore
+   link and genre label.
+   No cards. Type does the work.
+   Filter row markup uses .list-filter (defined in site.css).
+   ════════════════════════════════════════════════════════ */
+
+.book-list {
+  max-width: var(--max-container);
+  margin: 0 auto;
+  padding: var(--pad-section-md) var(--gutter) var(--pad-section-md);
+}
+.book-list-stage {
+  padding-left: var(--gutter-content);
+  padding-right: var(--gutter);
+}
+.book-list-eyebrow {
+  font-family: var(--mono);
+  font-size: var(--t-75);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: clamp(20px, 3vh, 32px);
+}
+.book-list-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.7;
+}
+
+.book-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Book row ──────────────────────────────────────────── */
+.book-row {
+  display: grid;
+  grid-template-columns: clamp(140px, 16vw, 200px) 1fr;
+  gap: clamp(32px, 4.5vw, 72px);
+  padding: var(--pad-row-md) 0;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  position: relative;
+  align-items: start;
+
+  /* Filter transition (collapse/restore) */
+  overflow: hidden;
+  will-change: opacity, height;
+  transition:
+    opacity var(--dur-mid) var(--ease-out),
+    transform var(--dur-mid) var(--ease-out);
+}
+.book-row:last-child {
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+}
+.book-row.is-filtered-out {
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+
+/* ─── Cover column (left) ───────────────────────────────── */
+.book-cover-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  /* Sticky offset accounts for fixed header + sticky filter bar
+     so covers don't slide under the chrome. */
+  position: sticky;
+  top: calc(var(--header-h) + var(--filter-h, 0px) + 24px);
+  align-self: start;
+}
+/* (.book-num retired — the "№ 01" / "№ 02" numbered eyebrows on
+   each row were noise; the row order itself communicates the
+   sequence.) The .book-num element is hidden if any pages still
+   have the markup, so the migration to the new layout doesn't
+   require touching every li at once. */
+.book-num { display: none; }
+.book-cover-wrap {
+  width: 100%;
+  aspect-ratio: 0.66 / 1;
+  position: relative;
+  border-radius: 4px 1px 1px 4px;
+  overflow: hidden;
+  background: var(--paper-sunk);
+  box-shadow: var(--book-shadow);
+  transition:
+    transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.book-cover-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 1;
+}
+/* Page-block right-edge shadow + top highlight (matches v44 cover treatment) */
+.book-cover-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 6px;
+  background: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(0, 0, 0, 0.12) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+.book-cover-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    155deg,
+    rgba(255, 235, 200, 0.06) 0%,
+    transparent 30%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ─── Content column (right) ────────────────────────────── */
+.book-content-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Title — Unbounded poster face, matching the homepage book-page
+   titles so a reader moving from index → fiction → nonfiction
+   sees the same typographic register on every book name. The
+   homepage uses 'Unbounded' 700 for book titles; we mirror that. */
+.book-title {
+  font-family: 'Unbounded', 'Bricolage Grotesque', 'Helvetica Neue', sans-serif;
+  font-weight: 700;
+  font-variation-settings: "wght" 700;
+  font-size: clamp(var(--t-200), 3vw, var(--t-300));
+  line-height: 1.06;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  margin: 0 0 12px;
+  transition: color var(--dur-mid) var(--ease-out);
+}
+/* Italic accents inside book titles drop to Newsreader 500 italic
+   — matches the homepage's accent treatment exactly. */
+.book-title em {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-variation-settings: "opsz" 40, "wght" 500;
+  letter-spacing: -0.018em;
+  color: var(--accent);
+}
+
+/* Byline — "By [Author]" — the homepage's book-page uses a small
+   mono label + serif author name. We carry that exact register
+   here so the byline reads identically on the list pages. */
+.book-author {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-variation-settings: "opsz" 18, "wght" 500;
+  font-size: clamp(var(--t-100), 1.15vw, var(--t-112));
+  line-height: var(--lh-meta);
+  color: var(--ink-soft);
+  margin-bottom: clamp(20px, 2.5vh, 28px);
+}
+.book-author .by {
+  font-family: var(--mono);
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--t-69);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+}
+.book-author a {
+  color: var(--ink);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  padding-bottom: 1px;
+  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+}
+.book-author a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+/* The "(year)" tag — same treatment the homepage uses. */
+.book-author .year {
+  color: var(--marginalia);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.book-blurb {
+  font-family: var(--serif);
+  font-size: clamp(var(--t-94), 1.2vw, var(--t-112));
+  line-height: var(--lh-body);
+  color: var(--ink-soft);
+  font-variation-settings: "opsz" 18;
+  max-width: 64ch;
+  margin: 0 0 clamp(24px, 3vh, 36px);
+}
+.book-blurb em {
+  font-style: italic;
+  color: var(--ink);
+}
+
+/* ─── Footer row: bookstore link + genre label ──────────── */
+.book-footer {
+  padding-top: 18px;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.book-bookstore {
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  position: relative;
+  transition: color 0.3s ease;
+}
+.book-bookstore .label {
+  font-family: var(--mono);
+  color: var(--marginalia);
+  font-size: 0.625rem;
+}
+.book-bookstore .name {
+  position: relative;
+}
+.book-bookstore .name::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.book-bookstore .arrow {
+  color: var(--accent);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: var(--t-87);
+  letter-spacing: 0;
+  opacity: 0.7;
+  transform: translate(0, 0);
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.3s ease;
+}
+@media (hover: hover) {
+  .book-bookstore:hover { color: var(--accent); }
+  .book-bookstore:hover .name::after { transform: scaleX(1); }
+  .book-bookstore:hover .arrow {
+    opacity: 1;
+    transform: translate(3px, -3px);
+  }
+}
+
+.book-genre {
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+.book-genre::before {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: var(--marginalia);
+  display: inline-block;
+  opacity: 0.5;
+}
+.book-genre[data-genre="literary"]      { color: var(--accent); }
+.book-genre[data-genre="literary"]::before { background: var(--accent); opacity: 0.7; }
+.book-genre[data-genre="speculative"]   { color: var(--mark); }
+.book-genre[data-genre="speculative"]::before { background: var(--mark); opacity: 0.7; }
+.book-genre[data-genre="contemporary"]  { color: var(--marginalia); }
+
+/* ─── Hover state ────────────────────────────────────── */
+@media (hover: hover) {
+  .book-row:hover .book-cover-wrap {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--book-shadow-large);
+  }
+  .book-row:hover .book-title { color: var(--accent); }
+}
+
+/* ─── List trailer (count summary below the rows) ───────── */
+.book-list-trailer {
+  padding-left: var(--gutter-content);
+  padding-right: var(--gutter);
+  margin-top: clamp(28px, 4vh, 48px);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+}
+.book-list-trailer::before {
+  content: '';
+  flex: 0 0 28px;
+  height: 1px;
+  background: var(--rule-strong);
+}
+.book-list-trailer .live-count {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: var(--t-87);
+}
+
+/* ─── Responsive ───────────────────────────────────────── */
+@media (max-width: 980px) {
+  .book-list { padding: clamp(32px, 5vh, 56px) 28px clamp(40px, 6vh, 64px); }
+  .book-list-stage { padding-left: var(--gutter-content-mobile); padding-right: 0; }
+  .book-list-trailer { padding-left: var(--gutter-content-mobile); padding-right: 0; }
+}
+
+@media (max-width: 720px) {
+  .book-row {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .book-cover-col {
+    position: static;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .book-cover-wrap {
+    width: 50%;
+    max-width: 200px;
+  }
+  .book-num { padding-top: 4px; }
+ 

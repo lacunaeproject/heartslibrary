@@ -1,0 +1,3805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heart's Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomEase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<!-- Shared design system — colors, type, spacing, radius, motion,
+     shadows, z-index ladder. The single source of truth that
+     every page consumes. -->
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components/buttons.css">
+<link rel="stylesheet" href="css/components/eyebrow.css">
+<link rel="stylesheet" href="css/components/header.css">
+<link rel="stylesheet" href="css/components/sticky-filter.css">
+<link rel="stylesheet" href="css/components/back-to-top.css">
+<link rel="stylesheet" href="css/motion.css">
+<style>
+  /* The homepage's component-specific styles live below. All
+     primitives (colors, type, spacing, radius, motion, shadows,
+     z-index) come from tokens.css, which is now linked above —
+     no more inline duplicate :root block. Editing tokens.css
+     once propagates to every page including this one. */
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  ::selection { background: var(--mark); color: var(--mark-ink); }
+
+  html {
+    scroll-behavior: smooth;
+    /* No page-level snap — ScrollTrigger pins each book section, which
+       handles the "settling on each book" behavior with full control. */
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-feature-settings: "kern", "liga", "onum", "ss01";
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.4;
+    overflow-x: hidden;
+    transition: background 0.6s ease, color 0.6s ease;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+  /* No atmosphere layer, no grain. Each book section now owns its
+     own full-bleed color — the page reads as a stack of monochromatic
+     panels, hard-cut against each other (Stripe Press / Pelican
+     Books / Penguin Classics editorial register). For non-book
+     sections (chapter title, TBR, end-stage) the body's --paper
+     handles the backdrop. */
+  body {
+    background: var(--paper);
+  }
+
+  /* The site content sits in normal flow */
+  header, main, footer { position: relative; z-index: 1; }
+
+  /* ════════════════════════════════════════════════════════
+     HEADER — sticky, wordmark and nav
+     ════════════════════════════════════════════════════════ */
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: transparent;
+    transition: background 0.4s ease, border-color 0.4s ease;
+    border-bottom: 1px solid transparent;
+  }
+  header.scrolled {
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom-color: color-mix(in srgb, var(--ink) 8%, transparent);
+  }
+  /* Height comes from header.css (var(--header-h)); this rule
+     handles only horizontal padding so the wordmark + nav
+     vertical-center inside that fixed height. */
+  .header-inner {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .wordmark {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    font-variation-settings: "wdth" 90, "opsz" 18;
+  }
+  .wordmark .logo {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    transition: filter 0.5s ease;
+  }
+  /* Heart-shaped logo — filled accent red. The legacy raster-logo
+     filter inversion (formerly themed for dark mode) is gone with
+     the dark theme. The heart logo never needed filters in light
+     mode anyway. */
+  .wordmark .logo-heart {
+    width: 20px;
+    height: 18px;
+    fill: var(--accent);
+    transform-origin: center center;
+    transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  /* Hover pulse — double beat, like a heartbeat. ~0.85s total,
+     plays once per hover and resets when the cursor leaves. */
+  .wordmark:hover .logo-heart {
+    animation: heart-pulse 0.85s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  @keyframes heart-pulse {
+    0%   { transform: scale(1); }
+    20%  { transform: scale(1.28); }
+    40%  { transform: scale(1); }
+    60%  { transform: scale(1.18); }
+    80%  { transform: scale(1); }
+    100% { transform: scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wordmark:hover .logo-heart { animation: none; }
+  }
+  nav.primary { display: flex; gap: 28px; align-items: center; }
+  nav.primary > a {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: -0.005em;
+    color: var(--ink-soft);
+    font-variation-settings: "wdth" 100, "opsz" 14;
+    transition: color 0.2s ease;
+  }
+  nav.primary > a:hover { color: var(--ink); }
+
+  /* ════════════════════════════════════════════════════════
+     NAV DROPDOWNS — Lists + Bookstores
+     Trigger looks like a regular nav link with a small chevron;
+     panel opens on hover (pointer) or focus-within (keyboard).
+     The setupNavDropdowns() helper at the bottom of the page
+     layers click-to-toggle for touch users + Esc/outside-click
+     close. Same component is documented in css/site.css for
+     pages that load the shared stylesheet.
+     ════════════════════════════════════════════════════════ */
+  .nav-item {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+  .nav-item .nav-trigger {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: -0.005em;
+    color: var(--ink-soft);
+    font-variation-settings: "wdth" 100, "opsz" 14;
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1.2;
+    transition: color 0.2s ease;
+  }
+  .nav-item .nav-trigger:hover,
+  .nav-item .nav-trigger:focus-visible,
+  .nav-item.is-open .nav-trigger,
+  .nav-item .nav-trigger.active { color: var(--ink); }
+  .nav-item .nav-trigger::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-right: 1.2px solid currentColor;
+    border-bottom: 1.2px solid currentColor;
+    transform: translateY(-2px) rotate(45deg);
+    transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+    opacity: 0.7;
+  }
+  .nav-item:hover .nav-trigger::after,
+  .nav-item.is-open .nav-trigger::after {
+    transform: translateY(0) rotate(225deg);
+    opacity: 1;
+  }
+  .nav-dropdown {
+    position: absolute;
+    top: calc(100% + 14px);
+    left: 0;
+    min-width: 180px;
+    padding: 8px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    box-shadow:
+      0 1px 0 rgba(0, 0, 0, 0.04),
+      0 14px 28px -8px rgba(20, 20, 30, 0.16),
+      0 28px 48px -16px rgba(20, 20, 30, 0.10);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition:
+      opacity 0.25s ease,
+      transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
+      visibility 0s linear 0.25s;
+    z-index: 50;
+  }
+  .nav-item[data-align="end"] .nav-dropdown { left: auto; right: 0; }
+  .nav-item:hover .nav-dropdown,
+  .nav-item:focus-within .nav-dropdown,
+  .nav-item.is-open .nav-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition:
+      opacity 0.25s ease,
+      transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .nav-dropdown a {
+    display: block;
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 10px 14px;
+    border-radius: 3px;
+    white-space: nowrap;
+    transition: background 0.15s ease, color 0.15s ease;
+    font-variation-settings: "opsz" 16, "wght" 500;
+  }
+  .nav-dropdown a + a { margin-top: 1px; }
+  .nav-dropdown a:hover {
+    background: color-mix(in srgb, var(--ink) 6%, transparent);
+  }
+  .nav-dropdown a.active { color: var(--accent); }
+  .nav-dropdown .all-link {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--marginalia);
+    padding: 8px 14px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--rule);
+    border-radius: 0;
+  }
+  .nav-dropdown .all-link:hover { color: var(--ink); background: transparent; }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-dropdown,
+    .nav-item .nav-trigger::after { transition: none; }
+  }
+
+  /* (.theme-toggle CSS retired — site is now light-only.) */
+
+  /* ════════════════════════════════════════════════════════
+     INDEX RAIL — fixed left column, persistent through scroll.
+     One tick per book + hero/chapter markers. Click to jump.
+     The active tick scales up; others sit quiet.
+     ════════════════════════════════════════════════════════ */
+  .index-rail {
+    position: fixed;
+    top: 50%;
+    left: 28px;
+    transform: translateY(-50%);
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    color: var(--ink);
+    /* color transition so the rail smoothly cross-fades when JS
+       swaps it to the active book's --page-fg (and back). */
+    transition: opacity 0.4s ease, color 0.5s ease;
+  }
+  .index-rail.hidden { opacity: 0; pointer-events: none; }
+
+  .index-rail .rail-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: var(--marginalia);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    margin-bottom: 18px;
+  }
+
+  .index-rail .tick {
+    width: 18px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.6;
+    cursor: pointer;
+    padding: 0;
+    border: 0;
+    background-color: currentColor;
+    transition: opacity 0.3s ease, height 0.3s ease, width 0.3s ease;
+    position: relative;
+  }
+  .index-rail .tick:hover { opacity: 0.95; }
+  .index-rail .tick.active {
+    opacity: 1;
+    height: 2px;
+    width: 26px;
+  }
+  /* The beacon — a small breathing dot at the right edge of the
+     active tick. Tells the user "this is where you are" with more
+     vitality than just the size change. CSS animation is fine here:
+     the dot only renders on the .active tick, and it's a single
+     element pulsing — no JS coordination needed. */
+  .index-rail .tick.active::after {
+    content: "";
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translateY(-50%);
+    animation: rail-beacon 1.8s ease-in-out infinite;
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 50%, transparent);
+  }
+  @keyframes rail-beacon {
+    0%, 100% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 50%, transparent);
+      opacity: 1;
+    }
+    50% {
+      box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 0%, transparent);
+      opacity: 0.85;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .index-rail .tick.active::after { animation: none; }
+  }
+
+  .index-rail .rail-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    /* Inherit from .index-rail's color so theme + active-book
+       swaps propagate down to the number. */
+    color: inherit;
+    opacity: 0.85;
+    margin-top: 18px;
+    transition: color 0.3s ease;
+  }
+  .index-rail .rail-num .of { opacity: 0.55; }
+
+  /* ════════════════════════════════════════════════════════
+     CHAPTER TITLE PAGE — front door of the page.
+     Like the title page of a section in a printed book.
+     ════════════════════════════════════════════════════════ */
+  /* Hero — single centered stage, no longer a 2-row grid (the
+     mini-shelf row was retired with the shelf). Flex column with
+     the stage centered vertically inside the viewport. */
+  .chapter-title {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(80px, 14vh, 160px) 56px clamp(60px, 10vh, 100px);
+    max-width: 1600px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .chapter-title .chapter-stage {
+    width: 100%;
+  }
+
+  /* Centered hero — illustration sits on top, text stacks below.
+     The 90px left padding is dropped here (it was for the old
+     ranged-left layout); the whole stage now self-centers inside
+     .chapter-title's max-width. */
+  .chapter-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Hero eyebrow — sits above the headline. The .eyebrow base
+     styles come from css/components/eyebrow.css; we just position
+     it here and tune the bottom-spacing to the hero. */
+  .chapter-stage-text .hero-eyebrow {
+    margin: 0 auto clamp(20px, 2.6vh, 32px);
+  }
+
+  /* Hero illustration — sits on top of the headline as a single
+     visual mark before the type begins. Sized large so it reads
+     as a real cover element, not a flourish. The block flow
+     (illustration → h2 → deck → byline → meta) carries through
+     all breakpoints; we just scale the illustration up at desktop
+     widths and tighten the gap. */
+  .hero-illustration {
+    display: block;
+    width: clamp(220px, 38vw, 360px);
+    height: auto;
+    margin: 0 auto clamp(24px, 3.5vh, 44px);
+    border-radius: 4px;
+  }
+
+  @media (min-width: 901px) {
+    .hero-illustration {
+      width: clamp(360px, 36vw, 560px);
+      margin-bottom: clamp(32px, 4vh, 56px);
+    }
+  }
+
+  .chapter-eyebrow {
+    font-family: var(--mono);
+    font-size: 14px;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin-bottom: clamp(40px, 5vh, 64px);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .chapter-eyebrow .num { color: var(--accent); }
+  .chapter-eyebrow .dash {
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.6;
+  }
+
+  .chapter-title h2 {
+    font-family: var(--display-poster);
+    font-weight: 700;
+    font-variation-settings: "wght" 700;
+    font-size: clamp(80px, 16vw, 320px);
+    line-height: 0.94;
+    letter-spacing: -0.045em;
+    color: var(--ink);
+    margin: 0;
+  }
+  /* .accent treatment is defined later in the v44 retune block —
+     same Unbounded family/weight as the headline, color shifts to
+     --accent. Removed the stale serif override that used to live
+     here. */
+
+  /* SplitText output for the chapter headline — these classes are
+     written by SplitText.create() with type:"lines, words, chars"
+     and mask:"lines". The line wrapper provides the overflow:hidden
+     mask that words rise out of. The word becomes the per-word target
+     for both the entrance ink-in AND the continuous breath ticker. */
+  .chapter-title h2 .split-line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.12em;
+  }
+  .chapter-title h2 .word {
+    display: inline-block;
+    will-change: transform, font-variation-settings;
+    transform-origin: center center;
+  }
+
+  .chapter-deck {
+    /* Tightened from clamp(32px, 5vh, 56px) — the deck supports the
+       headline; they should read as one editorial unit, not two
+       separated beats. Centered: drop width:max-content (which
+       collapsed to the longest line) in favor of a real centered
+       measure so the deck sits as a balanced block under the h2. */
+    margin: clamp(18px, 2.4vh, 28px) auto 0;
+    max-width: min(54ch, 720px);
+    font-family: var(--serif);
+    font-size: clamp(18px, 1.6vw, 26px);
+    line-height: 1.5;
+    color: var(--ink-soft);
+    font-variation-settings: "opsz" 24;
+    text-wrap: balance;
+  }
+
+  /* Byline — small editorial credit between the deck and the meta.
+     "Curated by" in mono small caps (matches the eyebrow register
+     so it reads as a structural mark) + the name in italic
+     Newsreader, accent color (the New Yorker byline move — italic
+     serif as the author's voice signature). */
+  .chapter-byline {
+    margin-top: clamp(28px, 3.5vw, 40px);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--marginalia);
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 10px;
+  }
+  .chapter-byline span {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--accent);
+    font-variation-settings: "opsz" 18, "wght" 500;
+  }
+
+  .chapter-meta {
+    margin: clamp(40px, 5vw, 56px) auto 0;
+    padding-top: 20px;
+    border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 28px 48px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--marginalia);
+    max-width: 720px;
+    text-align: center;
+  }
+  .chapter-meta .item strong {
+    display: block;
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    text-transform: none;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    margin-top: 6px;
+  }
+
+  /* (.chapter-shelf retired — the mini-cover TOC was an early
+     "glance-able index" experiment; with the hero now centered
+     and the index rail + rich book pages doing the navigational
+     work, the shelf was redundant noise below the front door.) */
+
+  /* ════════════════════════════════════════════════════════
+     BOOK PAGES — the heart of the design.
+     Each book is its own full-screen page. Cover on the left,
+     editorial content on the right. The whole-page atmospheric
+     gradient behind these IS the book — switching books switches
+     the atmosphere.
+     ════════════════════════════════════════════════════════ */
+  .book-page {
+    /* Full-bleed colored panel. The ::before pseudo-element below
+       breaks out of the max-width container to fill the viewport
+       horizontally, so the section's color paints edge-to-edge while
+       the grid content stays constrained at 1600px max.
+
+       min-height: 100vh — each book gets at least its own page.
+       Content can push taller; padding-bottom adds reading buffer
+       before the next book's hard color cut takes over. */
+    min-height: 100vh;
+    display: grid;
+    /* Editorial spread:
+       [ cover ] | [ title + dateline + review ]
+       [ cover ] | [ ── about author ──        ]
+       Cataloging meta now lives inline as a dateline at the top
+       of the title block, so the old footer band (row 3) is gone. */
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-rows: auto auto;
+    column-gap: clamp(48px, 6vw, 100px);
+    /* Tightened from clamp(28px, 3.5vw, 48px) → var(--s-8) (32px).
+       Section-break value matching the rest of the editorial column
+       rhythm. */
+    row-gap: var(--s-8);
+    align-items: start;
+    padding: 110px 80px clamp(80px, 12vh, 140px) 140px;
+    max-width: 1600px;
+    margin: 0 auto;
+    position: relative;
+    /* Type lives on top of the color. --page-fg and --page-accent
+       are set per-section inline at render time from each book's
+       palette — they're not theme-responsive, they're book-responsive. */
+    color: var(--page-fg, var(--ink));
+    --page-fg: var(--ink);
+    --page-accent: var(--accent);
+    /* The default --book-bg falls back to --paper for a no-color section.
+       Each rendered .book-page overrides this via inline style. */
+    --book-bg: var(--paper);
+  }
+  /* The full-bleed color band. Pseudo-element breaks out of the
+     1600px max-width to span the viewport. Sits behind everything
+     else in the section via z-index: -1. The hard cut between books
+     is automatic — when section A ends, section B begins, and B's
+     ::before paints its own color from the next pixel onward. */
+  .book-page::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -50vw;
+    width: 100vw;
+    background-color: var(--book-bg);
+  }
+
+  /* Cover anchors the left column with its top aligned to the title's
+     baseline of the right column. The 4px nudge accounts for the
+     title's optical x-height vs the cover's hard top edge.
+     Spans rows 1-2 so it stays anchored alongside the editorial
+     flow on the right (title block + review → author). */
+  .book-page-cover-wrap {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: start;
+    padding-top: 4px;
+  }
+
+  /* Title block sits top of the right column. align-self: start so the
+     title baseline is the natural top — the cover's top is aligned to
+     this on the left. The max-width is the canonical editorial column
+     width — every editorial child (review-body, byline, purchase-table)
+     inherits this width so the column reads as one coherent measure
+     instead of bouncing between widths. .book-page-author uses the
+     same value below. */
+  .book-page-text {
+    grid-column: 2;
+    grid-row: 1;
+    color: var(--page-fg);
+    align-self: start;
+    max-width: 60ch;
+  }
+
+  /* The review IS the body content of the spread — it sits where
+     a book summary would in a generic catalog. No kicker, no card,
+     no separate section. The drop cap on the first paragraph earns
+     "this is editorial writing" without needing a label.
+     Reading flow now goes title → byline → divider → review prose
+     → purchase rows. Single column of editorial copy, no break in
+     voice. Width is inherited from .book-page-text (the canonical
+     60ch editorial measure). */
+  .book-page-text .review-body {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.62;
+    color: var(--page-fg);
+    font-variation-settings: "opsz" 16, "wght" 400;
+    /* Reset the trailing paragraph's bottom margin so the gap
+       between review and purchase-table is controlled solely by
+       the purchase-table's margin-top (no margin-collapse
+       ambiguity). */
+    margin-bottom: 0;
+  }
+  .book-page-text .review-body p:last-child {
+    margin-bottom: 0;
+  }
+  /* Drop cap on the first paragraph — the editorial cue that this is
+     a review/essay, not a summary. The float gives proper text-flow
+     around it; the small margin offsets compensate for the cap's
+     own ascender space so it sits at x-height, not above it.
+     Newsreader by intent — Unbounded reads as a graphic-design
+     letterform, not a literary one. We use --serif explicitly here
+     instead of --display-poster so changing the token doesn't shift
+     the cap. */
+  .book-page-text .review-body p:first-child::first-letter {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 3.4em;
+    line-height: 0.85;
+    color: var(--page-accent);
+    float: left;
+    padding: 0.05em 0.12em 0 0;
+    margin-top: 0.05em;
+  }
+  .book-page-text .review-body p + p {
+    margin-top: 0.85em;
+    text-indent: 1.5em;
+  }
+  .book-page-text .review-body em { font-style: italic; }
+
+  /* ════════════════════════════════════════════════════════
+     ABOUT THE AUTHOR — sits beneath the review on the right
+     column. Smaller in scale than the review (it's secondary
+     editorial content, not the main event). Visually distinct
+     by being plain prose without the review's card treatment —
+     no left rule, no embossed background, just a hairline
+     separator above and a kicker. The author name uses the
+     accent color and italic Newsreader at a sub-headline scale.
+     ════════════════════════════════════════════════════════ */
+  .book-page-author {
+    grid-column: 2;
+    grid-row: 2;
+    color: var(--page-fg);
+    max-width: 60ch;
+    align-self: start;
+    /* Hairline separator from the purchase block above — not a full
+       border, just a single 1px rule that establishes "new section"
+       without building a hard edge. Padding-top tightened from
+       clamp(20px, 2.5vw, 32px) → var(--s-5) (20px) to match the
+       reduced grid row-gap above. */
+    padding-top: var(--s-5);
+    border-top: 1px solid color-mix(in srgb, var(--page-fg) 12%, transparent);
+  }
+  .book-page-author .kicker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--page-fg);
+    opacity: 0.55;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .book-page-author .kicker::before {
+    content: "";
+    display: block;
+    width: 18px;
+    height: 1px;
+    background: var(--page-accent);
+    opacity: 0.7;
+  }
+  /* Author name — Unbounded 700, matching the book title's family
+     and weight at a smaller scale. Color shifts to --page-accent
+     so the author still has its own visual signature within the
+     editorial column. */
+  .book-page-author .author-name {
+    font-family: 'Unbounded', 'Bricolage Grotesque', 'Helvetica Neue', sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 1.8vw, 28px);
+    line-height: 1.2;
+    letter-spacing: -0.035em;
+    color: var(--page-accent);
+    margin-bottom: 14px;
+    font-variation-settings: "wght" 700;
+  }
+  /* Bio prose — same body ramp as the review. The reading density
+     doesn't shift across the editorial column. Width inherits from
+     .book-page-author (the same 60ch as .book-page-text), so review
+     and bio wrap on the exact same measure. */
+  .book-page-author .author-bio {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.62;
+    color: var(--page-fg);
+    font-variation-settings: "opsz" 16, "wght" 400;
+    margin-bottom: 0;
+  }
+  .book-page-author .author-bio em { font-style: italic; }
+
+  /* "Also by [Author]" — same canonical "linked editorial list"
+     component as .purchase-table above. Bordered table, divided
+     arrow cell, sans display source name, mono small caps meta,
+     identical hover treatment. The two surfaces share one spec
+     so the right column reads as one design system, not two
+     ad-hoc components. The kicker label sits above the table
+     because the works list needs context (the author's name) in
+     a way the purchase table doesn't (Bookshop.org is its own
+     context). Spacing: var(--s-8) section break above the block
+     (separating bio prose from the works list); var(--s-5)
+     between the kicker label and the bordered table beneath it
+     (label needs to sit close to its content but not on top of it). */
+  .book-page-author .author-works {
+    margin-top: var(--s-8);
+  }
+  .book-page-author .author-bio {
+    margin-bottom: 0;
+  }
+  .book-page-author .works-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--page-fg);
+    opacity: 0.55;
+    margin-bottom: var(--s-5);
+    display: block;
+  }
+  .book-page-author .works-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--page-accent);
+  }
+  .book-page-author .works-list li {
+    border-bottom: 1px solid var(--page-accent);
+  }
+  .book-page-author .works-list li:last-child { border-bottom: none; }
+  /* Row — same 2-cell flex anatomy as .purchase-row */
+  .book-page-author .works-list a {
+    display: flex;
+    align-items: stretch;
+    text-decoration: none;
+    color: var(--page-fg);
+    transition: background 0.2s ease, color 0.18s ease;
+  }
+  .book-page-author .works-list a:hover {
+    background: color-mix(in srgb, var(--page-accent) 10%, transparent);
+    color: var(--page-accent);
+  }
+  /* Info cell — title left, year right, padding inside cell. Same
+     anatomy as .purchase-row .source — see that block for spec. */
+  .book-page-author .works-list .work-info {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex: 1;
+    min-width: 0;
+    padding: 14px 22px;
+  }
+  /* Work title — Bricolage Grotesque 600 / 14px (Meta scale per
+     styleguide). Matches .purchase-row source-name spec exactly,
+     so both surfaces are typographically interchangeable. */
+  .book-page-author .works-list .work-title {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.35;
+    letter-spacing: -0.003em;
+    font-variation-settings: "wdth" 100, "opsz" 14, "wght" 600;
+    white-space: nowrap;
+  }
+  .book-page-author .works-list .work-year {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--page-fg);
+    opacity: 0.8;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  /* Arrow cell — divided from the info cell by a vertical accent rule */
+  .book-page-author .works-list .work-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 22px;
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--page-accent);
+    opacity: 0.8;
+    flex-shrink: 0;
+    border-left: 1px solid var(--page-accent);
+    transition: opacity 0.2s ease, transform 0.25s ease;
+  }
+  .book-page-author .works-list a:hover .work-arrow {
+    opacity: 1;
+    transform: translate(2px, -2px);
+  }
+
+  /* (Meta footer band retired — the cataloging meta now lives as
+     a dateline mono small-caps line under the byline at the top of
+     the title block. See .book-page-text .dateline above.) */
+
+  .book-page-cover-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 2000px;
+  }
+
+  /* The cover's inner wrapper. GSAP/ScrollTrigger drives the
+     translateY + rotateX as you scroll through the section. */
+  .book-page-cover-inner {
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .book-page-cover {
+    position: relative;
+    /* Sized one notch down from the previous 280–440px range so the
+       cover sits as a proportionate page-mate to the editorial column,
+       not the dominant figure on the spread. */
+    width: clamp(240px, 23vw, 380px);
+    aspect-ratio: 0.66 / 1;
+    overflow: hidden;
+    background: var(--paper-sunk);
+    border-radius: 7px 1px 1px 7px;
+    box-shadow: var(--book-shadow-large);
+    /* The mouse-parallax target. preserve-3d so the perspective from
+       the wrap propagates through. will-change hints the browser to
+       allocate a layer for the GPU-accelerated transforms. */
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  .book-page-cover img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    z-index: 1;
+  }
+  /* Page-block edge */
+  .book-page-cover::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 8px;
+    background: linear-gradient(
+      to left,
+      rgba(0, 0, 0, 0.4) 0%,
+      rgba(0, 0, 0, 0.15) 60%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+  /* Top-edge highlight */
+  .book-page-cover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      155deg,
+      rgba(255, 235, 200, 0.08) 0%,
+      transparent 25%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* .by inherits the 60ch column width from .book-page-text */
+
+
+  /* Headline — Unbounded 700, smaller cousin of the chapter-title
+     hero. Title and subtitle share the same weight + same color so
+     they read as one continuous headline. Italic Newsreader takes
+     over for em accents (same accent pattern v44 uses everywhere
+     Unbounded is the dominant face). Tracking tightens to -0.04em
+     so the letterforms read as one shape, not separated. */
+  .book-page-text h2 {
+    font-family: 'Unbounded', 'Bricolage Grotesque', 'Helvetica Neue', sans-serif;
+    font-weight: 700;
+    font-size: clamp(32px, 2.6vw, 48px);
+    line-height: 1.06;
+    letter-spacing: -0.04em;
+    margin-bottom: 14px;
+    color: var(--page-fg);
+    font-variation-settings: "wght" 700;
+  }
+  .book-page-text h2 .sub {
+    color: var(--page-fg);
+    font-weight: 700;
+    font-variation-settings: "wght" 700;
+  }
+  /* Italic accent on em — Newsreader italic, matching how every
+     other Unbounded-set headline on the site treats em accents. */
+  .book-page-text h2 em {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: -0.018em;
+    font-variation-settings: "opsz" 40, "wght" 500;
+  }
+
+  .book-page-text .by {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.4;
+    margin-bottom: 22px;
+    color: var(--page-fg);
+    font-variation-settings: "opsz" 22, "wght" 500;
+    opacity: 0.95;
+  }
+  .book-page-text .by .label {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--page-fg);
+    opacity: 0.6;
+    font-weight: 500;
+    margin-right: 10px;
+  }
+
+  /* Year in parens after the author name — italic Newsreader to
+     feel like an editorial date attribution rather than catalog
+     data. "By James Baldwin (1963)". Inherits the byline size. */
+  .book-page-text .by .year {
+    font-style: italic;
+    opacity: 0.7;
+    margin-left: 4px;
+    font-variation-settings: "opsz" 22, "wght" 400;
+    font-weight: 400;
+  }
+
+  .book-page-text .divider {
+    width: 48px;
+    height: 1px;
+    background: var(--page-fg);
+    opacity: 0.32;
+    margin-bottom: 22px;
+  }
+
+  /* "Where to Find" — canonical "linked editorial list" component.
+     Bordered table of stacked rectangles with a divided arrow cell
+     on the right. Source names in Bricolage Grotesque sans (the
+     site's CTA-flavored register), location label in mono small
+     caps, oversized ↗ in its own framed square. The same pattern
+     drives the "Also by [Author]" works list further down — see
+     .works-list below; both share the layout, type, and motion.
+
+     Spacing: margin-top is var(--s-8) (32px) — a quiet
+     section-break gap between the end of the review prose and
+     the beginning of the sourcing links. Enough to mark a new
+     beat without forcing distance. Margin-bottom: 0 on
+     .review-body and its last <p> below so margin-collapse
+     can't shrink the gap unpredictably. No margin-bottom — the
+     grid row-gap + .book-page-author's own padding-top handle
+     the gap before the about-author block. */
+  .purchase-table {
+    margin-top: var(--s-8);
+    margin-bottom: 0;
+    border: 1px solid var(--page-accent);
+  }
+  /* Row is a 2-cell flex: source area takes the remainder, arrow
+     cell is fixed and divided from the source area by a vertical
+     accent rule. Padding is on the cells, not the row, so the
+     vertical divider extends edge-to-edge inside the row. */
+  .purchase-row {
+    display: flex;
+    align-items: stretch;
+    text-decoration: none;
+    color: var(--page-fg);
+    border-bottom: 1px solid var(--page-accent);
+    transition: background 0.2s ease, color 0.18s ease;
+  }
+  .purchase-row:last-child { border-bottom: none; }
+  .purchase-row:hover {
+    background: color-mix(in srgb, var(--page-accent) 10%, transparent);
+    color: var(--page-accent);
+  }
+  /* Source cell — flex space-between for name on left, location
+     on right. Padding lives here so the vertical divider can run
+     full-height of the row. */
+  .purchase-row .source {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex: 1;
+    min-width: 0;
+    padding: 14px 22px;
+  }
+  /* Source name — Bricolage Grotesque 600 / 14px (Meta scale per
+     styleguide). Sans display gives the bordered CTA block its own
+     register, and the smaller scale reads as catalog-link, clearly
+     subordinate to the 16px review body above. The 18px arrow
+     stays as the dominant affordance — typographic hierarchy:
+     review (16px serif) → links (14px sans) → arrow (18px mono). */
+  .purchase-row .source > span:first-child {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.35;
+    letter-spacing: -0.003em;
+    font-variation-settings: "wdth" 100, "opsz" 14, "wght" 600;
+    white-space: nowrap;
+  }
+  /* Location label — mono small caps, right side of the source cell. */
+  .purchase-row .source .price {
+    font-family: var(--mono);
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--page-fg);
+    opacity: 0.8;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  /* Arrow cell — its own framed square, separated from the source
+     cell by a vertical accent rule. The ↗ is sized up to 18px so
+     it reads as a proper destination affordance, not an afterthought. */
+  .purchase-row .arrow-out {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 22px;
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--page-accent);
+    opacity: 0.8;
+    flex-shrink: 0;
+    border-left: 1px solid var(--page-accent);
+    transition: opacity 0.2s ease, transform 0.25s ease;
+  }
+  .purchase-row:hover .arrow-out {
+    opacity: 1;
+    transform: translate(2px, -2px);
+  }
+
+  /* (Old .book-page-meta footer-band styles removed — meta now
+     lives inline as a dateline at the top of the title block.) */
+
+  /* ════════════════════════════════════════════════════════
+     TBR — the "itching to crack" coda. One screen, four covers
+     in a row, same headline scale as the chapter title so the
+     flow stays parallel. No per-book gradient — clean paper,
+     reads as a deliberate visual breath after the shortlist.
+     ════════════════════════════════════════════════════════ */
+  .tbr-page {
+    min-height: 100vh;
+    padding: clamp(80px, 14vh, 160px) 56px clamp(60px, 10vh, 100px);
+    max-width: 1600px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: clamp(48px, 8vh, 96px);
+    align-items: start;
+    position: relative;
+    /* Clip horizontal overflow so the off-screen-right TBR covers
+       (x: 110vw start position) don't trigger page-level horizontal
+       scrollbars during the scroll-bound slide-in. */
+    overflow-x: clip;
+  }
+
+  .tbr-stage {
+    padding-left: 90px;
+  }
+
+  .tbr-eyebrow {
+    font-family: var(--mono);
+    font-size: 14px;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin-bottom: 36px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .tbr-eyebrow .num { color: var(--mark); }
+  .tbr-eyebrow .dash {
+    width: 40px;
+    height: 1px;
+    background: var(--mark);
+    opacity: 0.6;
+  }
+
+  .tbr-page h2 {
+    font-family: var(--display-poster);
+    font-weight: 700;
+    font-size: clamp(72px, 13vw, 220px);
+    line-height: 0.96;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    margin: 0;
+  }
+  .tbr-page h2 .accent {
+    color: var(--mark);
+  }
+
+  .tbr-deck {
+    margin-top: clamp(36px, 5vh, 64px);
+    width: max-content;
+    max-width: min(48ch, 40vw);
+    font-family: var(--serif);
+    font-size: clamp(18px, 1.6vw, 26px);
+    line-height: 1.5;
+    color: var(--ink-soft);
+    font-variation-settings: "opsz" 24;
+  }
+
+  /* The shelf of four covers, side-by-side */
+  .tbr-shelf {
+    padding-left: 90px;
+    padding-right: 56px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(28px, 3vw, 56px);
+    align-items: end;
+  }
+
+  .tbr-book {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    text-align: left;
+    transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .tbr-book:hover { transform: translateY(-6px); }
+
+  .tbr-cover {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 0.66 / 1;
+    overflow: hidden;
+    background: var(--paper-sunk);
+    border-radius: 5px 1px 1px 5px;
+    box-shadow: var(--book-shadow);
+    margin-bottom: 22px;
+    transition: box-shadow 0.4s ease;
+  }
+  .tbr-book:hover .tbr-cover {
+    box-shadow: var(--book-shadow-large);
+  }
+  .tbr-cover img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    z-index: 1;
+  }
+  /* Same edge cues as the deep-dive covers — page block + top highlight */
+  .tbr-cover::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 6px;
+    background: linear-gradient(to left, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.12) 60%, transparent 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .tbr-cover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(155deg, rgba(255,235,200,0.06) 0%, transparent 30%, transparent 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .tbr-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  /* Title — Bricolage Grotesque 600 to match the book-list treatment
+     used elsewhere on the page (works-list .work-title, purchase-row
+     source). TBR books are subordinate to the main shortlist, so they
+     read at this smaller-list register, not the Unbounded book-page
+     h2 register. */
+  .tbr-title {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(17px, 1.4vw, 20px);
+    line-height: 1.25;
+    letter-spacing: -0.008em;
+    color: var(--ink);
+    font-variation-settings: "wdth" 100, "opsz" 20, "wght" 600;
+  }
+  /* Author — Newsreader 500, same register as the book-page byline. */
+  .tbr-author {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(15px, 1.1vw, 17px);
+    line-height: 1.3;
+    color: var(--mute);
+    font-variation-settings: "opsz" 16, "wght" 500;
+    margin-bottom: 10px;
+  }
+  /* "Why" — body editorial register, Newsreader 400. Same as
+     review-body and author-bio on the book pages. */
+  .tbr-why {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(15px, 1.1vw, 17px);
+    line-height: 1.5;
+    color: var(--ink-soft);
+    font-variation-settings: "opsz" 16, "wght" 400;
+    padding-top: 12px;
+    border-top: 1px solid color-mix(in srgb, var(--mark) 50%, transparent);
+    margin-top: 4px;
+  }
+
+  /* TBR motion handled by GSAP. Defaults to visible/in-place. */
+
+  @media (max-width: 1100px) {
+    .tbr-stage, .tbr-shelf { padding-left: 0; padding-right: 0; }
+    .tbr-shelf { grid-template-columns: repeat(2, 1fr); gap: 36px; }
+  }
+  @media (max-width: 600px) {
+    .tbr-shelf { grid-template-columns: 1fr; gap: 40px; max-width: 280px; margin: 0 auto; }
+  }
+
+  /* ════════════════════════════════════════════════════════
+     END / FOOTER PAGE — after the TBR coda
+     ════════════════════════════════════════════════════════ */
+  .end-page {
+    min-height: 100vh;
+    padding: clamp(80px, 14vh, 160px) 56px clamp(60px, 10vh, 100px);
+    max-width: 1600px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    align-items: center;
+    position: relative;
+  }
+  /* Full-bleed hairline marking the transition from "Up next" to the
+     colophon. Pseudo-element breaks out of the 1600px max-width to
+     span the viewport, so the divider reads as a print-style section
+     break — a row of fence above the footer. */
+  .end-page::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -50vw;
+    width: 100vw;
+    height: 1px;
+    background: color-mix(in srgb, var(--ink) 16%, transparent);
+  }
+  .end-stage {
+    padding-left: 90px;
+    max-width: 980px;
+  }
+
+  /* (.end-eyebrow retired — the section now opens directly on the
+     headline; the full-bleed hairline above .end-page marks the
+     transition from "Up next" to the colophon.) */
+
+  /* h2 — Unbounded sized to match the chapter-title hero exactly.
+     Type size + line-height + letter-spacing live in the retune
+     block (.chapter-title h2, .end-stage h2). */
+  .end-stage h2 {
+    font-family: 'Unbounded', 'Bricolage Grotesque', 'Helvetica Neue', sans-serif;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 clamp(18px, 2.4vh, 28px);
+  }
+  /* Accent word — same Unbounded family + weight as the surrounding
+     headline; only the color shifts. The footer uses --mark (the
+     site's cerulean) instead of --accent (red) — gives the colophon
+     its own visual signature, and quietly threads the "Franklin →
+     Chicago" line at the bottom of the page through the type. */
+  .end-stage h2 .accent {
+    color: var(--mark);
+  }
+
+  /* Deck — paragraph register matching the chapter-deck. */
+  .end-deck {
+    font-family: var(--serif);
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 56ch;
+    margin: 0 0 clamp(40px, 5vh, 64px);
+    font-variation-settings: "opsz" 22;
+  }
+
+  /* Two-column links area: "Read deeper" + "Follow". Each column is
+     a labeled stack of links with a quiet hover reveal. */
+  .end-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(40px, 6vw, 80px);
+    max-width: 720px;
+  }
+  .end-col {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .end-col-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin-bottom: 6px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  }
+  .end-col a {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(17px, 1.4vw, 20px);
+    line-height: 1.3;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    padding: 4px 0;
+    transition: color 0.2s ease, padding 0.25s ease;
+    font-variation-settings: "opsz" 20, "wght" 500;
+  }
+  .end-col a .end-arrow {
+    font-family: var(--mono);
+    font-size: 14px;
+    opacity: 0.5;
+    transition: opacity 0.2s ease, transform 0.25s ease;
+  }
+  .end-col a:hover {
+    color: var(--mark);
+    padding-left: 6px;
+  }
+  .end-col a:hover .end-arrow {
+    opacity: 1;
+    color: var(--mark);
+    transform: translate(2px, -2px);
+  }
+
+  .end-footer {
+    padding-top: 40px;
+    border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--mute);
+  }
+  .end-footer .right { display: flex; gap: 32px; }
+  .end-footer a {
+    font-family: var(--display);
+    font-weight: 500;
+    color: var(--mute);
+    transition: color 0.2s;
+  }
+  .end-footer a:hover { color: var(--ink); }
+
+  /* ════════════════════════════════════════════════════════
+     RESPONSIVE
+     ════════════════════════════════════════════════════════ */
+  /* Tablet breakpoint — affects only what doesn't fit at desktop
+     widths but isn't yet phone territory: hide the index rail (it
+     overlaps content), drop chapter padding offsets, switch the
+     mini-shelf TOC to 5-cols (10 across is crushed at <1100px).
+     Book-page layout stays in its desktop 2-column form here —
+     the tighter single-column switch only happens below 900px. */
+  @media (max-width: 1100px) {
+    .index-rail { display: none; }
+    .chapter-stage, .end-stage { padding-left: 0; }
+    /* Tighten the desktop book-page padding for the tablet range
+       so the 2-col layout still has breathing room at ~900-1100px. */
+    .book-page {
+      padding: 96px 56px 72px 80px;
+    }
+    .book-page-cover { width: clamp(220px, 26vw, 320px); }
+  }
+
+  /* Mid-tablet → phone breakpoint — book-page collapses to single
+     column with the cover as the dominant figure on each spread.
+     Was at 1100px which was too aggressive; switching to single
+     col at 1100px gave a 360px cover dominating a 1000px viewport. */
+  @media (max-width: 900px) {
+    .book-page {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto auto;
+      padding: 100px 32px 80px 32px;
+      column-gap: 0;
+      row-gap: 32px;
+      height: auto;
+    }
+    .book-page-cover-wrap {
+      grid-column: 1;
+      grid-row: 1;
+      align-self: center;
+      padding-top: 0;
+    }
+    .book-page-text { grid-column: 1; grid-row: 2; align-self: start; padding-bottom: 0; }
+    .book-page-author { grid-column: 1; grid-row: 3; max-width: none; }
+    /* Cover scales with viewport on phones — floor at 240px on
+       narrow widths, grow up to 360px on small tablets. */
+    .book-page-cover { width: clamp(240px, 62vw, 360px); }
+  }
+  @media (max-width: 700px) {
+    /* Horizontal padding only — header height stays --header-h-mobile
+       from header.css, which the flexbox vertical-centers content into. */
+    .header-inner { padding: 0 24px; }
+    nav.primary { gap: 16px; }
+    nav.primary a { font-size: 13px; }
+    .chapter-title, .end-page { padding-left: 24px; padding-right: 24px; }
+    /* Hero h2 dialed down hard for phone widths. Was clamp(44px, 14vw,
+       88px) which produced ~50px+ type that couldn't fit "A reading
+       list," on one line at 360-414px screens. Now clamp(36, 10vw, 56)
+       — readable at full strength on phones, scales up gently. */
+    .chapter-title h2 {
+      font-size: clamp(36px, 10vw, 56px);
+      line-height: 1.06;
+      letter-spacing: -0.028em;
+    }
+    /* Allow the accent phrase to break on phones if needed — was
+       white-space: nowrap which forced "with reviews." to lock into
+       a single line that didn't fit the column. */
+    .chapter-title h2 .accent { white-space: normal; }
+    /* Deck full-width on phones — was max-width: min(48ch, 40vw)
+       which collapsed it to a sliver of the screen. */
+    .chapter-deck {
+      width: auto;
+      max-width: 100%;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+    /* Byline tightened so it sits cleanly above the meta block. */
+    .chapter-byline { gap: 8px; flex-wrap: wrap; }
+    .chapter-byline span { font-size: 16px; }
+    /* Meta stacked vertically on phones — items were squeezing each
+       other horizontally and "READING TIME" was wrapping awkwardly. */
+    .chapter-meta {
+      flex-direction: column;
+      gap: 18px;
+      margin-top: clamp(28px, 6vw, 40px);
+    }
+    .end-footer { flex-direction: column; gap: 16px; align-items: flex-start; }
+  }
+
+  /* ════════════════════════════════════════════════════════
+     WORD REVEAL — typography motion primitive
+     The outer .word uses overflow:hidden as the mask. The key
+     to not breaking line-height: vertical-align is set to the
+     baseline, and the word's own line-height is inherited from
+     the parent (so it occupies exactly one text line's height
+     and no more). We don't add padding/margin tricks because
+     those leak into the parent's line-box calculation and
+     inflate body-copy line spacing.
+     ════════════════════════════════════════════════════════ */
+  .word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: baseline;
+    /* line-height inherits from the parent text, which is what
+       defines the mask height. For body copy at line-height:1.55
+       this gives the word ~1.55× its font-size of mask area — more
+       than enough to fully hide a translated-down inner span. */
+  }
+  .word-inner {
+    display: inline-block;
+    will-change: transform;
+  }
+
+  /* When motion is reduced, render text as if reveals never happened */
+  @media (prefers-reduced-motion: reduce) {
+    .word, .word-inner {
+      display: inline;
+      overflow: visible;
+      transform: none !important;
+    }
+  }
+
+  /* Underlines / dividers that draw in.
+     Sets transform-origin to left so the line scales out from
+     its starting edge — reads as "drawn" not "stretched". */
+  .draw-line {
+    display: inline-block;
+    transform: scaleX(0);
+    transform-origin: left center;
+    will-change: transform;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .draw-line { transform: scaleX(1) !important; }
+  }
+
+  .fade-in { opacity: 0; animation: fade 1.2s ease forwards; }
+  .fade-in.d1 { animation-delay: 0.1s; }
+  @keyframes fade { to { opacity: 1; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-snap-type: none; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+
+  /* ════════════════════════════════════════════════════════
+     HOMEPAGE TYPOGRAPHIC REGISTER
+     The homepage gets its v44 poster aesthetic back: chapter-title,
+     tbr-page, and end-stage h2 use Unbounded for the heavy display
+     punch v44 was designed around. The rest of the system uses
+     Newsreader (defined as --display-poster for other pages).
+     book-page-text titles and the review drop cap stay Newsreader —
+     they read better as book-spine type than as poster type.
+     ════════════════════════════════════════════════════════ */
+  .chapter-title h2,
+  .tbr-page h2,
+  .end-stage h2 {
+    font-family: 'Unbounded', 'Bricolage Grotesque', 'Helvetica Neue', sans-serif;
+    font-weight: 700;
+    font-variation-settings: "wght" 700;
+    letter-spacing: -0.03em;
+  }
+  /* Hero — pulled back from the v44 monumental-poster scale so it
+     sits in the same restraint register as the book-page panels.
+     Still big (this is the page's front door), but reigned in.
+     Was: clamp(80px, 16vw, 320px) at -0.045em / 0.94 line-height.
+     text-wrap: balance lets the browser auto-balance line lengths
+     in case the explicit <br> ever ends up at an awkward viewport. */
+  .chapter-title h2 {
+    font-size: clamp(56px, 7vw, 104px);
+    line-height: 1.04;
+    letter-spacing: -0.028em;
+    text-wrap: balance;
+  }
+  /* Accent phrase stays as one chunk — "with reviews." should never
+     break across two lines internally. */
+  .chapter-title h2 .accent {
+    white-space: nowrap;
+  }
+  /* TBR — pulled to match the chapter-title hero scale exactly.
+     "Up next." reads as a sibling editorial headline to the hero
+     ("A reading list, with reviews."), pairing the front and middle
+     of the page with the same monumental register. */
+  .tbr-page h2 {
+    font-size: clamp(56px, 7vw, 104px);
+    line-height: 1.04;
+    letter-spacing: -0.028em;
+  }
+  /* End stage — sized to match the chapter-title hero so the
+     colophon h2 reads as a sibling of the front-door headline.
+     Same scale, same line-height, same tracking. */
+  .end-stage h2 {
+    font-size: clamp(56px, 7vw, 104px);
+    line-height: 1.04;
+    letter-spacing: -0.028em;
+  }
+  /* Book-spine titles: Unbounded 700 — geometric heavy display,
+     same family of voice as the chapter-title hero but at spread
+     scale. Italic em accents drop to Newsreader 500 italic, the
+     v44 accent pattern carried through. */
+  .book-page-text h2 {
+    font-family: 'Unbounded', 'Bricolage Grotesque', 'Helvetica Neue', sans-serif;
+    font-weight: 700;
+    font-variation-settings: "wght" 700;
+    font-size: clamp(32px, 2.6vw, 48px);
+    line-height: 1.06;
+    letter-spacing: -0.04em;
+  }
+  .book-page-text h2 em {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: -0.018em;
+    font-variation-settings: "opsz" 40, "wght" 500;
+  }
+  /* Accent words on Unbounded heroes — italic Newsreader continues
+     to be the accent treatment v44 used. */
+  .chapter-title h2 em,
+  .tbr-page h2 em,
+  .end-stage h2 em {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    font-variation-settings: "opsz" 72, "wght" 500;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+  /* <span class="accent"> on the chapter-title — same Unbounded
+     family + weight as the rest of the headline; only the color
+     shifts to accent. Visual distinction without changing the
+     typeface — keeps the headline reading as one type system. */
+  .chapter-title h2 .accent {
+    color: var(--accent);
+  }
+  /* TBR <span class="accent"> — same treatment as the chapter-title
+     hero accent: same Unbounded family + weight as the rest of the
+     headline; only the color shifts to accent. */
+  .tbr-page h2 .accent {
+    color: var(--accent);
+  }
+  /* Review drop cap — italic Newsreader for printed-page feel.
+     Now scoped to the review-body inside .book-page-text, since
+     the dedicated .book-page-review section was retired. */
+  .book-page-text .review-body p:first-child::first-letter {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 600;
+  }
+
+  /* ════════════════════════════════════════════════════════
+     HEADLINE INTERACTIVITY — per-character hover response
+     The magnet manages each .char's transform (Y-lift + X-pull)
+     via gsap.quickTo, and the variable-font wght axis via an
+     inline `font-variation-settings` written from JS. We
+     deliberately do NOT declare font-variation-settings on .char
+     in CSS — that would override the .word's animated wght (used
+     by both the entrance reveal and the scroll-exhale) and break
+     those systems. Instead, .char inherits from .word at rest;
+     the magnet writes per-char inline values only when actively
+     hovering, then on mouseleave returns each char to the current
+     exhale weight (kept in sync via headlineEl.__exhaleWght). */
+  .chapter-title h2 .char,
+  .tbr-page h2 .char,
+  .end-stage h2 .char {
+    display: inline-block;
+    /* transform-origin slightly below center so the cursor pull
+       looks like the type is leaning toward the hand, not bulging
+       from the middle of the x-height. */
+    transform-origin: 50% 65%;
+    /* will-change keeps the rasterized layer warm during hover so
+       weight transitions don't induce a re-rasterize stutter on
+       the first mousemove. */
+    will-change: transform, font-variation-settings;
+  }
+
+  /* (Accent-word underline-draw retired — the per-char weight,
+     lift, and X-pull magnet does enough hover work on the headline
+     on its own; the underline was an extra beat that wasn't pulling
+     its weight.) */
+
+</style>
+</head>
+<body>
+
+<!-- No atmosphere layer. Book sections own their own full-bleed colors.
+     The body uses --paper as the default backdrop for non-book sections. -->
+
+<header id="header">
+  <div class="header-inner">
+    <a href="#chapterTitle" class="wordmark">
+      <svg class="logo logo-heart" viewBox="0 0 24 22" aria-hidden="true" focusable="false">
+        <path d="M12 20.4 C 5.5 16.5, 1.5 12, 1.5 7.6 C 1.5 4.5, 4 2, 7 2 C 9 2, 10.8 3.1, 12 4.9 C 13.2 3.1, 15 2, 17 2 C 20 2, 22.5 4.5, 22.5 7.6 C 22.5 12, 18.5 16.5, 12 20.4 Z" />
+      </svg>
+      <span class="logo-text">Heart's Library</span>
+    </a>
+    <nav class="primary">
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button" aria-haspopup="menu" aria-expanded="false">Lists</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="fiction.html" role="menuitem">Fiction</a>
+          <a href="nonfiction.html" role="menuitem">Non-Fiction</a>
+        </div>
+      </div>
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button" aria-haspopup="menu" aria-expanded="false">Bookstores</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="bookstores.html" class="all-link" role="menuitem">All bookstores</a>
+          <a href="bookstores-chicago.html" role="menuitem">Chicago</a>
+          <a href="bookstores-nashville.html" role="menuitem">Nashville</a>
+          <a href="bookstores-new-york.html" role="menuitem">New York</a>
+          <a href="bookstores-bay-area.html" role="menuitem">Bay Area</a>
+          <a href="bookstores-los-angeles.html" role="menuitem">Los Angeles</a>
+        </div>
+      </div>
+      <a href="dashboards.html">Dashboards</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button"
+            aria-label="Open navigation menu"
+            aria-controls="navDrawer"
+            aria-expanded="false">
+      <span class="toggle-icon" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile drawer + scrim. The drawer is a right-side panel that
+     slides in over the page on mobile. site.js's setupMobileNav
+     wires up focus-trap + Esc + outside-click + restore-focus. -->
+<div class="nav-scrim" id="navScrim" aria-hidden="true"></div>
+<aside class="nav-drawer" id="navDrawer" aria-label="Site navigation" hidden-from-tab="false">
+  <div class="nav-drawer-header">
+    <span class="nav-drawer-eyebrow">Heart's Library</span>
+  </div>
+  <ul class="nav-drawer-list">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li>
+      <span class="drawer-section-label">Lists</span>
+      <ul class="drawer-sublist">
+        <li><a href="fiction.html">Fiction</a></li>
+        <li><a href="nonfiction.html">Non-Fiction</a></li>
+      </ul>
+    </li>
+    <li>
+      <span class="drawer-section-label">Bookstores</span>
+      <ul class="drawer-sublist">
+        <li><a href="bookstores.html">All bookstores</a></li>
+        <li><a href="bookstores-chicago.html">Chicago</a></li>
+        <li><a href="bookstores-nashville.html">Nashville</a></li>
+        <li><a href="bookstores-new-york.html">New York</a></li>
+        <li><a href="bookstores-bay-area.html">Bay Area</a></li>
+        <li><a href="bookstores-los-angeles.html">Los Angeles</a></li>
+      </ul>
+    </li>
+    <li><a href="dashboards.html">Dashboards</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-drawer-footer">A library of one</div>
+</aside>
+
+<!-- The persistent index rail — visible across all sections, hides on small screens -->
+<aside class="index-rail" id="indexRail">
+  <!-- Ticks injected by JS -->
+  <div id="ticks" style="display:flex;flex-direction:column;gap:8px;align-items:center;"></div>
+  <span class="rail-num" id="railNum">— <span class="of">of 10</span></span>
+</aside>
+
+<main>
+
+<!-- ═══════ CHAPTER TITLE — now the front door ═══════ -->
+<section class="chapter-title" id="chapterTitle">
+
+  <div class="chapter-stage">
+    <video class="hero-illustration" autoplay loop muted playsinline aria-hidden="true">
+      <source src="illustrations/heart_flower_buildings.mp4" type="video/mp4">
+    </video>
+    <div class="chapter-stage-text">
+      <p class="eyebrow eyebrow--accent eyebrow--with-rule hero-eyebrow">Welcome to Heart Library</p>
+      <h2>
+        Reading lists,<br><span class="accent">with reviews.</span>
+      </h2>
+      <p class="chapter-deck">
+        American slavery told by the man who lived it. James Baldwin in 1963. A novel about a quiet professor. Ten books, picked across decades and registers, with a review of each.
+      </p>
+      <p class="chapter-byline">Curated by <span>Cody Heart</span></p>
+      <div class="chapter-meta">
+        <div class="item">Compiled<strong>April 2026</strong></div>
+        <div class="item">Genres<strong>Memoir, Fiction, History</strong></div>
+        <div class="item">Reading time<strong>≈ 4,800 pages</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mini-shelf TOC retired — the hero is the front door now;
+       readers scroll into the books rather than picking from a TOC. -->
+</section>
+
+<!-- ═══════ BOOK PAGES (injected by JS) ═══════ -->
+<div id="bookPages"></div>
+
+<!-- ═══════ TBR — hero-treatment header, scroll-bound horizontal cover slide ═══════ -->
+<section class="tbr-page" id="tbrPage">
+  <div class="tbr-stage">
+    <h2>
+      Up <span class="accent">next</span>.
+    </h2>
+    <p class="tbr-deck">
+      Four books I'm itching to crack — heading to Europe soon, so I'm taking myself there on the page first.
+    </p>
+  </div>
+
+  <div class="tbr-shelf" id="tbrShelf"></div>
+</section>
+
+<!-- ═══════ END / COLOPHON FOOTER ═══════ -->
+<section class="end-page" id="endPage">
+  <div class="end-stage">
+    <h2>
+      A library of <span class="accent">one</span>.
+    </h2>
+    <p class="end-deck">
+      A reading list, updated as I read. Reviews are mine, not press copy. The dashboards page tracks what's currently open and where I am. The live shelf lives on Goodreads — usually a few books ahead of this page catching up.
+    </p>
+    <div class="end-columns">
+      <div class="end-col">
+        <span class="end-col-label">Read deeper</span>
+        <a href="fiction.html">Best of Fiction <span class="end-arrow">→</span></a>
+        <a href="nonfiction.html">Best of Nonfiction <span class="end-arrow">→</span></a>
+        <a href="bookstores.html">Bookstores by City <span class="end-arrow">→</span></a>
+        <a href="dashboards.html">Dashboards <span class="end-arrow">→</span></a>
+      </div>
+      <div class="end-col">
+        <span class="end-col-label">Follow</span>
+        <a href="https://substack.com/@codyheart" target="_blank" rel="noopener noreferrer">Substack <span class="end-arrow">↗</span></a>
+        <a href="https://www.goodreads.com/user/show/164877363-cody-heart" target="_blank" rel="noopener noreferrer">Goodreads <span class="end-arrow">↗</span></a>
+        <a href="mailto:hello@heartslibrary.com">Email <span class="end-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="end-footer">
+    <div class="left">A library of one. Franklin → Chicago.</div>
+    <div class="right">
+      <span>Compiled April 2026</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Back-to-top button — site.js's setupBackToTop wires it up.
+     Hidden until the user scrolls past 600px; smooth-scrolls
+     to top on click; shifts focus back to the wordmark for a11y. -->
+<button class="btn btn--icon back-to-top" id="backToTop"
+        type="button"
+        aria-label="Back to top"
+        aria-hidden="true">
+  <svg viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+    <path d="M9 14 V4 M4 9 L9 4 L14 9" />
+  </svg>
+</button>
+
+<script src="js/motion.js"></script>
+<script>
+  /* (Theme initialization, getCurrentTheme/setTheme, and the
+     toggle click handler all retired — site is now light-only.
+     The localStorage 'hl-theme' key is no longer read or written;
+     any stale value from prior sessions is harmless and will be
+     ignored.) */
+
+  /* ════════════════════════════════════════════════════════
+     NAV DROPDOWNS — click-to-toggle + Esc + outside-click
+     CSS handles hover/focus-within open/close on its own; this
+     layer covers touch users (no hover) and keyboard a11y. The
+     same helper lives in js/site.js for the secondary pages —
+     duplicated inline here because index.html doesn't load
+     site.js (it has its own monolithic inline script).
+     ════════════════════════════════════════════════════════ */
+  (function setupNavDropdowns() {
+    const items = document.querySelectorAll('.nav-item.has-dropdown');
+    if (!items.length) return;
+    function closeAll(except) {
+      items.forEach(it => {
+        if (it === except) return;
+        if (it.classList.contains('is-open')) {
+          it.classList.remove('is-open');
+          const tr = it.querySelector('.nav-trigger');
+          if (tr) tr.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+    items.forEach(item => {
+      const trigger = item.querySelector('.nav-trigger');
+      if (!trigger) return;
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = item.classList.toggle('is-open');
+        trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        if (isOpen) closeAll(item);
+      });
+      item.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          item.classList.remove('is-open');
+          trigger.setAttribute('aria-expanded', 'false');
+          trigger.focus();
+        }
+      });
+    });
+    document.addEventListener('click', (e) => {
+      const inside = e.target.closest('.nav-item.has-dropdown');
+      if (!inside) closeAll(null);
+    });
+  })();
+
+  /* ════════════════════════════════════════════════════════
+     BOOK DATA
+     ════════════════════════════════════════════════════════ */
+  // Relative path so covers load from the local /covers/ folder
+  // during preview and from /covers/ on the deployed site. Was the
+  // hardcoded heartslibrary.com URL — that ignored local file
+  // changes because the browser was fetching the deployed copy.
+  const COVER_BASE = "covers/";
+
+  const books = [
+    {
+      id: 1,
+      title: "Twelve Years a Slave",
+      subtitle: "A Slave Narrative",
+      author: "Solomon Northup",
+      cover: "12yearsaslave.jpg",
+      blurb: "A free Black man in 1841 New York is kidnapped and sold into Louisiana bondage. Northup kept his literacy secret for twelve years to survive. The account is unrelenting, and impossible to forget.",
+      review: "<p>Most of what most of us learned about slavery came filtered through somebody else's framing — a textbook, a movie, a museum that had to decide what to keep and what to leave out. This is the ground-level account, written by a man who was kidnapped from a free life in New York and spent twelve years being denied his name in Louisiana. He survived to write it. Most didn't.</p><p>What hits is how exact Northup is. He isn't making a case. He's making a record. Names, dates, prices paid for human beings, what was said in what room, what was done with the whip and why. He tells you what happened and lets the cumulative weight of the facts argue for him. The years pile up.</p><p>The book also corrects a particular kind of distance the United States has put between itself and slavery. We talk about it as past, as overcome, as something whose lessons have been integrated. Northup makes you reckon with the fact that this happened to specific people in specific rooms, that it had a daily texture and a daily ledger. The cruelty wasn't a system in the abstract. It was a person paying another person to do this to you on Tuesday.</p><p>I read it alongside the Malcolm X autobiography and Khalidi's Palestine book, and the same thing kept showing up. The people closest to the harm produce the clearest record, and the rest of us either go to that record or settle for somebody else's version. Northup is a strong case for going to the record. The book is short, the prose is plain, and you finish it knowing you cannot say you didn't know.</p>",
+      bookstore: { name: "Parnassus Books", city: "Nashville" },
+      meta: [{ label: "First Published", value: "1853" }, { label: "Pages", value: "336" }, { label: "Field", value: "Memoir" }],
+      authorBio: "A free Black man kidnapped from Saratoga Springs in 1841 and held in Louisiana bondage for twelve years. After his release he became an abolitionist speaker and witness in the trial of his kidnappers — they were acquitted. He disappeared from the historical record around 1857. No one knows where or how he died.",
+      authorWorks: []
+    },
+    {
+      id: 2,
+      title: "Lonesome Dove",
+      subtitle: "A novel",
+      author: "Larry McMurtry",
+      cover: "lonesomedove.jpg",
+      blurb: "Two aging Texas Rangers drive a cattle herd from the Rio Grande to Montana in the dying days of the frontier. The friendship between Gus and Call might be the truest thing in American fiction. Worth every one of its eight hundred pages.",
+      review: "<p>It's eight hundred pages of two old men riding north with cattle. That should be unbearable, and instead it's one of the few novels I've read three times. McMurtry's gift is patience. He lets the friendship between Gus and Call build at the speed it actually would, and never makes either of them say out loud what the other one means to them.</p><p>The cattle drive is the pretext. The book is really about long friendships — what they ask of you, what they cost, what you owe each other after forty years. McMurtry doesn't tell you that's what he's doing. He just keeps his camera on the men and lets you arrive at it.</p><p>The supporting cast is a mile deep. Lorena, Newt, Jake Spoon, Deets, Pea Eye — every one of them gets a real interior life. McMurtry treats secondary characters with the same patience he gives the leads. By the end you've lived with these people long enough that the way they speak becomes familiar, the way you'd know somebody's voice on the phone before they say their name.</p><p>It's also unsentimental about the frontier in a way most westerns aren't. The \"dying days\" framing doesn't get romanticized. It's a slow-motion description of land taken and people displaced, riders moving through somebody else's history without quite admitting it. McMurtry doesn't editorialize. He lets the events be what they are and trusts you to notice.</p><p>The book earns the length. None of it is wasted. Most \"long novel\" recommendations come from people performing literary virtue. This isn't that. This is the one I've read three times and would read again. The only thing I want to say to anyone who thinks they don't have time for an eight-hundred-page western is that you'll know within the first hundred pages whether McMurtry has you. He had me by page twenty.</p>",
+      bookstore: { name: "The Last Bookstore", city: "Los Angeles" },
+      meta: [{ label: "First Published", value: "1985" }, { label: "Pages", value: "843" }, { label: "Field", value: "Fiction" }],
+      authorBio: "Texas writer who turned out novels at industrial pace from 1961 until his death in 2021. <em>Lonesome Dove</em> was the masterpiece, but the smaller Texas books — <em>The Last Picture Show</em>, <em>Terms of Endearment</em> — are where his prose voice lives most clearly. Also ran a famous antiquarian bookstore in Archer City for decades.",
+      authorWorks: [
+        { title: "The Last Picture Show", year: "1966", href: "https://www.kobo.com/us/en/search?query=The+Last+Picture+Show+Larry+McMurtry" },
+        { title: "Terms of Endearment", year: "1975", href: "https://www.kobo.com/us/en/search?query=Terms+of+Endearment+Larry+McMurtry" },
+        { title: "All My Friends Are Going to Be Strangers", year: "1972", href: "https://www.kobo.com/us/en/search?query=All+My+Friends+Are+Going+to+Be+Strangers+McMurtry" },
+        { title: "Streets of Laredo", year: "1993", href: "https://www.kobo.com/us/en/search?query=Streets+of+Laredo+Larry+McMurtry" }
+      ]
+    },
+    {
+      id: 3,
+      title: "The Fire Next Time",
+      subtitle: "Two essays",
+      author: "James Baldwin",
+      cover: "thefirenexttime.jpg",
+      blurb: "Two essays on race, faith, and what America owes itself. Baldwin's 1963 letter to his nephew still lands like it was written this morning. Short, precise, and a book that does its work in under a hundred pages.",
+      review: "<p>Baldwin in 1963 sounds like Baldwin would sound today. That's the thing that hits. Sixty years later, the letter to his nephew is still the clearest-eyed thing I've read about being American, and most of what he's describing has barely shifted.</p><p>He assumes you're an adult capable of hearing hard things, then he tells you hard things in prose so beautiful you read it twice just for the cadence. The book is short because he doesn't waste a sentence. \"Down at the Cross,\" the second essay, goes after the Nation of Islam, Christianity, and what white America has done with its terror of being seen. He doesn't offer redemption. He offers the chance to look.</p><p>What I keep coming back to is how Baldwin handles love and rage in the same sentence. He's writing to a nephew he loves, in a country whose violence he hates, and he refuses to choose between the two registers. Most political writing collapses to one or the other — either tender appeals or pure indictment — and Baldwin keeps both lit at full brightness. That's the trick. That's why the book still works. Most writers who try to write like Baldwin pick the indictment and lose the love, and the result reads as performance.</p><p>One line in here keeps catching me, about the necessity of giving up cherished myths in order to become free. It's the same beat that hit me in the Malcolm autobiography, and Baldwin has it more honestly — he's asking for something that costs the reader, and he's clear-eyed that most readers won't pay it. The book is short. The cost isn't.</p>",
+      bookstore: { name: "Books Are Magic", city: "Brooklyn" },
+      meta: [{ label: "First Published", value: "1963" }, { label: "Pages", value: "106" }, { label: "Field", value: "Essays" }],
+      authorBio: "Born 1924 in Harlem, died 1987 in Saint-Paul-de-Vence. Wrote with the rhythm of a Pentecostal preacher and the precision of a French essayist. Probably the most important American prose stylist of the twentieth century, and the model for what an essayist who was also a citizen could sound like.",
+      authorWorks: [
+        { title: "Notes of a Native Son", year: "1955", href: "https://www.kobo.com/us/en/search?query=Notes+of+a+Native+Son+Baldwin" },
+        { title: "Go Tell It on the Mountain", year: "1953", href: "https://www.kobo.com/us/en/search?query=Go+Tell+It+on+the+Mountain+Baldwin" },
+        { title: "Giovanni's Room", year: "1956", href: "https://www.kobo.com/us/en/search?query=Giovanni%27s+Room+Baldwin" },
+        { title: "Another Country", year: "1962", href: "https://www.kobo.com/us/en/search?query=Another+Country+Baldwin" }
+      ]
+    },
+    {
+      id: 4,
+      title: "Between the World and Me",
+      subtitle: "A letter to his son",
+      author: "Ta-Nehisi Coates",
+      cover: "betweentheworldandme.jpg",
+      blurb: "A father's letter to his son on inhabiting a Black body in America. Coates writes with the grief of a parent and the clarity of a lifetime spent on this question. Doesn't offer comfort. Not the point.",
+      review: "<p>Coates is doing something specific here — writing to his son, but also writing to readers like me who are not his son. The letter form lets him be tender in a way that an essay can't, and direct in a way that fiction can't. The book is short because it doesn't waste a sentence.</p><p>I came to it expecting argument. What I got was grief. Coates is mourning, in real time, what it has cost him to raise a Black boy into the country we live in. He doesn't ask the reader to do anything. He asks the reader to stop pretending the cost isn't real.</p><p>There's a specific texture to grief on the page that most American nonfiction doesn't allow itself. We tend to want our writers either angry or instructive — to land on a thesis, to give us next steps. Coates refuses the format. He's written something that sits closer to a eulogy, and he keeps it there because the situation he's writing about hasn't ended. You don't get to grieve and then get on with it. Grief is the form.</p><p>It's a corrective to a particular kind of conversation that wants tidy resolution — that wants Coates to land on hope, or strategy, or what-do-we-do-now. He doesn't. The book ends where it ends because that's where the honest sentence stops. If you want the next move, that's on you.</p>",
+      bookstore: { name: "The Strand", city: "New York" },
+      meta: [{ label: "First Published", value: "2015" }, { label: "Pages", value: "152" }, { label: "Field", value: "Memoir" }],
+      authorBio: "Atlantic essayist turned novelist, born in Baltimore. The reparations essay (2014) is the piece of magazine writing his generation will be remembered for. He's been writing in book-length form since, working out the same questions about American history at greater range.",
+      authorWorks: [
+        { title: "We Were Eight Years in Power", year: "2017", href: "https://www.kobo.com/us/en/search?query=We+Were+Eight+Years+in+Power+Coates" },
+        { title: "The Beautiful Struggle", year: "2008", href: "https://www.kobo.com/us/en/search?query=The+Beautiful+Struggle+Coates" },
+        { title: "The Water Dancer", year: "2019", href: "https://www.kobo.com/us/en/search?query=The+Water+Dancer+Coates" },
+        { title: "The Message", year: "2024", href: "https://www.kobo.com/us/en/search?query=The+Message+Ta-Nehisi+Coates" }
+      ]
+    },
+    {
+      id: 5,
+      title: "Demon Copperhead",
+      subtitle: "A novel",
+      author: "Barbara Kingsolver",
+      cover: "demoncopperhead.jpg",
+      blurb: "Dickens' <em>David Copperfield</em> reset in opioid-era Appalachia — a foster kid's first-person account of getting chewed up by systems that were never built to protect him. Earns every inch of its Pulitzer.",
+      review: "<p>Kingsolver took the David Copperfield frame and dropped it into Lee County, Virginia in the worst years of the opioid crisis. That could have been gimmicky. Instead it's a 560-page argument that systems built to protect kids — foster care, schools, medicine, the law — are mostly built to process them, and the processing is what shapes the lives.</p><p>The narrator's voice is the whole game. He's a kid who's read enough to know how he's getting played by every adult institution around him, bitter enough to say so out loud, and funny enough to keep you with him for 560 pages. Kingsolver is a good enough writer to never flatten Appalachia into ruin porn. These are real lives, drawn with care.</p><p>One of the things the book does well is refuse the easy distinction between people who deserve help and people who don't. The opioid crisis is full of writing that quietly lets the reader off the hook by sorting people into worthy victims and unworthy ones. Kingsolver doesn't allow it. The kid is funny and sharp and also makes bad decisions, and the bad decisions don't stop the empathy, and the empathy doesn't soften the bad decisions. Both stay true.</p><p>It's a sad book that isn't a hopeless one. The hope is structural — there's love in here, between people who try imperfectly to be there for each other. That's what the book wants you to notice. Whether the systems can be made to do better is a question it leaves open. Honestly, I think that's the right place to leave it.</p><p>If you grew up around any of this, the book is going to be familiar in a way that hurts. If you didn't, it's going to be educational in a way that hurts differently. Either way, you don't come out the other side neutral. That's the point.</p>",
+      bookstore: { name: "57th Street Books", city: "Chicago" },
+      meta: [{ label: "First Published", value: "2022" }, { label: "Pages", value: "560" }, { label: "Field", value: "Fiction" }],
+      authorBio: "Kentuckian, biologist by training, has been publishing novels since 1988. <em>Demon Copperhead</em> won her a second Pulitzer. <em>The Poisonwood Bible</em> is the one that made her name. Writes the rural American landscape with the patience of a field naturalist who's also an angry one.",
+      authorWorks: [
+        { title: "The Poisonwood Bible", year: "1998", href: "https://www.kobo.com/us/en/search?query=The+Poisonwood+Bible+Kingsolver" },
+        { title: "Prodigal Summer", year: "2000", href: "https://www.kobo.com/us/en/search?query=Prodigal+Summer+Kingsolver" },
+        { title: "The Lacuna", year: "2009", href: "https://www.kobo.com/us/en/search?query=The+Lacuna+Kingsolver" },
+        { title: "Flight Behavior", year: "2012", href: "https://www.kobo.com/us/en/search?query=Flight+Behavior+Kingsolver" }
+      ]
+    },
+    {
+      id: 6,
+      title: "East of Eden",
+      subtitle: "A novel",
+      author: "John Steinbeck",
+      cover: "eastofeden.jpg",
+      blurb: "Two California families retrace the Cain-and-Abel story across three generations. Steinbeck's widest canvas — the one where he tries to say everything he knows about inherited sin and free will. Timshel.",
+      review: "<p>Steinbeck thought it was the only book he'd written. You can feel that on every page — the ambition is enormous, the canvas is enormous, and the question (can a person choose to be good?) is enormous. He's swinging for the fences and mostly connecting.</p><p>The character of Cathy Ames is one of the most quietly disturbing things in American fiction. Lee, the Trask family's housekeeper, is one of the most quietly luminous. The book lives in the gap between those two — between the human capacity for evil and the human capacity to choose otherwise — and Steinbeck doesn't pretend that gap closes easily.</p><p>Lee is the character I think about most. He's the moral intelligence of the book, mostly working in the background, and Steinbeck gives him conversations that stop the novel cold for ten or twenty pages while three men sit in a kitchen and try to translate a Hebrew word correctly. That kind of digression should be unforgivable in a 600-page novel. Steinbeck makes it the spine. He believes the question is worth that long a stop.</p><p><em>Timshel</em> — \"thou mayest\" — is the word the book turns on. The choice is always yours, even when the inheritance is brutal. I think about it constantly. There's something American about that as a frame — the insistence on free will, sometimes against the evidence — and Steinbeck makes the case for it without pretending the evidence isn't there.</p><p>The book is also about California in a way that gets less attention than it should. Steinbeck wrote California the way Faulkner wrote Mississippi — as a place where the land itself is part of the moral argument. The Salinas Valley shapes the people, and the people shape themselves in response, and you can't separate the two. The first hundred pages are essentially geography, and they earn it.</p><p>I read it the year I left California for the South. I think that timing is part of why the book stayed with me. <em>East of Eden</em> is about leaving and being left, about what gets passed down whether you want it or not, about the work of choosing well inside an inheritance you didn't choose. That's a question I'm not done with. I don't think Steinbeck thought he was either.</p>",
+      bookstore: { name: "City Lights", city: "San Francisco" },
+      meta: [{ label: "First Published", value: "1952" }, { label: "Pages", value: "601" }, { label: "Field", value: "Fiction" }],
+      authorBio: "Salinas Valley by birth, Nobel laureate by 1962. Spent his career writing about working people in California — fruit pickers, ranch hands, displaced families — and made the case for them in prose plain enough to be quoted in church. <em>East of Eden</em> is his widest canvas.",
+      authorWorks: [
+        { title: "The Grapes of Wrath", year: "1939", href: "https://www.kobo.com/us/en/search?query=The+Grapes+of+Wrath+Steinbeck" },
+        { title: "Of Mice and Men", year: "1937", href: "https://www.kobo.com/us/en/search?query=Of+Mice+and+Men+Steinbeck" },
+        { title: "Cannery Row", year: "1945", href: "https://www.kobo.com/us/en/search?query=Cannery+Row+Steinbeck" },
+        { title: "Travels with Charley", year: "1962", href: "https://www.kobo.com/us/en/search?query=Travels+with+Charley+Steinbeck" }
+      ]
+    },
+    {
+      id: 7,
+      title: "Project Hail Mary",
+      subtitle: "A novel",
+      author: "Andy Weir",
+      cover: "projecthailmary.jpg",
+      blurb: "A lone astronaut wakes up light-years from home with one job: save the sun. Weir makes orbital mechanics and xenobiology feel like the plot — funny, earnest, and the friendship at the center blindsided me.",
+      review: "<p>I went in expecting <em>The Martian</em> in space and got something completely different. Weir builds the science meticulously — there's a stretch around the middle where the physics is the suspense, somehow — and the book turns on a friendship I won't describe so I don't ruin it.</p><p>I closed the book and immediately wanted to call somebody. It's a science fiction novel that's secretly about loneliness, and what another mind can mean when there's no one else around to think with. Earnest in the best way.</p><p>It also belongs to the optimistic-engineering register that's hard to find right now in fiction. Most current sci-fi is either dystopian or knowing-cynical. Weir is just guy-who-likes-orbital-mechanics, sincerely problem-solving his way through. There's room for that. More than I expected.</p><p>I'd give this one to anyone going through a hard time. It's not heavy in the way most \"smart\" fiction is. It's heavy in a different way — about how the small acts of trying to figure something out together are maybe what most of being alive is. Weir is unfashionable for caring about that. I respect him for caring anyway.</p>",
+      bookstore: { name: "Green Apple Books", city: "San Francisco" },
+      meta: [{ label: "First Published", value: "2021" }, { label: "Pages", value: "476" }, { label: "Field", value: "Sci-Fi" }],
+      authorBio: "Software engineer who self-published <em>The Martian</em> as a serial on his blog before it became a movie. Writes hard-science thrillers for people who want the math to actually work. Lives in California and apparently still does the orbital calculations himself.",
+      authorWorks: [
+        { title: "The Martian", year: "2011", href: "https://www.kobo.com/us/en/search?query=The+Martian+Andy+Weir" },
+        { title: "Artemis", year: "2017", href: "https://www.kobo.com/us/en/search?query=Artemis+Andy+Weir" }
+      ]
+    },
+    {
+      id: 8,
+      title: "The Autobiography of Malcolm X",
+      subtitle: "As told to Alex Haley",
+      author: "Malcolm X",
+      cover: "autobiographyofmalcolmx.jpg",
+      blurb: "From Lansing hustler to civil-rights preacher, in his own voice. Malcolm's arc is the closest American history has to a self-reinvention myth — except he actually did it, repeatedly. A case for reading the primary source.",
+      review: "<p>Regardless of how you feel about Malcolm X, this autobiography is brutally honest. Like many other reviewers, I do not agree with his views on women or many of his other beliefs. What I do admire is his devotion to reading and education, his openness to new ideas, his exploration of other cultures, the clarity of his truth, and above all his curiosity. He consistently took in new information and changed his beliefs over time. If you approach the book with the same curiosity, you can also find moments (through looking online) where he speaks positively about women and women's rights. His life was taken before he had the chance to continue evolving on that front. Regardless of the specifics of his beliefs, Malcolm comes across as more human than many public figures who followed him.</p><p>While reading this alongside other books on slavery, a few things became very clear to me. For hundreds of years, Black Americans were enslaved, tortured, separated, segregated, brutalized, lynched, and systematically dehumanized. The word slavery does not fully capture the scale or cruelty of what occurred. It is one of the most inhumane chapters in human history. It is not something that becomes acceptable with time, nor something that disappears with a national apology, a holiday, or a celebration of Martin Luther King Jr. It is a permanent scar on American history. Arguments that slavery still exists elsewhere in the world or that America has made progress often function as distractions from fully accepting and emotionally integrating what was done and what continues to be done to Black Americans.</p><p>It also became clear to me that later generations are, in effect, asking those who were harmed to sit at the table with them. Malcolm uses a version of this analogy in the book, and it stuck with me. It is like being stabbed repeatedly, surviving, healing, and being left with scars, only to be asked to share dinner every night with the person who stabbed you.</p><p>I keep returning to the question of what you do with something that feels unforgivable. I do not have a clean answer, but the question itself seems central to conversations about slavery, civil rights, and America as a whole. Sitting with that unanswered question helped me better understand Malcolm's perspective and many of his statements about the American nightmare, capitalism, and racism. By the end of the book, one conclusion Malcolm seems to reach is that living alongside the person who stabbed you is not possible in any way currently imagined. At that point of tension, both individuals and societies face what James Baldwin described when he wrote that real change requires the loss of safety, identity, and long-held illusions. Only by surrendering cherished dreams or privileges, without bitterness or self-pity, can people become free for something greater.</p><p>Malcolm repeatedly said he was not for violence but for self-defense. The problem is that if the conflict between white America and Black America is not only historical but ongoing, then violence becomes predictable. This is what I ultimately took away. Malcolm was not advocating violence so much as describing what inevitably follows from the conditions he observed.</p><p>This book stirred up many more thoughts, but I will leave it there.</p>",
+      bookstore: { name: "Source Booksellers", city: "Detroit" },
+      meta: [{ label: "First Published", value: "1965" }, { label: "Pages", value: "527" }, { label: "Field", value: "Memoir" }],
+      authorBio: "Born Malcolm Little in Omaha, 1925. Hustler, prison convert, Nation of Islam minister, Muslim pilgrim, civil-rights speaker. Assassinated in Manhattan in 1965, two weeks before his thirty-ninth birthday. The autobiography, dictated to Alex Haley over two years of interviews, is the primary source.",
+      authorWorks: [
+        { title: "Malcolm X Speaks", year: "1965", href: "https://www.kobo.com/us/en/search?query=Malcolm+X+Speaks" },
+        { title: "By Any Means Necessary", year: "1970", href: "https://www.kobo.com/us/en/search?query=By+Any+Means+Necessary+Malcolm+X" },
+        { title: "The End of White World Supremacy", year: "1971", href: "https://www.kobo.com/us/en/search?query=End+of+White+World+Supremacy+Malcolm+X" }
+      ]
+    },
+    {
+      id: 9,
+      title: "Stoner",
+      subtitle: "A novel",
+      author: "John Williams",
+      cover: "stoner.jpg",
+      blurb: "The quiet life of a Missouri farmhand turned English professor. Almost nothing happens, and somehow everything does. Small, devastating, and the best case I've read for why literary fiction earns its place.",
+      review: "<p>The premise is almost a joke. A man's whole life, told in 280 pages, in which essentially nothing of consequence happens. He marries badly, raises a daughter he loves, teaches Latin literature to undergraduates who don't care. That's it.</p><p>By the last twenty pages I was wrecked. Williams wrote this as a quiet study of integrity — a man who tries, again and again, to do his work honestly against people and forces who don't think his work matters. The book makes the case that doing the work honestly is its own argument, even when no one is keeping score. Especially then.</p><p>It's also one of the great novels about institutional small-mindedness. The university Stoner spends his career at is a regular American university — petty, political, occasionally generous, mostly indifferent — and Williams has the patience to draw the institutional weather day by day. He doesn't make it dramatic. He just makes it real. If you've ever worked at a place long enough to know its weather, the book will feel uncomfortably accurate.</p><p>I press it into people's hands when they ask me what literary fiction is for. It's also a strange recovery story. Williams died in 1994 and almost nobody read this while he was alive. NYRB Classics reissued it twenty years later and it became one of the great recovered novels. Sometimes the work is right and the moment is wrong, and you have to make peace with both halves of that.</p><p>There's a particular kind of reader for this book. If you have ever cared about doing something well that nobody is going to thank you for — the right thing in your job, the right thing in your marriage, the right thing in a piece of work no one will read — you will recognize Stoner. He's not a hero in any conventional sense. He's just a man who keeps showing up. That's enough for the book, and by the end, it's enough for you.</p>",
+      bookstore: { name: "Three Lives & Company", city: "New York" },
+      meta: [{ label: "First Published", value: "1965" }, { label: "Pages", value: "278" }, { label: "Field", value: "Fiction" }],
+      authorBio: "Texas-born, taught literature at the University of Denver for thirty years. Wrote four novels that almost nobody read while he was alive. <em>Stoner</em> was rediscovered in 2003 — twenty years after his death — and has since become one of the great recovered novels of the century.",
+      authorWorks: [
+        { title: "Augustus", year: "1972", href: "https://www.kobo.com/us/en/search?query=Augustus+John+Williams" },
+        { title: "Butcher's Crossing", year: "1960", href: "https://www.kobo.com/us/en/search?query=Butcher%27s+Crossing+John+Williams" },
+        { title: "Nothing But the Night", year: "1948", href: "https://www.kobo.com/us/en/search?query=Nothing+But+the+Night+John+Williams" }
+      ]
+    },
+    {
+      id: 10,
+      title: "The Hundred Years' War on Palestine",
+      subtitle: "A History of Settler Colonialism and Resistance, 1917–2017",
+      author: "Rashid Khalidi",
+      cover: "thehundredyearswaronpalestine.jpg",
+      blurb: "A Palestinian historian's century-long account of settler colonialism and resistance. Khalidi draws on family letters, political records, and decades of scholarship to trace what has actually happened since 1917. Essential if you want the full record, not a soundbite.",
+      review: "<p>Khalidi is doing two things at once — laying out a hundred-year political history with the rigor of a working historian, and naming his own family's place in it. His great-great-uncle was the mayor of Jerusalem in 1899 who wrote to Theodor Herzl. His father was a Palestinian diplomat. The book carries the weight of both archive and inheritance, and that combination is what makes it different from most histories of the conflict.</p><p>The structure is six \"declarations of war\" — Balfour, the Nakba, '67, '82, the Oslo years, Gaza. Each chapter shows how the same machinery has produced the same results across a century. It's not a polemic. It's the record. Khalidi keeps his temperature low and lets the documents do the work, which is exactly what gives the book its weight.</p><p>The argument the structure makes — without ever stating it as an argument — is that this isn't a tragedy of misunderstanding. It's a sequence of decisions. People in specific rooms made specific choices, and the documents survive. Khalidi reads the documents. He doesn't editorialize on them. He doesn't have to. Once you see the pattern, the pattern names itself.</p><p>One of the things I appreciate about the book is what it doesn't do. It doesn't ask you to take a side. It assumes you can read the record and draw your own conclusions, and if your conclusions don't match what the consensus has told you the conclusions should be, that is a question for the consensus, not for the record. That's an unusual posture in current writing on Palestine. It's also the right one.</p><p>I read it next to the Malcolm autobiography and Northup's memoir, and the same thing keeps showing up: the people closest to the harm produce the clearest record. The rest of us either go to that record or settle for somebody else's version. Khalidi makes the case that the record on Palestine is available to anyone willing to read it. The reasons most people haven't aren't reasons of evidence.</p><p>If you want to hold a real conversation about Palestine — not a soundbite version, not a comments-section version — this is one of the books to read first. It assumes you can handle history that doesn't flatter the side you're on. It rewards readers willing to sit with what the record actually says.</p>",
+      bookstore: { name: "Skylight Books", city: "Los Angeles" },
+      meta: [{ label: "First Published", value: "2020" }, { label: "Pages", value: "319" }, { label: "Field", value: "History" }],
+      authorBio: "Palestinian-American historian, Edward Said Professor of Modern Arab Studies at Columbia until 2020. Member of one of Jerusalem's oldest scholar families — his great-great-uncle was the mayor who wrote to Theodor Herzl in 1899. <em>The Hundred Years' War</em> is the career-summarizing book.",
+      authorWorks: [
+        { title: "Palestinian Identity", year: "1997", href: "https://www.kobo.com/us/en/search?query=Palestinian+Identity+Khalidi" },
+        { title: "Resurrecting Empire", year: "2004", href: "https://www.kobo.com/us/en/search?query=Resurrecting+Empire+Khalidi" },
+        { title: "The Iron Cage", year: "2007", href: "https://www.kobo.com/us/en/search?query=The+Iron+Cage+Khalidi" },
+        { title: "Brokers of Deceit", year: "2013", href: "https://www.kobo.com/us/en/search?query=Brokers+of+Deceit+Khalidi" }
+      ]
+    }
+  ];
+
+  /* TBR — the four "itching to crack" books from Cody's live site.
+     Same shape as shortlist but lighter — just enough to identify each
+     and a one-line "why" that signals anticipation, not analysis. */
+  const tbr = [
+    {
+      title: "The Last Lion",
+      subtitle: "Visions of Glory",
+      author: "William Manchester",
+      cover: "the-last-lion.jpg",
+      why: "Manchester on Churchill, vol. one. Saving it for a long flight."
+    },
+    {
+      title: "London Falling",
+      author: "Patrick Radden Keefe",
+      cover: "london-falling.jpg",
+      why: "Radden Keefe on the city that's about to be under my feet."
+    },
+    {
+      title: "Adventures in the Louvre",
+      author: "Elaine Sciolino",
+      cover: "adventures-in-the-louvre.jpg",
+      why: "Reading on the train to Paris. Sciolino as my docent."
+    },
+    {
+      title: "The Count of Monte Cristo",
+      author: "Alexandre Dumas",
+      cover: "count-of-monte-cristo.jpg",
+      why: "The brick I keep promising myself. This is the year."
+    }
+  ];
+
+  /* ════════════════════════════════════════════════════════
+     BOOK COLOR PALETTE — one printed-paper color per book
+
+     Mental model: each section is the cover, expanded to fill the
+     screen. The book's mood becomes the room you're reading it in.
+     Pelican Books / Penguin Classics / serious nonfiction jacket
+     lineage. Mid-saturated, slightly warm, ink-on-uncoated-stock.
+     Hard cuts between sections — no transitions, no fades.
+
+     Each book gets:
+       bg     — the full-bleed panel color
+       fg     — body type color tuned for legibility on bg
+       accent — kicker rules, drop cap, accent type, hover states
+
+     These don't change with theme. The book's identity IS the
+     book's color. The theme toggle still affects non-book sections
+     (chapter title, TBR, end-stage) via the body's --paper backdrop.
+     ════════════════════════════════════════════════════════ */
+  const BOOK_COLORS = {
+    // 12 Years a Slave — burnt umber, archival document weight,
+    // the color of an old leather-bound abolitionist edition.
+    1:  { bg: '#3d2818', fg: '#e8d9b8', accent: '#c8915a' },
+
+    // Lonesome Dove — weathered saddle leather, dust-on-canvas.
+    // Darkened and desaturated from the previous bright rust so it
+    // sits with the rest of the palette: dusty Texas earth instead
+    // of fresh paint.
+    2:  { bg: '#6e3818', fg: '#f0e4cd', accent: '#f5e6c8' },
+
+    // The Fire Next Time — deep brick red, civil-rights era poster
+    // confidence settled into uncoated stock. Differentiated from
+    // the East of Eden oxblood (more red-purple) by its slight
+    // orange lean — reads as painted brick wall, not leather.
+    3:  { bg: '#7a2820', fg: '#f0e4cd', accent: '#f0e4cd' },
+
+    // Between the World and Me — deep ink navy. Modern, urgent,
+    // quiet. The cover of the original hardback essentialized.
+    4:  { bg: '#1f2530', fg: '#dcd8d0', accent: '#b89868' },
+
+    // Demon Copperhead — weathered green-grey, Appalachian
+    // hillside in late winter, lichen on board-and-batten siding.
+    5:  { bg: '#4a5e54', fg: '#e8e4d6', accent: '#d8b878' },
+
+    // East of Eden — deep oxblood. Leather-bound Penguin Classics,
+    // the long American canvas Steinbeck swung at.
+    6:  { bg: '#5a1a18', fg: '#e8d8a8', accent: '#d4b878' },
+
+    // Project Hail Mary — deep teal. 1960s NASA report cover,
+    // more Bell Labs than spaceship. Darkened from the previous
+    // brighter teal so it sits in the same value range as the
+    // other panels; differentiated from Between the World's navy
+    // by being clearly more cyan-leaning, less black.
+    7:  { bg: '#244a52', fg: '#e8e4d6', accent: '#d8c8a8' },
+
+    // The Autobiography of Malcolm X — black with a red undertone.
+    // Heavy. The Grove Press paperback edition register.
+    8:  { bg: '#1f1410', fg: '#dcd0bc', accent: '#b85040' },
+
+    // Stoner — vellum/olive. The dust on a faculty office bookshelf.
+    // NYRB Classics quiet.
+    9:  { bg: '#5a4e3a', fg: '#e4ddd0', accent: '#b89878' },
+
+    // The Hundred Years' War on Palestine — desert ochre,
+    // archival-document weight, Levantine earth tones.
+    10: { bg: '#7a5a30', fg: '#f0e4cd', accent: '#f5e6c8' }
+  };
+
+  function applyBookColor(book) {
+    const c = BOOK_COLORS[book.id];
+    if (!c) {
+      console.warn(`No book color mapping for book id ${book.id}`);
+      return Promise.resolve();
+    }
+    book.bg = c.bg;
+    book.fg = c.fg;
+    book.accent = c.accent;
+    book.colorReady = true;
+    return Promise.resolve();
+  }
+
+  // Kept under the original name so existing call sites (Promise.all
+  // at page boot and before setupScrollAnimations) don't need rewiring.
+  function extractGradient(book) {
+    return applyBookColor(book);
+  }
+
+  /* ════════════════════════════════════════════════════════
+     PURCHASE-LINK HELPERS
+     Each book lists three places to find it: Kobo (eBook), an
+     indie bookstore tied to the city the book belongs to, and
+     Libby (the OverDrive library app) for a free hold. The
+     bookstore URL is per-shop — we keep a name → search-URL map
+     so adding a new bookstore is a one-line entry. The query is
+     URL-encoded title + author.
+     ════════════════════════════════════════════════════════ */
+
+  // Bookstore name → { home, search } map. `search` is a function
+  // that returns a deep-link search URL for a given query string;
+  // when a shop's site doesn't have a clean search URL pattern,
+  // we fall back to `home`. Kept here (not on the books array) so
+  // the same shop linked from multiple books only needs one entry.
+  const BOOKSTORES = {
+    "Parnassus Books": {
+      home: "https://parnassusbooks.net",
+      search: q => `https://parnassusbooks.net/search/site/${encodeURIComponent(q)}`
+    },
+    "The Last Bookstore": {
+      home: "https://lastbookstorela.com",
+      search: q => `https://lastbookstorela.com/search?q=${encodeURIComponent(q)}&type=product`
+    },
+    "Books Are Magic": {
+      home: "https://www.booksaremagic.net",
+      search: q => `https://www.booksaremagic.net/search/site/${encodeURIComponent(q)}`
+    },
+    "The Strand": {
+      home: "https://www.strandbooks.com",
+      search: q => `https://www.strandbooks.com/search?keywords=${encodeURIComponent(q)}`
+    },
+    "57th Street Books": {
+      // 57th Street is operated by Seminary Co-op Bookstores; their
+      // shared search lives on semcoop.com.
+      home: "https://www.semcoop.com",
+      search: q => `https://www.semcoop.com/search/${encodeURIComponent(q)}`
+    },
+    "City Lights": {
+      home: "https://citylights.com",
+      search: q => `https://citylights.com/search/?query=${encodeURIComponent(q)}`
+    },
+    "Green Apple Books": {
+      home: "https://www.greenapplebooks.com",
+      search: q => `https://www.greenapplebooks.com/search/site/${encodeURIComponent(q)}`
+    },
+    "Source Booksellers": {
+      // Small site, no reliable search URL pattern — fall back to home.
+      home: "https://www.sourcebooksellers.com",
+      search: null
+    },
+    "Three Lives & Company": {
+      // Small site, no in-site search — fall back to home.
+      home: "https://www.threelives.com",
+      search: null
+    },
+    "Skylight Books": {
+      home: "https://www.skylightbooks.com",
+      search: q => `https://www.skylightbooks.com/search/site/${encodeURIComponent(q)}`
+    }
+  };
+
+  function bookstoreUrl(book) {
+    const shop = BOOKSTORES[book.bookstore.name];
+    if (!shop) return "#";
+    const q = `${book.title} ${book.author}`;
+    return shop.search ? shop.search(q) : shop.home;
+  }
+
+  // Libby is OverDrive's library e-book/audio app. There's no
+  // public search URL that works without a library context, so we
+  // route to libbyapp.com — the app entry point that lets the user
+  // pick their library and then search inside it. This is the
+  // standard "get this from the library" CTA on most reading sites.
+  function libbyUrl(_book) {
+    return "https://libbyapp.com";
+  }
+
+  /* ════════════════════════════════════════════════════════
+     RENDER — the page is built dynamically so we have one
+     source of truth for the books array.
+     ════════════════════════════════════════════════════════ */
+
+  // Apply each book's color (bg, fg, accent) before rendering so the
+  // template can reference b.bg / b.fg / b.accent inline. The function
+  // is synchronous despite returning a Promise (legacy signature).
+  books.forEach(applyBookColor);
+
+  // (Mini-shelf rendering retired — the chapter-shelf div was removed.
+  // Navigation into books happens via the index rail + scroll.)
+
+  // Render the 10 full book pages
+  const bookPagesContainer = document.getElementById('bookPages');
+  bookPagesContainer.innerHTML = books.map((b, i) => `
+    <section class="book-page" data-book="${b.id}" id="book-${b.id}" style="--book-bg: ${b.bg}; --page-fg: ${b.fg}; --page-accent: ${b.accent};">
+      <div class="book-page-cover-wrap">
+        <div class="book-page-cover-inner">
+          <div class="book-page-cover">
+            <img src="${COVER_BASE}${b.cover}" alt="${b.title} by ${b.author}" />
+          </div>
+        </div>
+      </div>
+      <div class="book-page-text">
+        <h2>${b.title}<span class="sub">${b.subtitle ? ': ' + b.subtitle : ''}</span></h2>
+        <div class="by"><span class="label">by</span> ${b.author} <span class="year">(${(b.meta.find(m => m.label === 'First Published') || {}).value || ''})</span></div>
+        <div class="divider"></div>
+        <div class="review-body">${b.review || ''}</div>
+        <div class="purchase-table">
+          <a href="https://www.kobo.com/us/en/search?query=${encodeURIComponent(b.title + ' ' + b.author)}" target="_blank" rel="noopener noreferrer" class="purchase-row">
+            <span class="source"><span>Kobo</span><span class="price">eBook</span></span>
+            <span class="arrow-out">↗</span>
+          </a>
+          <a href="${bookstoreUrl(b)}" target="_blank" rel="noopener noreferrer" class="purchase-row">
+            <span class="source"><span>${b.bookstore.name}</span><span class="price">${b.bookstore.city}</span></span>
+            <span class="arrow-out">↗</span>
+          </a>
+          <a href="${libbyUrl(b)}" target="_blank" rel="noopener noreferrer" class="purchase-row">
+            <span class="source"><span>Libby</span><span class="price">Library hold</span></span>
+            <span class="arrow-out">↗</span>
+          </a>
+        </div>
+      </div>
+      <div class="book-page-author">
+        <div class="kicker">About the Author</div>
+        <div class="author-name">${b.author}</div>
+        <p class="author-bio">${b.authorBio || ''}</p>
+        ${b.authorWorks && b.authorWorks.length ? `
+          <div class="author-works">
+            <span class="works-label">Also by ${b.author.split(' ').slice(-1)[0]}</span>
+            <ul class="works-list">
+              ${b.authorWorks.map(w => `
+                <li>
+                  <a href="${w.href}" target="_blank" rel="noopener noreferrer">
+                    <span class="work-info"><span class="work-title">${w.title}</span><span class="work-year">${w.year}</span></span>
+                    <span class="work-arrow">↗</span>
+                  </a>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+        ` : ''}
+      </div>
+    </section>
+  `).join('');
+
+  // Render the index rail ticks
+  const ticksEl = document.getElementById('ticks');
+  ticksEl.innerHTML = books.map(b =>
+    `<button class="tick" data-tick="${b.id}" aria-label="Go to ${b.title}"></button>`
+  ).join('');
+
+  // Helper — scroll to a book page through Lenis when available
+  // so ticks/mini-shelf clicks ride the same easing as user scroll.
+  function jumpToBook(id) {
+    const target = document.getElementById(`book-${id}`);
+    if (!target) return;
+    if (window.HL && window.HL.motion && window.HL.motion.scrollTo) {
+      window.HL.motion.scrollTo(target, { duration: 1.6 });
+    } else {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // Click ticks to jump
+  ticksEl.querySelectorAll('.tick').forEach(t => {
+    t.addEventListener('click', () => jumpToBook(+t.dataset.tick));
+  });
+
+  // (Mini-shelf click handlers retired — the shelf was removed.
+  // Tick rail clicks above are now the sole TOC affordance.)
+
+  // Render TBR shelf — the four "itching to crack" books
+  const tbrShelf = document.getElementById('tbrShelf');
+  tbrShelf.innerHTML = tbr.map(b => `
+    <a href="#" class="tbr-book" aria-label="${b.title} by ${b.author}">
+      <div class="tbr-cover">
+        <img src="${COVER_BASE}${b.cover}" alt="${b.title} by ${b.author}" loading="lazy" />
+      </div>
+      <div class="tbr-meta">
+        <div class="tbr-title">${b.title}${b.subtitle ? `: ${b.subtitle}` : ''}</div>
+        <div class="tbr-author">${b.author}</div>
+        <div class="tbr-why">${b.why}</div>
+      </div>
+    </a>
+  `).join('');
+
+  /* ════════════════════════════════════════════════════════
+     ACTIVE BOOK — book colors are baked into each section's
+     inline style at render time, so there's nothing to morph
+     here. The "active" concept now only drives the index rail
+     state (current number, active tick).
+     ════════════════════════════════════════════════════════ */
+  const railNum = document.getElementById('railNum');
+  const indexRail = document.getElementById('indexRail');
+  let currentActiveBook = null;
+
+  function updateAtmosphere(id) {
+    const b = books.find(x => x.id === id);
+    if (!b) return;
+    // Update rail num indicator
+    railNum.innerHTML = `${String(id).padStart(2, '0')} <span class="of">/ 10</span>`;
+    // Update active tick
+    ticksEl.querySelectorAll('.tick').forEach(t => {
+      t.classList.toggle('active', +t.dataset.tick === id);
+    });
+    // Match the rail's color to the active book's foreground (always
+    // a cream tone designed to read on the book's dark panel). On
+    // light theme this is what keeps the rail visible — without it,
+    // --ink is dark and gets eaten by the colored panel beneath.
+    indexRail.style.color = b.fg;
+  }
+
+  function clearActiveBook() {
+    currentActiveBook = null;
+    railNum.innerHTML = '— <span class="of">of 10</span>';
+    ticksEl.querySelectorAll('.tick').forEach(t => t.classList.remove('active'));
+    // Reset rail color so it falls back to the CSS rule (--ink),
+    // which is theme-responsive — correct for the chapter title /
+    // TBR / end-stage sections that use --paper as their background.
+    indexRail.style.color = '';
+  }
+
+  /* ════════════════════════════════════════════════════════
+     MOTION UTILITIES
+     ════════════════════════════════════════════════════════ */
+
+  // Honor the user's OS-level "reduce motion" preference.
+  // When true, we skip word-splitting (text renders normally) and
+  // also tell GSAP to instant-set instead of animate.
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /**
+   * Split a node's text into word-spans for reveal animation.
+   * Wraps each word in <span class="word"><span class="word-inner">…</span></span>.
+   *
+   * For element children (like <span class="accent"> or <em>) we recurse:
+   * each word inside the child gets the child's tag and classes, so styling
+   * (color, italic, weight) is preserved per-word and the words still split
+   * individually for staggered reveal.
+   *
+   * Why we DIY this instead of using SplitText: SplitText is paid Club GSAP.
+   * Word-level splitting is straightforward; the look is identical for
+   * word-level reveals. The trade-off: no free line-splitting, so for body
+   * copy we use word-stagger (still reads as continuous prose at small
+   * stagger values like 0.018s).
+   *
+   * Returns the array of inner spans so the caller can target them with GSAP.
+   */
+  function splitWords(el) {
+    if (!el || prefersReducedMotion) return [];
+
+    const innerSpans = [];
+
+    // Wrap a single text token (a word) in our reveal-ready structure.
+    // Optionally the word's content can be wrapped in a styling element
+    // (e.g. <em>, <span class="accent">) cloned from the parent so styling
+    // stays attached.
+    const makeWord = (text, styleTagName, styleClassName) => {
+      const word = document.createElement('span');
+      word.className = 'word';
+      const inner = document.createElement('span');
+      inner.className = 'word-inner';
+      if (styleTagName) {
+        const styled = document.createElement(styleTagName);
+        if (styleClassName) styled.className = styleClassName;
+        styled.textContent = text;
+        inner.appendChild(styled);
+      } else {
+        inner.textContent = text;
+      }
+      word.appendChild(inner);
+      innerSpans.push(inner);
+      return word;
+    };
+
+    // Walk the children. Text nodes get split on whitespace.
+    // Element nodes have their own text walked recursively, with each
+    // contained word wearing a clone of the element's tag + class so
+    // styling (color, italic, etc.) stays attached.
+    const processNode = (node, parent, styleTagName = null, styleClassName = null) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent;
+        // Split on whitespace, preserving the whitespace as text nodes
+        // so multiple spaces / non-breaking spaces survive intact.
+        const tokens = text.split(/(\s+)/);
+        tokens.forEach(token => {
+          if (token === '') return;
+          if (/^\s+$/.test(token)) {
+            parent.appendChild(document.createTextNode(token));
+            return;
+          }
+          parent.appendChild(makeWord(token, styleTagName, styleClassName));
+        });
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        // Recurse into element children. Each word inside this element
+        // will carry the element's tag + class on a per-word wrapper.
+        // Note: this assumes a single level of styling nesting, which
+        // covers all our usage (no nested <em><span>…</span></em>).
+        const tag = node.tagName.toLowerCase();
+        const cls = node.className || null;
+        Array.from(node.childNodes).forEach(child => {
+          processNode(child, parent, tag, cls);
+        });
+      }
+    };
+
+    // Snapshot children first because we'll be replacing them
+    const original = Array.from(el.childNodes);
+    el.innerHTML = '';
+    original.forEach(child => processNode(child, el));
+
+    return innerSpans;
+  }
+
+  /**
+   * Wrap a horizontal-line element (the small `<span class="dash"></span>`,
+   * a divider, etc.) in a draw-line wrapper so we can scaleX it in.
+   * If the element is already wrapped or the user prefers reduced motion,
+   * does nothing.
+   */
+  function makeDrawable(el) {
+    if (!el || prefersReducedMotion) return null;
+    if (el.classList.contains('draw-line')) return el;
+    el.classList.add('draw-line');
+    return el;
+  }
+
+  /* ════════════════════════════════════════════════════════
+     GSAP / SCROLLTRIGGER — the motion architecture
+     Each book section is "pinned" while you scroll through it: the
+     section locks to the viewport, and a coordinated timeline scrubs
+     against scroll progress. The cover slides up through frame, text
+     fades in then out, atmosphere cross-fades between books — all
+     synchronized to where the user is in their scroll.
+     ════════════════════════════════════════════════════════ */
+  gsap.registerPlugin(ScrollTrigger, SplitText, CustomEase);
+  // 'inkIn' — slow start, hard end. The early phase is the page absorbing
+  // the type's weight; the late phase is the type asserting itself.
+  // Used for the variable-font wght-axis climb during headline entrance.
+  CustomEase.create("inkIn", "M0,0 C0.65,0 0.5,1 1,1");
+
+  // Set initial states for the COVER. With natural-scroll sections (no
+  // pin), the cover doesn't need to come from off-screen-below — that
+  // distance was sized for a pinned dwell. Now it rises a short way
+  // (~24% of its own height) into place as the section enters viewport.
+  // Smaller distance = faster, more confident landing.
+  gsap.set('.book-page .book-page-cover-inner', {
+    yPercent: 24,
+    rotateX: -4,
+    scale: 0.97,
+    opacity: 0
+  });
+
+  // Hide all book-page text content immediately. setupScrollAnimations()
+  // will refine these per-element after splitWords runs, but we set a
+  // coarse "everything's invisible" baseline now so a fast scroller
+  // doesn't see unstyled flash before gradient extraction completes.
+  if (!prefersReducedMotion) {
+    gsap.set('.book-page .book-page-text > *, .book-page .book-page-author', {
+      opacity: 0
+    });
+  }
+
+  /* ════════════════════════════════════════════════════════
+     PAGE-LOAD ENTRANCE — fires once, on initial mount
+     Builds the front door in a coordinated sequence:
+        1. Header wordmark + nav fade up
+        2. Chapter eyebrow: § i + dash draws + label fade in together
+        3. Headline: words rise out of their line boxes, accent word last
+        4. Deck fades up
+        5. Meta items + their values stagger in
+        6. Mini-shelf: covers rise from below in a wave
+        7. Index rail fades in last
+     One unified entrance — not a series of unrelated reveals.
+     ════════════════════════════════════════════════════════ */
+  function runPageLoadEntrance() {
+    // Header + nav — quick, polite, gets out of the way
+    const wordmark = document.querySelector('.wordmark');
+    const navLinks = document.querySelectorAll('nav.primary > *');
+    gsap.set([wordmark, ...navLinks], { y: -16, opacity: 0 });
+
+    // Index rail — comes in late, after the front door has settled
+    const railEl = document.getElementById('indexRail');
+    gsap.set(railEl, { opacity: 0, x: -8 });
+
+    // Chapter eyebrow internals
+    // (Chapter-title eyebrow removed — section opens directly on the headline.)
+
+    // Headline split — uses SplitText (now free as of late 2025) with
+    // mask:"lines" to create overflow:hidden line wrappers that words
+    // rise out of. Replaces the older DIY splitWords call. The split
+    // result is stored in chapterSplit so the breath ticker (set up
+    // outside this function) can find the words later.
+    const chapterH2 = document.querySelector('.chapter-title h2');
+    const chapterSplit = SplitText.create(chapterH2, {
+      type: "lines, words, chars",
+      linesClass: "split-line",
+      wordsClass: "word",
+      charsClass: "char",
+      mask: "lines"
+    });
+    const chapterWords = chapterSplit.words;
+    const chapterAccentWords = chapterWords.filter(w => w.closest('.accent'));
+    const chapterOtherWords = chapterWords.filter(w => !w.closest('.accent'));
+
+    // Stash for the breath ticker
+    window.__chapterWords = chapterWords;
+
+    if (!prefersReducedMotion) {
+      // Initial state: words below their mask, weight low (300).
+      // The 300 starting weight is the variable-font equivalent of
+      // "barely there" — we'll climb to 700 (the resting weight)
+      // during entrance, with accent words punching to 850 first.
+      gsap.set(chapterWords, { yPercent: 110 });
+      chapterWords.forEach(w => {
+        w.style.fontVariationSettings = '"wght" 300';
+      });
+    }
+
+    // Deck + byline + meta + meta values
+    const deck = document.querySelector('.chapter-deck');
+    gsap.set(deck, { y: 24, opacity: 0 });
+
+    // Hero eyebrow — "Welcome to Heart Library" sits above the
+    // headline and lands a beat BEFORE it, so the eyebrow reads
+    // as a section marker the headline announces against.
+    const heroEyebrow = document.querySelector('.hero-eyebrow');
+    if (heroEyebrow && !prefersReducedMotion) {
+      gsap.set(heroEyebrow, { y: 10, opacity: 0 });
+    }
+
+    const byline = document.querySelector('.chapter-byline');
+    if (byline) gsap.set(byline, { y: 12, opacity: 0 });
+
+    const metaItems = document.querySelectorAll('.chapter-meta .item');
+    const metaStrongs = document.querySelectorAll('.chapter-meta .item strong');
+    gsap.set(metaItems, { y: 16, opacity: 0 });
+    gsap.set(metaStrongs, { y: 8, opacity: 0 });
+
+    // (Mini-shelf wave retired with the shelf itself.)
+
+    // Hero illustration — start hidden so the entrance can fade it in
+    const heroIllustration = document.querySelector('.hero-illustration');
+    if (heroIllustration && !prefersReducedMotion) {
+      gsap.set(heroIllustration, { y: 12, opacity: 0 });
+    }
+
+    // Build the timeline
+    const tl = gsap.timeline({
+      defaults: { ease: 'power3.out' },
+      delay: 0.1
+    });
+
+    // 1. Header + nav (parallel, quick)
+    tl.to([wordmark, ...navLinks], {
+      y: 0,
+      opacity: 1,
+      duration: 0.7,
+      stagger: 0.05
+    }, 0);
+
+    // 1b. Hero illustration fades up just before the headline starts
+    if (heroIllustration && !prefersReducedMotion) {
+      tl.to(heroIllustration, { y: 0, opacity: 1, duration: 0.8 }, 0.2);
+    }
+
+    // 1c. Hero eyebrow — lands a beat before the headline so it
+    //     reads as the section marker the type announces against.
+    if (heroEyebrow && !prefersReducedMotion) {
+      tl.to(heroEyebrow, { y: 0, opacity: 1, duration: 0.6 }, 0.4);
+    }
+
+    // 4. THE headline — three things happening simultaneously:
+    //    (a) words rise from their masked line wrappers (the editorial
+    //        reveal that's been here since v41);
+    //    (b) per-word font-variation wght axis climbs from 300 → 700,
+    //        so the words ink in rather than appear pre-printed;
+    //    (c) accent words ("hand over") punch to weight 850 first,
+    //        then settle back to 700 — the words bolding themselves
+    //        emphatically before resting. Combined effect: the type
+    //        comes into existence rather than just sliding in.
+    //    Stagger 60ms per word, so the line still reads as one sentence.
+    if (!prefersReducedMotion) {
+      // (a) Mask reveal — non-accent words first, accent words slightly later
+      tl.to(chapterOtherWords, {
+        yPercent: 0,
+        duration: 0.95,
+        stagger: 0.06,
+        ease: 'power3.out'
+      }, 0.65);
+      tl.to(chapterAccentWords, {
+        yPercent: 0,
+        duration: 1.0,
+        stagger: 0.05,
+        ease: 'power3.out'
+      }, 1.10);
+
+      // (b) Per-word weight ink-in for non-accent words. We tween a
+      //     proxy and write font-variation-settings on each onUpdate
+      //     because GSAP can't directly tween font-variation-settings
+      //     (it's a single string, not a numeric property).
+      chapterOtherWords.forEach((word, i) => {
+        const proxy = { wght: 300 };
+        tl.to(proxy, {
+          wght: 700,
+          duration: 1.1,
+          ease: 'inkIn',
+          onUpdate: () => {
+            word.style.fontVariationSettings = `"wght" ${proxy.wght.toFixed(0)}`;
+          }
+        }, 0.75 + i * 0.05);
+      });
+
+      // (c) Accent word overshoot. Two-stage: 300 → 850 → 700.
+      //     The peak at 850 + ease back to 700 reads as emphasis being
+      //     placed on the phrase, like underlining it with weight.
+      chapterAccentWords.forEach((word, i) => {
+        const proxy = { wght: 300 };
+        tl.to(proxy, {
+          wght: 850,
+          duration: 0.75,
+          ease: 'power3.out',
+          onUpdate: () => {
+            word.style.fontVariationSettings = `"wght" ${proxy.wght.toFixed(0)}`;
+          }
+        }, 1.20 + i * 0.06);
+        tl.to(proxy, {
+          wght: 700,
+          duration: 0.4,
+          ease: 'power2.inOut',
+          onUpdate: () => {
+            word.style.fontVariationSettings = `"wght" ${proxy.wght.toFixed(0)}`;
+          }
+        }, 1.95 + i * 0.06);
+      });
+    } else {
+      tl.set(chapterH2, { opacity: 1 }, 0.65);
+    }
+
+    // 5. Deck — settles in once the headline has mostly landed.
+    //    The headline reveal takes ~0.9s + (n words × 0.06s); we
+    //    overlap the deck by starting before the last word lands
+    //    so it doesn't feel like waiting in line.
+    tl.to(deck, { y: 0, opacity: 1, duration: 0.7 }, 1.4);
+
+    // 5b. Byline — small editorial credit lands as the deck finishes.
+    //     Slight delay puts it after the deck has its visual moment;
+    //     the italic name is the punctuation that closes the deck's
+    //     thought.
+    if (byline) {
+      tl.to(byline, { y: 0, opacity: 1, duration: 0.55 }, 1.75);
+    }
+
+    // 6. Meta — labels first, then values. The strong values being
+    //    100ms behind their labels gives a "now resolving" feeling
+    //    that nice meta blocks have in print: caption, then byline.
+    tl.to(metaItems, {
+      y: 0,
+      opacity: 1,
+      duration: 0.6,
+      stagger: 0.08
+    }, 1.95);
+    tl.to(metaStrongs, {
+      y: 0,
+      opacity: 1,
+      duration: 0.5,
+      stagger: 0.08
+    }, 2.10);
+
+    // (Mini-shelf wave retired with the shelf itself.)
+
+    // 8. Index rail comes in last. By now the user has seen everything
+    //    they need to see; the rail introduces itself quietly.
+    tl.to(railEl, { x: 0, opacity: 1, duration: 0.6 }, 2.2);
+
+    // 9. Hand off to the scroll-bound exhale + the cursor-magnetic
+    //    hover. The exhale runs only during scroll (idle-still); the
+    //    magnetic hover runs only when the cursor is near the
+    //    headline. Both are scoped to non-reduced-motion users.
+    if (!prefersReducedMotion) {
+      setupChapterExhale();
+      setupHeadlineMagnet();
+    }
+  }
+
+  // ════════════════════════════════════════════════════════
+  // CHAPTER HEADLINE EXHALE — scroll-bound, idle-still
+  // ════════════════════════════════════════════════════════
+  // Replaced the always-on breathing ticker with a single scroll-bound
+  // ScrollTrigger that only runs while the user is scrolling through
+  // the hero. The headline holds rock-still until you start moving;
+  // then as the chapter-title scrolls toward exit, the words slowly
+  // thin and the headline tightens its tracking — an "exhale" feel
+  // that pairs with the existing chapter-stage parallax-out.
+  //
+  // Why this is better than continuous breath: the breath was running
+  // 60fps forever, even when the user wasn't looking at the page. The
+  // exhale only does work during scroll, and reads as a deliberate
+  // beat of motion rather than ambient fidgeting.
+  function setupHeadlineExhale(triggerEl, headlineEl, words) {
+    if (!headlineEl || !words || !words.length || !triggerEl) return;
+
+    // Chars are needed in addition to words because the magnet
+    // writes inline font-variation-settings on each .char during
+    // hover. If exhale only updated .word weights, then after the
+    // user moused away the chars would retain their last magnet
+    // value while .word was already thinning — chars and words
+    // visibly out of sync. Writing exhale to both keeps them
+    // aligned during scroll-without-hover.
+    const chars = Array.from(headlineEl.querySelectorAll('.char'));
+
+    // Publish the current exhale weight on the headline element so
+    // the magnet's per-char wght can use it as the resting baseline.
+    // Initialized to 700 — the scroll position will drive it from there.
+    headlineEl.__exhaleWght = 700;
+
+    // Initial state: weight 700, tight tracking. As scroll progresses
+    // through the section's exit, weight thins to ~580 and tracking
+    // tightens slightly. Both eased via scrub:0.4 so the response
+    // feels connected to the scroll, not chasing it.
+    ScrollTrigger.create({
+      trigger: triggerEl,
+      start: 'top top',
+      end: 'bottom 30%',
+      scrub: 0.4,
+      onUpdate: (self) => {
+        const p = self.progress; // 0 → 1
+        const wght = 700 - (p * 120); // 700 → 580
+        const tracking = -0.028 - (p * 0.012); // -0.028 → -0.040
+
+        headlineEl.style.letterSpacing = `${tracking.toFixed(4)}em`;
+        // Cache for magnet's resting baseline — read on each mousemove.
+        headlineEl.__exhaleWght = wght;
+
+        // Guard: don't write inline char styles until the user has
+        // actually scrolled. ScrollTrigger fires onUpdate on creation
+        // with progress=0, and at that moment the entrance reveal is
+        // still mid-animation (animating .word's wght from 300 → 700).
+        // Writing inline char wght=700 then would override inheritance
+        // and break the entrance visually. Once progress > 0, the
+        // entrance is long over and we're safe to manage chars.
+        if (p <= 0.001) return;
+
+        const wghtStr = `"wght" ${Math.round(wght)}`;
+        // Per-word so chars without their own inline value still
+        // inherit the right wght during scroll.
+        words.forEach(word => {
+          word.style.fontVariationSettings = wghtStr;
+        });
+        // Per-char so the magnet's inline writes don't leave chars
+        // stranded at a stale weight during scroll. The magnet
+        // overrides this during active hover (it updates more often
+        // than scroll), so simultaneous scroll + hover lands on the
+        // magnet's value with the exhale "underneath."
+        chars.forEach(char => {
+          char.style.fontVariationSettings = wghtStr;
+        });
+      }
+    });
+  }
+  // Backward-compat helper for the chapter-title hero call site.
+  function setupChapterExhale() {
+    const triggerEl = document.querySelector('.chapter-title');
+    const headlineEl = document.querySelector('.chapter-title h2');
+    setupHeadlineExhale(triggerEl, headlineEl, window.__chapterWords);
+  }
+
+  // ════════════════════════════════════════════════════════
+  // CHAPTER HEADLINE MAGNET — cursor-driven per-character lift
+  // ════════════════════════════════════════════════════════
+  // Characters within ~140px of the cursor lift toward it, with
+  // a quadratic falloff. Adds editorial play without ambient
+  // motion: the headline stays still until the user actually
+  // hovers it, then the type follows the hand. Each character
+  // has its own gsap.quickTo handler so the writes are batched
+  // to the next frame, and char center positions are cached on
+  // setup (re-cached on resize) to avoid getBoundingClientRect
+  // calls on every mousemove event.
+  function setupHeadlineMagnet(containerEl, headlineEl) {
+    // Default to the chapter-title hero if no args (backward compat).
+    if (!containerEl) containerEl = document.querySelector('.chapter-title');
+    if (!headlineEl) headlineEl = document.querySelector('.chapter-title h2');
+    if (!containerEl || !headlineEl) return;
+
+    // SplitText created .char elements when it ran on the headline.
+    const chars = Array.from(headlineEl.querySelectorAll('.char'));
+    if (!chars.length) return;
+
+    // Three independent falloff radii — the cursor's "presence"
+    // is felt at different distances for each axis. Weight has
+    // the widest reach (chars feel the cursor before they tilt),
+    // lift is the medium reach, and the X-pull is narrowest (so
+    // chars only nudge horizontally when really close, avoiding
+    // jittery overlapping at the edges of the lift zone).
+    //
+    // The magnitudes are tuned for "felt but not theatrical" —
+    // readers should notice the headline responds to them, not
+    // remark on the effect itself.
+    const liftRadius   = 170;   // y translate falloff
+    const xPullRadius  = 110;   // x translate falloff (tighter)
+    const weightRadius = 240;   // variable-axis falloff (widest)
+
+    const maxLift      = -12;   // px upward at peak proximity
+    const maxXPull     = 6;     // px horizontal nudge toward cursor
+    const peakWghtAdd  = 180;   // wght axis bump above resting
+
+    // Per-char data: cached center + quickTo handlers for each
+    // axis. quickTo internally batches all updates to the next
+    // animation frame, so writing to three transforms per char
+    // per frame composes into one paint.
+    //
+    // Weight (font-variation-settings "wght") is special — it's a
+    // string-valued CSS property, so quickTo can't drive it
+    // directly. We tween a numeric proxy ({ wght: 700 }) and use
+    // onUpdate to write the formatted string to the char's inline
+    // style. This keeps the smoothness of quickTo without colliding
+    // with the .word's wght cascade used by entrance + exhale.
+    let charData = [];
+    function cachePositions() {
+      charData = chars.map(ch => {
+        const r = ch.getBoundingClientRect();
+        const proxy = { wght: 700 };
+        const writeWght = () => {
+          ch.style.fontVariationSettings = `"wght" ${Math.round(proxy.wght)}`;
+        };
+        return {
+          el: ch,
+          proxy,
+          cx: r.left + r.width / 2,
+          cy: r.top + r.height / 2,
+          qY:    gsap.quickTo(ch,    'y',    { duration: 0.55, ease: 'power3.out' }),
+          qX:    gsap.quickTo(ch,    'x',    { duration: 0.6,  ease: 'power3.out' }),
+          qWght: gsap.quickTo(proxy, 'wght', {
+            duration: 0.45,
+            ease: 'power2.out',
+            onUpdate: writeWght
+          })
+        };
+      });
+    }
+    cachePositions();
+
+    // Resize/scroll can shift char positions. Debounce the resize
+    // recalculation so we're not thrashing during a window drag.
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(cachePositions, 150);
+    });
+
+    // Mousemove: per-char distance check + smooth driving on
+    // three axes. Quadratic falloff (eased = t * t) on each so
+    // the effect concentrates near the cursor instead of lifting
+    // half the headline at uniform intensity.
+    containerEl.addEventListener('mousemove', (e) => {
+      const cx = e.clientX;
+      const cy = e.clientY;
+      // Resting weight comes from the scroll-exhale state. When the
+      // hero hasn't scrolled at all, this is 700; mid-exhale it's
+      // ~640; at full exhale ~580. Reading it here means the magnet
+      // composes ON TOP of the exhale instead of fighting it.
+      const restWght = headlineEl.__exhaleWght != null ? headlineEl.__exhaleWght : 700;
+
+      for (let i = 0; i < charData.length; i++) {
+        const d = charData[i];
+        const dx = cx - d.cx;
+        const dy = cy - d.cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        // Y-lift — chars rise toward the cursor.
+        if (dist < liftRadius) {
+          const t = 1 - dist / liftRadius;
+          d.qY(maxLift * (t * t));
+        } else {
+          d.qY(0);
+        }
+
+        // X-pull — chars nudge horizontally toward the cursor.
+        // Sign of dx tells us which side the cursor is on; we
+        // pull the char that direction, scaled by proximity.
+        if (dist < xPullRadius) {
+          const t = 1 - dist / xPullRadius;
+          // Direction: positive dx = cursor right of char =
+          // char pulls right (positive x). Magnitude eases on t².
+          const direction = dx === 0 ? 0 : Math.sign(dx);
+          d.qX(direction * maxXPull * (t * t));
+        } else {
+          d.qX(0);
+        }
+
+        // Weight — chars near cursor get heavier on the variable
+        // font axis. Composes additively over the resting (exhale)
+        // weight so we don't blow away the scroll-driven thinning.
+        if (dist < weightRadius) {
+          const t = 1 - dist / weightRadius;
+          d.qWght(restWght + peakWghtAdd * (t * t));
+        } else {
+          d.qWght(restWght);
+        }
+      }
+    });
+
+    // Mouseleave on the section — pull every char back to rest.
+    // Weight returns to the current exhale value (not a hardcoded
+    // 700) so leaving the headline mid-scroll still reads cleanly.
+    containerEl.addEventListener('mouseleave', () => {
+      const restWght = headlineEl.__exhaleWght != null ? headlineEl.__exhaleWght : 700;
+      for (let i = 0; i < charData.length; i++) {
+        charData[i].qY(0);
+        charData[i].qX(0);
+        charData[i].qWght(restWght);
+      }
+    });
+  }
+  // ════════════════════════════════════════════════════════
+  // MOUSE-PARALLAX 3D TILT — the active book leans toward you
+  // ════════════════════════════════════════════════════════
+  // The active book's cover gets a subtle 3D tilt that follows
+  // the mouse position, like a paperback held up to be looked at.
+  // Why on the active book only: dirty-checking 10 covers on every
+  // mousemove would waste cycles and the inactive ones aren't
+  // visible anyway. We use gsap.quickTo for sub-frame interpolation
+  // that smooths the mouse jitter without costing render performance.
+  let activeCover = null;       // the currently active .book-page-cover-inner
+  let activeCoverQX = null;     // memoized quickTo handlers per active cover
+  let activeCoverQY = null;
+  let activeCoverQTransX = null;
+  let activeCoverQTransY = null;
+
+  // Track whether the currently-active cover has actually had any
+  // mouse-parallax applied. We skip the smooth reset tween for covers
+  // that were never touched — there's nothing to reset, and trying to
+  // reset rotateX/rotateY on an untouched element produces "not
+  // eligible for reset" warnings. The flag flips to true on first
+  // mousemove and resets when activeCover changes.
+  let activeCoverTouched = false;
+
+  function setActiveCover(coverEl) {
+    if (activeCover === coverEl) return;
+    // Smoothly reset the previous active cover before swapping —
+    // BUT only if it was actually touched by the mouse. Untouched
+    // covers have no transforms to reset; trying to reset would warn.
+    if (activeCover && activeCoverTouched) {
+      gsap.to(activeCover, {
+        rotateX: 0, rotateY: 0, x: 0, y: 0,
+        duration: 0.6,
+        ease: 'power3.out',
+        overwrite: 'auto'
+      });
+    }
+    activeCover = coverEl;
+    activeCoverTouched = false;
+    if (coverEl) {
+      // Build quickTo handlers — these are pre-tweened functions for
+      // the highest-frequency property updates. They're optimized for
+      // mousemove-style input (60fps+).
+      activeCoverQX = gsap.quickTo(coverEl, 'rotateY', { duration: 0.6, ease: 'power3.out' });
+      activeCoverQY = gsap.quickTo(coverEl, 'rotateX', { duration: 0.6, ease: 'power3.out' });
+      activeCoverQTransX = gsap.quickTo(coverEl, 'x', { duration: 0.6, ease: 'power3.out' });
+      activeCoverQTransY = gsap.quickTo(coverEl, 'y', { duration: 0.6, ease: 'power3.out' });
+    } else {
+      activeCoverQX = activeCoverQY = activeCoverQTransX = activeCoverQTransY = null;
+    }
+  }
+
+  // Single global mousemove listener — much cheaper than per-cover listeners.
+  // We compute mouse position relative to viewport center and feed normalized
+  // -1..1 values to the active cover's quickTo handlers.
+  if (!prefersReducedMotion) {
+    window.addEventListener('mousemove', (e) => {
+      if (!activeCoverQX) return;
+      // Normalize to -1..1, with center of viewport as origin
+      const nx = (e.clientX / window.innerWidth) * 2 - 1;
+      const ny = (e.clientY / window.innerHeight) * 2 - 1;
+      // Tilt magnitudes: ±6deg rotation feels alive but never "video gamey".
+      // Translation (x/y) of ±8px gives a tiny float, like the book is held.
+      activeCoverQX(nx * 6);     // rotateY follows horizontal mouse
+      activeCoverQY(-ny * 4);    // rotateX inverted (mouse-up tilts top toward viewer)
+      activeCoverQTransX(nx * 8);
+      activeCoverQTransY(-ny * 6);
+      // Mark this cover as having received transforms — the eventual
+      // setActiveCover(null) reset can now safely tween properties
+      // back to zero without hitting "not eligible for reset" warnings.
+      activeCoverTouched = true;
+    }, { passive: true });
+  }
+
+  // The entrance includes SplitText's mask:"lines" which needs to
+  // compute line breaks against the final display fonts. We gate
+  // behind document.fonts.ready so SplitText sees the right widths.
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(runPageLoadEntrance);
+  } else {
+    runPageLoadEntrance();
+  }
+
+  // Wait for cover gradients to be extracted before wiring up scroll
+  // (so the atmosphere has real per-book colors when timelines fire)
+  Promise.all(books.map(extractGradient)).then(setupScrollAnimations);
+
+  function setupScrollAnimations() {
+    // ── Per-book scroll choreography ──
+    // For each book section, pin it for ~1.2 viewport heights of scroll.
+    // The pin duration controls how much "scroll real estate" each book
+    // gets — bigger = more time on each book, smaller = faster pacing.
+    // 120% of viewport = a comfortable reading dwell with smooth handoff.
+    //
+    // ARCHITECTURE NOTE — two separate animation systems per book:
+    //
+    //   (A) The COVER timeline is scrubbed against scroll. The cover
+    //       rises in, dwells, flies out — all tied to scroll progress.
+    //       This gives the user a clear sense of moving through the
+    //       book physically.
+    //
+    //   (B) The TEXT entrance is a discrete play-once animation,
+    //       triggered when the section becomes active. Words rise
+    //       out of overflow-hidden boxes, divider draws in, blurb
+    //       words stagger up. This is *not* scrubbed because
+    //       word-by-word reveals look bad when scrubbed at scroll
+    //       speed (words crawl). Text gets its proper entrance, then
+    //       holds during the dwell, then plays an exit on leave.
+    //
+    // Coordinating the two: the cover pin defines when "this book is
+    // the active one." Text entry fires on onEnter; text exit fires on
+    // onLeave. The user reads while the cover is pinned center-screen.
+
+    document.querySelectorAll('.book-page').forEach((section, i) => {
+      const book = books[i];
+      const cover = section.querySelector('.book-page-cover-inner');
+      // The mouse-parallax target is the innermost cover element
+      // (the one with the actual cover image). Keeping it separate
+      // from the scrub target above means the two transform writers
+      // don't fight each other for the rotateX/yPercent properties.
+      const coverInnermost = section.querySelector('.book-page-cover');
+
+      // ── (B) Pre-split all the typographic targets for this book ──
+      const titleEl = section.querySelector('.book-page-text h2');
+      const titleWords = splitWords(titleEl);
+
+      const byEl = section.querySelector('.book-page-text .by');
+      const byWords = splitWords(byEl);
+
+      const dividerEl = section.querySelector('.book-page-text .divider');
+      makeDrawable(dividerEl);
+
+      // Blurb removed — the review now occupies the body content
+      // position. Kept variables as null so downstream guards still
+      // work; word-by-word reveal would be too noisy on multi-para
+      // review prose anyway, so we fade the paragraphs as paragraphs.
+      const blurbEl = null;
+      const blurbWords = [];
+
+      // (Page numeral block removed — the section opens straight on
+      // the book title now.)
+
+      const purchaseRows = section.querySelectorAll('.purchase-row');
+
+      // Review block
+      // Review now lives directly inside .book-page-text (no dedicated
+      // wrapper, no kicker, no signoff). The drop cap on the first
+      // paragraph alone earns the editorial register. We animate the
+      // body paragraphs in as paragraphs alongside the title block.
+      const reviewKickerLine = null;
+      const reviewSignoff = null;
+      const reviewParas = section.querySelectorAll('.book-page-text .review-body p');
+
+      // Author block — sits between review and catalog. Has its own
+      // kicker, the author-name (treated as a sub-headline), the bio
+      // paragraph, and the "Also by" works list.
+      const authorKicker = section.querySelector('.book-page-author .kicker');
+      const authorName = section.querySelector('.book-page-author .author-name');
+      const authorNameWords = authorName ? splitWords(authorName) : [];
+      const authorBio = section.querySelector('.book-page-author .author-bio');
+      const authorWorksLabel = section.querySelector('.book-page-author .works-label');
+      const authorWorksItems = section.querySelectorAll('.book-page-author .works-list li');
+
+      // (Catalog meta-wrap retired — the cataloging year now lives
+      // inline in the byline as "By [Author] (1963)".)
+
+      // Set initial states for everything that animates in
+      if (!prefersReducedMotion) {
+        // Restore container visibility — the early "hide everything" gsap.set
+        // above made these invisible. Now that we've prepped each child
+        // with its own initial state, the containers should be visible
+        // so children become visible when they animate in.
+        gsap.set([
+          titleEl,
+          byEl,
+          dividerEl,
+          ...section.querySelectorAll('.book-page-text > *'),
+          section.querySelector('.book-page-author')
+        ].filter(Boolean), { opacity: 1 });
+
+        gsap.set(titleWords, { yPercent: 110, opacity: 0 });
+        gsap.set(byWords, { yPercent: 110, opacity: 0 });
+        gsap.set(purchaseRows, { y: 14, opacity: 0 });
+        if (reviewParas.length) gsap.set(reviewParas, { opacity: 0, y: 12 });
+        if (reviewSignoff)      gsap.set(reviewSignoff, { opacity: 0, y: 8 });
+        if (authorKicker)      gsap.set(authorKicker,      { opacity: 0, y: 8 });
+        if (authorNameWords.length) gsap.set(authorNameWords, { yPercent: 110, opacity: 0 });
+        if (authorBio)         gsap.set(authorBio,         { opacity: 0, y: 12 });
+        if (authorWorksLabel)  gsap.set(authorWorksLabel,  { opacity: 0, y: 8 });
+        if (authorWorksItems.length) gsap.set(authorWorksItems, { opacity: 0, y: 10 });
+      }
+
+      // Build a play-once timeline for the text entrance.
+      // We DON'T attach a scrollTrigger to this timeline — instead we
+      // play() it manually from the cover's onEnter callback.
+      const textIn = gsap.timeline({
+        paused: true,
+        defaults: { ease: 'power3.out' }
+      });
+
+      if (!prefersReducedMotion) {
+        // The book number + dash — fires at 0, matches the cover starting
+        // its rise. These are quick UI bits so they settle fast.
+
+        // Title — the marquee. Words rise out of their line boxes.
+        // 45ms per word stagger keeps it confident: a 5-word title lands
+        // in 0.65s, in step with the cover scrub.
+        textIn.to(titleWords, {
+          yPercent: 0,
+          opacity: 1,
+          duration: 0.75,
+          stagger: 0.045,
+          ease: 'expo.out'
+        }, 0.05);
+
+        // Byline settles in tightly under the title — overlaps the
+        // title's tail end so they read as one phrase, not two events.
+        textIn.to(byWords, {
+          yPercent: 0,
+          opacity: 1,
+          duration: 0.5,
+          stagger: 0.025,
+          ease: 'power2.out'
+        }, 0.3);
+
+        // Divider draws in — visual full-stop between byline and blurb
+        if (dividerEl) {
+          textIn.to(dividerEl, {
+            scaleX: 1,
+            duration: 0.45,
+            ease: 'power2.inOut'
+          }, 0.45);
+        }
+
+        // Review prose — fade paragraphs in as paragraphs (word-rise
+        // would be too noisy on multi-paragraph review text). Lands
+        // shortly after the divider draws so the eye is already moving
+        // down the column.
+        if (reviewParas.length) {
+          textIn.to(reviewParas, {
+            opacity: 1,
+            y: 0,
+            duration: 0.65,
+            stagger: 0.12,
+            ease: 'power2.out'
+          }, 0.55);
+        }
+        if (reviewSignoff) {
+          textIn.to(reviewSignoff, {
+            opacity: 1,
+            y: 0,
+            duration: 0.5
+          }, 0.95);
+        }
+
+        // Purchase rows — fire after the review's tail has begun
+        // settling so they don't compete for attention with the prose.
+        textIn.to(purchaseRows, {
+          y: 0,
+          opacity: 1,
+          duration: 0.45,
+          stagger: 0.06
+        }, 0.75);
+
+        // (Review paragraphs + signoff are scheduled above, just after
+        // the divider draws — that block is the body content of the
+        // spread now, not a separate section.)
+
+        // Author section — sits beneath the review/purchase block.
+        // Lands a beat after the review begins so the eye reads
+        // top-down through the editorial column. Bio and works
+        // list cascade in.
+        if (authorKicker) {
+          textIn.to(authorKicker, { opacity: 1, y: 0, duration: 0.45 }, 0.65);
+        }
+        if (authorNameWords.length) {
+          textIn.to(authorNameWords, {
+            yPercent: 0,
+            opacity: 1,
+            duration: 0.55,
+            stagger: 0.04,
+            ease: 'expo.out'
+          }, 0.7);
+        }
+        if (authorBio) {
+          textIn.to(authorBio, { opacity: 1, y: 0, duration: 0.55 }, 0.85);
+        }
+        if (authorWorksLabel) {
+          textIn.to(authorWorksLabel, { opacity: 1, y: 0, duration: 0.4 }, 0.95);
+        }
+        if (authorWorksItems.length) {
+          textIn.to(authorWorksItems, {
+            opacity: 1,
+            y: 0,
+            duration: 0.45,
+            stagger: 0.05
+          }, 1.0);
+        }
+
+      } else {
+        // Reduced motion: snap everything to its end state in one frame
+        textIn.set([
+          titleWords, byWords, purchaseRows,
+          reviewParas, reviewSignoff,
+          authorKicker, authorNameWords, authorBio, authorWorksLabel, authorWorksItems
+        ].filter(Boolean), {
+          y: 0, yPercent: 0, opacity: 1, clearProps: 'transform'
+        });
+      }
+
+      // Exit timeline — quicker, simpler. The cover does the dramatic
+      // work on exit; the text just gets out of the way.
+      const textOut = gsap.timeline({
+        paused: true,
+        defaults: { ease: 'power2.in' }
+      });
+      if (!prefersReducedMotion) {
+        textOut.to(section.querySelectorAll('.book-page-text > *, .book-page-author'), {
+          y: -20,
+          opacity: 0,
+          duration: 0.4,
+          stagger: 0.02
+        }, 0);
+      }
+
+      // ── (A) Cover entry / exit timelines ──
+      // CRITICAL CHANGE FROM v44: the cover is no longer scrubbed
+      // against scroll. It plays a discrete entry on enter, holds
+      // *perfectly still* during the dwell, and plays an exit on leave.
+      //
+      // Why: scrubbing meant the browser was re-rasterizing the cover
+      // (with its multi-layer book-shadow, 3D perspective, pseudo-element
+      // gradients, and concurrent mouse-parallax transforms) on every
+      // single scroll frame. Even with a 0.3s scrub smoothing it felt
+      // sticky — every scroll input chased a continuously-changing
+      // transform matrix. By making the cover static during the dwell,
+      // the only animation work on scroll is the pin itself, which is
+      // free.
+      //
+      // The text already uses this enter/leave pattern (textIn/textOut),
+      // so the cover now matches.
+      const coverIn = gsap.timeline({ paused: true });
+      const coverOut = gsap.timeline({ paused: true });
+
+      if (!prefersReducedMotion) {
+        // Entry: cover rises a short distance into its grid spot and
+        // settles. ~0.85s, sized for natural scroll — short enough that
+        // it lands quickly when the section enters viewport, slow
+        // enough to feel like a deliberate "the book is here now" beat.
+        coverIn.to(cover, {
+          yPercent: 0,
+          rotateX: 0,
+          scale: 1,
+          opacity: 1,
+          duration: 0.85,
+          ease: 'power3.out'
+        }, 0);
+
+        // Exit: cover lifts gently and fades. Because we're no longer
+        // forcing a transition (the user is just scrolling past), the
+        // exit is calm — a soft fade-up, not a flying-out dramatic
+        // event. The next book's cover takes the eye anyway.
+        coverOut.to(cover, {
+          yPercent: -8,
+          rotateX: 0,
+          scale: 0.98,
+          opacity: 0,
+          duration: 0.45,
+          ease: 'power2.in'
+        }, 0);
+      } else {
+        coverIn.set(cover, { yPercent: 0, rotateX: 0, scale: 1, opacity: 1 });
+        coverOut.set(cover, { opacity: 0 });
+      }
+
+      // ── ScrollTrigger: natural scroll, entry/exit only ──
+      // No pin, no scrub. The section is a normal-flow 100vh-min spread
+      // and the user scrolls through it like any page. Two triggers:
+      //
+      //   1. ENTRY trigger — fires when the section's top hits 80% of
+      //      viewport (i.e., the section is just entering). Plays the
+      //      cover-in + text-in entrance animations.
+      //
+      //   2. ACTIVE trigger — fires when the section's middle crosses
+      //      the viewport middle. Updates the atmospheric background
+      //      and active-book bookkeeping. This is what gives "the book
+      //      becomes the page" — the atmosphere morphs as you scroll
+      //      into each book.
+      //
+      //   3. EXIT trigger — fires when the section's bottom passes the
+      //      viewport top. Plays the exit animations.
+
+      // 1. Entry — cover + text rise in as section becomes visible
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 75%',
+        once: false,
+        onEnter: () => {
+          coverOut.pause(0);
+          coverIn.play(0);
+          textOut.pause(0);
+          textIn.play(0);
+        },
+        onEnterBack: () => {
+          // Coming back up — replay entry so the cover lands again
+          coverOut.pause(0);
+          coverIn.play(0);
+          textOut.pause(0);
+          textIn.play(0);
+        }
+      });
+
+      // 2. Active — atmosphere + active-book follow the middle
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 50%',
+        end: 'bottom 50%',
+        onEnter: () => {
+          currentActiveBook = book.id;
+          updateAtmosphere(book.id);
+          indexRail.classList.remove('hidden');
+          setActiveCover(coverInnermost);
+        },
+        onEnterBack: () => {
+          currentActiveBook = book.id;
+          updateAtmosphere(book.id);
+          setActiveCover(coverInnermost);
+        }
+      });
+
+      // 3. Exit — when the section is fully scrolled past, fade out
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'bottom 25%',
+        onEnter: () => {
+          coverIn.pause();
+          coverOut.play(0);
+          textOut.play(0);
+        },
+        onLeaveBack: () => {
+          // Scrolled back up before exit completed — replay entry
+          coverOut.pause(0);
+          coverIn.play(0);
+          textOut.pause(0);
+          textIn.play(0);
+        }
+      });
+    });
+
+    // ── TBR section — entrance-only typography reveal ──
+    // Not pinned. The headline gets the same word-reveal treatment as
+    // the chapter title so the two "shortlist" / "TBR" moments feel
+    // like sister moments. Each TBR book then animates as a cover-then-text
+    // cascade — the cover rises first, and only after it lands do the
+    // title/author/why fade in beneath it. This separation gives each
+    // book a tiny "settling onto the shelf" beat.
+    const tbrPage = document.querySelector('.tbr-page');
+    if (tbrPage) {
+      const tbrH2 = tbrPage.querySelector('h2');
+      const tbrDeck = tbrPage.querySelector('.tbr-deck');
+      const tbrBooks = tbrPage.querySelectorAll('.tbr-book');
+
+      // Split the TBR headline so it gets the hero word-mask reveal
+      // + .char elements for the magnetic hover.
+      let tbrSplit = null;
+      let tbrWords = [];
+      if (tbrH2) {
+        tbrSplit = SplitText.create(tbrH2, {
+          type: 'lines, words, chars',
+          linesClass: 'split-line',
+          wordsClass: 'word',
+          charsClass: 'char',
+          mask: 'lines'
+        });
+        tbrWords = tbrSplit.words;
+      }
+
+      // ── h2 + deck: hero-treatment entrance ──
+      if (!prefersReducedMotion) {
+        gsap.set(tbrWords, { yPercent: 110, opacity: 0 });
+        tbrWords.forEach(w => { w.style.fontVariationSettings = '"wght" 300'; });
+        gsap.set(tbrDeck, { y: 24, opacity: 0 });
+      }
+
+      const tbrIntroTl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+
+      if (!prefersReducedMotion) {
+        // Headline word-mask reveal — same expo.out + stagger as hero
+        tbrIntroTl.to(tbrWords, {
+          yPercent: 0,
+          opacity: 1,
+          duration: 0.9,
+          stagger: 0.06,
+          ease: 'expo.out'
+        }, 0);
+
+        // Per-word weight ink-in (300 → 700) — hero's inking pattern
+        tbrWords.forEach((word, i) => {
+          const proxy = { wght: 300 };
+          tbrIntroTl.to(proxy, {
+            wght: 700,
+            duration: 1.1,
+            ease: 'inkIn',
+            onUpdate: () => {
+              word.style.fontVariationSettings = `"wght" ${proxy.wght.toFixed(0)}`;
+            }
+          }, 0.05 + i * 0.05);
+        });
+
+        // Deck settles after the headline lands
+        tbrIntroTl.to(tbrDeck, { y: 0, opacity: 1, duration: 0.7 }, 0.75);
+      } else {
+        tbrIntroTl.set([tbrWords, tbrDeck], {
+          y: 0, yPercent: 0, opacity: 1, clearProps: 'transform'
+        });
+      }
+
+      ScrollTrigger.create({
+        trigger: tbrPage,
+        start: 'top 75%',
+        onEnter: () => {
+          clearActiveBook();
+          indexRail.classList.remove('hidden');
+          tbrIntroTl.play(0);
+        },
+        onEnterBack: () => {
+          clearActiveBook();
+        }
+      });
+
+      // Wire the per-character magnet hover on the TBR h2 once the
+      // entrance has had time to land. Same setup as hero + footer.
+      if (!prefersReducedMotion && tbrH2) {
+        tbrIntroTl.call(() => {
+          setupHeadlineMagnet(tbrPage, tbrH2);
+        }, [], 1.4);
+      }
+
+      // ── Scroll-bound horizontal cover slide ──
+      // The 4 books start off-screen right (x: 100vw) and slide in
+      // to their grid positions, scrub-bound to scroll progress with
+      // a stagger so they enter progressively as the user scrolls
+      // vertically through the pinned section. Reads as: the user
+      // pulls the next reads onto the page by scrolling.
+      if (!prefersReducedMotion && tbrBooks.length) {
+        gsap.set(tbrBooks, { x: '110vw', opacity: 0 });
+        gsap.to(tbrBooks, {
+          x: 0,
+          opacity: 1,
+          ease: 'none',
+          duration: 1,
+          stagger: 0.55,
+          scrollTrigger: {
+            trigger: tbrPage,
+            start: 'top top',
+            end: '+=200%',
+            pin: true,
+            pinSpacing: true,
+            scrub: 0.5,
+            anticipatePin: 1
+          }
+        });
+      } else {
+        gsap.set(tbrBooks, { x: 0, opacity: 1 });
+      }
+    }
+
+    // ── End / colophon page — proper entrance, not just a fade ──
+    // The closing frame deserves the same care as the opening. The
+    // ornament (❦) rotates in like a wax seal being pressed. The
+    // headline does the word-reveal (consistent with the front door).
+    // Body paragraph fades up. Links arrive last with their underlines
+    // drawing in beneath each word — a small typographic flourish that
+    // says "and here are the doors out."
+    // ── Colophon footer — full hero treatment ──
+    // The footer h2 mirrors the chapter-title hero in scale and
+    // behavior: SplitText word-mask reveal entrance, scroll-bound
+    // exhale, per-character magnetic hover. Plus a slide-up reveal
+    // on the whole section so it "comes up from the bottom" when
+    // the user reaches it.
+    const endPage = document.querySelector('.end-page');
+    if (endPage) {
+      const endStage = endPage.querySelector('.end-stage');
+      const endH2 = endPage.querySelector('h2');
+      // (Eyebrow removed — section opens directly on the headline.)
+      const endDeck = endPage.querySelector('.end-deck');
+      const endColLabels = endPage.querySelectorAll('.end-col-label');
+      const endColLinks = endPage.querySelectorAll('.end-col a');
+      const footerLeft = endPage.querySelector('.end-footer .left');
+      const footerRight = endPage.querySelector('.end-footer .right');
+
+      // Split the headline so it gets the same word-mask treatment as
+      // the hero, plus .char elements for the magnetic hover.
+      let endSplit = null;
+      let endWords = [];
+      if (endH2) {
+        endSplit = SplitText.create(endH2, {
+          type: 'lines, words, chars',
+          linesClass: 'split-line',
+          wordsClass: 'word',
+          charsClass: 'char',
+          mask: 'lines'
+        });
+        endWords = endSplit.words;
+      }
+
+      if (!prefersReducedMotion) {
+        // The whole section starts shifted down + faded; the
+        // reveal slides it up into place — the "comes up from
+        // the bottom" footer move.
+        gsap.set(endStage, { y: 60, opacity: 0 });
+        gsap.set(endWords, { yPercent: 110, opacity: 0 });
+        endWords.forEach(w => { w.style.fontVariationSettings = '"wght" 300'; });
+        gsap.set(endDeck, { y: 24, opacity: 0 });
+        gsap.set(endColLabels, { opacity: 0, y: 8 });
+        gsap.set(endColLinks, { y: 12, opacity: 0 });
+        gsap.set([footerLeft, footerRight], { y: 8, opacity: 0 });
+      }
+
+      const endTl = gsap.timeline({
+        paused: true,
+        defaults: { ease: 'power3.out' }
+      });
+
+      if (!prefersReducedMotion) {
+        // 1. Stage rises from below (the "comes up from bottom" reveal)
+        endTl.to(endStage, { y: 0, opacity: 1, duration: 1.0, ease: 'power3.out' }, 0);
+
+        // 2. Headline word reveal — words rise out of mask
+        endTl.to(endWords, {
+          yPercent: 0,
+          opacity: 1,
+          duration: 0.9,
+          stagger: 0.06,
+          ease: 'expo.out'
+        }, 0.25);
+
+        // Per-word weight ink-in (300 → 700) — same pattern as hero
+        endWords.forEach((word, i) => {
+          const proxy = { wght: 300 };
+          endTl.to(proxy, {
+            wght: 700,
+            duration: 1.1,
+            ease: 'inkIn',
+            onUpdate: () => {
+              word.style.fontVariationSettings = `"wght" ${proxy.wght.toFixed(0)}`;
+            }
+          }, 0.3 + i * 0.05);
+        });
+
+        // 3. Deck settles
+        endTl.to(endDeck, { y: 0, opacity: 1, duration: 0.7 }, 0.95);
+
+        // 4. Column labels
+        endTl.to(endColLabels, { opacity: 1, y: 0, duration: 0.5, stagger: 0.08 }, 1.15);
+
+        // 5. Column links — stagger
+        endTl.to(endColLinks, { y: 0, opacity: 1, duration: 0.6, stagger: 0.05 }, 1.3);
+
+        // 6. Footer line last
+        endTl.to([footerLeft, footerRight], { y: 0, opacity: 1, duration: 0.5, stagger: 0.06 }, 1.6);
+      } else {
+        endTl.set([endStage, endWords, endDeck, endColLabels, endColLinks, footerLeft, footerRight], {
+          y: 0, yPercent: 0, opacity: 1, clearProps: 'transform'
+        });
+      }
+
+      ScrollTrigger.create({
+        trigger: endPage,
+        start: 'top 75%',
+        onEnter: () => {
+          clearActiveBook();
+          endTl.play(0);
+        }
+      });
+
+      // Wire the same exhale + magnet behavior to the footer h2 once
+      // the entrance finishes — same scroll-bound thinning + cursor
+      // magnet as the hero. The exhale fires on its own ScrollTrigger;
+      // the magnet listens once for ongoing hover.
+      if (!prefersReducedMotion && endH2) {
+        endTl.call(() => {
+          setupHeadlineExhale(endPage, endH2, endWords);
+          setupHeadlineMagnet(endPage, endH2);
+        }, [], 2.4);
+      }
+    }
+
+    // Refresh ScrollTrigger after fonts/images load (their final sizes
+    // may differ from initial calculations)
+    ScrollTrigger.refresh();
+
+    // ── CHAPTER-TITLE EXIT ──
+    // As the user starts scrolling away from the front-door, the
+    // headline + deck fade off slightly. Scrubbed so it tracks
+    // scroll position 1:1. (Mini-shelf parallax retired with the
+    // shelf itself — the centered hero is now the only layer.)
+    const chapterTitleEl = document.querySelector('.chapter-title');
+    const chapterStage = document.querySelector('.chapter-stage');
+    if (!prefersReducedMotion && chapterTitleEl && chapterStage) {
+      gsap.to(chapterStage, {
+        yPercent: -22,
+        opacity: 0.15,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: chapterTitleEl,
+          start: 'top top',
+          end: 'bottom 30%',
+          scrub: 0.6
+        }
+      });
+    }
+
+    // (TBR parallax-out retired — the pinned scroll-bound horizontal
+    // cover slide handles the section's scroll choreography now.)
+  }
+
+  /* Sticky header style — hero-aware. While the chapter-title hero
+     is on-screen, header stays transparent so the hero reads as one
+     continuous frame. Once we clear the headline, the header fills
+     in. The boundary is the chapter-title's bottom edge passing
+     above ~80px (clear of the header itself). */
+  const header = document.getElementById('header');
+  const chapterTitleHeroEl = document.getElementById('chapterTitle');
+  function syncHeaderState() {
+    if (chapterTitleHeroEl) {
+      const rect = chapterTitleHeroEl.getBoundingClientRect();
+      if (rect.bottom < 80) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    } else {
+      if (window.scrollY > 20) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    }
+  }
+  window.addEventListener('scroll', syncHeaderState, { passive: true });
+  syncHeaderState();
+</script>
+
+</body>
+</html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              

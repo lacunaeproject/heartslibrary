@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best of Nonfiction — Heart's Library</title>
+<meta name="description" content="Thirty-four books that shaped how I understand the world. Essays, histories, criticism — organized by topic, filtered to what you want.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomEase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+
+
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components/buttons.css">
+<link rel="stylesheet" href="css/components/eyebrow.css">
+<link rel="stylesheet" href="css/components/header.css">
+<link rel="stylesheet" href="css/components/sticky-filter.css">
+<link rel="stylesheet" href="css/components/back-to-top.css">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/motion.css">
+<link rel="stylesheet" href="css/components/book-list.css">
+</head>
+
+<body>
+
+<div class="atmosphere" id="atmosphere"></div>
+
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="wordmark">
+      <svg class="logo logo-heart" viewBox="0 0 24 22" aria-hidden="true" focusable="false">
+        <path d="M12 20.4 C 5.5 16.5, 1.5 12, 1.5 7.6 C 1.5 4.5, 4 2, 7 2 C 9 2, 10.8 3.1, 12 4.9 C 13.2 3.1, 15 2, 17 2 C 20 2, 22.5 4.5, 22.5 7.6 C 22.5 12, 18.5 16.5, 12 20.4 Z" />
+      </svg>
+      <span class="logo-text">Heart's Library</span>
+    </a>
+    <nav class="primary">
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger active" type="button" aria-haspopup="menu" aria-expanded="false">Lists</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="fiction.html" role="menuitem">Fiction</a>
+          <a href="nonfiction.html" role="menuitem" class="active">Non-Fiction</a>
+        </div>
+      </div>
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button" aria-haspopup="menu" aria-expanded="false">Bookstores</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="bookstores.html" class="all-link" role="menuitem">All bookstores</a>
+          <a href="bookstores-chicago.html" role="menuitem">Chicago</a>
+          <a href="bookstores-nashville.html" role="menuitem">Nashville</a>
+          <a href="bookstores-new-york.html" role="menuitem">New York</a>
+          <a href="bookstores-bay-area.html" role="menuitem">Bay Area</a>
+          <a href="bookstores-los-angeles.html" role="menuitem">Los Angeles</a>
+        </div>
+      </div>
+      <a href="dashboards.html">Dashboards</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button"
+            aria-label="Open navigation menu"
+            aria-controls="navDrawer"
+            aria-expanded="false">
+      <span class="toggle-icon" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+  </div>
+</header>
+
+<div class="nav-scrim" id="navScrim" aria-hidden="true"></div>
+<aside class="nav-drawer" id="navDrawer" aria-label="Site navigation">
+  <div class="nav-drawer-header">
+    <span class="nav-drawer-eyebrow">Heart's Library</span>
+  </div>
+  <ul class="nav-drawer-list">
+    <li><a href="index.html">Home</a></li>
+    <li>
+      <span class="drawer-section-label">Lists</span>
+      <ul class="drawer-sublist">
+        <li><a href="fiction.html">Fiction</a></li>
+        <li><a href="nonfiction.html" class="active">Non-Fiction</a></li>
+      </ul>
+    </li>
+    <li>
+      <span class="drawer-section-label">Bookstores</span>
+      <ul class="drawer-sublist">
+        <li><a href="bookstores.html">All bookstores</a></li>
+        <li><a href="bookstores-chicago.html">Chicago</a></li>
+        <li><a href="bookstores-nashville.html">Nashville</a></li>
+        <li><a href="bookstores-new-york.html">New York</a></li>
+        <li><a href="bookstores-bay-area.html">Bay Area</a></li>
+        <li><a href="bookstores-los-angeles.html">Los Angeles</a></li>
+      </ul>
+    </li>
+    <li><a href="dashboards.html">Dashboards</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-drawer-footer">A library of one</div>
+</aside>
+
+<main>
+
+  <!-- CHAPTER TITLE -->
+  <section class="chapter-title" id="chapterTitle">
+    <div class="chapter-stage">
+      <h2>
+        Best of <span class="accent">Nonfiction</span>.
+      </h2>
+      <p class="chapter-deck">
+        Thirty-four books that shaped how I understand the world. Essays, histories, criticism — organized by topic, filtered to what you want. <em>A reader's shelf, not a library.</em>
+      </p>
+      <div class="chapter-meta">
+        <div class="item">Compiled<strong>April 2026</strong></div>
+        <div class="item">Total<strong>34 books across five topics</strong></div>
+        <div class="item">Companions<strong>2 live dashboards</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOPIC FILTER — sticky beneath the header -->
+  <section class="sticky-filter" data-sticky-filter aria-label="Topic filter">
+    <div class="sticky-filter-inner">
+      <span class="sticky-filter-label">Topic</span>
+      <div class="btn-group" role="group" aria-label="Filter nonfiction by topic">
+        <button class="btn btn--filter btn--sm" type="button" data-filter="all" aria-pressed="true">All <span class="count">34</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="middle-east" aria-pressed="false">Middle East <span class="count">8</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="black-history" aria-pressed="false">Black History <span class="count">14</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="feminism" aria-pressed="false">Feminism <span class="count">7</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="tech" aria-pressed="false">Tech <span class="count">2</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="memoir" aria-pressed="false">Memoir <span class="count">3</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOK LIST -->
+  <section class="book-list" aria-label="Nonfiction recommendations">
+    <ol class="book-rows">
+
+      <!-- ═══ MIDDLE EAST (8) ═══ -->
+      <li class="book-row" data-genre="middle-east">
+        <div class="book-cover-col">
+          <div class="book-num">№ 01</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/thehundredyearswaronpalestine.jpg" alt="The Hundred Years' War on Palestine by Rashid Khalidi" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">The Hundred Years' War on Palestine</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://history.columbia.edu/person/khalidi-rashid/" target="_blank" rel="noopener">Rashid Khalidi</a></div>
+          <p class="book-blurb">A century-long account of the Israeli-Palestinian conflict framed as a settler-colonial project that began in 1917. Khalidi draws on archival records and four generations of his own family — Palestinian diplomats and educators — to trace what has actually happened since the Balfour Declaration. <em>Essential if you want the full record, not a soundbite.</em></p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="middle-east">Middle East</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="middle-east">
+        <div class="book-cover-col">
+          <div class="book-num">№ 02</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/theeyesofgaza.jpg" alt="The Eyes of Gaza by Plestia Alaqad" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">The Eyes of Gaza: A Diary of Resilience</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Plestia_Alaqad" target="_blank" rel="noopener">Plestia Alaqad</a></div>
+          <p class="book-blurb">Required reading, and I hope we keep hearing more Palestinian voices directly. Alaqad's central claim stays with me: <em>what's reaching us through media and social platforms is maybe ten percent of what's actually happening on the ground</em>. She asks the reader not to receive Palestinians as victims but as people — with hopes, with aspirations, with a right to a normal life in their homeland. One of my first corporate jobs was at a social media company, doing data entry for a machine learning model built to detect violent content. For weeks I spent my days reviewing ISIS material — decapitations, burnings, infants with catastrophic injuries. I say this only because it means I'm not desensitized to what humans are capable of, and what humans are doing right now. It is not an abstraction to say that as I was reading this book, people were being bombed. Others were learning, in real time, that someone they love was gone. Coates writes that the job of the writer is to haunt the reader. Alaqad's diary haunts me. What's in it feels like a primal human reach for dignity and recognition. <em>If I were suggesting a reading order for this topic, I'd start here.</em></p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="middle-east">Middle East</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="middle-east">
+        <div class="book-cover-col">
+          <div class="book-num">№ 03</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/thejewishstate.jpg" alt="The Jewish State by Theodor Herzl" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">The Jewish State</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Theodor_Herzl" target="_blank" rel="noopener">Theodor Herzl</a></div>
+          <p class="book-blurb">The 1896 manifesto that launched modern political Zionism. Herzl argued, in reaction to the Dreyfus Affair, that the only solution to European antisemitism was a Jewish homeland. <em>Whatever one thinks of Israel now, the argument starts here.</em> Read it alongside Khalidi to see the same century from two perspectives.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="middle-east">Middle East</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="middle-east">
+        <div class="book-cover-col">
+          <div class="book-num">№ 04</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/perfectvictimsandthepoliticsofappeal.jpg" alt="Perfect Victims and the Politics of Appeal by Mohammed El-Kurd" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Perfect Victims and the Politics of Appeal</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Mohammed_El-Kurd" target="_blank" rel="noopener">Mohammed El-Kurd</a></div>
+          <p class="book-blurb">A polemic against the demand that Palestinians perform perfect victimhood to earn Western sympathy. El-Kurd refuses respectability politics: <em>you shouldn't have to be blameless, grief-stricken, and apolitical to have your suffering counted</em>. Short, pointed, and a recalibration of what sympathy is worth when it comes with conditions.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="middle-east">Middle East</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="middle-east">
+        <div class="book-cover-col">
+          <div class="book-num">№ 05</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/thepalestinelaboratory.jpg" alt="The Palestine Laboratory by Antony Loewenstein" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">The Palestine Laboratory</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://www.antonyloewenstein.com/" target="_blank" rel="noopener">Antony Loewenstein</a></div>
+          <p class="book-blurb">Loewenstein's account of how Israel tests military tech, surveillance systems, and crowd-control tools on Palestinians, then exports them worldwide — to authoritarian regimes and liberal democracies alike. <em>The "laboratory" framing is structural, not metaphorical</em>: specific contracts, specific buyers. Won the 2023 Walkley Book Award.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="middle-east">Middle East</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="middle-east">
+        <div class="book-cover-col">
+          <div class="book-num">№ 06</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/theloomingtower.jpg" alt="The Looming Tower by Lawrence Wright" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">The Looming Tower: Al-Qaeda and the Road to 9/11</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://lawrencewright.com/" target="_blank" rel="noopener">Lawrence Wright</a></div>
+          <p class="book-blurb">The decades of history that produced 9/11, told as four intersecting biographies: Sayyid Qutb radicalizing in 1948 America, Ayman al-Zawahiri hardening in Egyptian prisons, Osama bin Laden finding religion in Saudi Arabia, and FBI counterterrorism chief John O'Neill trying and failing to stop what was coming. <em>Five years of reporting, 560 interviews.</em> Won the Pulitzer.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="middle-east">Middle East</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="middle-east">
+        <div class="book-cover-col">
+          <div class="book-num">№ 07</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/themessage.jpg" alt="The Message by Ta-Nehisi Coates" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">The Message</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://ta-nehisicoates.com/" target="_blank" rel="noopener">Ta-Nehisi Coates</a></div>
+          <p class="book-blurb">Three essays on how stories distort and what they reveal. First trip to Africa (Senegal, the Gorée slave memorial). A return to South Carolina to report on the banning of his own book. And a ten-day trip to Israel and the occupied West Bank, just before October 7, 2023. <em>The Palestine essay is the longest and most divisive</em> — Coates draws a direct parallel to Jim Crow and indicts the media establishment that enabled his own rise for silencing Palestinian voices. October 2024.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="middle-east">Middle East</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="middle-east">
+        <div class="book-cover-col">
+          <div class="book-num">№ 08</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/onedayeveryonewillhavealwaysbeenagainstthis.jpg" alt="One Day, Everyone Will Have Always Been Against This by Omar El Akkad" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">One Day, Everyone Will Have Always Been Against This</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Omar_El_Akkad" target="_blank" rel="noopener">Omar El Akkad</a></div>
+          <p class="book-blurb">Expanded from El Akkad's viral October 2023 tweet: <em>once the personal cost of speaking up has passed, everyone will claim to have been against Gaza all along</em>. The book is aimed squarely at Western liberals and centrists who knew what was happening and stayed quiet. Won the 2025 National Book Award for Nonfiction. Uncomfortable in the right direction.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="middle-east">Middle East</span>
+          </div>
+        </div>
+      </li>
+
+      <!-- ═══ BLACK HISTORY (14) ═══ -->
+      <li class="book-row" data-genre="black-history">
+        <div class="book-cover-col">
+          <div class="book-num">№ 09</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/12yearsaslave.jpg" alt="12 Years a Slave by Solomon Northup" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">12 Years a Slave</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Solomon_Northup" target="_blank" rel="noopener">Solomon Northup</a></div>
+          <p class="book-blurb">A free Black man in 1841 Saratoga, New York — educated, married, working — is drugged, kidnapped, and sold into Louisiana bondage. Northup kept his literacy secret for twelve years to survive. One of the most detailed and widely-read slave narratives ever published, and <em>the book that made me pay attention to American history as an adult</em>. Basis for McQueen's 2013 film.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="black-history">Black History</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="black-history">
+        <div class="book-cover-col">
+          <div class="book-num">№ 10</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/narrativeofthelifeoffrederickdouglass.jpg" alt="Narrative of the Life of Frederick Douglass" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Narrative of the Life of Frederick Douglass</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Frederick_Douglass" target="_blank" rel="noopener">Frederick Douglass</a></div>
+          <p class="book-blurb">Published in 1845, when Douglass was 27 and still legally a fugitive. Covers his childhood on a Maryland plantation, the moment he taught himself to read, and his escape to freedom. <em>The prose is so precise and forceful</em> it was used, at the time, to refute the pro-slavery argument that Black people were incapable of authorship. Foundational.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="black-history">Black History</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="black-history">
+        <div class="book-cover-col">
+          <div class="book-num">№ 11</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/the1619project.jpg" alt="The 1619 Project edited by Nikole Hannah-Jones" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">The 1619 Project</h3>
+          <div class="book-author"><span class="by">Edited by</span> <a href="https://nikolehannahjones.com/" target="_blank" rel="noopener">Nikole Hannah-Jones</a></div>
+          <p class="book-blurb">The 2021 book expansion of the Times Magazine project that placed slavery and its consequences at the center of American history. Hannah-Jones collects essays, poems, and scholarship from Matthew Desmond, Ibram X. Kendi, Jamelle Bouie, and others, reframing the nation's founding around the arrival of the first enslaved Africans in Virginia. <em>Banned in multiple school districts</em> — good sign of hitting something real.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="black-history">Black History</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="black-history">
+        <div class="book-cover-col">
+          <div class="book-num">№ 12</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/howtobeanantiracist.jpg" alt="How to Be an Antiracist by Ibram X. Kendi" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">How to Be an Antiracist</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://www.ibramxkendi.com/" target="_blank" rel="noopener">Ibram X. Kendi</a></div>
+          <p class="book-blurb">Part memoir, part theory. Kendi's structural move: <em>the opposite of "racist" is not "not racist" but "antiracist"</em> — a verb rather than an identity. Confronts his own earlier racial thinking across chapters on power, biology, ethnicity, class, gender, and sexuality. Spent 45 weeks at #1 on the NYT list after the murder of George Floyd.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="black-history">Black History</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="black-history">
+        <div class="book-cover-col">
+          <div class="book-num">№ 13</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/thefirenexttime.jpg" alt="The Fire Next Time by James Baldwin" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">The Fire Next Time</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://www.jamesbaldwin.info/" target="_blank" rel="noopener">James Baldwin</a></div>
+          <p class="book-blurb">Two essays. The first is a short letter to Baldwin's nephew on the hundredth anniversary of Emancipation — <em>it still lands like it was written this morning</em>. The second is a longer reported piece on his childhood in Harlem, his time in the Nation of Islam, and a meeting with Elijah Muhammad. Title from a slave spiritual: "God gave Noah the rainbow sign / No more water but the fire next time." 1963.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="black-history">Black History</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="black-history">
+        <div class="book-cover-col">
+          <div class="book-num">№ 14</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/nobodyknowsmyname.jpg" alt="Nobody Knows My Name by James Baldwin" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Nobody Knows My Name</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://www.jamesbaldwin.info/" target="_blank" rel="noopener">James Baldwin</a></div>
+          <p class="book-blurb">Baldwin's 1961 essay collection, written between Paris and the American South. Includes his pieces on Richard Wright, Norman Mailer, Ingmar Bergman, and his own return to the States after a decade abroad. Subtitled <em>"More Notes of a Native Son."</em> If The Fire Next Time is the shorter, hotter book, this is the one where you watch him think.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="black-history">Black History</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="black-history">
+        <div class="book-cover-col">
+          <div class="book-num">№ 15</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/justmercy.jpg" alt="Just Mercy by Bryan Stevenson" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Just Mercy</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://eji.org/bryan-stevenson/" target="_blank" rel="noopener">Bryan Stevenson</a></div>
+          <p class="book-blurb">Stevenson's memoir of founding the Equal Justice Initiative in Montgomery, Alabama, and of his years representing death-row prisoners in the Deep South. The book centers on the Walter McMillian case — a Black man wrongfully convicted of a 1986 murder in Monroeville, Harper Lee's hometown. <em>A primer on how the American criminal justice system punishes poverty and race more reliably than it punishes guilt.</em></p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="black-history">Black History</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="black-history">
+        <div class="book-cover-col">
+          <div class="book-num">№ 16</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/thenewjimcrow.jpg" alt="The New Jim Crow by Michelle Alexander" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">The New Jim Crow</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Michelle_Alexander" target="_blank" rel="noopener">Michelle Alexander</a></div>
+          <p class="book-blurb">Alexander names the American mass incarceration system for what it is: <em>a racial caste system operating under the legal language of colorblindness</em>. The argument: the War on Drugs functions as a legal replacement for Jim Crow — disproportionately labeling Black men as felons, then using that label to deny them housing, employment, voting rights, and jury service. Widely credited as the intellectual foundation of criminal justice reform and Black Lives Matter. 2010.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="black-history">Black History</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="black-history">
+        <div class="book-cover-col">
+          <div class="book-num">№ 17</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/letterfrombirminghamjail.jpg" alt="Letter from Birmingham Jail by Martin Luther King Jr." loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Letter from Birmingham Jail</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://thekingcenter.org/about-tkc/martin-luther-king-jr/" target="_blank" rel="noopener">Martin Luther King Jr.</a></div>
+          <p class="book-blurb">Written from a jail cell in 1963, addressed to eight white Alabama clergymen who had called King's nonviolent protest "unwise and untimely." A defense of civil disobedience against unjust laws. The line everyone remembers is about <em>"the white moderate, who is more devoted to order than to justice"</em> — but the whole thing is worth reading, short and unrelenting. Collected in Why We Can't Wait.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="black-history">Black History</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="black-history">
+        <div class="book-cover-col">
+          <div class="book-num">№ 18</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/chainofideas.jpg" alt="Chain of Ideas by Ibram X. Kendi" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Chain of Ideas</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://www.ibramxkendi.com/" target="_blank" rel="noopener">Ibram X. Kendi</a></div>
+          <p class="book-blurb">A global history of "great replacement theory" — the racist conspiracy that non-white peoples, migrants, and minorities are being deliberately empowered to displace white majorities. Kendi traces its path from French extremist Renaud Camus through Charlottesville and Christchurch to the political programs of Le Pen, Orbán, Modi, Bolsonaro, and Trump. <em>Argues it has become the dominant political idea of the twenty-first century.</em> March 2026.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="black-history">Black History</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="black-history">
+        <div class="book-cover-col">
+          <div class="book-num">№ 19</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/betweentheworldandme.jpg" alt="Between the World and Me by Ta-Nehisi Coates" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Between the World and Me</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://ta-nehisicoates.com/" target="_blank" rel="noopener">Ta-Nehisi Coates</a></div>
+          <p class="book-blurb">A book-length letter from Coates to his teenage son on being Black in America — specifically on <em>the vulnerability of the Black body to state violence</em>. Ranges across his own coming-of-age in West Baltimore, his years at Howard, and the 2000 killing of his college friend Prince Jones by a Prince George's County police officer. Modeled on Baldwin's The Fire Next Time, and makes no secret of it. Won the 2015 National Book Award.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="black-history">Black History</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="black-history">
+        <div class="book-cover-col">
+          <div class="book-num">№ 20</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/theautobiographyofmalcolmx.jpg" alt="The Autobiography of Malcolm X" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">The Autobiography of Malcolm X</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Malcolm_X" target="_blank" rel="noopener">Malcolm X, as told to Alex Haley</a></div>
+          <p class="book-blurb">Published posthumously in 1965, months after Malcolm's assassination, and based on interviews Haley conducted with him from 1963 until his death. Omaha, Lansing, Boston, Harlem, prison, the Nation of Islam, the break with Elijah Muhammad, the pilgrimage to Mecca. Time named it one of the ten most important nonfiction books of the twentieth century — <em>which undersells it</em>. A case for reading the primary source.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="black-history">Black History</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="black-history">
+        <div class="book-cover-col">
+          <div class="book-num">№ 21</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/thesundoesshine.jpg" alt="The Sun Does Shine by Anthony Ray Hinton" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">The Sun Does Shine</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Anthony_Ray_Hinton" target="_blank" rel="noopener">Anthony Ray Hinton</a></div>
+          <p class="book-blurb">Hinton spent thirty years on Alabama's death row for two 1985 murders he didn't commit — convicted on racially biased forensic evidence and inadequate legal counsel, freed in 2015 after Bryan Stevenson's Equal Justice Initiative took up the case. Oprah's Book Club pick. <em>A companion to Just Mercy, which covers the same case from Stevenson's side.</em></p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="black-history">Black History</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="black-history">
+        <div class="book-cover-col">
+          <div class="book-num">№ 22</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/thesoulsofblackfolk.jpg" alt="The Souls of Black Folk by W. E. B. Du Bois" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">The Souls of Black Folk</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/W._E._B._Du_Bois" target="_blank" rel="noopener">W. E. B. Du Bois</a></div>
+          <p class="book-blurb">The founding work of modern Black American scholarship — a 1903 collection of fourteen essays. Introduced <em>"double consciousness"</em> ("the sense of always looking at one's self through the eyes of others") and the metaphor of "the veil" between the races. Includes his famous critique of Booker T. Washington's accommodationist program. Every later Black American intellectual has had to answer to it in some way.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="black-history">Black History</span>
+          </div>
+        </div>
+      </li>
+
+      <!-- ═══ FEMINISM (7) ═══ -->
+      <li class="book-row" data-genre="feminism">
+        <div class="book-cover-col">
+          <div class="book-num">№ 23</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/abortion.jpg" alt="Abortion by Jessica Valenti" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Abortion: Our Bodies, Their Lies, and the Truths We Use to Win</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://www.jessicavalenti.com/" target="_blank" rel="noopener">Jessica Valenti</a></div>
+          <p class="book-blurb">Valenti's handbook for the post-Roe moment, drawn from her daily newsletter Abortion, Every Day. Structural claim: <em>abortion isn't actually the polarizing issue American media makes it out to be</em> — roughly 80% of Americans oppose government regulation of pregnancy. The book gives readers the language and data to push back against legislative attacks. Released one month before the 2024 election.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="feminism">Feminism</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="feminism">
+        <div class="book-cover-col">
+          <div class="book-num">№ 24</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/menwhohatewomen.jpg" alt="Men Who Hate Women by Laura Bates" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Men Who Hate Women</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://www.laurabates.co.uk/" target="_blank" rel="noopener">Laura Bates</a></div>
+          <p class="book-blurb">Bates's investigation into the online "manosphere" — the linked subcultures of incels, pickup artists, men's rights activists, and MGTOW communities. Years of undercover research, plus interviews with deradicalized former members. The argument: <em>this is not a fringe problem but a pipeline</em> that has produced multiple mass murderers, reshaped online discourse, and found its way into mainstream politics. From the founder of the Everyday Sexism Project.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="feminism">Feminism</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="feminism">
+        <div class="book-cover-col">
+          <div class="book-num">№ 25</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/knowmyname.jpg" alt="Know My Name by Chanel Miller" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Know My Name</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://chanel-miller.com/" target="_blank" rel="noopener">Chanel Miller</a></div>
+          <p class="book-blurb">Miller's memoir — <em>the first book she published under her own name</em> after years as "Emily Doe," the victim in the Brock Turner Stanford sexual assault case. Reconstructs the 2015 attack, the trial, the media circus, and the years of recovery. Her viral 7,000-word victim impact statement, read into the Congressional Record, was the first draft of this book in miniature. Won the 2019 National Book Critics Circle Award.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="feminism">Feminism</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="feminism">
+        <div class="book-cover-col">
+          <div class="book-num">№ 26</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/calibanandthewitch.jpg" alt="Caliban and the Witch by Silvia Federici" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Caliban and the Witch</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Silvia_Federici" target="_blank" rel="noopener">Silvia Federici</a></div>
+          <p class="book-blurb">A 2004 rereading of the European witch hunts as a tool of capitalist labor discipline. Federici's argument: the hundreds of thousands of women executed as witches from the 15th to 17th centuries were targeted not for religious heresy but <em>to destroy peasant women's economic independence, reproductive control, and communal knowledge</em> — clearing the ground for wage labor and the nuclear family. A foundational text for feminist critiques of capitalism.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="feminism">Feminism</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="feminism">
+        <div class="book-cover-col">
+          <div class="book-num">№ 27</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/invisiblewomen.jpg" alt="Invisible Women by Caroline Criado Perez" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Invisible Women</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://carolinecriadoperez.com/" target="_blank" rel="noopener">Caroline Criado Perez</a></div>
+          <p class="book-blurb">A catalog of the gender data gap — the consequences of building a world around an assumed male default. Crash-test dummies modeled on male bodies. Medical drug trials that exclude women. Snow-plowing schedules optimized for commuters over caregivers. Phone keyboards too wide for women's hands. <em>Criado Perez makes the case calmly, with the data, and the cumulative effect is devastating.</em> Won the 2019 Royal Society Science Book Prize.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="feminism">Feminism</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="feminism">
+        <div class="book-cover-col">
+          <div class="book-num">№ 28</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/thenewageofsexism.jpg" alt="The New Age of Sexism by Laura Bates" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">The New Age of Sexism</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://www.laurabates.co.uk/" target="_blank" rel="noopener">Laura Bates</a></div>
+          <p class="book-blurb">Bates's 2025 follow-up to Men Who Hate Women. Subtitled <em>How AI and Emerging Technologies Are Reinventing Misogyny</em>, and it covers exactly that: deepfake pornography, AI chatbot "girlfriends," metaverse harassment, sex robots, image-based abuse, and the bias embedded in AI training data. The argument: the window to regulate these systems is closing fast, and most policymakers have no idea what they're looking at.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="feminism">Feminism</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="feminism">
+        <div class="book-cover-col">
+          <div class="book-num">№ 29</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/shrill.jpg" alt="Shrill by Lindy West" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Shrill</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://www.lindywest.net/" target="_blank" rel="noopener">Lindy West</a></div>
+          <p class="book-blurb">Essays on being a loud woman in a culture that rewards women for being quiet. Fat acceptance, abortion, rape jokes in comedy, the time she confronted the internet troll impersonating her dead father, the years at Jezebel and The Stranger. <em>Funny in places where funny wouldn't survive without the substance underneath.</em> Adapted into the 2019 Hulu series with Aidy Bryant.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="feminism">Feminism</span>
+          </div>
+        </div>
+      </li>
+
+      <!-- ═══ TECH (2) ═══ -->
+      <li class="book-row" data-genre="tech">
+        <div class="book-cover-col">
+          <div class="book-num">№ 30</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/carelesspeople.jpg" alt="Careless People by Sarah Wynn-Williams" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Careless People</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Sarah_Wynn-Williams" target="_blank" rel="noopener">Sarah Wynn-Williams</a></div>
+          <p class="book-blurb">Seven years inside Meta, told by its former global policy director. Wynn-Williams was in the room for the company's complicity in the Rohingya genocide, for secret negotiations with the Chinese government over censorship tools, and for what she describes as serial misconduct by Sheryl Sandberg and Joel Kaplan. <em>Meta obtained an emergency arbitration order to bar her from promoting the book</em> — which drove it to #1 on the NYT list anyway. Title from Gatsby: the carelessness of people who smash things and retreat into their money.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="tech">Tech</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="tech">
+        <div class="book-cover-col">
+          <div class="book-num">№ 31</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/badblood.jpg" alt="Bad Blood by John Carreyrou" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Bad Blood</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/John_Carreyrou" target="_blank" rel="noopener">John Carreyrou</a></div>
+          <p class="book-blurb">The rise and fall of Theranos — the Silicon Valley biotech founded by Elizabeth Holmes that claimed to run hundreds of medical tests on a drop of blood, hit a $9B valuation, and turned out to be a fraud. Expanded from Carreyrou's Wall Street Journal stories that first cracked it open. <em>Shows how Stanford pedigree, political connections (George Shultz, Henry Kissinger, and Jim Mattis were on the board), and a culture of internal fear kept the deception going for over a decade.</em> Basis for the Hulu series The Dropout.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="tech">Tech</span>
+          </div>
+        </div>
+      </li>
+
+      <!-- ═══ MEMOIR (3) ═══ -->
+      <li class="book-row" data-genre="memoir">
+        <div class="book-cover-col">
+          <div class="book-num">№ 32</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/mynextbreath.jpg" alt="My Next Breath by Jeremy Renner" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">My Next Breath</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://officialjeremyrenner.com/" target="_blank" rel="noopener">Jeremy Renner</a></div>
+          <p class="book-blurb">Renner's debut memoir. New Year's Day 2023, a 14,000-pound snowplow runs him over while he's helping his nephew at his Lake Tahoe home. <em>He stayed conscious under it for more than half an hour by using Lamaze breathing he'd learned as a teenager helping his mother through her pregnancies.</em> The rest is surgeries and rehab. Published April 2025, the same month he returned to filming Mayor of Kingstown.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="memoir">Memoir</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="memoir">
+        <div class="book-cover-col">
+          <div class="book-num">№ 33</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/greenlights.jpg" alt="Greenlights by Matthew McConaughey" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Greenlights</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Matthew_McConaughey" target="_blank" rel="noopener">Matthew McConaughey</a></div>
+          <p class="book-blurb">McConaughey's memoir, built from thirty-five years of journals he'd been keeping since he was a teenager. Structured around <em>"greenlights"</em> — the moments life gives you permission to go — and the yellows and reds that force you to stop and reroute. Sold over three million copies in its first year. Not a conventional Hollywood memoir: more time on his Texas childhood, his year in Australia, and his personal philosophy than on the film career.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="memoir">Memoir</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="memoir">
+        <div class="book-cover-col">
+          <div class="book-num">№ 34</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/whenilefthome.jpg" alt="When I Left Home by Buddy Guy" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">When I Left Home</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://www.buddyguy.net/" target="_blank" rel="noopener">Buddy Guy (with David Ritz)</a></div>
+          <p class="book-blurb">Buddy Guy's memoir, written with David Ritz. Lettsworth, Louisiana — picking cotton, fashioning his first guitar from window-screen wire. Chicago in 1957. Decades at Chess Records alongside Muddy Waters and Howlin' Wolf. Eventually, recognition as one of the most influential guitarists in American music. <em>Clapton, Hendrix, and Vaughan all named him as a primary inspiration</em> — this is the same story in his own words.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="memoir">Memoir</span>
+          </div>
+        </div>
+      </li>
+
+    </ol>
+
+    <div class="book-list-trailer">
+      Showing <span class="live-count" data-live-count>34</span> of thirty-four · April 2026
+    </div>
+  </section>
+
+  <!-- COLOPHON / END -->
+  <section class="end-page" id="endPage">
+    <div class="end-stage">
+      <span class="ornament">❦</span>
+      <h2>
+        Thirty-four books, <em>five topics</em>.
+      </h2>
+      <p>
+        That's the nonfiction list as it stands. The dashboards section turns two of these topics into live data — the war on Gaza, and the racial and gender dimensions of American wealth. Wander further into the library, or write back if a book changed how you see something.
+      </p>
+      <div class="end-links">
+        <a href="dashboards.html">Dashboards</a>
+        <a href="fiction.html">Best of Fiction</a>
+        <a href="bookstores.html">Bookstores by city</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
+    <div class="end-footer">
+      <div class="left">A library of one. Franklin → Chicago.</div>
+      <div class="right">
+        <a href="#">Newsletter</a>
+        <a href="#">RSS</a>
+        <a href="mailto:hello@heartslibrary.com">Contact</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Back-to-top button — site.js's setupBackToTop wires it up. -->
+<button class="btn btn--icon back-to-top" id="backToTop"
+        type="button"
+        aria-label="Back to top"
+        aria-hidden="true">
+  <svg viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+    <path d="M9 14 V4 M4 9 L9 4 L14 9" />
+  </svg>
+</button>
+
+<script src="js/motion.js"></script>
+<script src="js/site.js"></script>
+<script src="js/components/book-list.js"></script>
+
+</body>
+</html>
+                                                                                                                                                                                                                                                                                                                                                                                                   

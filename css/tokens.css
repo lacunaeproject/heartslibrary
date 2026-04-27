@@ -1,0 +1,205 @@
+/* ════════════════════════════════════════════════════════
+   Heart's Library — DESIGN TOKENS
+   Single source of truth for color, type, shadow, motion.
+   Light-only — the dark theme was retired in favor of the
+   editorial cream-paper / dark-ink register that matches the
+   per-book full-bleed colored panels.
+   ════════════════════════════════════════════════════════ */
+
+:root {
+  --paper:           #FFFFFF;
+  --paper-sunk:      #F4F4F2;
+  --ink:             #1A1D24;
+  --ink-soft:        #3E434E;
+  --marginalia:      #6B6E76;
+  --rule:            #E5E5E2;
+  --rule-strong:     #B8B8B4;
+  --accent:          #C8102E;
+  --accent-quiet:    #8C1F2C;
+  --accent-ink:      #FFFFFF;
+  --mark:            #40B4E4;
+  --mark-ink:        #1A1D24;
+
+  --book-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.05),
+    0 6px 14px -4px rgba(20, 20, 30, 0.12),
+    0 18px 32px -8px rgba(20, 20, 30, 0.16),
+    0 32px 48px -16px rgba(20, 20, 30, 0.10),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+  --book-shadow-large:
+    0 2px 0 rgba(0, 0, 0, 0.05),
+    0 16px 32px -6px rgba(20, 20, 30, 0.18),
+    0 40px 64px -12px rgba(20, 20, 30, 0.22),
+    0 64px 96px -28px rgba(20, 20, 30, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+
+  --mute: var(--marginalia);
+
+  /* Type system. Newsreader is THE display typeface. */
+  --display: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif;
+  --display-poster: 'Unbounded', 'Bricolage Grotesque', 'Helvetica Neue', sans-serif;
+  --serif: 'Newsreader', 'Iowan Old Style', 'Hoefler Text', Georgia, serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* ════════════════════════════════════════════════════════
+     LINE-HEIGHT SYSTEM — five tiers, applied consistently.
+     ════════════════════════════════════════════════════════ */
+  --lh-display:  1.05; /* chapter-title h2, end-stage h2, city-name, dashboard-title */
+  --lh-headline: 1.15; /* region-name, shop-name, book-title, credit-headline */
+  --lh-quote:    1.25; /* pull-quote */
+  --lh-body:     1.6;  /* blurbs, decks, body paragraphs */
+  --lh-meta:     1.5;  /* stat labels, author lines, captions */
+  --lh-tight:    1.35; /* mono utility text, eyebrows */
+
+  /* ════════════════════════════════════════════════════════
+     TYPE SCALE — primitive tokens. Number roughly equals
+     px-size in 1/100ths (--t-100 = 16px = 1rem).
+     Components compose with clamp(--t-A, Nvw, --t-B).
+     ════════════════════════════════════════════════════════ */
+  --t-69:   0.6875rem;  /* 11px - tiniest mono caption */
+  --t-75:   0.75rem;    /* 12px - small mono */
+  --t-81:   0.8125rem;  /* 13px - city-dates */
+  --t-87:   0.875rem;   /* 14px - small body */
+  --t-94:   0.9375rem;  /* 15px - small blurb */
+  --t-100:  1rem;       /* 16px - body base */
+  --t-106:  1.0625rem;  /* 17px */
+  --t-112:  1.125rem;   /* 18px - body-large */
+  --t-125:  1.25rem;    /* 20px - blurb large */
+  --t-137:  1.375rem;   /* 22px - deck */
+  --t-150:  1.5rem;     /* 24px - subhead small */
+  --t-175:  1.75rem;    /* 28px - subhead */
+  --t-200:  2rem;       /* 32px - h3-sm */
+  --t-225:  2.25rem;    /* 36px - h3 / shop-name max */
+  --t-275:  2.75rem;    /* 44px - end-h2 floor */
+  --t-300:  3rem;       /* 48px - h2-sm / book-title max */
+  --t-350:  3.5rem;     /* 56px - h2 mid / next-city max */
+  --t-400:  4rem;       /* 64px - h2-md / region-name max / chapter-title floor */
+  --t-450:  4.5rem;     /* 72px - dashboard-title max */
+  --t-500:  5rem;       /* 80px - hero-step */
+  --t-700:  7rem;       /* 112px - city-name max / end-h2 max */
+  --t-775:  7.75rem;    /* 124px - end-h2 v44 */
+  --t-1000: 10rem;      /* 160px */
+  --t-1200: 12rem;      /* 192px */
+  --t-1300: 13rem;      /* 208px */
+  --t-1500: 15rem;      /* 240px - hero standard max */
+  --t-1750: 17.5rem;    /* 280px - hero tall max */
+  --t-2000: 20rem;      /* 320px - homepage poster max (v44) */
+
+  /* ════════════════════════════════════════════════════════
+     SPACING SCALE — primitive tokens, base 4px.
+     4px increments through s-10, then 8-16px steps.
+     ════════════════════════════════════════════════════════ */
+  --s-1:  0.25rem;  /*   4px */
+  --s-2:  0.5rem;   /*   8px */
+  --s-3:  0.75rem;  /*  12px */
+  --s-4:  1rem;     /*  16px */
+  --s-5:  1.25rem;  /*  20px */
+  --s-6:  1.5rem;   /*  24px */
+  --s-7:  1.75rem;  /*  28px */
+  --s-8:  2rem;     /*  32px */
+  --s-9:  2.25rem;  /*  36px */
+  --s-10: 2.5rem;   /*  40px */
+  --s-11: 2.75rem;  /*  44px */
+  --s-12: 3rem;     /*  48px */
+  --s-13: 3.5rem;   /*  56px */
+  --s-14: 4rem;     /*  64px */
+  --s-15: 5rem;     /*  80px */
+  --s-16: 6rem;     /*  96px */
+  --s-17: 7rem;     /* 112px */
+  --s-18: 8rem;     /* 128px */
+  --s-19: 10rem;    /* 160px */
+
+  /* ════════════════════════════════════════════════════════
+     LAYOUT PRIMITIVES — page-level constants.
+     ════════════════════════════════════════════════════════ */
+  --max-container:        1600px;
+  --gutter:               var(--s-13);  /* 56px desktop edge gutter */
+  --gutter-mobile:        var(--s-7);   /* 28px mobile edge gutter */
+  --gutter-content:       5.625rem;     /* 90px desktop content indent */
+  --gutter-content-mobile: var(--s-9);  /* 36px mobile content indent */
+
+  /* ════════════════════════════════════════════════════════
+     SEMANTIC SPACING — responsive section/row paddings.
+     Composed from primitives + viewport units.
+     ════════════════════════════════════════════════════════ */
+  --pad-page-tall:    clamp(var(--s-15), 14vh, var(--s-19));  /*  80-160px - chapter-title.tall, hero opener */
+  --pad-page:         clamp(var(--s-14), 10vh, var(--s-18));  /*  60-128px - chapter-title regular */
+  --pad-section-lg:   clamp(var(--s-14), 10vh, var(--s-17));  /*  64-112px - note-block, end-page */
+  --pad-section-md:   clamp(var(--s-12),  6vh, var(--s-15));  /*  48-80px  - timeline, region-block */
+  --pad-section-sm:   clamp(var(--s-7),   4vh, var(--s-12));  /*  28-48px  - small section */
+  --pad-row-lg:       clamp(var(--s-13),  9vh, var(--s-17));  /*  56-112px - city-row */
+  --pad-row-md:       clamp(var(--s-11),  6vh, var(--s-15));  /*  44-80px  - book-row */
+  --pad-row-sm:       clamp(var(--s-7),   4vh, var(--s-11));  /*  28-44px  - shop-entry */
+  --pad-page-bottom:  clamp(var(--s-12),  8vh, var(--s-15));  /*  48-80px  - section bottom */
+  --gap-stage:        clamp(var(--s-9),   5vh, var(--s-13));  /*  36-56px  - h2 → deck */
+  --gap-section:      clamp(var(--s-7),   3vh, var(--s-12));  /*  28-48px  - subsection internal */
+
+  /* ════════════════════════════════════════════════════════
+     RADIUS — corner radii. Editorial / printed-object register
+     means we keep these conservative — sharp paper edges, not
+     web-app pill chips.
+     ════════════════════════════════════════════════════════ */
+  --radius-1: 2px;     /* hairline corner — buttons, chips */
+  --radius-2: 4px;     /* default UI surface — dropdowns, panels */
+  --radius-3: 6px;     /* cards, larger blocks */
+  --radius-pill: 999px; /* used sparingly — only for true pill shapes */
+
+  /* ════════════════════════════════════════════════════════
+     SHADOWS — composed in light values to read as ink on paper.
+     --shadow-1 is the subtle UI lift (dropdowns, hover); --shadow-2
+     is the dropdown / drawer mid-depth; --shadow-3 is the lifted
+     surface used for the back-to-top FAB and active overlays.
+     The book covers use their own --book-shadow / --book-shadow-large
+     above — those are tuned for printed-object weight, not UI.
+     ════════════════════════════════════════════════════════ */
+  --shadow-1:
+    0 1px 0 rgba(0, 0, 0, 0.04),
+    0 4px 10px -2px rgba(20, 20, 30, 0.08);
+  --shadow-2:
+    0 1px 0 rgba(0, 0, 0, 0.04),
+    0 14px 28px -8px rgba(20, 20, 30, 0.16),
+    0 28px 48px -16px rgba(20, 20, 30, 0.10);
+  --shadow-3:
+    0 2px 0 rgba(0, 0, 0, 0.05),
+    0 18px 36px -10px rgba(20, 20, 30, 0.20),
+    0 32px 64px -24px rgba(20, 20, 30, 0.12);
+
+  /* ════════════════════════════════════════════════════════
+     MOTION — durations and easings. All transitions across the
+     site should reach into these so adjusting "fast" or
+     "smooth" once tunes the whole feel.
+     ════════════════════════════════════════════════════════ */
+  --dur-fast:    0.2s;   /* color/border state changes */
+  --dur-base:    0.3s;   /* most UI — hover lifts, dropdown panels */
+  --dur-mid:     0.45s;  /* size shifts, draw-line entrances */
+  --dur-slow:    0.7s;   /* hero word reveals, scroll-bound exhale */
+
+  --ease-out:    cubic-bezier(0.22, 0.61, 0.36, 1);   /* default editorial out */
+  --ease-in-out: cubic-bezier(0.4, 0.0, 0.2, 1);      /* atmosphere, page transitions */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* sun/moon icon swap; sparingly */
+  --ease-emphatic: cubic-bezier(0.16, 1, 0.3, 1);     /* hero entrance words */
+
+  /* ════════════════════════════════════════════════════════
+     Z-INDEX — single ladder so layered surfaces don't fight.
+     Header is the persistent top of UI; sticky filters slot
+     just below. Drawers/overlays sit above header, the
+     curtain above everything.
+     ════════════════════════════════════════════════════════ */
+  --z-base:        1;
+  --z-sticky:      40;   /* sticky filter bar */
+  --z-header:      50;   /* fixed nav */
+  --z-back-top:    55;   /* back-to-top FAB — over header */
+  --z-overlay:     60;   /* mobile drawer + scrim */
+  --z-curtain:     9999; /* page-transition curtain */
+
+  /* ════════════════════════════════════════════════════════
+     LAYOUT TIMINGS — element heights other components measure
+     against. Filter sticky offset, drawer top, etc. all reach
+     into --header-h.
+     ════════════════════════════════════════════════════════ */
+  --header-h:        64px;
+  --header-h-mobile: 56px;
+  --filter-h:        64px;
+
+  color-scheme: light;
+}

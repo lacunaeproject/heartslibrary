@@ -1,0 +1,216 @@
+/* ════════════════════════════════════════════════════════
+   COMPONENT — BUTTONS
+   The single button system used across the entire site:
+   nav, filters, CTAs, back-to-top, dropdowns, etc. All
+   variants share one base so spacing, radius, motion, and
+   focus rings stay in lockstep when tokens change.
+
+   Variants (combine with .btn):
+   • .btn--primary  — filled accent, paper text. CTAs.
+   • .btn--secondary — outlined; accent border. Quiet CTAs.
+   • .btn--ghost    — text only with hairline underline.
+                       For inline/in-text actions.
+   • .btn--filter   — chip-style toggle for filter bars.
+   • .btn--icon     — square, icon-only. Back-to-top, close.
+
+   Sizes:
+   • (default)      — 40px tall, comfortable tap target.
+   • .btn--sm       — 32px tall, compact rows (filter bars).
+   • .btn--lg       — 48px tall, hero CTAs.
+   ════════════════════════════════════════════════════════ */
+
+.btn {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 18px;
+  height: 40px;
+  min-width: 0;
+  white-space: nowrap;
+
+  /* Type */
+  font-family: var(--display);
+  font-weight: 600;
+  font-variation-settings: "wdth" 96, "opsz" 14;
+  font-size: var(--t-87);
+  letter-spacing: -0.005em;
+  line-height: 1;
+
+  /* Surface */
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid transparent;
+  border-radius: var(--radius-1);
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+
+  /* Motion */
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+
+.btn:focus { outline: none; }
+.btn:focus-visible {
+  /* Two-ring focus indicator that reads on any background — the
+     inset ring keeps the focus visible on light surfaces, the
+     outer ring on dark/colored surfaces. */
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* Size variants ─────────────────────────────────────────── */
+.btn--sm {
+  height: 32px;
+  padding: 0 14px;
+  font-size: var(--t-81);
+  gap: 8px;
+}
+.btn--lg {
+  height: 48px;
+  padding: 0 24px;
+  font-size: var(--t-94);
+  gap: 12px;
+}
+
+/* PRIMARY — filled accent ────────────────────────────────── */
+.btn--primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+.btn--primary:hover {
+  background: var(--accent-quiet);
+  border-color: var(--accent-quiet);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-1);
+}
+.btn--primary:active { transform: translateY(0); box-shadow: none; }
+
+/* SECONDARY — outlined ───────────────────────────────────── */
+.btn--secondary {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--ink) 20%, transparent);
+}
+.btn--secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.btn--secondary:active { transform: translateY(1px); }
+
+/* GHOST — text-only ───────────────────────────────────────── */
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+  padding: 0 6px;
+  border-color: transparent;
+  position: relative;
+}
+.btn--ghost::after {
+  content: '';
+  position: absolute;
+  left: 6px; right: 6px;
+  bottom: 8px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-mid) var(--ease-out);
+}
+.btn--ghost:hover { color: var(--accent); }
+.btn--ghost:hover::after { opacity: 1; transform: scaleX(1); }
+
+/* FILTER — chip-style toggle ─────────────────────────────── */
+/* Used by sticky filter bars. Inactive: outlined ghost.
+   Active (aria-pressed=true): filled accent. The aria-pressed
+   attribute is the source of truth for active state — JS only
+   toggles the attribute, CSS handles all the visual swap. */
+.btn--filter {
+  height: 36px;
+  padding: 0 16px;
+  font-size: var(--t-81);
+  gap: 8px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  border-color: color-mix(in srgb, var(--ink) 14%, transparent);
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  font-variation-settings: "wdth" 96, "opsz" 14;
+  text-transform: none;
+}
+.btn--filter:hover {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--ink) 28%, transparent);
+}
+.btn--filter[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.btn--filter[aria-pressed="true"]:hover {
+  background: color-mix(in srgb, var(--ink) 90%, var(--accent) 10%);
+  border-color: color-mix(in srgb, var(--ink) 90%, var(--accent) 10%);
+}
+.btn--filter .count {
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+  font-feature-settings: "tnum";
+}
+.btn--filter[aria-pressed="true"] .count { opacity: 0.85; }
+
+/* ICON — square, icon-only ───────────────────────────────── */
+.btn--icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: var(--radius-2);
+  background: var(--paper);
+  border-color: color-mix(in srgb, var(--ink) 14%, transparent);
+}
+.btn--icon.btn--sm { width: 32px; height: 32px; }
+.btn--icon.btn--lg { width: 48px; height: 48px; }
+.btn--icon:hover {
+  border-color: color-mix(in srgb, var(--ink) 28%, transparent);
+  color: var(--accent);
+}
+.btn--icon svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+.btn--icon.btn--sm svg { width: 14px; height: 14px; }
+
+/* When a button-group needs a hairline divider — used by the
+   sticky filter bar when filter buttons share a single track */
+.btn-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Reduced motion — kill transforms, keep color changes */
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn--ghost::after { transition: none; }
+  .btn:hover { transform: none; }
+}

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bookstores — Heart's Library</title>
+<meta name="description" content="Every independent bookshop I've shopped or plan to — organized by city. A love letter to indie bookshops across every place I've lived.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap">
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomEase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+
+<!-- (theme toggle retired — site is light-only) -->
+
+<!-- Design system + shared components — single source of truth.
+     Order: tokens → component primitives → site-wide → motion →
+     page-specific component CSS. -->
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components/buttons.css">
+<link rel="stylesheet" href="css/components/eyebrow.css">
+<link rel="stylesheet" href="css/components/header.css">
+<link rel="stylesheet" href="css/components/sticky-filter.css">
+<link rel="stylesheet" href="css/components/back-to-top.css">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/motion.css">
+<link rel="stylesheet" href="css/components/timeline.css">
+</head>
+
+<body>
+
+<div class="atmosphere" id="atmosphere"></div>
+
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="wordmark">
+      <svg class="logo logo-heart" viewBox="0 0 24 22" aria-hidden="true" focusable="false">
+        <path d="M12 20.4 C 5.5 16.5, 1.5 12, 1.5 7.6 C 1.5 4.5, 4 2, 7 2 C 9 2, 10.8 3.1, 12 4.9 C 13.2 3.1, 15 2, 17 2 C 20 2, 22.5 4.5, 22.5 7.6 C 22.5 12, 18.5 16.5, 12 20.4 Z" />
+      </svg>
+      <span class="logo-text">Heart's Library</span>
+    </a>
+    <nav class="primary">
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button" aria-haspopup="menu" aria-expanded="false">Lists</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="fiction.html" role="menuitem">Fiction</a>
+          <a href="nonfiction.html" role="menuitem">Non-Fiction</a>
+        </div>
+      </div>
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger active" type="button" aria-haspopup="menu" aria-expanded="false">Bookstores</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="bookstores.html" class="all-link active" role="menuitem">All bookstores</a>
+          <a href="bookstores-chicago.html" role="menuitem">Chicago</a>
+          <a href="bookstores-nashville.html" role="menuitem">Nashville</a>
+          <a href="bookstores-new-york.html" role="menuitem">New York</a>
+          <a href="bookstores-bay-area.html" role="menuitem">Bay Area</a>
+          <a href="bookstores-los-angeles.html" role="menuitem">Los Angeles</a>
+        </div>
+      </div>
+      <a href="dashboards.html">Dashboards</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button"
+            aria-label="Open navigation menu"
+            aria-controls="navDrawer"
+            aria-expanded="false">
+      <span class="toggle-icon" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile drawer + scrim — wired up by site.js's setupMobileNav. -->
+<div class="nav-scrim" id="navScrim" aria-hidden="true"></div>
+<aside class="nav-drawer" id="navDrawer" aria-label="Site navigation">
+  <div class="nav-drawer-header">
+    <span class="nav-drawer-eyebrow">Heart's Library</span>
+  </div>
+  <ul class="nav-drawer-list">
+    <li><a href="index.html">Home</a></li>
+    <li>
+      <span class="drawer-section-label">Lists</span>
+      <ul class="drawer-sublist">
+        <li><a href="fiction.html">Fiction</a></li>
+        <li><a href="nonfiction.html">Non-Fiction</a></li>
+      </ul>
+    </li>
+    <li>
+      <span class="drawer-section-label">Bookstores</span>
+      <ul class="drawer-sublist">
+        <li><a href="bookstores.html" class="active">All bookstores</a></li>
+        <li><a href="bookstores-chicago.html">Chicago</a></li>
+        <li><a href="bookstores-nashville.html">Nashville</a></li>
+        <li><a href="bookstores-new-york.html">New York</a></li>
+        <li><a href="bookstores-bay-area.html">Bay Area</a></li>
+        <li><a href="bookstores-los-angeles.html">Los Angeles</a></li>
+      </ul>
+    </li>
+    <li><a href="dashboards.html">Dashboards</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-drawer-footer">A library of one</div>
+</aside>
+
+<main>
+
+  <!-- ════════════════════════════════════════════════════════
+       CHAPTER TITLE — opener
+       ════════════════════════════════════════════════════════ -->
+  <section class="chapter-title tall" id="chapterTitle">
+
+    <div class="chapter-stage">
+      <div class="chapter-eyebrow">
+        <span>Five cities, thirty-four years</span>
+      </div>
+      <h2>
+        Where I've been <span class="accent">buying</span> books.
+      </h2>
+      <p class="chapter-deck">
+        Every indie bookstore I've shopped or plan to, organized by city. No affiliate links. Pick a city, or scroll down for the full timeline.
+      </p>
+      <div class="chapter-meta">
+        <div class="item">Compiled<strong>April 2026</strong></div>
+        <div class="item">Cities<strong>Five — LA, Bay, NYC, Nashville, Chicago</strong></div>
+        <div class="item">Span<strong>1993 → 2027 (≈ 34 yrs)</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CITY-STATUS FILTER — sticky beneath the header -->
+  <section class="sticky-filter" data-sticky-filter aria-label="City status filter">
+    <div class="sticky-filter-inner">
+      <span class="sticky-filter-label">Era</span>
+      <div class="btn-group" role="group" aria-label="Filter cities by era">
+        <button class="btn btn--filter btn--sm" type="button" data-filter="all" aria-pressed="true">All <span class="count">5</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="past" aria-pressed="false">Past <span class="count">3</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="current" aria-pressed="false">Current <span class="count">1</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="upcoming" aria-pressed="false">Upcoming <span class="count">1</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       CITY TIMELINE
+       ════════════════════════════════════════════════════════ -->
+  <section class="timeline" id="timeline">
+    <div class="timeline-stage">
+      <div class="timeline-eyebrow">The Timeline · Five chapters · Click any to descend</div>
+    </div>
+
+    <ol class="timeline-list" role="list">
+
+      <a href="bookstores-los-angeles.html" class="city-row" data-status="past">
+        <div class="city-meta-col">
+          <div class="city-dates">1993 <span class="em-dash">—</span> 2012</div>
+          <div class="city-tag">Hometown</div>
+          <div class="city-shops">
+            <span class="count">19</span>
+            <span class="label">shops · ready</span>
+          </div>
+        </div>
+        <div class="city-body-col">
+          <h3 class="city-name">
+            <span class="word"><span class="word-inner">Los</span></span>
+            <span class="word"><span class="word-inner">Angeles,</span></span>
+            <span class="word"><span class="word-inner">California</span></span>
+            <span class="city-arrow" aria-hidden="true">↗</span>
+          </h3>
+          <p class="city-blurb">
+            Where the reading started. Childhood, teenage years, college — the first bookstores, the first libraries, the first <em>books that rearranged things</em>. Nineteen years in one sprawling city.
+          </p>
+          <div class="city-locale">
+            <span>Central + Eastside</span><span class="dot">·</span>
+            <span>Westside + Beach</span><span class="dot">·</span>
+            <span>Valley + Pasadena</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="bookstores-bay-area.html" class="city-row" data-status="past">
+        <div class="city-meta-col">
+          <div class="city-dates">2012 <span class="em-dash">—</span> 2021</div>
+          <div class="city-tag tag-quiet">Career years</div>
+          <div class="city-shops">
+            <span class="count">22</span>
+            <span class="label">shops · ready</span>
+          </div>
+        </div>
+        <div class="city-body-col">
+          <h3 class="city-name">
+            <span class="word"><span class="word-inner">Bay</span></span>
+            <span class="word"><span class="word-inner">Area,</span></span>
+            <span class="word"><span class="word-inner">California</span></span>
+            <span class="city-arrow" aria-hidden="true">↗</span>
+          </h3>
+          <p class="city-blurb">
+            Oakland, Berkeley, San Francisco — nine years moving between them as the career took shape. A region with some of the country's most singular independent bookstores.
+          </p>
+          <div class="city-locale">
+            <span>Oakland</span><span class="dot">·</span>
+            <span>Berkeley</span><span class="dot">·</span>
+            <span>San Francisco</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="bookstores-new-york.html" class="city-row" data-status="past">
+        <div class="city-meta-col">
+          <div class="city-dates">2021 <span class="em-dash">—</span> 2023</div>
+          <div class="city-tag tag-quiet">Two-year stint</div>
+          <div class="city-shops">
+            <span class="count">13</span>
+            <span class="label">shops · ready</span>
+          </div>
+        </div>
+        <div class="city-body-col">
+          <h3 class="city-name">
+            <span class="word"><span class="word-inner">New</span></span>
+            <span class="word"><span class="word-inner">York,</span></span>
+            <span class="word"><span class="word-inner">New</span></span>
+            <span class="word"><span class="word-inner">York</span></span>
+            <span class="city-arrow" aria-hidden="true">↗</span>
+          </h3>
+          <p class="city-blurb">
+            Manhattan, briefly. Two years, but the density of bookstores per square mile <em>does something to a reader</em>.
+          </p>
+          <div class="city-locale">
+            <span>Lower Manhattan</span><span class="dot">·</span>
+            <span>Midtown + West</span><span class="dot">·</span>
+            <span>Upper East + West</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="bookstores-nashville.html" class="city-row" data-status="current">
+        <div class="city-meta-col">
+          <div class="city-dates">2023 <span class="em-dash">—</span> 2027</div>
+          <div class="city-tag">Currently here</div>
+          <div class="city-shops">
+            <span class="count">9</span>
+            <span class="label">shops · ready</span>
+          </div>
+        </div>
+        <div class="city-body-col">
+          <h3 class="city-name">
+            <span class="word"><span class="word-inner">Nashville,</span></span>
+            <span class="word"><span class="word-inner">Tennessee</span></span>
+            <span class="city-arrow" aria-hidden="true">↗</span>
+          </h3>
+          <p class="city-blurb">
+            Where I am now. Nashville has several bookstores I'm getting to know — <em>Parnassus</em> is the one I actually shop at, but the list is bigger than I realized.
+          </p>
+          <div class="city-locale">
+            <span>Hillsboro + 12 South</span><span class="dot">·</span>
+            <span>East + Germantown</span><span class="dot">·</span>
+            <span>Franklin</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="bookstores-chicago.html" class="city-row" data-status="upcoming">
+        <div class="city-meta-col">
+          <div class="city-dates">2027 <span class="em-dash">—</span></div>
+          <div class="city-tag">Upcoming</div>
+          <div class="city-shops">
+            <span class="count">50</span>
+            <span class="label">shops · ready</span>
+          </div>
+        </div>
+        <div class="city-body-col">
+          <h3 class="city-name">
+            <span class="word"><span class="word-inner">Chicago,</span></span>
+            <span class="word"><span class="word-inner">Illinois</span></span>
+            <span class="city-arrow" aria-hidden="true">↗</span>
+          </h3>
+          <p class="city-blurb">
+            Where I'm headed. A city with one of the best indie bookstore cultures in the country — I've been making a list <em>long before I've made the move</em>.
+          </p>
+          <div class="city-locale">
+            <span>Loop + Near North</span><span class="dot">·</span>
+            <span>North Side</span><span class="dot">·</span>
+            <span>South + West</span>
+          </div>
+        </div>
+      </a>
+
+    </ol>
+
+    <div class="timeline-trailer">
+      Five cities · Thirty-four years · One running shelf
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       A NOTE
+       ════════════════════════════════════════════════════════ -->
+  <section class="note-block">
+    <div class="note-stage">
+      <div class="note-label">A note</div>
+      <p class="note-body">
+        This list grows. If you run an indie shop in one of these cities and I've missed you — or want to recommend something in a city I haven't lived in yet — <em>write in</em>. Corrections and additions always welcome.
+      </p>
+      <div class="note-credit">
+        <span>Reach me</span>
+        <a href="mailto:hello@heartslibrary.com">hello@heartslibrary.com</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       END / COLOPHON
+       ════════════════════════════════════════════════════════ -->
+  <section class="end-page" id="endPage">
+    <div class="end-stage">
+      <span class="ornament">❦</span>
+      <h2>
+        Five cities, <em>one shelf</em>.
+      </h2>
+      <p>
+        That's the trail. Pick a city above to descend into the bookstores I shopped, plan to shop, or wish I'd shopped while I lived there. The full lists, the dashboards, and the about page live one click deeper.
+      </p>
+      <div class="end-links">
+        <a href="fiction.html">Best of Fiction</a>
+        <a href="nonfiction.html">Best of Nonfiction</a>
+        <a href="dashboards.html">Dashboards</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
+    <div class="end-footer">
+      <div class="left">A library of one. Franklin → Chicago.</div>
+      <div class="right">
+        <a href="#">Newsletter</a>
+        <a href="#">RSS</a>
+        <a href="mailto:hello@heartslibrary.com">Contact</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Back-to-top button — site.js's setupBackToTop wires it up.
+     Hidden until the user scrolls past 600px; smooth-scrolls
+     to top on click; shifts focus back to the wordmark for a11y. -->
+<button class="btn btn--icon back-to-top" id="backToTop"
+        type="button"
+        aria-label="Back to top"
+        aria-hidden="true">
+  <svg viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+    <path d="M9 14 V4 M4 9 L9 4 L14 9" />
+  </svg>
+</button>
+
+<!-- Shared system JS -->
+<script src="js/motion.js"></script>
+<script src="js/site.js"></script>
+<!-- Component JS -->
+<script src="js/components/timeline.js"></script>
+
+</body>
+</html>

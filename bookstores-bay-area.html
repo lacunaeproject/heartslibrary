@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bay Area Bookstores — Heart's Library</title>
+<meta name="description" content="Twenty-two indie bookstores across San Francisco, the East Bay, North Bay, and the Peninsula. The Bay Area reading years.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomEase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+
+<!-- (theme toggle retired — site is light-only) -->
+
+<!-- Design system + shared components — single source of truth.
+     Order: tokens → component primitives → site-wide → motion →
+     page-specific component CSS. -->
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components/buttons.css">
+<link rel="stylesheet" href="css/components/eyebrow.css">
+<link rel="stylesheet" href="css/components/header.css">
+<link rel="stylesheet" href="css/components/sticky-filter.css">
+<link rel="stylesheet" href="css/components/back-to-top.css">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/motion.css">
+<link rel="stylesheet" href="css/components/city-page.css">
+</head>
+
+<body>
+
+<div class="atmosphere" id="atmosphere"></div>
+
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="wordmark">
+      <svg class="logo logo-heart" viewBox="0 0 24 22" aria-hidden="true" focusable="false">
+        <path d="M12 20.4 C 5.5 16.5, 1.5 12, 1.5 7.6 C 1.5 4.5, 4 2, 7 2 C 9 2, 10.8 3.1, 12 4.9 C 13.2 3.1, 15 2, 17 2 C 20 2, 22.5 4.5, 22.5 7.6 C 22.5 12, 18.5 16.5, 12 20.4 Z" />
+      </svg>
+      <span class="logo-text">Heart's Library</span>
+    </a>
+    <nav class="primary">
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button" aria-haspopup="menu" aria-expanded="false">Lists</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="fiction.html" role="menuitem">Fiction</a>
+          <a href="nonfiction.html" role="menuitem">Non-Fiction</a>
+        </div>
+      </div>
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger active" type="button" aria-haspopup="menu" aria-expanded="false">Bookstores</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="bookstores.html" class="all-link" role="menuitem">All bookstores</a>
+          <a href="bookstores-chicago.html" role="menuitem">Chicago</a>
+          <a href="bookstores-nashville.html" role="menuitem">Nashville</a>
+          <a href="bookstores-new-york.html" role="menuitem">New York</a>
+          <a href="bookstores-bay-area.html" role="menuitem" class="active">Bay Area</a>
+          <a href="bookstores-los-angeles.html" role="menuitem">Los Angeles</a>
+        </div>
+      </div>
+      <a href="dashboards.html">Dashboards</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button"
+            aria-label="Open navigation menu"
+            aria-controls="navDrawer"
+            aria-expanded="false">
+      <span class="toggle-icon" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile drawer + scrim — wired up by site.js's setupMobileNav. -->
+<div class="nav-scrim" id="navScrim" aria-hidden="true"></div>
+<aside class="nav-drawer" id="navDrawer" aria-label="Site navigation">
+  <div class="nav-drawer-header">
+    <span class="nav-drawer-eyebrow">Heart's Library</span>
+  </div>
+  <ul class="nav-drawer-list">
+    <li><a href="index.html">Home</a></li>
+    <li>
+      <span class="drawer-section-label">Lists</span>
+      <ul class="drawer-sublist">
+        <li><a href="fiction.html">Fiction</a></li>
+        <li><a href="nonfiction.html">Non-Fiction</a></li>
+      </ul>
+    </li>
+    <li>
+      <span class="drawer-section-label">Bookstores</span>
+      <ul class="drawer-sublist">
+        <li><a href="bookstores.html">All bookstores</a></li>
+        <li><a href="bookstores-chicago.html">Chicago</a></li>
+        <li><a href="bookstores-nashville.html">Nashville</a></li>
+        <li><a href="bookstores-new-york.html">New York</a></li>
+        <li><a href="bookstores-bay-area.html" class="active">Bay Area</a></li>
+        <li><a href="bookstores-los-angeles.html">Los Angeles</a></li>
+      </ul>
+    </li>
+    <li><a href="dashboards.html">Dashboards</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-drawer-footer">A library of one</div>
+</aside>
+
+<main>
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="bookstores.html">Bookstores</a>
+    <span class="sep" aria-hidden="true"></span>
+    <span class="current" aria-current="page">Bay Area</span>
+  </nav>
+
+  <section class="chapter-title" id="chapterTitle">
+    <div class="chapter-stage">
+      <div class="chapter-eyebrow">
+        <span>2012 — 2021</span>
+        <span class="pip">·</span>
+        <span>Nine years</span>
+      </div>
+      <h2>
+        Oakland, Berkeley, <span class="accent">San Francisco</span>.
+      </h2>
+      <p class="chapter-deck">
+        Twenty-two indie bookstores across the Bay's nine counties — from City Lights in North Beach to Moe's on Telegraph to the surfboard-and-Rumi vibe of Stinson Beach Books. Drawn from <a href="https://dothebay.com/p/best-bookstores-in-the-bay-area-san-francisco-oakland-berkeley" target="_blank" rel="noopener">DoTheBay's roundup</a>.
+      </p>
+      <div class="chapter-meta">
+        <div class="item">Compiled<strong>April 2026</strong></div>
+        <div class="item">Shops<strong>22 across four regions</strong></div>
+        <div class="item">Source<strong>DoTheBay · Riley Huff</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGION FILTER — sticky beneath the header -->
+  <section class="sticky-filter" data-sticky-filter aria-label="Region filter">
+    <div class="sticky-filter-inner">
+      <span class="sticky-filter-label">Region</span>
+      <div class="btn-group" role="group" aria-label="Filter shops by region">
+        <button class="btn btn--filter btn--sm" type="button" data-filter="all" aria-pressed="true">All <span class="count">22</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="sf" aria-pressed="false">San Francisco <span class="count">9</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="east" aria-pressed="false">East Bay <span class="count">5</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="north" aria-pressed="false">North Bay <span class="count">5</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="south" aria-pressed="false">South Bay + Peninsula <span class="count">3</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGION 1 — San Francisco -->
+  <section class="region-block" data-region="sf" id="region-sf">
+    <div class="region-stage">
+      <div class="region-eyebrow"><span>Region One</span></div>
+      <div class="region-headrow">
+        <h3 class="region-name">San Francisco <span class="count-pill">nine</span></h3>
+        <a href="https://dothebay.com/p/best-bookstores-in-the-bay-area-san-francisco-oakland-berkeley" target="_blank" rel="noopener" class="region-source">Source · DoTheBay ↗</a>
+      </div>
+      <ol class="shops-list">
+
+        <li class="shop-entry" data-region="sf">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="http://www.citylights.com/" target="_blank" rel="noopener"><span class="name-text">City Lights Booksellers &amp; Publishers</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">North Beach</span>
+            </div>
+            <p class="shop-blurb">The landmark. Premier distributor of Beat literature — where Ginsberg first read <em>Howl</em>. Still a cozy refuge from North Beach foot traffic. Head upstairs to the reading room for real quiet.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="sf">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.greenapplebooks.com/" target="_blank" rel="noopener"><span class="name-text">Green Apple Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Richmond <span class="dot">·</span> Inner Sunset</span>
+            </div>
+            <p class="shop-blurb">When San Franciscans think about used bookstores, they're usually picturing Green Apple. Both locations carry strong new-and-used mixes. Event calendar has hosted Esme Weijun Wang, Juli Delgado Lopera, and other sharp contemporary voices.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="sf">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.booksmith.com/" target="_blank" rel="noopener"><span class="name-text">Booksmith</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Haight-Ashbury</span>
+            </div>
+            <p class="shop-blurb">One of the only bookstores with a proper <em>counter-culture section</em>. Deep on art, music, sustainability, fiction, and memoir. Event lineups have run from Augusten Burroughs to Daniel Clowes.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="sf">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://borderlands-books.com/v2/index.html" target="_blank" rel="noopener"><span class="name-text">Borderlands Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Haight-Ashbury</span>
+            </div>
+            <p class="shop-blurb">Specialty shop for sci-fi, fantasy, horror, and mystery. Deep and smart stock in each — <em>not a dabbler</em>.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="sf">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.dogearedbooks.com/" target="_blank" rel="noopener"><span class="name-text">Dog Eared Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Mission <span class="dot">·</span> Valencia</span>
+            </div>
+            <p class="shop-blurb">Large, eclectic, and opinionated. Sections include "Druids, Drugs and Secret Societies," if that tells you anything. A standout even on a Valencia Street full of standouts.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="sf">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="http://www.adobebooks.com/" target="_blank" rel="noopener"><span class="name-text">Adobe Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Mission <span class="dot">·</span> 24th Street</span>
+            </div>
+            <p class="shop-blurb">Bookstore and art gallery at the same time. Some of the most affordable used books in the Bay, mixed with rotating shows on the walls.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="sf">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://missioncomicsandart.com/" target="_blank" rel="noopener"><span class="name-text">Mission: Comics &amp; Art</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Mission</span>
+            </div>
+            <p class="shop-blurb">Superhero comics through experimental graphic novels. For readers who want visuals and story in equal measure.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="sf">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="http://russianhillbookstore.com/" target="_blank" rel="noopener"><span class="name-text">Russian Hill Bookstore</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Russian Hill <span class="dot">·</span> Polk</span>
+            </div>
+            <p class="shop-blurb">A classic bookstore experience — shelves upon shelves. Strong genre fiction, vintage photo books, a notable Freemasonry collection, and sheet music. <em>The kind of shop where your eyes do the wandering for you.</em></p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="sf">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.blackbirdbooksf.com/" target="_blank" rel="noopener"><span class="name-text">Black Bird Bookstore</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Outer Sunset</span>
+            </div>
+            <p class="shop-blurb">Small but sharp. Face-out displays highlight covers (we all judge that way eventually). Doubles as a cafe — which means you can stay.</p>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+  <!-- REGION 2 — East Bay -->
+  <section class="region-block" data-region="east" id="region-east">
+    <div class="region-stage">
+      <div class="region-eyebrow"><span>Region Two</span></div>
+      <div class="region-headrow">
+        <h3 class="region-name">East Bay <span class="count-pill">five</span></h3>
+        <a href="https://dothebay.com/p/best-bookstores-in-the-bay-area-san-francisco-oakland-berkeley" target="_blank" rel="noopener" class="region-source">Source · DoTheBay ↗</a>
+      </div>
+      <ol class="shops-list">
+
+        <li class="shop-entry" data-region="east">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.moesbooks.com/" target="_blank" rel="noopener"><span class="name-text">Moe's Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Berkeley <span class="dot">·</span> Telegraph</span>
+            </div>
+            <p class="shop-blurb">Founded in 1959 by Berkeley radical Moe Moskowitz. New arrivals, rare books, vintage posters, <em>decades of Bay Area history in its bones</em>. Still in the family — run today by Moe's daughter Doris.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="east">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.pegasusbookstore.com/" target="_blank" rel="noopener"><span class="name-text">Pegasus Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Oakland + Berkeley <span class="dot">·</span> 3 locations</span>
+            </div>
+            <p class="shop-blurb">Three East Bay locations (Rockridge, Solano, Downtown Berkeley). Strong calendar of events. Named Best Bookstore by East Bay Express and Oakland Magazine readers in 2018.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="east">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="http://www.waldenpondbooks.com/" target="_blank" rel="noopener"><span class="name-text">Walden Pond Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Oakland <span class="dot">·</span> Grand Ave</span>
+            </div>
+            <p class="shop-blurb">One of Oakland's oldest and most respected indies. Themed Bookshop Lists point you toward <em>Espionage Fiction</em>, <em>Understanding &amp; Uprooting Racism</em>, and more. Rare books are worth the visit on their own.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="east">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="http://www.sleepycatbooks.com/" target="_blank" rel="noopener"><span class="name-text">Sleepy Cat Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Berkeley <span class="dot">·</span> Telegraph</span>
+            </div>
+            <p class="shop-blurb">Small space, tightly curated. Unique postcards alongside the books — and yes, the titular Sleepy Cat (her name is Lyla) is there to greet you.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="east">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.ggpbooks.com/" target="_blank" rel="noopener"><span class="name-text">A Great Good Place for Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Oakland <span class="dot">·</span> Montclair</span>
+            </div>
+            <p class="shop-blurb">All-ages shop with a standout children's section. Hosts online book clubs on Zoom and virtual author chats — good for keeping up with readers and writers at a distance.</p>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+  <!-- REGION 3 — North Bay -->
+  <section class="region-block" data-region="north" id="region-north">
+    <div class="region-stage">
+      <div class="region-eyebrow"><span>Region Three</span></div>
+      <div class="region-headrow">
+        <h3 class="region-name">North Bay <span class="count-pill">five</span></h3>
+        <a href="https://dothebay.com/p/best-bookstores-in-the-bay-area-san-francisco-oakland-berkeley" target="_blank" rel="noopener" class="region-source">Source · DoTheBay ↗</a>
+      </div>
+      <ol class="shops-list">
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.bookpassage.com/" target="_blank" rel="noopener"><span class="name-text">Book Passage</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Corte Madera</span>
+            </div>
+            <p class="shop-blurb">Billed as <em>the Bay Area's liveliest bookstore</em>, and earns it through event programming and community engagement. Their Aunt Lydia Book Club sends staff-picked, gift-wrapped books on a regular cadence.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.ptreyesbooks.com/" target="_blank" rel="noopener"><span class="name-text">Point Reyes Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Point Reyes Station</span>
+            </div>
+            <p class="shop-blurb">50+ years of being the gathering place for West Marin readers. The Kinship Book Club and author events are available online if you're not nearby. <em>A destination store</em> — worth the drive even on a weekend.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://alibibookshop.com/" target="_blank" rel="noopener"><span class="name-text">Alibi Bookshop</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Vallejo</span>
+            </div>
+            <p class="shop-blurb">Young (opened 2019) but serious. Classics and new releases in Downtown Vallejo. Unofficial motto, borrowed from Neil Gaiman: <em>a town isn't a town without a bookstore</em>.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.yelp.com/biz/stinson-beach-books-stinson-beach-2" target="_blank" rel="noopener"><span class="name-text">Stinson Beach Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Stinson Beach</span>
+            </div>
+            <p class="shop-blurb">Recent fiction, classics, and — importantly — a deep shelf of nature books and local field guides. <em>Perfect prep for the beach you'll be on in twenty minutes.</em></p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="http://opensecretbookstore.com/" target="_blank" rel="noopener"><span class="name-text">Open Secret Bookstore</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">San Rafael</span>
+            </div>
+            <p class="shop-blurb">The largest spiritual and metaphysical bookstore in the Bay. Books alongside videos, CDs, and sacred art. Tibet-evoking decor. <em>One of the most meditative shops you'll step into anywhere.</em></p>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+  <!-- REGION 4 — South Bay + Peninsula -->
+  <section class="region-block" data-region="south" id="region-south">
+    <div class="region-stage">
+      <div class="region-eyebrow"><span>Region Four</span></div>
+      <div class="region-headrow">
+        <h3 class="region-name">South Bay + Peninsula <span class="count-pill">three</span></h3>
+        <a href="https://dothebay.com/p/best-bookstores-in-the-bay-area-san-francisco-oakland-berkeley" target="_blank" rel="noopener" class="region-source">Source · DoTheBay ↗</a>
+      </div>
+      <ol class="shops-list">
+
+        <li class="shop-entry" data-region="south">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.keplers.com/" target="_blank" rel="noopener"><span class="name-text">Kepler's Books &amp; Magazines</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Menlo Park</span>
+            </div>
+            <p class="shop-blurb">60+ years in the Bay Area and still essential. Operates a real plaza service with an inventory sticker system so readers know exactly when a book will arrive. The Kepler's 2020 initiative made it community-owned — <em>a different kind of independent</em>.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="south">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.lindentreebooks.com/" target="_blank" rel="noopener"><span class="name-text">Linden Tree Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Los Altos</span>
+            </div>
+            <p class="shop-blurb">For young readers, the best option on the Peninsula. Picture books, chapter books, YA — all in a space stocked with games, puppets, puzzles. Strong parenting section for grown-ups, too.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="south">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.bstreetbooks.com/" target="_blank" rel="noopener"><span class="name-text">B Street Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">San Mateo</span>
+            </div>
+            <p class="shop-blurb">San Mateo's only used bookstore. Collectibles and antiquarian — 1st-edition Dickens, Nancy Drew, 18th-century landscape prints. <em>The literary equivalent of buried-treasure hunting.</em></p>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+  <section class="credit">
+    <div class="credit-stage">
+      <div class="credit-block">
+        <div class="credit-kicker">Credit where it's due</div>
+        <h3 class="credit-headline">This list is <em>DoTheBay's</em>, not mine.</h3>
+        <div class="credit-body">
+          <p>Nine years in the Bay and I still only shopped regularly at maybe six of these — mostly in the East Bay and the Mission. The selection above, the regional split, and the flavor in each description came from <a href="https://dothebay.com/p/best-bookstores-in-the-bay-area-san-francisco-oakland-berkeley" target="_blank" rel="noopener">Riley Huff's roundup at DoTheBay</a>.</p>
+          <p>Read the <a href="https://dothebay.com/p/best-bookstores-in-the-bay-area-san-francisco-oakland-berkeley" target="_blank" rel="noopener">full DoTheBay piece</a> for shop photos and current neighborhood addresses. Their last update was March 2023, so if you spot anything out-of-date here, that's why — <em>write in</em>.</p>
+        </div>
+        <div class="credit-signoff">
+          <span><span class="mark">¶</span>C.H. · Franklin, TN</span>
+          <span>Bay Area · 22 of 22</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="next-city">
+    <div class="next-city-inner">
+      <a href="bookstores-new-york.html" class="next-city-row" id="nextCityRow">
+        <div class="next-city-label">Next in the timeline · 2021 — 2023</div>
+        <div>
+          <h3 class="next-city-name">New <em>York</em></h3>
+          <p class="next-city-blurb">Where I moved next. Manhattan, briefly — thirteen niche-interest shops smaller than the big three.</p>
+        </div>
+        <span class="next-city-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="end-page" id="endPage">
+    <div class="end-stage">
+      <span class="ornament">❦</span>
+      <h2>
+        Twenty-two shops, <em>nine years</em>.
+      </h2>
+      <p>
+        That's the Bay. From the Beats at City Lights to a shop run by a Berkeley radical's daughter to a bookstore at Stinson Beach that doubles as a guide to the trail. Pick the next city, or wander the rest of the library.
+      </p>
+      <div class="end-links">
+        <a href="bookstores.html">All cities</a>
+        <a href="bookstores-new-york.html">New York</a>
+        <a href="fiction.html">Best of Fiction</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
+    <div class="end-footer">
+      <div class="left">A library of one. Franklin → Chicago.</div>
+      <div class="right">
+        <a href="#">Newsletter</a>
+        <a href="#">RSS</a>
+        <a href="mailto:hello@heartslibrary.com">Contact</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Back-to-top button — site.js's setupBackToTop wires it up.
+     Hidden until the user scrolls past 600px; smooth-scrolls
+     to top on click; shifts focus back to the wordmark for a11y. -->
+<button class="btn btn--icon back-to-top" id="backToTop"
+        type="button"
+        aria-label="Back to top"
+        aria-hidden="true">
+  <svg viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+    <path d="M9 14 V4 M4 9 L9 4 L14 9" />
+  </svg>
+</button>
+
+<script src="js/motion.js"></script>
+<script src="js/site.js"></script>
+<script src="js/components/city-page.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,281 @@
+/* ════════════════════════════════════════════════════════
+   COMPONENT — DASHBOARDS
+   Three editorial dossier cards for dashboards.html.
+   Each card is a "printed slip" — vertical accent rule on
+   left (book-page-review treatment from v44), paper-sunk
+   fill, two-column spread (stats column + editorial column).
+   Per-topic accent tinting via data-topic.
+   ════════════════════════════════════════════════════════ */
+
+.dashboards {
+  max-width: var(--max-container);
+  margin: 0 auto;
+  padding: var(--pad-section-md) var(--gutter) var(--pad-section-md);
+}
+.dashboards-stage {
+  padding-left: var(--gutter-content);
+  padding-right: var(--gutter);
+}
+.dashboards-eyebrow {
+  font-family: var(--mono);
+  font-size: var(--t-75);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: clamp(28px, 4vh, 48px);
+}
+.dashboards-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.7;
+}
+
+.dashboards-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 6vh, 80px);
+}
+
+/* ─── Dashboard card ───────────────────────────────────── */
+.dashboard-card {
+  --card-accent: var(--accent);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(200px, 280px) 1fr;
+  gap: clamp(36px, 5vw, 80px);
+  padding: clamp(36px, 5vh, 56px) clamp(var(--t-175), 4vw, var(--t-350)) clamp(36px, 5vh, 56px) clamp(36px, 5vw, 64px);
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+  border-left: 2px solid var(--card-accent);
+  border-radius: 1px 4px 4px 1px;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--ink) 8%, transparent),
+    0 1px 0 color-mix(in srgb, #000 15%, transparent),
+    0 8px 24px -8px color-mix(in srgb, #000 25%, transparent);
+  transition: box-shadow 0.5s ease, transform 0.5s ease;
+}
+.dashboard-card[data-topic="conflict"] { --card-accent: var(--accent-quiet); }
+.dashboard-card[data-topic="wealth"]   { --card-accent: var(--marginalia); }
+.dashboard-card[data-topic="rights"]   { --card-accent: var(--accent); }
+
+@media (hover: hover) {
+  .dashboard-card:hover {
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--ink) 12%, transparent),
+      0 2px 0 color-mix(in srgb, #000 20%, transparent),
+      0 16px 36px -8px color-mix(in srgb, #000 30%, transparent);
+    transform: translateY(-2px);
+  }
+}
+
+/* ─── Stats column (left) ──────────────────────────────── */
+.dashboard-stats {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 2.5vh, 28px);
+  border-right: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  padding-right: clamp(24px, 3vw, 40px);
+}
+
+.dashboard-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+.dashboard-stat + .dashboard-stat::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: calc(-1 * clamp(20px, 2.5vh, 28px) / 2);
+  height: 1px;
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+}
+.dashboard-stat-figure {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-variation-settings: "opsz" 60, "wght" 600;
+  font-size: clamp(var(--t-200), 3.6vw, var(--t-350));
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  font-feature-settings: "kern", "liga", "lnum", "tnum";
+}
+.dashboard-card[data-topic="conflict"] .dashboard-stat-figure { color: var(--accent-quiet); }
+.dashboard-card[data-topic="wealth"]   .dashboard-stat-figure { color: var(--ink); }
+.dashboard-card[data-topic="rights"]   .dashboard-stat-figure { color: var(--accent); }
+
+.dashboard-stat-label {
+  font-family: var(--serif);
+  font-size: clamp(var(--t-81), 0.95vw, var(--t-94));
+  line-height: var(--lh-meta);
+  color: var(--ink-soft);
+  font-variation-settings: "opsz" 14;
+}
+.dashboard-stat-source {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  margin-top: 2px;
+}
+
+/* ─── Editorial column (right) ─────────────────────────── */
+.dashboard-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.dashboard-kicker {
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.dashboard-kicker::before {
+  content: '';
+  width: 18px; height: 1px;
+  background: var(--card-accent);
+  opacity: 0.8;
+}
+.dashboard-kicker strong {
+  color: var(--card-accent);
+  font-weight: 500;
+}
+
+.dashboard-title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-variation-settings: "opsz" 72, "wght" 600;
+  font-size: clamp(var(--t-225), 4.6vw, var(--t-450));
+  line-height: var(--lh-display);
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin: 0 0 18px;
+}
+.dashboard-title em {
+  font-style: italic;
+  color: var(--card-accent);
+  font-weight: 500;
+}
+
+.dashboard-deck {
+  font-family: var(--serif);
+  font-size: clamp(var(--t-94), 1.15vw, var(--t-112));
+  line-height: var(--lh-body);
+  color: var(--ink-soft);
+  font-variation-settings: "opsz" 18;
+  max-width: 60ch;
+  margin: 0 0 clamp(24px, 3vh, 36px);
+}
+.dashboard-deck em { font-style: italic; color: var(--ink); }
+
+.dashboard-books {
+  padding-top: 18px;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  margin-bottom: clamp(24px, 3vh, 36px);
+}
+.dashboard-books-label {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  margin-bottom: 10px;
+}
+.dashboard-books-list {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(var(--t-87), 1.05vw, var(--t-100));
+  line-height: var(--lh-meta);
+  color: var(--ink);
+}
+.dashboard-books-list a {
+  color: var(--ink);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  padding-bottom: 1px;
+  transition: color 0.2s ease, border-color 0.3s ease;
+}
+.dashboard-books-list a:hover {
+  color: var(--card-accent);
+  border-bottom-color: var(--card-accent);
+}
+.dashboard-books-list .sep {
+  color: color-mix(in srgb, var(--marginalia) 60%, transparent);
+  padding: 0 6px;
+  font-style: normal;
+}
+
+/* ─── CTA — typeset, not button ────────────────────────── */
+.dashboard-cta {
+  font-family: var(--mono);
+  font-size: var(--t-75);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--card-accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  align-self: flex-start;
+  padding: 8px 0;
+  position: relative;
+  transition: color 0.3s ease;
+}
+.dashboard-cta::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 28px;
+  bottom: 4px;
+  height: 1px;
+  background: var(--card-accent);
+  transform: scaleX(0.4);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.dashboard-cta .arrow {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: var(--t-112);
+  letter-spacing: 0;
+  text-transform: none;
+  transform: translate(0, 0);
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+  line-height: 1;
+}
+@media (hover: hover) {
+  .dashboard-cta:hover::after { transform: scaleX(1); }
+  .dashboard-cta:hover .arrow { transform: translate(6px, 0); }
+}
+.dashboard-cta:focus-visible { outline: none; }
+.dashboard-cta:focus-visible::after { transform: scaleX(1); }
+
+/* ─── Responsive ───────────────────────────────────────── */
+@media (max-width: 980px) {
+  .dashboards { padding: clamp(32px, 5vh, 56px) 28px clamp(40px, 6vh, 64px); }
+  .dashboards-stage { padding-left: var(--gutter-content-mobile); padding-right: 0; }
+}
+
+@media (max-width: 760px) {
+  .dashboard-card {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: clamp(28px, 4vh, 40px) 24px clamp(28px, 4vh, 40px) 28px;
+  }
+  .dashboard-stats {
+    border-right: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+    padd

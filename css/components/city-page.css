@@ -1,0 +1,433 @@
+/* ════════════════════════════════════════════════════════
+   COMPONENT — CITY PAGE
+   The shared template for every per-city bookstores page
+   (LA, Bay Area, NY, Nashville, Chicago).
+   • Region blocks (eyebrow, headrow, source link)
+   • Shop rows (editorial list, no cards)
+   • Credit block (uses v44 .book-page-review treatment)
+   • Next-city pointer (hairline-ruled row)
+   Note: filter row markup uses .list-filter (defined in site.css)
+   so the same pattern works for genre filters on fiction/nonfiction.
+   ════════════════════════════════════════════════════════ */
+
+/* ─── REGION SECTION ────────────────────────────────────── */
+.region-block {
+  max-width: var(--max-container);
+  margin: 0 auto;
+  padding: clamp(36px, 6vh, 64px) 56px clamp(24px, 4vh, 48px);
+  transition: opacity 0.5s ease, filter 0.5s ease;
+}
+.region-block.dimmed {
+  opacity: 0.18;
+  filter: blur(0.5px);
+  pointer-events: none;
+}
+.region-stage {
+  padding-left: var(--gutter-content);
+  padding-right: var(--gutter);
+}
+
+.region-eyebrow {
+  font-family: var(--mono);
+  font-size: var(--t-75);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: clamp(20px, 2.5vh, 28px);
+}
+.region-eyebrow .num { color: var(--accent); }
+.region-eyebrow .dash {
+  width: 32px; height: 1px;
+  background: var(--accent);
+  opacity: 0.7;
+  display: inline-block;
+}
+
+.region-headrow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-bottom: 18px;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  margin-bottom: clamp(36px, 5vh, 56px);
+}
+.region-name {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-variation-settings: "opsz" 48, "wght" 600;
+  font-size: clamp(var(--t-200), 4.6vw, var(--t-400));
+  line-height: var(--lh-headline);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.region-name .count-pill {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 0.34em;
+  color: var(--accent);
+  letter-spacing: 0;
+}
+.region-source {
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  border-bottom: 1px solid color-mix(in srgb, var(--marginalia) 35%, transparent);
+  padding-bottom: 2px;
+}
+.region-source:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ─── SHOP ROWS ─────────────────────────────────────────── */
+.shops-list { list-style: none; margin: 0; padding: 0; }
+
+.shop-entry {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: clamp(20px, 3vw, 56px);
+  padding: var(--pad-row-sm) 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  position: relative;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.shop-entry:last-child { border-bottom: 0; }
+
+.shop-num {
+  font-family: var(--mono);
+  font-size: var(--t-75);
+  letter-spacing: 0.18em;
+  color: var(--marginalia);
+  padding-top: 12px;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.shop-body { min-width: 0; }
+
+.shop-headline {
+  display: flex;
+  align-items: baseline;
+  gap: 16px 24px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.shop-name {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-variation-settings: "opsz" 36, "wght" 600;
+  font-size: clamp(var(--t-150), 2.6vw, var(--t-225));
+  line-height: var(--lh-headline);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 14px;
+  position: relative;
+  transition: color 0.3s ease;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.shop-name .name-text { position: relative; }
+.shop-name .name-text::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.shop-name .arrow {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.7em;
+  color: var(--accent);
+  opacity: 0.6;
+  transform: translate(0, 0);
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.3s ease;
+  display: inline-block;
+  line-height: 1;
+}
+
+@media (hover: hover) {
+  .shop-name:hover { color: var(--accent); }
+  .shop-name:hover .name-text::after { transform: scaleX(1); }
+  .shop-name:hover .arrow {
+    opacity: 1;
+    transform: translate(4px, -4px);
+  }
+}
+.shop-name:focus-visible { outline: none; color: var(--accent); }
+.shop-name:focus-visible .name-text::after { transform: scaleX(1); }
+.shop-name:focus-visible .arrow { opacity: 1; transform: translate(4px, -4px); }
+
+.shop-locale {
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  white-space: nowrap;
+  flex: 0 0 auto;
+  padding-top: 8px;
+}
+.shop-locale .dot {
+  color: color-mix(in srgb, var(--marginalia) 50%, transparent);
+  padding: 0 4px;
+}
+
+.shop-blurb {
+  font-family: var(--serif);
+  font-size: clamp(var(--t-94), 1.15vw, var(--t-112));
+  line-height: var(--lh-body);
+  color: var(--ink-soft);
+  max-width: 72ch;
+  font-variation-settings: "opsz" 18;
+}
+.shop-blurb em { font-style: italic; color: var(--ink); }
+/* Highlight variant — used when a shop is "the one I actually shop at"
+   (e.g. Parnassus on the Nashville page). Stronger ink, subtle accent rule. */
+.shop-blurb.highlight {
+  color: var(--ink);
+  position: relative;
+  padding-left: 16px;
+}
+.shop-blurb.highlight::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.4em;
+  bottom: 0.4em;
+  width: 2px;
+  background: var(--accent);
+  border-radius: 1px;
+}
+
+/* ─── CREDIT BLOCK (uses v44 .book-page-review treatment) ─ */
+.credit {
+  max-width: var(--max-container);
+  margin: 0 auto;
+  padding: clamp(56px, 9vh, 96px) 56px 0;
+}
+.credit-stage {
+  padding-left: var(--gutter-content);
+  padding-right: var(--gutter);
+  max-width: 76ch;
+}
+.credit-block {
+  position: relative;
+  padding: 32px 36px 28px 40px;
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+  border-left: 2px solid var(--accent);
+  border-radius: 1px 4px 4px 1px;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--ink) 8%, transparent),
+    0 1px 0 color-mix(in srgb, #000 15%, transparent),
+    0 8px 24px -8px color-mix(in srgb, #000 25%, transparent);
+}
+.credit-kicker {
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.credit-kicker::before {
+  content: '';
+  width: 18px; height: 1px;
+  background: var(--accent);
+  opacity: 0.8;
+}
+.credit-headline {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-variation-settings: "opsz" 36, "wght" 600;
+  font-size: clamp(var(--t-150), 2.6vw, var(--t-225));
+  line-height: var(--lh-headline);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 18px;
+}
+.credit-headline em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 500;
+}
+.credit-body {
+  font-family: var(--serif);
+  font-size: clamp(var(--t-94), 1.15vw, var(--t-106));
+  line-height: var(--lh-body);
+  color: var(--ink-soft);
+  margin-bottom: 12px;
+  font-variation-settings: "opsz" 18;
+}
+.credit-body:last-child { margin-bottom: 0; }
+.credit-body p:first-child::first-letter {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 2.6em;
+  line-height: 0.85;
+  color: var(--accent);
+  float: left;
+  padding: 0.05em 0.12em 0 0;
+  margin-top: 0.05em;
+}
+.credit-body p + p { margin-top: 0.85em; text-indent: 1.5em; }
+.credit-body a {
+  color: var(--accent);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  padding-bottom: 1px;
+  transition: border-color 0.2s ease;
+}
+.credit-body a:hover { border-bottom-color: var(--accent); }
+.credit-signoff {
+  margin-top: 22px;
+  padding-top: 14px;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  opacity: 0.6;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.credit-signoff .mark {
+  color: var(--accent);
+  opacity: 0.9;
+  padding-right: 6px;
+}
+
+/* ─── NEXT-CITY POINTER ─────────────────────────────────── */
+.next-city {
+  max-width: var(--max-container);
+  margin: 0 auto;
+  padding: clamp(56px, 8vh, 96px) 56px clamp(40px, 6vh, 64px);
+}
+.next-city-inner {
+  padding-left: var(--gutter-content);
+  padding-right: var(--gutter);
+}
+.next-city-row {
+  --rule-scale: 0;
+  display: grid;
+  grid-template-columns: minmax(180px, 240px) 1fr auto;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: baseline;
+  padding: var(--pad-row-sm) 0 clamp(28px, 4vh, 44px) 36px;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  transition: padding-left 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.next-city-row::before {
+  content: '';
+  position: absolute;
+  left: 0; top: -1px; bottom: -1px;
+  width: 1px;
+  background: var(--rule-strong);
+  transform: scaleY(var(--rule-scale, 0));
+  transform-origin: top center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .next-city-row::before { transform: scaleY(1); }
+}
+.next-city-label {
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+}
+.next-city-name {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-variation-settings: "opsz" 48, "wght" 600;
+  font-size: clamp(var(--t-175), 4vw, var(--t-350));
+  line-height: var(--lh-headline);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 0 8px;
+  transition: color 0.4s ease;
+}
+.next-city-name em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 500;
+}
+.next-city-blurb {
+  font-family: var(--serif);
+  font-size: clamp(var(--t-87), 1vw, var(--t-100));
+  line-height: var(--lh-body);
+  color: var(--ink-soft);
+  font-variation-settings: "opsz" 16;
+}
+.next-city-arrow {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(var(--t-175), 3.4vw, var(--t-300));
+  color: var(--accent);
+  opacity: 0.6;
+  transform: translate(0, 0);
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.3s ease;
+  line-height: 1;
+  align-self: center;
+}
+
+@media (hover: hover) {
+  .next-city-row:hover .next-city-name { color: var(--accent); }
+  .next-city-row:hover .next-city-arrow {
+    opacity: 1;
+    transform: translate(8px, -2px);
+  }
+  .next-city-row:hover { padding-left: 48px; }
+}
+
+/* ─── Responsive ───────────────────────────────────────── */
+@media (max-width: 980px) {
+  .region-block { padding: clamp(32px, 5vh, 56px) 28px clamp(20px, 3vh, 40px); }
+  .region-stage { padding-left: var(--gutter-content-mobile); padding-right: 0; }
+  .credit { padding: clamp(48px, 8vh, 80px) 28px 0; }
+  .credit-stage { padding-left: var(--gutter-content-mobile); padding-right: 0; }
+  .next-city { padding: clamp(48px, 8vh, 80px) 28px clamp(32px, 5vh, 48px); }
+  .next-city-inner { padding-left: var(--gutter-content-mobile); padding-right: 0; }
+}
+
+@media (max-width: 720px) {
+  .shop-entry { grid-template-columns: 56px 1fr; gap: 16px; }
+  .shop-headline { gap: 8px 14px; }
+  .shop-locale { padding-top: 0; }
+  .next-city-row { grid-template-column

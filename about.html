@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Heart's Library</title>
+<meta name="description" content="On reading, empathy, and why this site exists. A note from the person behind the books and bookstores.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomEase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+
+<!-- (theme toggle retired — site is light-only) -->
+
+<!-- Design system + shared components — single source of truth.
+     Order: tokens → component primitives → site-wide → motion →
+     page-specific component CSS. -->
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components/buttons.css">
+<link rel="stylesheet" href="css/components/eyebrow.css">
+<link rel="stylesheet" href="css/components/header.css">
+<link rel="stylesheet" href="css/components/sticky-filter.css">
+<link rel="stylesheet" href="css/components/back-to-top.css">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/motion.css">
+<link rel="stylesheet" href="css/components/about.css">
+</head>
+
+<body>
+
+<div class="atmosphere" id="atmosphere"></div>
+
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="wordmark">
+      <svg class="logo logo-heart" viewBox="0 0 24 22" aria-hidden="true" focusable="false">
+        <path d="M12 20.4 C 5.5 16.5, 1.5 12, 1.5 7.6 C 1.5 4.5, 4 2, 7 2 C 9 2, 10.8 3.1, 12 4.9 C 13.2 3.1, 15 2, 17 2 C 20 2, 22.5 4.5, 22.5 7.6 C 22.5 12, 18.5 16.5, 12 20.4 Z" />
+      </svg>
+      <span class="logo-text">Heart's Library</span>
+    </a>
+    <nav class="primary">
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button" aria-haspopup="menu" aria-expanded="false">Lists</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="fiction.html" role="menuitem">Fiction</a>
+          <a href="nonfiction.html" role="menuitem">Non-Fiction</a>
+        </div>
+      </div>
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button" aria-haspopup="menu" aria-expanded="false">Bookstores</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="bookstores.html" class="all-link" role="menuitem">All bookstores</a>
+          <a href="bookstores-chicago.html" role="menuitem">Chicago</a>
+          <a href="bookstores-nashville.html" role="menuitem">Nashville</a>
+          <a href="bookstores-new-york.html" role="menuitem">New York</a>
+          <a href="bookstores-bay-area.html" role="menuitem">Bay Area</a>
+          <a href="bookstores-los-angeles.html" role="menuitem">Los Angeles</a>
+        </div>
+      </div>
+      <a href="dashboards.html">Dashboards</a>
+      <a href="about.html" class="active">About</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button"
+            aria-label="Open navigation menu"
+            aria-controls="navDrawer"
+            aria-expanded="false">
+      <span class="toggle-icon" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile drawer + scrim — wired up by site.js's setupMobileNav. -->
+<div class="nav-scrim" id="navScrim" aria-hidden="true"></div>
+<aside class="nav-drawer" id="navDrawer" aria-label="Site navigation">
+  <div class="nav-drawer-header">
+    <span class="nav-drawer-eyebrow">Heart's Library</span>
+  </div>
+  <ul class="nav-drawer-list">
+    <li><a href="index.html">Home</a></li>
+    <li>
+      <span class="drawer-section-label">Lists</span>
+      <ul class="drawer-sublist">
+        <li><a href="fiction.html">Fiction</a></li>
+        <li><a href="nonfiction.html">Non-Fiction</a></li>
+      </ul>
+    </li>
+    <li>
+      <span class="drawer-section-label">Bookstores</span>
+      <ul class="drawer-sublist">
+        <li><a href="bookstores.html">All bookstores</a></li>
+        <li><a href="bookstores-chicago.html">Chicago</a></li>
+        <li><a href="bookstores-nashville.html">Nashville</a></li>
+        <li><a href="bookstores-new-york.html">New York</a></li>
+        <li><a href="bookstores-bay-area.html">Bay Area</a></li>
+        <li><a href="bookstores-los-angeles.html">Los Angeles</a></li>
+      </ul>
+    </li>
+    <li><a href="dashboards.html">Dashboards</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+  </ul>
+  <div class="nav-drawer-footer">A library of one</div>
+</aside>
+
+<main>
+
+  <!-- CHAPTER TITLE -->
+  <section class="chapter-title" id="chapterTitle">
+    <div class="chapter-stage">
+      <div class="chapter-eyebrow">
+        <span>About</span>
+        <span class="pip">·</span>
+        <span>Cody Heart</span>
+      </div>
+      <h2>
+        Reading as a <span class="accent">second</span> career.
+      </h2>
+      <p class="chapter-deck">
+        The books that earned a spot. The data I built when the reading had follow-up questions. The shops I bought them at.
+      </p>
+      <div class="chapter-meta">
+        <div class="item">Compiled<strong>April 2026</strong></div>
+        <div class="item">Currently<strong>Franklin, TN → Chicago</strong></div>
+        <div class="item">Reach me<strong>hello@heartslibrary.com</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTRAIT -->
+  <section class="portrait-section">
+    <figure class="portrait" id="portrait">
+      <div class="portrait-mat">
+        <img src="https://heartslibrary.com/images/cody-portrait.jpg" alt="Cody Heart" loading="eager" width="540" height="655" class="portrait-img">
+        <figcaption class="portrait-caption">
+          <span class="accent">Cody Heart</span>
+          <span>Franklin, TN · 2026</span>
+        </figcaption>
+      </div>
+    </figure>
+  </section>
+
+  <!-- MOVEMENT 1 — How I got here -->
+  <section class="movement">
+    <div class="movement-stage">
+      <div class="movement-eyebrow">How I got here</div>
+      <div class="movement-body">
+        <p>I came to reading late. Before that: drew sports stars as a kid, studied illustration at California College of the Arts, drifted out of making images into operations at Postmates and Twitter, labeling the data sets that trained early machine learning models. Taught myself what was then called UX. Have spent my working life since designing internal tools for healthcare.</p>
+        <p><em>12 Years a Slave</em> is the book that did it. End of my two years in New York. It gave me an appetite for nonfiction and history I didn't know I had, and it taught me what a book is actually good for — hearing out someone you'll never meet, and taking them seriously enough to let them change your mind. <em>That's what I'm reading for now.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PULL QUOTE -->
+  <section class="pull-quote-section">
+    <blockquote class="pull-quote">
+      <span class="pull-quote-ornament">❦</span>
+      <p class="pull-quote-text">Hearing out someone you'll never meet, and taking them seriously enough to let them change your mind.</p>
+      <cite class="pull-quote-attr">What a book is actually good for</cite>
+    </blockquote>
+  </section>
+
+  <!-- MOVEMENT 2 — The geography -->
+  <section class="movement">
+    <div class="movement-stage">
+      <div class="movement-eyebrow">The geography</div>
+      <div class="movement-body">
+        <p>I've moved a lot. Each move has changed what I read.</p>
+        <div class="atlas">
+          <div class="atlas-eyebrow">A short atlas</div>
+          <ol class="atlas-list">
+            <li class="atlas-row">
+              <span class="atlas-when">Born</span>
+              <span class="atlas-where">Los Angeles, California</span>
+            </li>
+            <li class="atlas-row">
+              <span class="atlas-when">School</span>
+              <span class="atlas-where">Oakland → Berkeley → San Francisco</span>
+            </li>
+            <li class="atlas-row">
+              <span class="atlas-when">Late 2021</span>
+              <span class="atlas-where">Manhattan, New York</span>
+            </li>
+            <li class="atlas-row">
+              <span class="atlas-when">2023</span>
+              <span class="atlas-where">Nashville, then Franklin, Tennessee</span>
+            </li>
+            <li class="atlas-row">
+              <span class="atlas-when">Next year</span>
+              <span class="atlas-where"><em>Chicago, Illinois</em></span>
+            </li>
+          </ol>
+        </div>
+        <p>Nashville and Franklin sharpened the Civil Rights reading. Chicago is about to sharpen Black history, and a lot else besides.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOVEMENT 3 — Why this site -->
+  <section class="movement">
+    <div class="movement-stage">
+      <div class="movement-eyebrow">Why this site</div>
+      <div class="movement-body">
+        <p>Working in technology means spending a lot of time wondering whether the systems we build have empathy. The answer is mostly no. That didn't used to matter as much as it now does. AI is already being deployed, and will increasingly be deployed, in military contexts where substantial civilian death is expected. <em>You can write a constitution for a model. You cannot write empathy into one</em> — empathy takes time, and it costs something to build. Reading has been how I've been putting in the time.</p>
+        <p>None of this is a pitch for books as a substitute for the structural change society actually needs — a profit system that stops pretending empathy is optional. I'm not pretending reading solves that. But when a Palestinian journalist or a formerly enslaved man or a novelist writing about Appalachian poverty rearranges how you see a situation, that's related to the work. <em>Not the whole of it. But related.</em></p>
+        <p>So this site keeps track. Books that earned a spot. Topics I've read enough on to speak about with any care. Dashboards I built when the reading made me want to see the shape of the numbers. And an invitation — if a book changed how you see something, tell me.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGN-OFF -->
+  <section class="signoff-section">
+    <div class="signoff">
+      <span class="signoff-ornament">❦</span>
+      <span class="signoff-text">— Cody Heart</span>
+    </div>
+  </section>
+
+  <!-- COLOPHON / END -->
+  <section class="end-page" id="endPage">
+    <div class="end-stage">
+      <span class="ornament">❦</span>
+      <h2>
+        Read with me, <em>or write back</em>.
+      </h2>
+      <p>
+        That's the whole picture. Books, dashboards, bookstores, and the person who keeps the list. Reach me at <a href="mailto:hello@heartslibrary.com" style="border-bottom:1px solid currentColor;">hello@heartslibrary.com</a> if a book changed how you see something — I want to hear about it.
+      </p>
+      <div class="end-links">
+        <a href="fiction.html">Best of Fiction</a>
+        <a href="nonfiction.html">Best of Nonfiction</a>
+        <a href="bookstores.html">Bookstores</a>
+        <a href="dashboards.html">Dashboards</a>
+      </div>
+    </div>
+    <div class="end-footer">
+      <div class="left">A library of one. Franklin → Chicago.</div>
+      <div class="right">
+        <a href="#">Newsletter</a>
+        <a href="#">RSS</a>
+        <a href="mailto:hello@heartslibrary.com">Contact</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Back-to-top button — site.js's setupBackToTop wires it up.
+     Hidden until the user scrolls past 600px; smooth-scrolls
+     to top on click; shifts focus back to the wordmark for a11y. -->
+<button class="btn btn--icon back-to-top" id="backToTop"
+        type="button"
+        aria-label="Back to top"
+        aria-hidden="true">
+  <svg viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+    <path d="M9 14 V4 M4 9 L9 4 L14 9" />
+  </svg>
+</button>
+
+<script src="js/motion.js"></script>
+<script src="js/site.js"></script>
+<script>
+// Portrait scroll-in: scale 0.96 → 1, vertical drift, sepia settles.
+// Living within the page rather than a shared component since this is
+// the only page using the portrait plate.
+(function () {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  const prm = window.HL && window.HL.prefersReducedMotion;
+  const portraitMat = document.querySelector('.portrait-mat');
+  const portraitCaption = document.querySelector('.portrait-caption');
+  if (!portraitMat || prm) return;
+
+  gsap.set(portraitMat, { scale: 0.94, y: 24, opacity: 0, rotation: -1.6 });
+  if (portraitCaption) gsap.set(portraitCaption, { opacity: 0, y: 6 });
+
+  gsap.to(portraitMat, {
+    scale: 1, y: 0, opacity: 1, rotation: -0.6,
+    duration: 1.2,
+    ease: 'power3.out',
+    scrollTrigger: { trigger: portraitMat, start: 'top 88%', toggleActions: 'play none none reverse' }
+  });
+  if (portraitCaption) {
+    gsap.to(portraitCaption, {
+      opacity: 1, y: 0,
+      duration: 0.8,
+      delay: 0.4,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: portraitMat, start: 'top 88%', toggleActions: 'play none none reverse' }
+    });
+  }
+
+  // ── Pull-quote: ornament-stamp + SplitText line/word reveal ──
+  // The pull-quote is the most editorially-charged moment on the
+  // page. Lines are masked, words rise out — slow, deliberate. The
+  // attribution drops in last, after the reader has finished the line.
+  const pqOrnament = document.querySelector('.pull-quote-ornament');
+  const pqText = document.querySelector('.pull-quote-text');
+  const pqAttr = document.querySelector('.pull-quote-attr');
+  if (pqOrnament) {
+    gsap.set(pqOrnament, { rotate: -20, scale: 0.6, opacity: 0 });
+    gsap.to(pqOrnament, {
+      rotate: 0, scale: 1, opacity: 1,
+      duration: 1.0,
+      ease: 'back.out(1.4)',
+      scrollTrigger: { trigger: pqOrnament, start: 'top 80%', toggleActions: 'play none none reverse' }
+    });
+  }
+  if (pqText) {
+    let pqWords = [];
+    if (typeof SplitText !== 'undefined') {
+      try {
+        const split = SplitText.create(pqText, {
+          type: 'lines, words',
+          linesClass: 'split-line',
+          wordsClass: 'word',
+          mask: 'lines'
+        });
+        pqWords = split.words;
+      } catch (e) { /* fall through */ }
+    }
+    if (pqWords.length) {
+      gsap.set(pqWords, { yPercent: 110 });
+      gsap.to(pqWords, {
+        yPercent: 0,
+        duration: 1.0,
+        stagger: 0.045,
+        ease: 'expo.out',
+        delay: 0.3,
+        scrollTrigger: { trigger: pqText, start: 'top 80%', toggleActions: 'play none none reverse' }
+      });
+    } else {
+      gsap.set(pqText, { opacity: 0, y: 18 });
+      gsap.to(pqText, {
+        opacity: 1, y: 0,
+        duration: 0.95,
+        delay: 0.25,
+        ease: 'expo.out',
+        scrollTrigger: { trigger: pqText, start: 'top 80%', toggleActions: 'play none none reverse' }
+      });
+    }
+  }
+  if (pqAttr) {
+    gsap.set(pqAttr, { opacity: 0, y: 8 });
+    gsap.to(pqAttr, {
+      opacity: 1, y: 0,
+      duration: 0.6,
+      delay: 1.1,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: pqAttr, start: 'top 85%', toggleActions: 'play none none reverse' }
+    });
+  }
+
+  // ── Atlas: row-by-row reveal with hairline draw between rows ──
+  // Each row gets: dates fade-up, where mask-reveals (word-by-word).
+  // Between rows, the existing CSS rule renders the divider; we draw
+  // it in via scaleX so the list reads as building one row at a time.
+  const atlasRows = document.querySelectorAll('.atlas-row');
+  if (atlasRows.length) {
+    atlasRows.forEach((row, i) => {
+      const when = row.querySelector('.atlas-when');
+      const where = row.querySelector('.atlas-where');
+      const whereWords = where && window.HL && window.HL.splitWords
+        ? window.HL.splitWords(where)
+        : [];
+
+      gsap.set(row, { opacity: 0 });
+      if (when) gsap.set(when, { opacity: 0, x: -8 });
+      if (whereWords.length) gsap.set(whereWords, { yPercent: 110, opacity: 0 });
+      else if (where) gsap.set(where, { opacity: 0, y: 8 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: row, start: 'top 86%', toggleActions: 'play none none reverse' }
+      });
+      tl.to(row, { opacity: 1, duration: 0.4, ease: 'power2.out' }, 0);
+      if (when) tl.to(when, { opacity: 1, x: 0, duration: 0.55, ease: 'power3.out' }, 0.05);
+      if (whereWords.length) {
+        tl.to(whereWords, {
+          yPercent: 0, opacity: 1,
+          duration: 0.65,
+          stagger: 0.035,
+          ease: 'expo.out'
+        }, 0.15);
+      } else if (where) {
+        tl.to(where, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 0.15);
+      }
+    });
+  }
+
+  // ── Portrait drift parallax ──
+  // After the portrait lands, it drifts upward 12% as the user scrolls
+  // through the first movement section. Tiny shift — reads as breath,
+  // not motion. Scrubbed against scroll position.
+  if (portraitMat) {
+    gsap.to(portraitMat, {
+      yPercent: -12,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: portraitMat.closest('.portrait-section') || portraitMat,
+        start: 'top 60%',
+        end: 'bottom top',
+        scrub: 0.8
+      }
+    });
+  }
+
+  // Movement bodies fade up on scroll
+  const movements = document.querySelectorAll('.movement');
+  movements.forEach(m => {
+    const eyebrow = m.querySelector('.movement-eyebrow');
+    const body = m.querySelector('.movement-body');
+    if (!eyebrow && !body) return;
+    if (eyebrow) gsap.set(eyebrow, { opacity: 0, y: 12 });
+    if (body) gsap.set(body, { opacity: 0, y: 16 });
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: m, start: 'top 78%', toggleActions: 'play none none reverse' }
+    });
+    if (eyebrow) tl.to(eyebrow, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, 0);
+    if (body) tl.to(body, { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out' }, 0.1);
+  });
+
+  // Sign-off ornament rotates in
+  const sOrnament = document.querySelector('.signoff-ornament');
+  const sText = document.querySelector('.signoff-text');
+  if (sOrnament) {
+    gsap.set(sOrnament, { rotate: -18, scale: 0.6, opacity: 0 });
+    gsap.to(sOrnament, {
+      rotate: 0, scale: 1, opacity: 1,
+      duration: 1.0,
+      ease: 'back.out(1.4)',
+      scrollTrigger: { trigger: sOrnament, start: 'top 85%', toggleActions: 'play none none reverse' }
+    });
+  }
+  if (sText) {
+    gsap.set(sText, { opacity: 0, y: 10 });
+    gsap.to(sText, {
+      opacity: 1, y: 0,
+      duration: 0.75,
+      delay: 0.3,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: sText, start: 'top 88%', toggleActions: 'play none none reverse' }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

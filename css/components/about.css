@@ -1,0 +1,308 @@
+/* ════════════════════════════════════════════════════════
+   COMPONENT — ABOUT
+   The most expressive page. New instruments:
+   • portrait — printed plate (paper-sunk mat, sepia, tiny tilt)
+   • movement — sectioned editorial body w/ sticky eyebrow
+   • atlas — labeled location rows in paper-sunk panel
+   • pull-quote — large hanging glyph + italic Newsreader
+   • signoff — final ornament + name
+   ════════════════════════════════════════════════════════ */
+
+/* ─── Portrait plate ───────────────────────────────────── */
+.portrait-section {
+  max-width: var(--max-container);
+  margin: 0 auto;
+  padding: clamp(40px, 6vh, 88px) 56px clamp(20px, 3vh, 40px);
+  display: flex;
+  justify-content: flex-start;
+}
+.portrait {
+  margin: 0;
+  padding-left: var(--gutter-content);
+  position: relative;
+}
+.portrait-mat {
+  display: inline-block;
+  background: var(--paper-sunk);
+  padding: 14px 14px 64px;
+  border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
+  transform: rotate(-0.6deg);
+  transform-origin: top left;
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.18),
+    0 12px 24px -6px rgba(0, 0, 0, 0.18),
+    0 32px 56px -12px rgba(0, 0, 0, 0.22);
+  position: relative;
+  max-width: 320px;
+}
+.portrait-img {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  filter: sepia(0.18) saturate(0.85) brightness(0.96) contrast(1.02);
+  border-radius: 1px;
+}
+.portrait-caption {
+  position: absolute;
+  bottom: 18px;
+  left: 14px;
+  right: 14px;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.portrait-caption .accent { color: var(--accent); }
+
+/* On scroll-in: tween scale 0.96 → 1, vertical drift -- handled in JS */
+.portrait[data-reveal-init] .portrait-mat {
+  opacity: 0;
+  transform: rotate(-0.6deg) scale(0.96) translateY(8px);
+}
+
+/* ─── Movement (editorial section) ─────────────────────── */
+.movement {
+  max-width: var(--max-container);
+  margin: 0 auto;
+  padding: clamp(56px, 9vh, 120px) 56px 0;
+}
+.movement:last-of-type { padding-bottom: clamp(40px, 6vh, 80px); }
+
+.movement-stage {
+  padding-left: var(--gutter-content);
+  padding-right: var(--gutter);
+  display: grid;
+  grid-template-columns: minmax(180px, 240px) 1fr;
+  gap: clamp(36px, 5vw, 96px);
+  align-items: start;
+}
+
+.movement-eyebrow {
+  font-family: var(--mono);
+  font-size: var(--t-75);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  position: sticky;
+  top: 110px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--accent);
+  align-self: start;
+}
+.movement-eyebrow .num {
+  color: var(--accent);
+}
+
+.movement-body {
+  font-family: var(--serif);
+  font-size: clamp(var(--t-112), 1.5vw, var(--t-150));
+  line-height: var(--lh-body);
+  color: var(--ink);
+  font-variation-settings: "opsz" 22;
+  max-width: 64ch;
+}
+.movement-body p {
+  margin-bottom: clamp(20px, 2vh, 28px);
+}
+.movement-body p:last-child { margin-bottom: 0; }
+.movement-body em { font-style: italic; }
+.movement-body p:first-of-type::first-letter {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 3.4em;
+  line-height: 0.85;
+  color: var(--accent);
+  float: left;
+  padding: 0.04em 0.16em 0 0;
+  margin-top: 0.04em;
+}
+
+/* ─── Atlas (geography panel) ──────────────────────────── */
+.atlas {
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+  border-left: 2px solid var(--accent);
+  padding: clamp(28px, 4vh, 40px) clamp(28px, 4vw, 48px);
+  margin: clamp(32px, 4vh, 56px) 0;
+  border-radius: 1px 4px 4px 1px;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--ink) 6%, transparent),
+    0 1px 0 color-mix(in srgb, #000 12%, transparent);
+}
+.atlas-eyebrow {
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.atlas-eyebrow::before {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: var(--accent);
+  display: inline-block;
+}
+.atlas-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.atlas-row {
+  display: grid;
+  grid-template-columns: minmax(110px, 140px) 1fr;
+  gap: 20px;
+  padding: 14px 0;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  align-items: baseline;
+}
+.atlas-row:first-child { border-top: 0; padding-top: 0; }
+.atlas-when {
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+}
+.atlas-where {
+  font-family: var(--serif);
+  font-size: clamp(var(--t-100), 1.2vw, var(--t-112));
+  color: var(--ink);
+  font-variation-settings: "opsz" 18;
+}
+.atlas-where em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* ─── Pull-quote (its own section) ─────────────────────── */
+.pull-quote-section {
+  max-width: var(--max-container);
+  margin: 0 auto;
+  padding: clamp(48px, 7vh, 96px) 56px;
+}
+.pull-quote {
+  padding-left: var(--gutter-content);
+  padding-right: var(--gutter);
+  margin: 0;
+  position: relative;
+}
+.pull-quote-ornament {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--accent);
+  font-size: clamp(var(--t-175), 3vw, var(--t-275));
+  line-height: 1;
+  margin-bottom: 18px;
+  display: block;
+  letter-spacing: 0.5em;
+}
+.pull-quote-text {
+  position: relative;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(var(--t-175), 3.6vw, var(--t-350));
+  line-height: var(--lh-quote);
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  font-variation-settings: "opsz" 60;
+  max-width: 24ch;
+  padding-left: 0.6em;
+  text-indent: -0.6em; /* hanging quote */
+  margin: 0 0 28px;
+}
+.pull-quote-text::before {
+  content: '\201C'; /* hanging open quote */
+  color: var(--accent);
+  font-style: italic;
+  font-weight: 500;
+}
+.pull-quote-attr {
+  font-family: var(--mono);
+  font-style: normal;
+  font-weight: 500;
+  font-size: var(--t-69);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.pull-quote-attr::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+  display: inline-block;
+}
+
+/* ─── Sign-off ─────────────────────────────────────────── */
+.signoff-section {
+  max-width: var(--max-container);
+  margin: 0 auto;
+  padding: clamp(40px, 6vh, 80px) 56px;
+}
+.signoff {
+  padding-left: var(--gutter-content);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.signoff-ornament {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--accent);
+  font-size: clamp(var(--t-200), 4vw, var(--t-350));
+  line-height: 1;
+}
+.signoff-text {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(var(--t-137), 2.2vw, var(--t-225));
+  color: var(--ink);
+  letter-spacing: -0.012em;
+  font-variation-settings: "opsz" 36;
+  font-weight: 500;
+}
+
+/* ─── Responsive ───────────────────────────────────────── */
+@media (max-width: 980px) {
+  .portrait-section { padding: clamp(32px, 5vh, 64px) 28px clamp(16px, 2vh, 32px); }
+  .portrait { padding-left: var(--gutter-content-mobile); }
+  .movement { padding: clamp(48px, 8vh, 96px) 28px 0; }
+  .movement-stage { padding-left: var(--gutter-content-mobile); padding-right: 0; gap: 28px; }
+  .pull-quote-section { padding: clamp(40px, 6vh, 72px) 28px; }
+  .pull-quote { padding-left: var(--gutter-content-mobile); padding-right: 0; }
+  .signoff-section { padding: clamp(32px, 5vh, 64px) 28px; }
+  .signoff { padding-left: var(--gutter-content-mobile); }
+}
+
+@media (max-width: 720px) {
+  .movement-stage {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .movement-eyebrow {
+    position: static;
+    padding-bottom: 6px;
+  }
+  .portrait-mat { transform: rotate(-0.4deg); padding-bottom: 48px; }
+  .atlas-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    pa

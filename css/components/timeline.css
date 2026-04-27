@@ -1,0 +1,300 @@
+/* ════════════════════════════════════════════════════════
+   COMPONENT — TIMELINE
+   The bookstores-index city-timeline. Five chapters,
+   hairline-ruled rows. Left-edge rule draws down per row
+   on scroll-in. Hover: headline → accent, arrow translates,
+   tick widens.
+   ════════════════════════════════════════════════════════ */
+
+.timeline {
+  max-width: var(--max-container);
+  margin: 0 auto;
+  padding: clamp(40px, 5vh, 80px) 56px clamp(40px, 6vh, 80px);
+  position: relative;
+}
+.timeline-stage { padding-left: var(--gutter-content); }
+
+.timeline-eyebrow {
+  font-family: var(--mono);
+  font-size: var(--t-75);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: clamp(20px, 3vh, 32px);
+}
+.timeline-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.7;
+}
+
+.timeline-list {
+  padding-left: var(--gutter-content);
+  padding-right: var(--gutter);
+  list-style: none;
+  margin: 0;
+}
+
+/* ─── City row ──────────────────────────────────────────── */
+.city-row {
+  --row-accent: var(--accent);
+  --rule-scale: 0;
+  --tick-scale: 0;
+  display: grid;
+  grid-template-columns: minmax(200px, 260px) 1fr;
+  gap: clamp(40px, 5vw, 80px);
+  padding: var(--pad-row-lg) 0 var(--pad-section-md) var(--gutter-content-mobile);
+  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+.city-row:last-child {
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+}
+
+/* Left-edge vertical rule — JS tweens --rule-scale */
+.city-row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  bottom: -1px;
+  width: 1px;
+  background: var(--rule-strong);
+  transform: scaleY(var(--rule-scale, 0));
+  transform-origin: top center;
+  will-change: transform;
+}
+.city-row[data-status="current"]::before { background: var(--accent); }
+.city-row[data-status="upcoming"]::before {
+  background: linear-gradient(
+    to bottom,
+    var(--rule-strong) 0 4px,
+    transparent 4px 10px
+  ) repeat-y;
+  background-size: 1px 10px;
+  width: 1px;
+}
+
+/* Tick on the spine — JS tweens --tick-scale */
+.city-row::after {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: clamp(56px, 9vh, 112px);
+  width: 13px;
+  height: 1px;
+  background: var(--rule-strong);
+  transform: scaleX(var(--tick-scale, 0));
+  transform-origin: left center;
+}
+.city-row[data-status="current"]::after { background: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .city-row::before { transform: scaleY(1); }
+  .city-row::after  { transform: scaleX(1); }
+}
+
+/* ─── Meta column (left) ────────────────────────────────── */
+.city-meta-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 14px;
+}
+.city-dates {
+  font-family: var(--mono);
+  font-size: var(--t-81);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  line-height: var(--lh-tight);
+  font-variant-numeric: tabular-nums;
+}
+.city-dates .em-dash {
+  color: color-mix(in srgb, var(--marginalia) 60%, transparent);
+  padding: 0 4px;
+}
+.city-tag {
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  align-self: flex-start;
+}
+.city-tag::before {
+  content: '';
+  width: 14px;
+  height: 1px;
+  background: var(--accent);
+  display: inline-block;
+}
+.city-tag.tag-quiet { color: var(--marginalia); }
+.city-tag.tag-quiet::before { background: var(--marginalia); }
+
+.city-shops {
+  margin-top: auto;
+  padding-top: 24px;
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.city-shops .count {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(var(--t-225), 4vw, var(--t-350));
+  line-height: 1;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  font-variation-settings: "opsz" 36, "wght" 600;
+  font-feature-settings: "kern", "liga", "lnum", "tnum";
+  transition: color 0.4s ease;
+}
+.city-shops .label {
+  color: var(--marginalia);
+  font-size: var(--t-69);
+  letter-spacing: 0.24em;
+}
+.city-row[data-status="current"] .city-shops .count { color: var(--accent); }
+
+/* ─── Body column (right) ───────────────────────────────── */
+.city-body-col { display: flex; flex-direction: column; }
+
+.city-name {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-variation-settings: "opsz" 72, "wght" 600;
+  font-size: clamp(var(--t-275), 6.8vw, var(--t-700));
+  line-height: var(--lh-display);
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  display: flex;
+  align-items: baseline;
+  gap: 0.18em;
+  flex-wrap: wrap;
+  transition: color 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+  margin: 0;
+}
+.city-name .city-arrow {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.42em;
+  color: var(--accent);
+  opacity: 0;
+  transform: translate(-8px, 6px);
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  line-height: 1;
+  letter-spacing: 0;
+  align-self: baseline;
+}
+.city-name .word { display: inline-block; will-change: transform; }
+.city-name .split-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.city-blurb {
+  margin-top: clamp(24px, 3vh, 36px);
+  font-family: var(--serif);
+  font-size: clamp(var(--t-100), 1.25vw, var(--t-125));
+  line-height: var(--lh-body);
+  color: var(--ink-soft);
+  font-variation-settings: "opsz" 18;
+  max-width: 60ch;
+}
+.city-blurb em { font-style: italic; color: var(--ink); }
+
+.city-locale {
+  margin-top: clamp(20px, 2.5vh, 28px);
+  padding-top: 16px;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  max-width: 60ch;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+.city-locale .dot { color: color-mix(in srgb, var(--marginalia) 50%, transparent); }
+
+/* Hover — desktop only */
+@media (hover: hover) {
+  .city-row:hover .city-name { color: var(--accent); }
+  .city-row:hover .city-name .city-arrow {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  .city-row:hover .city-shops .count { color: var(--accent); }
+  .city-row:hover::after {
+    width: 28px;
+    transition: width 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+}
+.city-row:focus-visible { outline: none; }
+.city-row:focus-visible .city-name { color: var(--accent); }
+.city-row:focus-visible .city-name .city-arrow {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* ─── Trailer band below the timeline ──────────────────── */
+.timeline-trailer {
+  padding-left: var(--gutter-content);
+  padding-right: var(--gutter);
+  margin-top: clamp(36px, 5vh, 56px);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+}
+.timeline-trailer::before {
+  content: '';
+  flex: 0 0 28px;
+  height: 1px;
+  background: var(--rule-strong);
+}
+
+/* ─── Responsive ───────────────────────────────────────── */
+@media (max-width: 980px) {
+  .timeline { padding: clamp(32px, 5vh, 64px) 28px clamp(32px, 5vh, 64px); }
+  .timeline-stage { padding-left: var(--gutter-content-mobile); }
+  .timeline-list { padding-left: var(--gutter-content-mobile); padding-right: 0; }
+  .timeline-trailer { padding-left: var(--gutter-content-mobile); padding-right: 0; }
+}
+
+@media (max-width: 720px) {
+  .city-row {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: clamp(48px, 9vh, 80px) 0 clamp(40px, 7vh, 64px) 24px;
+  }
+  .city-row::after { top: clamp(48px, 9vh, 80px); }
+  .city-meta-col { padding-top: 0; }
+  .

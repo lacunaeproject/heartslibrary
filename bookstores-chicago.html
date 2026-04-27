@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chicago Bookstores — Heart's Library</title>
+<meta name="description" content="Fifty independent bookstores across Chicago's North Side, Central and West neighborhoods, and South Side. The reading life ahead.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomEase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+
+<!-- (theme toggle retired — site is light-only) -->
+
+<!-- Design system + shared components — single source of truth.
+     Order: tokens → component primitives → site-wide → motion →
+     page-specific component CSS. -->
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components/buttons.css">
+<link rel="stylesheet" href="css/components/eyebrow.css">
+<link rel="stylesheet" href="css/components/header.css">
+<link rel="stylesheet" href="css/components/sticky-filter.css">
+<link rel="stylesheet" href="css/components/back-to-top.css">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/motion.css">
+<link rel="stylesheet" href="css/components/city-page.css">
+</head>
+
+<body>
+
+<div class="atmosphere" id="atmosphere"></div>
+
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="wordmark">
+      <svg class="logo logo-heart" viewBox="0 0 24 22" aria-hidden="true" focusable="false">
+        <path d="M12 20.4 C 5.5 16.5, 1.5 12, 1.5 7.6 C 1.5 4.5, 4 2, 7 2 C 9 2, 10.8 3.1, 12 4.9 C 13.2 3.1, 15 2, 17 2 C 20 2, 22.5 4.5, 22.5 7.6 C 22.5 12, 18.5 16.5, 12 20.4 Z" />
+      </svg>
+      <span class="logo-text">Heart's Library</span>
+    </a>
+    <nav class="primary">
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button" aria-haspopup="menu" aria-expanded="false">Lists</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="fiction.html" role="menuitem">Fiction</a>
+          <a href="nonfiction.html" role="menuitem">Non-Fiction</a>
+        </div>
+      </div>
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger active" type="button" aria-haspopup="menu" aria-expanded="false">Bookstores</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="bookstores.html" class="all-link" role="menuitem">All bookstores</a>
+          <a href="bookstores-chicago.html" role="menuitem" class="active">Chicago</a>
+          <a href="bookstores-nashville.html" role="menuitem">Nashville</a>
+          <a href="bookstores-new-york.html" role="menuitem">New York</a>
+          <a href="bookstores-bay-area.html" role="menuitem">Bay Area</a>
+          <a href="bookstores-los-angeles.html" role="menuitem">Los Angeles</a>
+        </div>
+      </div>
+      <a href="dashboards.html">Dashboards</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button"
+            aria-label="Open navigation menu"
+            aria-controls="navDrawer"
+            aria-expanded="false">
+      <span class="toggle-icon" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile drawer + scrim — wired up by site.js's setupMobileNav. -->
+<div class="nav-scrim" id="navScrim" aria-hidden="true"></div>
+<aside class="nav-drawer" id="navDrawer" aria-label="Site navigation">
+  <div class="nav-drawer-header">
+    <span class="nav-drawer-eyebrow">Heart's Library</span>
+  </div>
+  <ul class="nav-drawer-list">
+    <li><a href="index.html">Home</a></li>
+    <li>
+      <span class="drawer-section-label">Lists</span>
+      <ul class="drawer-sublist">
+        <li><a href="fiction.html">Fiction</a></li>
+        <li><a href="nonfiction.html">Non-Fiction</a></li>
+      </ul>
+    </li>
+    <li>
+      <span class="drawer-section-label">Bookstores</span>
+      <ul class="drawer-sublist">
+        <li><a href="bookstores.html">All bookstores</a></li>
+        <li><a href="bookstores-chicago.html" class="active">Chicago</a></li>
+        <li><a href="bookstores-nashville.html">Nashville</a></li>
+        <li><a href="bookstores-new-york.html">New York</a></li>
+        <li><a href="bookstores-bay-area.html">Bay Area</a></li>
+        <li><a href="bookstores-los-angeles.html">Los Angeles</a></li>
+      </ul>
+    </li>
+    <li><a href="dashboards.html">Dashboards</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-drawer-footer">A library of one</div>
+</aside>
+
+<main>
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="bookstores.html">Bookstores</a>
+    <span class="sep" aria-hidden="true"></span>
+    <span class="current" aria-current="page">Chicago</span>
+  </nav>
+
+  <section class="chapter-title" id="chapterTitle">
+    <div class="chapter-stage">
+      <div class="chapter-eyebrow">
+        <span>2027 —</span>
+        <span class="pip">·</span>
+        <span>Upcoming</span>
+      </div>
+      <h2>
+        Where I'm <span class="accent">headed</span>.
+      </h2>
+      <p class="chapter-deck">
+        I haven't walked into any of these yet. This is the shortlist I'm building for the move — fifty indie bookstores across three regions of the city, pulled together so I know exactly where to start. Drawn from <a href="https://www.readandrunchicago.com/blog/the-ultimate-list-of-chicagos-indie-bookstores" target="_blank" rel="noopener">Read &amp; Run Chicago's directory</a>.
+      </p>
+      <div class="chapter-meta">
+        <div class="item">Compiled<strong>April 2026</strong></div>
+        <div class="item">Shops<strong>50 across three regions</strong></div>
+        <div class="item">Source<strong>Read &amp; Run Chicago · Allison Yates</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGION FILTER — sticky beneath the header -->
+  <section class="sticky-filter" data-sticky-filter aria-label="Region filter">
+    <div class="sticky-filter-inner">
+      <span class="sticky-filter-label">Region</span>
+      <div class="btn-group" role="group" aria-label="Filter shops by region">
+        <button class="btn btn--filter btn--sm" type="button" data-filter="all" aria-pressed="true">All <span class="count">50</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="north" aria-pressed="false">North Side <span class="count">21</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="central" aria-pressed="false">Central + West <span class="count">20</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="south" aria-pressed="false">South Side <span class="count">9</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGION 1 — North Side (21) -->
+  <section class="region-block" data-region="north" id="region-north">
+    <div class="region-stage">
+      <div class="region-eyebrow"><span>Region One</span></div>
+      <div class="region-headrow">
+        <h3 class="region-name">North Side <span class="count-pill">twenty-one</span></h3>
+        <a href="https://www.readandrunchicago.com/blog/the-ultimate-list-of-chicagos-indie-bookstores" target="_blank" rel="noopener" class="region-source">Source · Read &amp; Run ↗</a>
+      </div>
+      <ol class="shops-list">
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://newbookjoy.com" target="_blank" rel="noopener"><span class="name-text">New Book Joy</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Edgebrook</span>
+            </div>
+            <p class="shop-blurb">Women-owned <em>"booktique"</em> run by former teachers. Curated picks, book clubs, a retro vinyl parlor upstairs.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.unabridgedbookstore.com" target="_blank" rel="noopener"><span class="name-text">Unabridged Bookstore</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Lakeview</span>
+            </div>
+            <p class="shop-blurb">A Lakeview cornerstone since 1980. <em>One of Chicago's oldest indies.</em> Robust LGBTQ+ section.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.womenandchildrenfirst.com/" target="_blank" rel="noopener"><span class="name-text">Women &amp; Children First</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Andersonville</span>
+            </div>
+            <p class="shop-blurb">Founded 1979, Andersonville since 1990. Intersectional, trans-inclusive feminist. <em>Books as tools for liberation.</em></p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.unchartedbooks.com" target="_blank" rel="noopener"><span class="name-text">Uncharted Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Andersonville</span>
+            </div>
+            <p class="shop-blurb">Rare and used. Niche by design.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.roscoebooks.com/" target="_blank" rel="noopener"><span class="name-text">RoscoeBooks</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Roscoe Village</span>
+            </div>
+            <p class="shop-blurb">Neighborhood-run, with book clubs and children's story time.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.bookcellarinc.com" target="_blank" rel="noopener"><span class="name-text">The Book Cellar</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Lincoln Square</span>
+            </div>
+            <p class="shop-blurb">Wine, couches, and a front patio when the weather holds. <em>Lincoln Square's living room.</em></p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.instagram.com/bucketoblood/" target="_blank" rel="noopener"><span class="name-text">Bucket O'Blood Books and Records</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Avondale</span>
+            </div>
+            <p class="shop-blurb">Horror, sci-fi, fantasy — plus records. <em>The name tells you what to expect.</em></p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://thelastchapterbookshop.com/" target="_blank" rel="noopener"><span class="name-text">The Last Chapter</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Roscoe Village</span>
+            </div>
+            <p class="shop-blurb">Romance-focused, unapologetic about it.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://heirloomchicago.com" target="_blank" rel="noopener"><span class="name-text">Heirloom Books Chicago</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Edgewater</span>
+            </div>
+            <p class="shop-blurb">Eclectic used books, plus periodicals, LPs, DVDs, VHS tapes. <em>An archaeology of the printed and recorded.</em></p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.threeavenuesbookshop.com" target="_blank" rel="noopener"><span class="name-text">Third Avenues Bookshop</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Lakeview</span>
+            </div>
+            <p class="shop-blurb">New books organized around disability rights, racism, and adjacent reading.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.theunderstudy.shop" target="_blank" rel="noopener"><span class="name-text">The Understudy Coffee and Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Andersonville</span>
+            </div>
+            <p class="shop-blurb">Theater bookstore and coffee shop. Metric Coffee, drama and criticism section.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="http://www.kibbitznest.com" target="_blank" rel="noopener"><span class="name-text">Kibbitznest Books, Brews &amp; Blarney</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Lincoln Park</span>
+            </div>
+            <p class="shop-blurb">Café, bar, event space, used bookstore. <em>Wi-Fi-free room.</em> Increasingly radical.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="http://www.chicagocomics.com" target="_blank" rel="noopener"><span class="name-text">Chicago Comics</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Lakeview</span>
+            </div>
+            <p class="shop-blurb">Comic book lovers. Nerding out, specifically.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="http://www.quovadisbooks.net" target="_blank" rel="noopener"><span class="name-text">Quo Vadis Polish Bookstore</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Portage Park</span>
+            </div>
+            <p class="shop-blurb">Books in Polish.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="http://www.armadillospillow.com" target="_blank" rel="noopener"><span class="name-text">The Armadillo's Pillow</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Rogers Park</span>
+            </div>
+            <p class="shop-blurb">Used books in a fairy-tale-cozy space.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://polonia.com" target="_blank" rel="noopener"><span class="name-text">Polonia Book Store</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Jefferson Park</span>
+            </div>
+            <p class="shop-blurb">Books in Polish.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="http://www.books4cause.com/free-bookstore/" target="_blank" rel="noopener"><span class="name-text">Books4Cause</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Avondale &amp; Skokie</span>
+            </div>
+            <p class="shop-blurb">Shopping for a cause.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.instagram.com/restoriedbookshop/" target="_blank" rel="noopener"><span class="name-text">Restoried Bookshop</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Albany Park</span>
+            </div>
+            <p class="shop-blurb">Asian American family-owned. Books organized by identity, arm chairs for reading breaks.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.jarvissquarebooks.com/" target="_blank" rel="noopener"><span class="name-text">Jarvis Square Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Rogers Park</span>
+            </div>
+            <p class="shop-blurb">Used books, good prices. <em>Two neighbors making it happen.</em></p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.plottwistusedbooks.com/" target="_blank" rel="noopener"><span class="name-text">Plot Twist Used Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Portage Park</span>
+            </div>
+            <p class="shop-blurb">Woman-owned. Gently used, far Northwest.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="north">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.skunkcabbagebooks.com/" target="_blank" rel="noopener"><span class="name-text">Skunk Cabbage Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Avondale</span>
+            </div>
+            <p class="shop-blurb">Part bookstore, part community workspace. Consignment for Chicago-based artists.</p>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+  <!-- REGION 2 — Central + West (20) -->
+  <section class="region-block" data-region="central" id="region-central">
+    <div class="region-stage">
+      <div class="region-eyebrow"><span>Region Two</span></div>
+      <div class="region-headrow">
+        <h3 class="region-name">Central + West <span class="count-pill">twenty</span></h3>
+        <a href="https://www.readandrunchicago.com/blog/the-ultimate-list-of-chicagos-indie-bookstores" target="_blank" rel="noopener" class="region-source">Source · Read &amp; Run ↗</a>
+      </div>
+      <ol class="shops-list">
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.poetryfoundation.org/" target="_blank" rel="noopener"><span class="name-text">The Poetry Foundation</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">River North <span class="dot">·</span> Library</span>
+            </div>
+            <p class="shop-blurb">A library and cultural institution, not strictly a bookstore — but the small shop, the readings, and the stacks earn their place on the list.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.vivaloslibros.com/" target="_blank" rel="noopener"><span class="name-text">¡Viva! Los Libros</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Pilsen + online</span>
+            </div>
+            <p class="shop-blurb">Bilingual children's books — the Latinx experience and social justice, on a bookmobile.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://slantoflightbooks.com/" target="_blank" rel="noopener"><span class="name-text">Slant of Light Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Old Town</span>
+            </div>
+            <p class="shop-blurb">New, used, and discounted. Near the original Barbara's Bookstore location.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.open-books.org" target="_blank" rel="noopener"><span class="name-text">Open Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">West Loop &amp; Pilsen</span>
+            </div>
+            <p class="shop-blurb">50,000+ used books across locations. <em>Sales support literacy programs.</em></p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://losamigosbooks.com/" target="_blank" rel="noopener"><span class="name-text">Los Amigos Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Bucktown <span class="dot">·</span> Logan Square</span>
+            </div>
+            <p class="shop-blurb">Bilingual children's books, carefully curated by owner Laura Rodriguez-Romani.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.citylitbooks.com/" target="_blank" rel="noopener"><span class="name-text">City Lit Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Logan Square</span>
+            </div>
+            <p class="shop-blurb">Contemporary fiction and non-fiction. Good light, friendly staff, a robust Chicago section.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.semicolonchi.com/" target="_blank" rel="noopener"><span class="name-text">Semicolon Bookstore</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">West Town <span class="dot">·</span> Mag Mile</span>
+            </div>
+            <p class="shop-blurb">Black-owned, woman-owned, mission-driven. <em>Staff who can talk about books by authors of color for hours.</em></p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.volumesbooks.com/" target="_blank" rel="noopener"><span class="name-text">Volumes Bookcafe</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Wicker Park &amp; Gold Coast</span>
+            </div>
+            <p class="shop-blurb">Heavily-curated shelves, owner-sisters who host community events (including <em>book-themed speed dating</em>).</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="http://www.myopicbookstore.com/" target="_blank" rel="noopener"><span class="name-text">Myopic Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Wicker Park</span>
+            </div>
+            <p class="shop-blurb">~60,000 used books, chaotic by design. <em>One of the last shops standing in post-gentrification Wicker Park.</em></p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://exileinbookville.com" target="_blank" rel="noopener"><span class="name-text">Exile in Bookville</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Loop <span class="dot">·</span> Fine Arts Building</span>
+            </div>
+            <p class="shop-blurb">Great views. Named for Liz Phair's 1993 album. <em>An industry favorite.</em></p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://barbarasbookstores.com" target="_blank" rel="noopener"><span class="name-text">Barbara's Bookstore</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Loop + suburbs</span>
+            </div>
+            <p class="shop-blurb">Since 1963. Six Chicagoland locations now, including one inside the former Marshall Field's.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://madstreetbooks.com" target="_blank" rel="noopener"><span class="name-text">Madison Street Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">West Loop</span>
+            </div>
+            <p class="shop-blurb">Woman-owned, bright. Small press book club, cozy kids' section.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.pilsencommunitybooks.com" target="_blank" rel="noopener"><span class="name-text">Pilsen Community Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Pilsen</span>
+            </div>
+            <p class="shop-blurb"><em>Chicago's only employee-owned bookstore.</em> Floor-to-ceiling shelves, activist literature.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://bookshop.newberry.org" target="_blank" rel="noopener"><span class="name-text">The Newberry Bookshop</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Gold Coast</span>
+            </div>
+            <p class="shop-blurb">Niche and intellectual reads inside the longstanding Newberry Library.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.quimbys.com" target="_blank" rel="noopener"><span class="name-text">Quimby's</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Bucktown</span>
+            </div>
+            <p class="shop-blurb">Zine lovers.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="http://webservices.advanceware.net/gironbooksb2c/" target="_blank" rel="noopener"><span class="name-text">Giron Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Pilsen</span>
+            </div>
+            <p class="shop-blurb">Spanish-language literature. Inheritor of the original Librería Girón.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.soulfullchicago.com" target="_blank" rel="noopener"><span class="name-text">Soul Full Chicago</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Pilsen</span>
+            </div>
+            <p class="shop-blurb">Mental health book lounge and café. Calm, bright, open. <em>Reportedly the best bathroom decor in Chicago.</em></p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://i-n-g-a.com" target="_blank" rel="noopener"><span class="name-text">Inga</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Pilsen</span>
+            </div>
+            <p class="shop-blurb">Self-published and independently distributed artists' books on art, design, film, theory.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="http://after-wordschicago.com" target="_blank" rel="noopener"><span class="name-text">after-words</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Loop</span>
+            </div>
+            <p class="shop-blurb">Used books, downtown.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="central">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://alincolnbookshop.com" target="_blank" rel="noopener"><span class="name-text">Abraham Lincoln Book Shop</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Loop <span class="dot">·</span> by appointment</span>
+            </div>
+            <p class="shop-blurb">Rare and specific. <em>By appointment only.</em></p>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+  <!-- REGION 3 — South Side (9) -->
+  <section class="region-block" data-region="south" id="region-south">
+    <div class="region-stage">
+      <div class="region-eyebrow"><span>Region Three</span></div>
+      <div class="region-headrow">
+        <h3 class="region-name">South Side <span class="count-pill">nine</span></h3>
+        <a href="https://www.readandrunchicago.com/blog/the-ultimate-list-of-chicagos-indie-bookstores" target="_blank" rel="noopener" class="region-source">Source · Read &amp; Run ↗</a>
+      </div>
+      <ol class="shops-list">
+
+        <li class="shop-entry" data-region="south">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.semcoop.com/" target="_blank" rel="noopener"><span class="name-text">Seminary Co-op</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Hyde Park</span>
+            </div>
+            <p class="shop-blurb">Founded 1961. <em>The country's first not-for-profit bookstore.</em> Self-described as one of the best academic bookstores in the world — they might have a point.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="south">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://57th.semcoop.com" target="_blank" rel="noopener"><span class="name-text">57th Street Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Hyde Park</span>
+            </div>
+            <p class="shop-blurb">Cozy, since 1983. Sister store to Seminary Co-op. Hugely diverse collection of writers.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="south">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.undergroundbookstore.com" target="_blank" rel="noopener"><span class="name-text">Underground Bookstore</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Stony Island</span>
+            </div>
+            <p class="shop-blurb">Books by Black authors.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="south">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://sandmeyersbookstore.com" target="_blank" rel="noopener"><span class="name-text">Sandmeyer's Bookstore</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">South Loop <span class="dot">·</span> Printer's Row</span>
+            </div>
+            <p class="shop-blurb">Woman-owned, fiercely independent, in a historic building since 1982.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="south">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.bookiesbookstores.com" target="_blank" rel="noopener"><span class="name-text">Bookie's</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Beverly</span>
+            </div>
+            <p class="shop-blurb">New and used, friendly staff, right next to a running store.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="south">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://powellschicago.com" target="_blank" rel="noopener"><span class="name-text">Powell's Books Chicago</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Hyde Park</span>
+            </div>
+            <p class="shop-blurb">Used, bargain, antiquarian, out of print.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="south">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://tangiblebookschicago.com" target="_blank" rel="noopener"><span class="name-text">Tangible Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Bridgeport</span>
+            </div>
+            <p class="shop-blurb">Used books.</p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="south">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.dabookjoint.com/" target="_blank" rel="noopener"><span class="name-text">Da Book Joint</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Jackson Park Highlands</span>
+            </div>
+            <p class="shop-blurb">Black, mother-daughter-owned. Books by Black authors. <em>Literary lounge vibes.</em></p>
+          </div>
+        </li>
+
+        <li class="shop-entry" data-region="south">
+          <div class="shop-body">
+            <div class="shop-headline">
+              <a class="shop-name" href="https://www.callandresponsechi.com/" target="_blank" rel="noopener"><span class="name-text">Call &amp; Response Books</span><span class="arrow" aria-hidden="true">↗</span></a>
+              <span class="shop-locale">Hyde Park</span>
+            </div>
+            <p class="shop-blurb">Black, woman-owned. Books by writers of color.</p>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+  <section class="credit">
+    <div class="credit-stage">
+      <div class="credit-block">
+        <div class="credit-kicker">Credit where it's due</div>
+        <div class="credit-body">
+          <p>This Chicago list — the shops, the neighborhoods, the groupings, the insights — is borrowed almost entirely from <a href="https://www.readandrunchicago.com/blog/the-ultimate-list-of-chicagos-indie-bookstores" target="_blank" rel="noopener">Read &amp; Run Chicago's directory of the city's indie bookstores</a>, a living document maintained by Allison Yates. Read &amp; Run Chicago runs <em>book-themed running programming</em> — literally organized group runs tied to Chicago books — which is the best concept for a community I've come across in a while. <a href="https://www.readandrunchicago.com/" target="_blank" rel="noopener">Go read their whole site</a>. If you support one directory of Chicago bookstores, make it theirs.</p>
+        </div>
+        <div class="credit-signoff">
+          <span><span class="mark">¶</span>C.H. · Franklin, TN</span>
+          <span>Chicago · 50 of 50</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="end-page" id="endPage">
+    <div class="end-stage">
+      <span class="ornament">❦</span>
+      <h2>
+        Fifty shops, <em>and counting</em>.
+      </h2>
+      <p>
+        That's the shortlist. I haven't walked into any of them yet — but I'll know exactly where to start when the move happens. Wander the rest of the library, or head back to the index.
+      </p>
+      <div class="end-links">
+        <a href="bookstores.html">All cities</a>
+        <a href="fiction.html">Best of Fiction</a>
+        <a href="nonfiction.html">Best of Nonfiction</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
+    <div class="end-footer">
+      <div class="left">A library of one. Franklin → Chicago.</div>
+      <div class="right">
+        <a href="#">Newsletter</a>
+        <a href="#">RSS</a>
+        <a href="mailto:hello@heartslibrary.com">Contact</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Back-to-top button — site.js's setupBackToTop wires it up.
+     Hidden until the user scrolls past 600px; smooth-scrolls
+     to top on click; shifts focus back to the wordmark for a11y. -->
+<button class="btn btn--icon back-to-top" id="backToTop"
+        type="button"
+        aria-label="Back to top"
+        aria-hidden="true">
+  <svg viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+    <path d="M9 14 V4 M4 9 L9 4 L14 9" />
+  </svg>
+</button>
+
+<script src="js/motion.js"></script>
+<script src="js/site.js"></script>
+<script src="js/components/city-page.js"></script>
+
+</body>
+</html>

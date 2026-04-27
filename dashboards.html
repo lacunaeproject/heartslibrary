@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboards — Heart's Library</title>
+<meta name="description" content="Data dashboards built as companions to the reading — one on the war on Gaza, one on the concentration of American wealth. Each grew from a book.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomEase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+
+<!-- (theme toggle retired — site is light-only) -->
+
+<!-- Design system + shared components — single source of truth.
+     Order: tokens → component primitives → site-wide → motion →
+     page-specific component CSS. -->
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components/buttons.css">
+<link rel="stylesheet" href="css/components/eyebrow.css">
+<link rel="stylesheet" href="css/components/header.css">
+<link rel="stylesheet" href="css/components/sticky-filter.css">
+<link rel="stylesheet" href="css/components/back-to-top.css">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/motion.css">
+<link rel="stylesheet" href="css/components/dashboards.css">
+</head>
+
+<body>
+
+<div class="atmosphere" id="atmosphere"></div>
+
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="wordmark">
+      <svg class="logo logo-heart" viewBox="0 0 24 22" aria-hidden="true" focusable="false">
+        <path d="M12 20.4 C 5.5 16.5, 1.5 12, 1.5 7.6 C 1.5 4.5, 4 2, 7 2 C 9 2, 10.8 3.1, 12 4.9 C 13.2 3.1, 15 2, 17 2 C 20 2, 22.5 4.5, 22.5 7.6 C 22.5 12, 18.5 16.5, 12 20.4 Z" />
+      </svg>
+      <span class="logo-text">Heart's Library</span>
+    </a>
+    <nav class="primary">
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button" aria-haspopup="menu" aria-expanded="false">Lists</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="fiction.html" role="menuitem">Fiction</a>
+          <a href="nonfiction.html" role="menuitem">Non-Fiction</a>
+        </div>
+      </div>
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button" aria-haspopup="menu" aria-expanded="false">Bookstores</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="bookstores.html" class="all-link" role="menuitem">All bookstores</a>
+          <a href="bookstores-chicago.html" role="menuitem">Chicago</a>
+          <a href="bookstores-nashville.html" role="menuitem">Nashville</a>
+          <a href="bookstores-new-york.html" role="menuitem">New York</a>
+          <a href="bookstores-bay-area.html" role="menuitem">Bay Area</a>
+          <a href="bookstores-los-angeles.html" role="menuitem">Los Angeles</a>
+        </div>
+      </div>
+      <a href="dashboards.html" class="active">Dashboards</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button"
+            aria-label="Open navigation menu"
+            aria-controls="navDrawer"
+            aria-expanded="false">
+      <span class="toggle-icon" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile drawer + scrim — wired up by site.js's setupMobileNav. -->
+<div class="nav-scrim" id="navScrim" aria-hidden="true"></div>
+<aside class="nav-drawer" id="navDrawer" aria-label="Site navigation">
+  <div class="nav-drawer-header">
+    <span class="nav-drawer-eyebrow">Heart's Library</span>
+  </div>
+  <ul class="nav-drawer-list">
+    <li><a href="index.html">Home</a></li>
+    <li>
+      <span class="drawer-section-label">Lists</span>
+      <ul class="drawer-sublist">
+        <li><a href="fiction.html">Fiction</a></li>
+        <li><a href="nonfiction.html">Non-Fiction</a></li>
+      </ul>
+    </li>
+    <li>
+      <span class="drawer-section-label">Bookstores</span>
+      <ul class="drawer-sublist">
+        <li><a href="bookstores.html">All bookstores</a></li>
+        <li><a href="bookstores-chicago.html">Chicago</a></li>
+        <li><a href="bookstores-nashville.html">Nashville</a></li>
+        <li><a href="bookstores-new-york.html">New York</a></li>
+        <li><a href="bookstores-bay-area.html">Bay Area</a></li>
+        <li><a href="bookstores-los-angeles.html">Los Angeles</a></li>
+      </ul>
+    </li>
+    <li><a href="dashboards.html" class="active">Dashboards</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-drawer-footer">A library of one</div>
+</aside>
+
+<main>
+
+  <!-- CHAPTER TITLE -->
+  <section class="chapter-title" id="chapterTitle">
+    <div class="chapter-stage">
+      <div class="chapter-eyebrow">
+        <span>2 Dashboards · Live</span>
+        <span class="pip">·</span>
+        <span>Companion Data</span>
+        <span class="pip">·</span>
+        <span>Updated Apr 2026</span>
+      </div>
+      <h2>
+        Live data, <span class="accent">built</span> from the reading.
+      </h2>
+      <p class="chapter-deck">
+        One tracks the war on Gaza. The other maps who holds American wealth — and who doesn't. Both started with a book.
+      </p>
+      <div class="chapter-meta">
+        <div class="item">Compiled<strong>April 2026</strong></div>
+        <div class="item">Updated<strong>Live · refreshed continuously</strong></div>
+        <div class="item">Built with<strong>Claude · Anthropic</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- A NOTE — preface explaining what dashboards are -->
+  <section class="note-block compact">
+    <div class="note-stage">
+      <div class="note-label">On this page</div>
+      <p class="note-body">
+        A book teaches you the history of a subject. Live data shows you where it stands today. These dashboards are my attempt to turn topics I've been reading about into something I can watch change in real time. Built with help from Claude, the AI assistant from Anthropic. They're <em>exploratory rather than journalistic</em> — extensions of the reading, meant to send you back to the books for real context.
+      </p>
+    </div>
+  </section>
+
+  <!-- DASHBOARDS LIST -->
+  <section class="dashboards" aria-label="Dashboards">
+    <div class="dashboards-stage">
+      <div class="dashboards-eyebrow">The Dashboards · Two explorations · Live</div>
+    </div>
+
+    <ol class="dashboards-list">
+
+      <!-- CARD 1 — Conflict Casualties -->
+      <li>
+        <article class="dashboard-card" data-topic="conflict">
+          <div class="dashboard-stats">
+            <div class="dashboard-stat">
+              <div class="dashboard-stat-figure">75,200<span style="font-size:0.55em;letter-spacing:0;">+</span></div>
+              <div class="dashboard-stat-label">violent deaths estimated by the Gaza Mortality Survey through Jan 2025</div>
+              <div class="dashboard-stat-source">The Lancet Global Health</div>
+            </div>
+            <div class="dashboard-stat">
+              <div class="dashboard-stat-figure">17,492</div>
+              <div class="dashboard-stat-label">children killed in Gaza as of Feb 2025</div>
+              <div class="dashboard-stat-source">Palestinian Ministry of Health</div>
+            </div>
+            <div class="dashboard-stat">
+              <div class="dashboard-stat-figure">12 / 36</div>
+              <div class="dashboard-stat-label">hospitals still functioning as of May 2025</div>
+              <div class="dashboard-stat-source">World Health Organization</div>
+            </div>
+            <div class="dashboard-stat">
+              <div class="dashboard-stat-figure">200<span style="font-size:0.55em;letter-spacing:0;">+</span></div>
+              <div class="dashboard-stat-label">journalists killed since October 2023</div>
+              <div class="dashboard-stat-source">Committee to Protect Journalists</div>
+            </div>
+          </div>
+
+          <div class="dashboard-meta">
+            <div class="dashboard-kicker">Companion to · <strong>Middle East</strong></div>
+            <h3 class="dashboard-title">Conflict <em>Casualties</em>.</h3>
+            <p class="dashboard-deck">
+              Live casualty data from Gaza and the West Bank, drawn from the most reliable public sources — the Gaza Ministry of Health's administrative records, verified third-party surveys published in <em>The Lancet</em>, and UN OCHA field reporting. Built to make the scale of what's happening harder to turn away from.
+            </p>
+            <div class="dashboard-books">
+              <div class="dashboard-books-label">Books behind it</div>
+              <div class="dashboard-books-list">
+                <a href="nonfiction.html">The Hundred Years' War on Palestine</a><span class="sep">·</span>
+                <a href="nonfiction.html">The Eyes of Gaza</a><span class="sep">·</span>
+                <a href="nonfiction.html">One Day, Everyone Will Have Always Been Against This</a>
+              </div>
+            </div>
+            <a href="https://conflictcasualties.org" target="_blank" rel="noopener" class="dashboard-cta">
+              Open the dashboard
+              <span class="arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+      </li>
+
+      <!-- CARD 2 — Lacunae -->
+      <li>
+        <article class="dashboard-card" data-topic="wealth">
+          <div class="dashboard-stats">
+            <div class="dashboard-stat">
+              <div class="dashboard-stat-figure">30.5%</div>
+              <div class="dashboard-stat-label">of U.S. household wealth held by the top 1%</div>
+              <div class="dashboard-stat-source">Federal Reserve · Q1 2024</div>
+            </div>
+            <div class="dashboard-stat">
+              <div class="dashboard-stat-figure">2.5%</div>
+              <div class="dashboard-stat-label">of U.S. household wealth held by the bottom 50%</div>
+              <div class="dashboard-stat-source">Federal Reserve · Q1 2024</div>
+            </div>
+            <div class="dashboard-stat">
+              <div class="dashboard-stat-figure">4.3<span style="font-size:0.65em;letter-spacing:0;">×</span></div>
+              <div class="dashboard-stat-label">average wealth of white households ($1.5M) vs Black households ($352K)</div>
+              <div class="dashboard-stat-source">Federal Reserve · SCF 2022</div>
+            </div>
+            <div class="dashboard-stat">
+              <div class="dashboard-stat-figure">$2.7<span style="font-size:0.6em;letter-spacing:0;">T</span></div>
+              <div class="dashboard-stat-label">combined net worth of the 12 wealthiest Americans</div>
+              <div class="dashboard-stat-source">Bloomberg Billionaires Index · Jan 2026</div>
+            </div>
+          </div>
+
+          <div class="dashboard-meta">
+            <div class="dashboard-kicker">Companion to · <strong>Black History · Feminism</strong></div>
+            <h3 class="dashboard-title"><em>Lacunae</em>.</h3>
+            <p class="dashboard-deck">
+              The racial and gender dimensions of wealth concentration in America. The top 1% owns roughly 30.5% of the country's wealth; the bottom 50% owns 2.5%. Broken down by race and by gender, <em>the history on the Nonfiction page stops being history</em>.
+            </p>
+            <div class="dashboard-books">
+              <div class="dashboard-books-label">Books behind it</div>
+              <div class="dashboard-books-list">
+                <a href="nonfiction.html">The 1619 Project</a><span class="sep">·</span>
+                <a href="nonfiction.html">The New Jim Crow</a><span class="sep">·</span>
+                <a href="nonfiction.html">Caliban and the Witch</a><span class="sep">·</span>
+                <a href="nonfiction.html">Invisible Women</a>
+              </div>
+            </div>
+            <a href="https://lacunae.us" target="_blank" rel="noopener" class="dashboard-cta">
+              Open the dashboard
+              <span class="arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+      </li>
+
+    </ol>
+  </section>
+
+  <!-- COLOPHON / END -->
+  <section class="end-page" id="endPage">
+    <div class="end-stage">
+      <span class="ornament">❦</span>
+      <h2>
+        Two explorations, <em>and counting</em>.
+      </h2>
+      <p>
+        Each dashboard started with a book that left me with follow-up questions. More are in the queue — abortion access in the post-Roe map, climate displacement, prison labor. If a topic on the Nonfiction page raises a question for you, write in.
+      </p>
+      <div class="end-links">
+        <a href="nonfiction.html">Best of Nonfiction</a>
+        <a href="fiction.html">Best of Fiction</a>
+        <a href="bookstores.html">Bookstores by city</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
+    <div class="end-footer">
+      <div class="left">A library of one. Franklin → Chicago.</div>
+      <div class="right">
+        <a href="#">Newsletter</a>
+        <a href="#">RSS</a>
+        <a href="mailto:hello@heartslibrary.com">Contact</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Back-to-top button — site.js's setupBackToTop wires it up.
+     Hidden until the user scrolls past 600px; smooth-scrolls
+     to top on click; shifts focus back to the wordmark for a11y. -->
+<button class="btn btn--icon back-to-top" id="backToTop"
+        type="button"
+        aria-label="Back to top"
+        aria-hidden="true">
+  <svg viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+    <path d="M9 14 V4 M4 9 L9 4 L14 9" />
+  </svg>
+</button>
+
+<script src="js/motion.js"></script>
+<script src="js/site.js"></script>
+<script src="js/components/dashboards.js"></script>
+
+</body>
+</html>

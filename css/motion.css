@@ -1,0 +1,443 @@
+/* ════════════════════════════════════════════════════════
+   Heart's Library — MOTION.CSS
+   Site-wide motion / interaction upgrade layer.
+   • Lenis html.lenis hooks
+   • Page-transition curtain (paper sheet that masks navigation)
+   • Custom ink cursor (auto-disabled on touch / coarse pointers)
+   • Magnetic hover affordance + animated underlines for links
+   • Header on-scroll subtle condensation
+   • Refined hovers across nav, end-links, purchase rows, ticks
+   No grain, no noise, no texture overlays — flat color fields,
+   typography and motion do the work.
+   Loaded after site.css so it takes precedence on shared selectors.
+   ════════════════════════════════════════════════════════ */
+
+/* ════════════════════════════════════════════════════════
+   LENIS — smooth scroll plumbing
+   When Lenis is active it sets html.lenis.lenis-smooth.
+   We turn off native smooth scroll so they don't fight.
+   ════════════════════════════════════════════════════════ */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+html.lenis-smooth {
+  scroll-behavior: auto;
+}
+html.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+html.lenis-stopped body {
+  overflow: hidden;
+}
+
+/* ════════════════════════════════════════════════════════
+   PAGE-TRANSITION CURTAIN
+   A single paper-toned panel that masks the document on
+   navigate. Two phases:
+     • OUT (clicked link → next page): curtain rises from
+       below to cover the page. Browser navigates while
+       covered.
+     • IN (new page mounts): curtain is already in place;
+       slides up off the top to reveal.
+   The curtain uses transform (GPU-cheap) and a serif marker
+   for editorial intent — a "page turning" gesture, not a
+   generic overlay fade.
+   ════════════════════════════════════════════════════════ */
+.page-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--paper);
+  transform: translateY(100%);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.page-curtain.up   { transform: translateY(0%); }
+.page-curtain.down { transform: translateY(-100%); }
+
+.page-curtain-mark {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-variation-settings: "opsz" 36, "wght" 500;
+  color: var(--accent);
+  font-size: clamp(28px, 4vw, 56px);
+  letter-spacing: -0.01em;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.page-curtain.up .page-curtain-mark {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-curtain { display: none !important; }
+}
+
+/* ════════════════════════════════════════════════════════
+   CUSTOM INK CURSOR
+   Editorial — a soft accent dot that follows the mouse and
+   grows when over interactive things. Hides the system
+   cursor on fine-pointer devices only. Touch / coarse-pointer
+   devices keep the system cursor.
+   ════════════════════════════════════════════════════════ */
+.ink-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: var(--accent);
+  pointer-events: none;
+  z-index: 9998;
+  mix-blend-mode: difference;
+  opacity: 0;
+  transform: translate3d(0, 0, 0) scale(1);
+  transition:
+    opacity 0.25s ease,
+    background 0.3s ease,
+    width 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+    height 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+    margin 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.ink-cursor.is-visible { opacity: 0.85; }
+.ink-cursor.is-link {
+  width: 36px; height: 36px;
+  margin: -18px 0 0 -18px;
+  background: var(--accent);
+  opacity: 0.55;
+}
+.ink-cursor.is-text {
+  width: 2px; height: 22px;
+  margin: -11px 0 0 -1px;
+  border-radius: 1px;
+  opacity: 0.6;
+}
+.ink-cursor.is-down {
+  width: 8px; height: 8px;
+  margin: -4px 0 0 -4px;
+}
+@media (pointer: coarse), (hover: none) {
+  .ink-cursor { display: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ink-cursor { display: none !important; }
+}
+
+body.has-ink-cursor,
+body.has-ink-cursor a,
+body.has-ink-cursor button,
+body.has-ink-cursor [role="button"] {
+  cursor: none;
+}
+
+/* ════════════════════════════════════════════════════════
+   MAGNETIC AFFORDANCE
+   Buttons opt in via [data-magnetic]. The translate is
+   driven by JS in motion.js — this just gives a clean
+   transition envelope so re-centering after mouseleave is
+   smooth even when JS doesn't get the last frame.
+   ════════════════════════════════════════════════════════ */
+[data-magnetic] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+}
+[data-magnetic] > .magnetic-inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+}
+
+/* ════════════════════════════════════════════════════════
+   ANIMATED UNDERLINE — for nav primary links
+   The underline draws from left as the cursor enters.
+   ════════════════════════════════════════════════════════ */
+nav.primary a:not(.theme-toggle-link) {
+  display: inline-block;
+  position: relative;
+  padding-bottom: 4px;
+}
+nav.primary a:not(.theme-toggle-link)::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+nav.primary a:not(.theme-toggle-link):hover::after,
+nav.primary a:not(.theme-toggle-link):focus-visible::after {
+  transform: scaleX(1);
+}
+/* Active nav link — underline stays solid + colored. */
+nav.primary a.active::after {
+  transform: scaleX(1) !important;
+  background: var(--accent) !important;
+}
+
+/* ════════════════════════════════════════════════════════
+   HEADER CONDENSATION
+   When scrolled, the header tightens slightly. Not a
+   dramatic shrink — a settle.
+   ════════════════════════════════════════════════════════ */
+header.scrolled .header-inner {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+header .header-inner {
+  transition: padding 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* PURCHASE-ROW — motion handled directly in index.html's
+   editorial-list component spec. The bordered-table-with-divided-
+   arrow-cell pattern owns its own hover (background wash + arrow
+   lift) and doesn't need a left-edge accent slice on top. The
+   stale .purchase-row::before rule was forcing a 3px accent
+   slice that conflicted with the divided-arrow-cell layout, and
+   the inline-block on .arrow-out broke the flex cell. Both gone. */
+
+/* ════════════════════════════════════════════════════════
+   END-LINKS — drawn underline + arrow flick
+   The end-links are critical CTAs. They get a richer hover
+   than the existing opacity dim.
+   ════════════════════════════════════════════════════════ */
+.end-links a {
+  position: relative;
+  border-bottom: 0;
+  padding-bottom: 6px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  transition: color 0.3s ease;
+}
+.end-links a::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(1);
+  transform-origin: right center;
+  transition: transform 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.end-links a:hover::after {
+  transform: scaleX(0);
+  transform-origin: right center;
+}
+.end-links a:hover { opacity: 1; }
+.end-links a::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.55s cubic-bezier(0.65, 0, 0.35, 1) 0.12s;
+}
+.end-links a:hover::before { transform: scaleX(1); }
+
+/* ════════════════════════════════════════════════════════
+   END-FOOTER LINKS — same draw-in treatment, lighter
+   ════════════════════════════════════════════════════════ */
+.end-footer a {
+  position: relative;
+  display: inline-block;
+}
+.end-footer a::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.end-footer a:hover::after { transform: scaleX(1); }
+
+/* ════════════════════════════════════════════════════════
+   MINI-COVER & TBR-BOOK — restrained richer lift
+   ════════════════════════════════════════════════════════ */
+.chapter-shelf .mini,
+.tbr-cover {
+  transition:
+    transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.5s ease,
+    filter 0.5s ease;
+}
+.chapter-shelf .mini:hover,
+.tbr-book:hover .tbr-cover {
+  filter: brightness(1.04) saturate(1.06);
+}
+.tbr-book .tbr-title,
+.tbr-book .tbr-author {
+  transition: color 0.3s ease;
+}
+.tbr-book:hover .tbr-title { color: var(--accent); }
+
+/* ════════════════════════════════════════════════════════
+   THEME TOGGLE — soft accent ring on hover
+   ════════════════════════════════════════════════════════ */
+.theme-toggle {
+  overflow: visible;
+}
+.theme-toggle::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--accent) 0%, transparent);
+  transition: border-color 0.4s ease, transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+  pointer-events: none;
+  transform: scale(0.85);
+}
+.theme-toggle:hover::before {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  transform: scale(1);
+}
+
+/* ════════════════════════════════════════════════════════
+   INDEX-RAIL TICK — magnify on hover
+   ════════════════════════════════════════════════════════ */
+.index-rail .tick {
+  transition:
+    opacity 0.3s ease,
+    height 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
+    width 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
+    background-color 0.3s ease;
+}
+.index-rail .tick:hover { width: 30px; opacity: 0.85; }
+.index-rail .tick.active { width: 32px; }
+
+/* ════════════════════════════════════════════════════════
+   FILTER BUTTONS — refine the underline ease
+   ════════════════════════════════════════════════════════ */
+.list-filter-btn::after {
+  transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.list-filter-btn:hover::after {
+  transform: scaleX(0.4);
+  background: color-mix(in srgb, var(--accent) 60%, transparent);
+}
+.list-filter-btn[aria-pressed="true"]:hover::after {
+  transform: scaleX(1);
+  background: var(--accent);
+}
+
+/* ════════════════════════════════════════════════════════
+   BREADCRUMB BACK LINK — directional pull on hover
+   ════════════════════════════════════════════════════════ */
+.breadcrumb a {
+  transition: color 0.25s ease, gap 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.breadcrumb a:hover { gap: 12px; }
+
+/* ════════════════════════════════════════════════════════
+   CITY-ROW — soft tint on hover
+   ════════════════════════════════════════════════════════ */
+.city-row {
+  transition: background-color 0.4s ease;
+}
+.city-row:hover {
+  background-color: color-mix(in srgb, var(--ink) 2%, transparent);
+}
+
+/* ════════════════════════════════════════════════════════
+   DASHBOARD-CARD left rule — animatable. Replaces the
+   static border-left so JS can scaleY it from 0 → 1 on
+   reveal. The card retains a 2px-wide left edge, but it's
+   now an absolutely-positioned bar we control via CSS var.
+   ════════════════════════════════════════════════════════ */
+.dashboard-card {
+  --rule-scale: 1;
+  border-left-color: transparent !important;
+  position: relative;
+}
+.dashboard-card::after {
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: var(--card-accent, var(--accent));
+  transform: scaleY(var(--rule-scale, 1));
+  transform-origin: top center;
+  pointer-events: none;
+  z-index: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-card { --rule-scale: 1 !important; }
+}
+
+/* ════════════════════════════════════════════════════════
+   READING PROGRESS — single hairline at the very top of the
+   viewport. Fills from left as the user scrolls. Same visual
+   weight as the marginalia rules — disappears unless you
+   look for it, but anchors the page.
+   ════════════════════════════════════════════════════════ */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  z-index: 9997;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--accent) 0%, transparent);
+}
+.reading-progress-bar {
+  height: 100%;
+  width: 100%;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reading-progress { display: none; }
+}
+
+/* ════════════════════════════════════════════════════════
+   IMAGE WARM-UP — covers fade in once they decode
+   ════════════════════════════════════════════════════════ */
+img.img-load-fade {
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+img.img-load-fade.is-loaded {
+  opacity: 1;
+}
+
+/* ════════════════════════════════════════════════════════
+   COARSE POINTER GUARDS
+   ════════════════════════════════════════════════════════ */
+@media (pointer: coarse) {
+  [data-magnetic] { transform: none !important; }
+  [data-magnetic] > .magnetic-inner { transform: none !important; }
+}
+
+/* ════════════════════════════════════════════════════════
+   REDUCED MOTION CATCH-ALL
+   ════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .page-curtain { display: none !important; }
+  .ink-cursor { display: none !important; }
+  body.has-ink-cursor,
+  body.has-ink-cursor a,
+  body.has-ink-cursor button { cursor: auto; }
+}

@@ -1,0 +1,108 @@
+/* ════════════════════════════════════════════════════════
+   COMPONENT — STICKY FILTER BAR
+   Filter row that locks beneath the fixed header once the
+   user scrolls past it. Used by fiction.html, nonfiction.html,
+   and any future list page.
+
+   Markup pattern:
+     <section class="sticky-filter" data-sticky-filter>
+       <div class="sticky-filter-inner">
+         <div class="sticky-filter-label">Genre</div>
+         <div class="btn-group" role="group" aria-label="Filter by genre">
+           <button class="btn btn--filter btn--sm" aria-pressed="true" data-filter="all">All <span class="count">14</span></button>
+           …
+         </div>
+       </div>
+     </section>
+
+   Behavior owned by the .is-sticky class, which the JS
+   helper toggles when the filter bar's natural position
+   passes under the header. We use `position: sticky` so the
+   bar lives in the document flow when in view, and `top` is
+   tied to --header-h so they stack perfectly without overlap.
+   ════════════════════════════════════════════════════════ */
+
+.sticky-filter {
+  position: sticky;
+  top: var(--header-h);
+  z-index: var(--z-sticky);
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  border-bottom: 1px solid transparent;
+  /* Backdrop blur kicks in once it's stuck to the header so
+     the title text scrolling behind it stays legible. */
+  transition:
+    background-color var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+.sticky-filter.is-stuck {
+  background: color-mix(in srgb, var(--paper) 96%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: color-mix(in srgb, var(--ink) 8%, transparent);
+  box-shadow: var(--shadow-1);
+}
+
+.sticky-filter-inner {
+  max-width: var(--max-container);
+  margin: 0 auto;
+  padding: 12px var(--gutter);
+  padding-left: calc(var(--gutter) + var(--gutter-content));
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-height: var(--filter-h);
+}
+.sticky-filter-label {
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  flex: 0 0 auto;
+}
+
+/* Filter buttons live in a horizontally-scrollable track on
+   narrow screens so we don't wrap awkwardly. The track hides
+   its scrollbar (Firefox + WebKit). On wider screens we let
+   the buttons wrap to a second row instead. */
+.sticky-filter .btn-group {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+@media (max-width: 760px) {
+  .sticky-filter {
+    top: var(--header-h-mobile);
+  }
+  .sticky-filter-inner {
+    padding: 10px var(--gutter-mobile);
+    gap: 14px;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 0;
+  }
+  .sticky-filter-label {
+    margin-bottom: 2px;
+  }
+  /* Switch wrap → horizontal scroll so all options stay reachable */
+  .sticky-filter .btn-group {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    width: 100%;
+    padding-bottom: 2px;
+    /* Hide scrollbar — track stays interactive */
+    scrollbar-width: none;
+  }
+  .sticky-filter .btn-group::-webkit-scrollbar { display: none; }
+  .sticky-filter .btn--filter { flex: 0 0 auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticky-filter { transition: none; }
+}

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best of Fiction — Heart's Library</title>
+<meta name="description" content="The novels I hand people first — literary, sci-fi, and contemporary fiction that stayed with me. Fourteen books I actually recommend.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomEase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+
+<!-- Design system + shared components — single source of truth.
+     Order: tokens → component primitives → site-wide → motion →
+     page-specific component CSS. Each layer overrides the one
+     above it where it needs to. -->
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components/buttons.css">
+<link rel="stylesheet" href="css/components/eyebrow.css">
+<link rel="stylesheet" href="css/components/header.css">
+<link rel="stylesheet" href="css/components/sticky-filter.css">
+<link rel="stylesheet" href="css/components/back-to-top.css">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/motion.css">
+<link rel="stylesheet" href="css/components/book-list.css">
+</head>
+
+<body>
+
+<div class="atmosphere" id="atmosphere"></div>
+
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="wordmark">
+      <svg class="logo logo-heart" viewBox="0 0 24 22" aria-hidden="true" focusable="false">
+        <path d="M12 20.4 C 5.5 16.5, 1.5 12, 1.5 7.6 C 1.5 4.5, 4 2, 7 2 C 9 2, 10.8 3.1, 12 4.9 C 13.2 3.1, 15 2, 17 2 C 20 2, 22.5 4.5, 22.5 7.6 C 22.5 12, 18.5 16.5, 12 20.4 Z" />
+      </svg>
+      <span class="logo-text">Heart's Library</span>
+    </a>
+    <nav class="primary">
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger active" type="button" aria-haspopup="menu" aria-expanded="false">Lists</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="fiction.html" role="menuitem" class="active">Fiction</a>
+          <a href="nonfiction.html" role="menuitem">Non-Fiction</a>
+        </div>
+      </div>
+      <div class="nav-item has-dropdown">
+        <button class="nav-trigger" type="button" aria-haspopup="menu" aria-expanded="false">Bookstores</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="bookstores.html" class="all-link" role="menuitem">All bookstores</a>
+          <a href="bookstores-chicago.html" role="menuitem">Chicago</a>
+          <a href="bookstores-nashville.html" role="menuitem">Nashville</a>
+          <a href="bookstores-new-york.html" role="menuitem">New York</a>
+          <a href="bookstores-bay-area.html" role="menuitem">Bay Area</a>
+          <a href="bookstores-los-angeles.html" role="menuitem">Los Angeles</a>
+        </div>
+      </div>
+      <a href="dashboards.html">Dashboards</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" type="button"
+            aria-label="Open navigation menu"
+            aria-controls="navDrawer"
+            aria-expanded="false">
+      <span class="toggle-icon" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile drawer + scrim — wired up by site.js's setupMobileNav
+     (focus trap, Esc, outside-click close, restore focus). -->
+<div class="nav-scrim" id="navScrim" aria-hidden="true"></div>
+<aside class="nav-drawer" id="navDrawer" aria-label="Site navigation">
+  <div class="nav-drawer-header">
+    <span class="nav-drawer-eyebrow">Heart's Library</span>
+  </div>
+  <ul class="nav-drawer-list">
+    <li><a href="index.html">Home</a></li>
+    <li>
+      <span class="drawer-section-label">Lists</span>
+      <ul class="drawer-sublist">
+        <li><a href="fiction.html" class="active">Fiction</a></li>
+        <li><a href="nonfiction.html">Non-Fiction</a></li>
+      </ul>
+    </li>
+    <li>
+      <span class="drawer-section-label">Bookstores</span>
+      <ul class="drawer-sublist">
+        <li><a href="bookstores.html">All bookstores</a></li>
+        <li><a href="bookstores-chicago.html">Chicago</a></li>
+        <li><a href="bookstores-nashville.html">Nashville</a></li>
+        <li><a href="bookstores-new-york.html">New York</a></li>
+        <li><a href="bookstores-bay-area.html">Bay Area</a></li>
+        <li><a href="bookstores-los-angeles.html">Los Angeles</a></li>
+      </ul>
+    </li>
+    <li><a href="dashboards.html">Dashboards</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+  <div class="nav-drawer-footer">A library of one</div>
+</aside>
+
+<main>
+
+  <!-- CHAPTER TITLE -->
+  <section class="chapter-title" id="chapterTitle">
+    <div class="chapter-stage">
+      <h2>
+        Best of <span class="accent">Fiction</span>.
+      </h2>
+      <p class="chapter-deck">
+        Fourteen novels I hand people when they ask what to read next. Literary, sci-fi, and the ones I keep going back to.
+      </p>
+      <div class="chapter-meta">
+        <div class="item">Compiled<strong>April 2026</strong></div>
+        <div class="item">Total<strong>14 novels</strong></div>
+        <div class="item">Genres<strong>Literary, Speculative, Contemporary</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GENRE FILTER — sticky beneath the header -->
+  <section class="sticky-filter" data-sticky-filter aria-label="Genre filter">
+    <div class="sticky-filter-inner">
+      <span class="sticky-filter-label">Genre</span>
+      <div class="btn-group" role="group" aria-label="Filter fiction by genre">
+        <button class="btn btn--filter btn--sm" type="button" data-filter="all" aria-pressed="true">All <span class="count">14</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="literary" aria-pressed="false">Literary <span class="count">5</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="speculative" aria-pressed="false">Speculative <span class="count">7</span></button>
+        <button class="btn btn--filter btn--sm" type="button" data-filter="contemporary" aria-pressed="false">Contemporary <span class="count">2</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOK LIST -->
+  <section class="book-list" aria-label="Fiction recommendations">
+    <ol class="book-rows">
+
+      <!-- LITERARY -->
+      <li class="book-row" data-genre="literary">
+        <div class="book-cover-col">
+          <div class="book-num">№ 01</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/lonesomedove.jpg" alt="Lonesome Dove by Larry McMurtry" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Lonesome Dove</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Larry_McMurtry" target="_blank" rel="noopener">Larry McMurtry</a></div>
+          <p class="book-blurb">Eight hundred pages of Gus McCrae and Woodrow Call, two aging Texas Rangers on one last cattle drive from the Rio Grande to Montana. McMurtry set out to dismantle the myth of the American West and accidentally wrote its monument. <em>The friendship at the center is one of the truest things in American fiction.</em> Pulitzer, 1986.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span>
+              <span class="name">Parnassus Books</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="literary">Literary</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="literary">
+        <div class="book-cover-col">
+          <div class="book-num">№ 02</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/demoncopperhead.jpg" alt="Demon Copperhead by Barbara Kingsolver" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Demon Copperhead</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://barbarakingsolver.com/" target="_blank" rel="noopener">Barbara Kingsolver</a></div>
+          <p class="book-blurb">Kingsolver takes <em>David Copperfield</em> out of Victorian England and resets it in opioid-era Appalachia. A red-haired kid narrates his own passage through foster care, high-school football, injury, addiction — first person the whole way down, systems failing him at every turn. Earns every inch of the 2023 Pulitzer it shares with <em>Trust</em>.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span>
+              <span class="name">Parnassus Books</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="literary">Literary</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="literary">
+        <div class="book-cover-col">
+          <div class="book-num">№ 03</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/stoner.jpg" alt="Stoner by John Williams" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Stoner</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/John_Edward_Williams" target="_blank" rel="noopener">John Williams</a></div>
+          <p class="book-blurb">The quiet life of a Missouri farm boy who becomes an English professor. Almost nothing happens. <em>Somehow everything does.</em> Forgotten for decades, then rediscovered after a 2003 NYRB reissue — now the standard case for what plain American prose can carry.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span>
+              <span class="name">Parnassus Books</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="literary">Literary</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="literary">
+        <div class="book-cover-col">
+          <div class="book-num">№ 04</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/eastofeden.jpg" alt="East of Eden by John Steinbeck" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">East of Eden</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://steinbeck.org/" target="_blank" rel="noopener">John Steinbeck</a></div>
+          <p class="book-blurb">Two California families retrace the Cain-and-Abel story across three generations in the Salinas Valley. Steinbeck's widest canvas — he thought everything he'd written before was preparation for this. The whole book turns on <em>timshel</em>: the Hebrew word the characters end up reading as "thou mayest." Choice, not fate.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span>
+              <span class="name">Parnassus Books</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="literary">Literary</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="literary">
+        <div class="book-cover-col">
+          <div class="book-num">№ 05</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/giovannisroom.jpg" alt="Giovanni's Room by James Baldwin" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Giovanni's Room</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://www.jamesbaldwin.info/" target="_blank" rel="noopener">James Baldwin</a></div>
+          <p class="book-blurb">Paris, 1956. An American engaged to be married starts an affair with an Italian bartender while his fiancée is away. Baldwin's American publisher reportedly told him to burn the manuscript — too gay, too white, too unmarketable. He published it anyway. <em>A first-person confession without self-pity</em>, and one of the foundational texts of American queer literature.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span>
+              <span class="name">Parnassus Books</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="literary">Literary</span>
+          </div>
+        </div>
+      </li>
+
+      <!-- SPECULATIVE -->
+      <li class="book-row" data-genre="speculative">
+        <div class="book-cover-col">
+          <div class="book-num">№ 06</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/projecthailmary.jpg" alt="Project Hail Mary by Andy Weir" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Project Hail Mary</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://andyweirauthor.com/" target="_blank" rel="noopener">Andy Weir</a></div>
+          <p class="book-blurb">An astronaut wakes alone in deep space with no memory of who he is or why he's there. He figures it out — and his one job is to save the sun. Weir makes orbital mechanics feel like the plot, and <em>the friendship at the center blindsided me</em>. Lord and Miller's Gosling adaptation hits theaters March 2026.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span>
+              <span class="name">Parnassus Books</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="speculative">Speculative</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="speculative">
+        <div class="book-cover-col">
+          <div class="book-num">№ 07</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/jurassicpark.jpg" alt="Jurassic Park by Michael Crichton" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Jurassic Park</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://michaelcrichton.com/" target="_blank" rel="noopener">Michael Crichton</a></div>
+          <p class="book-blurb">A billionaire clones dinosaurs from amber-preserved DNA and opens a theme park off the coast of Costa Rica. It goes badly. Under the set pieces Crichton is running a real argument about chaos theory, corporate hubris, and the ethics of deploying biotech before anyone understands it. <em>The book is considerably meaner than Spielberg's 1993 film.</em></p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span>
+              <span class="name">Parnassus Books</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="speculative">Speculative</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="speculative">
+        <div class="book-cover-col">
+          <div class="book-num">№ 08</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/redrising.jpg" alt="Red Rising by Pierce Brown" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Red Rising</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://www.piercebrown.com" target="_blank" rel="noopener">Pierce Brown</a></div>
+          <p class="book-blurb">On a terraformed Mars run as a color-coded caste system, Darrow is a Red miner pulled into a plot against the ruling Golds. He undergoes reconstructive surgery to pass as one and infiltrates their academy. Seven books in, Brown has built a universe that reads like <em>The Hunger Games</em> if everyone in it grew up on Gibbon. <em>Bloodydamn.</em></p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span>
+              <span class="name">Parnassus Books</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="speculative">Speculative</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="speculative">
+        <div class="book-cover-col">
+          <div class="book-num">№ 09</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/dune.jpg" alt="Dune by Frank Herbert" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Dune</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://dunenovels.com/frank-herbert/" target="_blank" rel="noopener">Frank Herbert</a></div>
+          <p class="book-blurb">Ecology, religion, and imperial politics on a desert planet that happens to be the sole source of the spice that makes interstellar travel possible. <em>Herbert invented the playbook</em> that Star Wars, Foundation, and half of modern science fiction have been quoting since. First Nebula winner, Hugo co-winner. Villeneuve's two-part 2021/2024 adaptation finally did it justice.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span>
+              <span class="name">Parnassus Books</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="speculative">Speculative</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="speculative">
+        <div class="book-cover-col">
+          <div class="book-num">№ 10</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/empireofsilence.jpg" alt="Empire of Silence by Christopher Ruocchio" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Empire of Silence</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://www.highmatterbooks.com/" target="_blank" rel="noopener">Christopher Ruocchio</a></div>
+          <p class="book-blurb">A far-future space opera narrated, memoir-style, by a disgraced nobleman awaiting execution for crimes he's about to explain. Ruocchio writes <em>like Gene Wolfe crossed with Warhammer 40,000</em> — literary science fiction at operatic scale. Book one of the Sun Eater series. The usual next stop for readers who finish Dune and need somewhere to go.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span>
+              <span class="name">Parnassus Books</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="speculative">Speculative</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="speculative">
+        <div class="book-cover-col">
+          <div class="book-num">№ 11</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/it.jpg" alt="It by Stephen King" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">It</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://stephenking.com/" target="_blank" rel="noopener">Stephen King</a></div>
+          <p class="book-blurb">Seven children in Derry, Maine, confront an ancient evil that takes the shape of their fears — most famously a clown called Pennywise. The book cuts between 1958 and 1985, when the seven return as adults to finish what they started. Over 1,100 pages, and <em>King's best novel about the things small towns hide in plain sight</em>. Not for the squeamish.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span>
+              <span class="name">Parnassus Books</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="speculative">Speculative</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="speculative">
+        <div class="book-cover-col">
+          <div class="book-num">№ 12</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/piranesi.jpg" alt="Piranesi by Susanna Clarke" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Piranesi</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Susanna_Clarke" target="_blank" rel="noopener">Susanna Clarke</a></div>
+          <p class="book-blurb">A narrator keeps a daily journal from inside an infinite house of statues, halls, and tides — vast, beautiful, and the whole world he knows. Clarke's first novel in sixteen years, after <em>Jonathan Strange &amp; Mr Norrell</em>. Won the 2021 Women's Prize. <em>Short, strange, and hard to stop thinking about.</em></p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span>
+              <span class="name">Parnassus Books</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="speculative">Speculative</span>
+          </div>
+        </div>
+      </li>
+
+      <!-- CONTEMPORARY -->
+      <li class="book-row" data-genre="contemporary">
+        <div class="book-cover-col">
+          <div class="book-num">№ 13</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/atmosphere.jpg" alt="Atmosphere by Taylor Jenkins Reid" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">Atmosphere</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://www.taylorjenkinsreid.com/" target="_blank" rel="noopener">Taylor Jenkins Reid</a></div>
+          <p class="book-blurb">NASA, early 1980s. Joan Goodwin is a Rice astronomy professor in the second cohort of female astronauts — training for flight, carrying on a secret relationship with a fellow candidate, and heading toward a Space Shuttle disaster. Reid's latest, set in the same loose universe as <em>Daisy Jones</em> and <em>Evelyn Hugo</em>.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span>
+              <span class="name">Parnassus Books</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="contemporary">Contemporary</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="book-row" data-genre="contemporary">
+        <div class="book-cover-col">
+          <div class="book-num">№ 14</div>
+          <div class="book-cover-wrap">
+            <img src="https://heartslibrary.com/covers/thestoriedlifeofajfikry.jpg" alt="The Storied Life of A.J. Fikry by Gabrielle Zevin" loading="lazy">
+          </div>
+        </div>
+        <div class="book-content-col">
+          <h3 class="book-title">The Storied Life of A.J. Fikry</h3>
+          <div class="book-author"><span class="by">By</span> <a href="https://gabriellezevin.com/" target="_blank" rel="noopener">Gabrielle Zevin</a></div>
+          <p class="book-blurb">A widowed, misanthropic bookshop owner on a fictional New England island finds an abandoned baby in the aisles of his shop. Each chapter opens with the owner's notes on a short story — <em>a device that doubles as a reading list</em>. A word-of-mouth indie-bookstore favorite, over two million copies sold.</p>
+          <div class="book-footer">
+            <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
+              <span class="label">Read at</span>
+              <span class="name">Parnassus Books</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <span class="book-genre" data-genre="contemporary">Contemporary</span>
+          </div>
+        </div>
+      </li>
+
+    </ol>
+
+    <div class="book-list-trailer">
+      Showing <span class="live-count" data-live-count>14</span> of fourteen · April 2026
+    </div>
+  </section>
+
+  <!-- COLOPHON / END -->
+  <section class="end-page" id="endPage">
+    <div class="end-stage">
+      <span class="ornament">❦</span>
+      <h2>
+        Fourteen novels, <em>one shelf</em>.
+      </h2>
+      <p>
+        That's the fiction list as it stands. Hand any of them to someone who's been asking what to read next. Wander the rest of the library — nonfiction, dashboards, bookstores by city — or find me on the colophon.
+      </p>
+      <div class="end-links">
+        <a href="nonfiction.html">Best of Nonfiction</a>
+        <a href="bookstores.html">Bookstores by city</a>
+        <a href="dashboards.html">Dashboards</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
+    <div class="end-footer">
+      <div class="left">A library of one. Franklin → Chicago.</div>
+      <div class="right">
+        <a href="#">Newsletter</a>
+        <a href="#">RSS</a>
+        <a href="mailto:hello@heartslibrary.com">Contact</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Back-to-top button — site.js's setupBackToTop wires it up.
+     Hidden until the user scrolls past 600px; smooth-scrolls
+     to top on click; shifts focus back to the wordmark for a11y. -->
+<button class="btn btn--icon back-to-top" id="backToTop"
+        type="button"
+        aria-label="Back to top"
+        aria-hidden="true">
+  <svg viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+    <path d="M9 14 V4 M4 9 L9 4 L14 9" />
+  </svg>
+</button>
+
+<script src="js/motion.js"></script>
+<script src="js/site.js"></script>
+<script src="js/components/book-list.js"></script>
+
+</body>
+</html>
+                                                                                                                                                                                                                                                                                                                             

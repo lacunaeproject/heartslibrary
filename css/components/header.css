@@ -1,0 +1,271 @@
+/* ════════════════════════════════════════════════════════
+   COMPONENT — HEADER + MOBILE NAV
+   Single source of truth for the site header, nav, and
+   mobile drawer. Replaces the old fab+overlay mobile menu
+   with a hamburger that lives inside the header itself
+   (matching the rest of the site's editorial register).
+
+   Loaded after site.css — overrides the older nav styles
+   that lived inline there. The base nav.primary rule + the
+   .nav-item / .nav-dropdown blocks in site.css still apply
+   for the dropdown panels; this file owns header chrome,
+   the wordmark heart logo, and everything mobile.
+   ════════════════════════════════════════════════════════ */
+
+/* ─── Header chrome ──────────────────────────────────────── */
+header {
+  height: var(--header-h);
+  display: flex;
+  align-items: stretch;
+}
+.header-inner {
+  width: 100%;
+  height: 100%;
+  padding: 0 var(--gutter);
+}
+
+/* ─── Wordmark — heart mark + lockup ─────────────────────── */
+.wordmark {
+  text-decoration: none;
+  font-feature-settings: "kern", "liga";
+}
+.wordmark .logo-heart {
+  width: 22px;
+  height: 20px;
+  fill: var(--accent);
+  flex: 0 0 auto;
+  transform-origin: center center;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.wordmark:hover .logo-heart {
+  animation: heart-pulse 0.85s var(--ease-out);
+}
+@keyframes heart-pulse {
+  0%   { transform: scale(1); }
+  20%  { transform: scale(1.28); }
+  40%  { transform: scale(1); }
+  60%  { transform: scale(1.18); }
+  80%  { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wordmark:hover .logo-heart { animation: none; }
+}
+.wordmark .logo-text {
+  display: inline-block;
+}
+
+/* ─── Hamburger — the new mobile trigger ─────────────────── */
+/* Lives inside the header on the right; replaces the old
+   floating fab. Square, compact, with three lines that
+   morph into an X when open. */
+.nav-toggle {
+  display: none; /* desktop hides; mobile breakpoint shows */
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  border-radius: var(--radius-1);
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-toggle:hover {
+  border-color: color-mix(in srgb, var(--ink) 28%, transparent);
+}
+.nav-toggle:focus { outline: none; }
+.nav-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.nav-toggle .toggle-icon {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: stretch;
+  width: 18px;
+}
+.nav-toggle .toggle-icon span {
+  display: block;
+  height: 1.4px;
+  width: 100%;
+  background: currentColor;
+  border-radius: 1px;
+  transform-origin: center center;
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
+}
+.nav-toggle[aria-expanded="true"] .toggle-icon span:nth-child(1) {
+  transform: translateY(6.4px) rotate(45deg);
+}
+.nav-toggle[aria-expanded="true"] .toggle-icon span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.nav-toggle[aria-expanded="true"] .toggle-icon span:nth-child(3) {
+  transform: translateY(-6.4px) rotate(-45deg);
+}
+
+/* ─── Mobile drawer ──────────────────────────────────────── */
+/* A full-height panel sliding in from the right on mobile.
+   Uses transform so the slide is GPU-cheap; backdrop fades
+   alongside it. Focus trap + outside-click + Esc all wired
+   up by js/site.js's setupMobileNav helper. */
+.nav-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-overlay) - 1);
+  background: color-mix(in srgb, var(--ink) 30%, transparent);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+.nav-scrim.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.nav-drawer {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  z-index: var(--z-overlay);
+  width: min(86vw, 360px);
+  background: var(--paper);
+  border-left: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  box-shadow: var(--shadow-3);
+  transform: translateX(100%);
+  transition: transform var(--dur-base) var(--ease-out);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.nav-drawer.is-open {
+  transform: translateX(0);
+}
+.nav-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  min-height: var(--header-h-mobile);
+}
+.nav-drawer-eyebrow {
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+}
+.nav-drawer-list {
+  list-style: none;
+  margin: 0;
+  padding: 12px 0;
+  flex: 1;
+}
+.nav-drawer-list > li { margin: 0; }
+.nav-drawer-list > li > a,
+.nav-drawer-list > li > .drawer-section-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--t-150);
+  letter-spacing: -0.012em;
+  font-variation-settings: "wdth" 96, "opsz" 24;
+  color: var(--ink);
+  padding: 14px 24px;
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+.nav-drawer-list > li > a:hover {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+}
+.nav-drawer-list > li > a.active {
+  color: var(--accent);
+}
+.nav-drawer-list .drawer-section-label {
+  color: var(--marginalia);
+  font-family: var(--mono);
+  font-size: var(--t-75);
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding-bottom: 6px;
+  padding-top: 22px;
+  font-variation-settings: normal;
+}
+.nav-drawer-list .drawer-sublist {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0 0 8px;
+}
+.nav-drawer-list .drawer-sublist a {
+  display: flex;
+  align-items: center;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-variation-settings: "opsz" 18, "wght" 500;
+  font-size: var(--t-112);
+  letter-spacing: -0.005em;
+  color: var(--ink-soft);
+  text-decoration: none;
+  padding: 10px 24px 10px 36px;
+  transition: color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+.nav-drawer-list .drawer-sublist a:hover {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 4%, transparent);
+}
+.nav-drawer-list .drawer-sublist a.active { color: var(--accent); }
+
+.nav-drawer-footer {
+  padding: 18px 24px 28px;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-drawer { transition: none; }
+  .nav-scrim { transition: none; }
+  .nav-toggle .toggle-icon span { transition: none; }
+}
+
+/* ─── Breakpoint ─────────────────────────────────────────── */
+@media (max-width: 760px) {
+  /* Mobile: hide desktop primary nav, show hamburger, swap
+     wordmark to heart-only. */
+  nav.primary { display: none; }
+  .nav-toggle { display: inline-flex; }
+  .wordmark .logo-text { display: none; }
+  .header-inner { padding: 0 var(--gutter-mobile); }
+  header { height: var(--header-h-mobile); }
+}
+
+/* When drawer is open, lock body scroll. Class added by JS. */
+body.nav-open { overflow: hidden; }
+
+/* ─── Hide the legacy fab + overlay ──────────────────────── */
+/* The old .menu-fab + .mobile-overlay components are being
+   replaced by .nav-toggle + .nav-drawer. Force-hidden here
+   so any pages still containing the legacy markup don't
+   show two menus. Pages should remove the legacy markup as
+   they're touched, but until they all are, this keeps the
+   site clean. */
+.menu-fab,
+.mobile-overlay { display: none !important; }
