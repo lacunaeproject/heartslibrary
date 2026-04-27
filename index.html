@@ -1623,10 +1623,17 @@
     letter-spacing: -0.028em;
     text-wrap: balance;
   }
-  /* Accent phrase stays as one chunk — "with reviews." should never
-     break across two lines internally. */
-  .chapter-title h2 .accent {
-    white-space: nowrap;
+  /* Accent phrase stays as one chunk on desktop — "with reviews."
+     should never break across two lines internally there. Scoped to
+     min-width: 701px so it does NOT clobber the @media (max-width:
+     700px) rule above (line ~1520) that flips accent to white-space:
+     normal on phones — at narrow widths the phrase has to be allowed
+     to wrap, otherwise it pushes past the viewport edge during (and
+     after) the entrance animation. */
+  @media (min-width: 701px) {
+    .chapter-title h2 .accent {
+      white-space: nowrap;
+    }
   }
   /* TBR — pulled to match the chapter-title hero scale exactly.
      "Up next." reads as a sibling editorial headline to the hero
