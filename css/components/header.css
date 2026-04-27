@@ -247,11 +247,15 @@ header {
 }
 
 /* ─── Breakpoint ─────────────────────────────────────────── */
+/* The mobile rules below use !important because per-page inline
+   <style> blocks and the older site.css declare unscoped
+   `nav.primary { display: flex }` rules that load AFTER this
+   file and would otherwise win the cascade — leaving the full
+   desktop nav visible on phones. The desktop/mobile binary is
+   load-order-agnostic by design, so the override is intentional. */
 @media (max-width: 760px) {
-  /* Mobile: hide desktop primary nav, show hamburger, swap
-     wordmark to heart-only. */
-  nav.primary { display: none; }
-  .nav-toggle { display: inline-flex; }
+  nav.primary { display: none !important; }
+  .nav-toggle { display: inline-flex !important; }
   .wordmark .logo-text { display: none; }
   .header-inner { padding: 0 var(--gutter-mobile); }
   header { height: var(--header-h-mobile); }

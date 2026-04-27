@@ -3,6 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8ELFFQERJ7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8ELFFQERJ7');
+</script>
 <title>Heart's Library</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1489,7 +1498,13 @@
     .header-inner { padding: 0 24px; }
     nav.primary { gap: 16px; }
     nav.primary a { font-size: 13px; }
-    .chapter-title, .end-page { padding-left: 24px; padding-right: 24px; }
+    .chapter-title, .end-page, .tbr-page { padding-left: 16px; padding-right: 16px; }
+    /* Book-page horizontal padding tightens at narrow widths so the
+       cover + text columns aren't pushed off-screen by the desktop
+       32px from the <=900px rule. 16px matches the rest of the
+       page's mobile gutter — the minimum the editorial register
+       should ever sit at from the viewport edge. */
+    .book-page { padding-left: 16px; padding-right: 16px; }
     /* Hero h2 dialed down hard for phone widths. Was clamp(44px, 14vw,
        88px) which produced ~50px+ type that couldn't fit "A reading
        list," on one line at 360-414px screens. Now clamp(36, 10vw, 56)

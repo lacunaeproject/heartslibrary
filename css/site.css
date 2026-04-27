@@ -332,11 +332,11 @@ nav.primary > a.active::after {
 .mobile-nav-list a.active { color: var(--accent); }
 
 @media (max-width: 760px) {
-  nav.primary a:not(.theme-toggle-link) { display: none; }
-  nav.primary .theme-toggle { display: inline-flex; }
-  .menu-fab { display: inline-flex; }
-  .mobile-overlay { display: block; pointer-events: none; }
-  .mobile-overlay.open { pointer-events: auto; }
+  /* Mobile nav now lives in header.css (.nav-toggle + .nav-drawer).
+     The legacy .menu-fab + .mobile-overlay rules above are
+     force-hidden by header.css; we just make sure the desktop
+     primary nav is hidden on mobile too. */
+  nav.primary { display: none; }
 }
 
 /* ════════════════════════════════════════════════════════
