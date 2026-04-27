@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/Owner/.claude/**)",
+      "Bash(grep -an \"^\\\\s*{$\\\\|title:\\\\|review:\" \"C:\\\\Users\\\\Owner\\\\Documents\\\\heartslibrary\\\\index.html\")",
+      "Bash(python authors/_download_authors.py)",
+      "Bash(where python.exe)",
+      "Bash(ls /c/Python*)",
+      "Read(//c/Users/Owner/AppData/Local/Programs/**)",
+      "Bash(node authors/_download_authors.mjs)",
+      "Bash(grep -E '\\\\.jpg$')",
+      "Bash(node -e \"console.log\\(require\\('node:module'\\).createRequire\\(import.meta.url || 'file:///'\\).resolve\\('sharp'\\)\\)\")",
+      "Bash(awk '{ sum += $1 } END { print \"max:\", $0 }')"
+    ]
+  }
+}

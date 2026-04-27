@@ -38,6 +38,7 @@
 <link rel="stylesheet" href="css/site.css">
 <link rel="stylesheet" href="css/motion.css">
 <link rel="stylesheet" href="css/components/book-list.css">
+<link rel="stylesheet" href="css/components/book-modal.css">
 </head>
 
 <body>
@@ -138,7 +139,6 @@
   <!-- TOPIC FILTER — sticky beneath the header -->
   <section class="sticky-filter" data-sticky-filter aria-label="Topic filter">
     <div class="sticky-filter-inner">
-      <span class="sticky-filter-label">Topic</span>
       <div class="btn-group" role="group" aria-label="Filter nonfiction by topic">
         <button class="btn btn--filter btn--sm" type="button" data-filter="all" aria-pressed="true">All <span class="count">34</span></button>
         <button class="btn btn--filter btn--sm" type="button" data-filter="middle-east" aria-pressed="false">Middle East <span class="count">8</span></button>
@@ -165,7 +165,20 @@
         <div class="book-content-col">
           <h3 class="book-title">The Hundred Years' War on Palestine</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://history.columbia.edu/person/khalidi-rashid/" target="_blank" rel="noopener">Rashid Khalidi</a></div>
-          <p class="book-blurb">A century-long account of the Israeli-Palestinian conflict framed as a settler-colonial project that began in 1917. Khalidi draws on archival records and four generations of his own family — Palestinian diplomats and educators — to trace what has actually happened since the Balfour Declaration. <em>Essential if you want the full record, not a soundbite.</em></p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Khalidi is doing two things at once — laying out a hundred-year political history with the rigor of a working historian, and naming his own family's place in it. His great-great-uncle was the mayor of Jerusalem in 1899 who wrote to Theodor Herzl. His father was a Palestinian diplomat. The book carries the weight of both archive and inheritance, and that combination is what makes it different from most histories of the conflict.</p>
+              <p>The structure is six "declarations of war" — Balfour, the Nakba, '67, '82, the Oslo years, Gaza. Each chapter shows how the same machinery has produced the same results across a century. It's not a polemic. It's the record. Khalidi keeps his temperature low and lets the documents do the work, which is exactly what gives the book its weight.</p>
+              <p>The argument the structure makes — without ever stating it as an argument — is that this isn't a tragedy of misunderstanding. It's a sequence of decisions. People in specific rooms made specific choices, and the documents survive. Khalidi reads the documents. He doesn't editorialize on them. He doesn't have to. Once you see the pattern, the pattern names itself.</p>
+              <p>One of the things I appreciate about the book is what it doesn't do. It doesn't ask you to take a side. It assumes you can read the record and draw your own conclusions, and if your conclusions don't match what the consensus has told you the conclusions should be, that is a question for the consensus, not for the record. That's an unusual posture in current writing on Palestine. It's also the right one.</p>
+              <p>I read it next to the Malcolm autobiography and Northup's memoir, and the same thing keeps showing up: the people closest to the harm produce the clearest record. The rest of us either go to that record or settle for somebody else's version. Khalidi makes the case that the record on Palestine is available to anyone willing to read it. The reasons most people haven't aren't reasons of evidence.</p>
+              <p>If you want to hold a real conversation about Palestine — not a soundbite version, not a comments-section version — this is one of the books to read first. It assumes you can handle history that doesn't flatter the side you're on. It rewards readers willing to sit with what the record actually says.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -185,7 +198,18 @@
         <div class="book-content-col">
           <h3 class="book-title">The Eyes of Gaza: A Diary of Resilience</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Plestia_Alaqad" target="_blank" rel="noopener">Plestia Alaqad</a></div>
-          <p class="book-blurb">Required reading, and I hope we keep hearing more Palestinian voices directly. Alaqad's central claim stays with me: <em>what's reaching us through media and social platforms is maybe ten percent of what's actually happening on the ground</em>. She asks the reader not to receive Palestinians as victims but as people — with hopes, with aspirations, with a right to a normal life in their homeland. One of my first corporate jobs was at a social media company, doing data entry for a machine learning model built to detect violent content. For weeks I spent my days reviewing ISIS material — decapitations, burnings, infants with catastrophic injuries. I say this only because it means I'm not desensitized to what humans are capable of, and what humans are doing right now. It is not an abstraction to say that as I was reading this book, people were being bombed. Others were learning, in real time, that someone they love was gone. Coates writes that the job of the writer is to haunt the reader. Alaqad's diary haunts me. What's in it feels like a primal human reach for dignity and recognition. <em>If I were suggesting a reading order for this topic, I'd start here.</em></p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Required reading, and I hope we keep hearing more Palestinian voices directly. Alaqad's central claim stays with me: what's reaching us through media and social platforms is maybe ten percent of what's actually happening on the ground. She asks the reader not to receive Palestinians as victims but as people — with hopes, with aspirations, with a right to a normal life in their homeland.</p>
+              <p>One of my first corporate jobs was at a social media company, doing data entry for a machine learning model built to detect violent content. For weeks I spent my days reviewing ISIS material — decapitations, burnings, infants with catastrophic injuries. I say this only because it means I'm not desensitized to what humans are capable of, and what humans are doing right now. It is not an abstraction to say that as I was reading this book, people were being bombed. Others were learning, in real time, that someone they love was gone.</p>
+              <p>Coates writes that the job of the writer is to haunt the reader. Alaqad's diary haunts me. What's in it feels like a primal human reach for dignity and recognition.</p>
+              <p>If I were suggesting a reading order for this topic, I'd start here.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -205,7 +229,18 @@
         <div class="book-content-col">
           <h3 class="book-title">The Jewish State</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Theodor_Herzl" target="_blank" rel="noopener">Theodor Herzl</a></div>
-          <p class="book-blurb">The 1896 manifesto that launched modern political Zionism. Herzl argued, in reaction to the Dreyfus Affair, that the only solution to European antisemitism was a Jewish homeland. <em>Whatever one thinks of Israel now, the argument starts here.</em> Read it alongside Khalidi to see the same century from two perspectives.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Herzl wrote this in 1896 in response to the Dreyfus Affair. The argument: European antisemitism is permanent, and the only solution is a Jewish homeland. The pamphlet is short, the prose is plain, and the author is sincere. Whatever you think of Israel as it exists today, the modern political project starts here.</p>
+              <p>What's striking on a current read is how much of the book is logistics. Herzl is not writing political theology. He's writing a transition plan — funding mechanisms, who handles emigration, what kind of state, what relationship to the existing populations of the proposed locations. He considers Argentina. He considers Palestine. He treats it as a problem to be solved.</p>
+              <p>The treatment of the existing populations is the part most pre-state Zionists later wished he'd written more of. Herzl mentions Arabs barely at all, and when he does, he assumes their interests can be reconciled with the project through economic improvement. That assumption was wrong. The cost of being wrong fell on people who were not consulted.</p>
+              <p>Reading Herzl alongside Khalidi is the most useful pairing I can recommend. Two views of the same century, written from opposite ends of who paid for what. Neither writer is a stand-in for "his side" — both are specific people thinking carefully — and the gap between what Herzl assumed and what actually happened is most of the modern conflict. If you want to understand where the political project came from, you read Herzl. If you want to understand what it cost, you read Khalidi.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -225,7 +260,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Perfect Victims and the Politics of Appeal</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Mohammed_El-Kurd" target="_blank" rel="noopener">Mohammed El-Kurd</a></div>
-          <p class="book-blurb">A polemic against the demand that Palestinians perform perfect victimhood to earn Western sympathy. El-Kurd refuses respectability politics: <em>you shouldn't have to be blameless, grief-stricken, and apolitical to have your suffering counted</em>. Short, pointed, and a recalibration of what sympathy is worth when it comes with conditions.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>El-Kurd's argument is that Palestinian suffering only counts in Western media when it's filtered through respectability politics — when the dead are the right kind of dead, when the survivors don't talk back. The book is a refusal of that filter. Its core claim is that the demand for "perfect victims" is a way of ranking who deserves to be heard, and that Palestinians shouldn't have to perform blamelessness to have their losses acknowledged.</p>
+              <p>It's a polemic, and it knows it. El-Kurd doesn't pretend otherwise. The book is short, the prose is sharp, and the target is specifically the liberal sympathizer who would condemn the violence done to Palestinians only on the condition that those Palestinians stay quiet, contained, and politically agreeable. He names what's underneath that condition — that it's not really about decency, it's about who is allowed to speak in their own voice — and he's right.</p>
+              <p>Where the book pushes back hardest is on the way Western humanitarianism turns oppressed people into the objects of sympathy rather than the subjects of their own politics. That structural move is bigger than Palestine. It's the same move applied, at different times, to Black Americans, to women, to anyone whose pain has been judged authentic only when it's expressed in a register the powerful find acceptable.</p>
+              <p>Read this after Khalidi gives you the historical record. El-Kurd gives you the present-tense argument about how that record gets framed and misframed for a Western audience. If you find the book uncomfortable, that discomfort is the part you should sit with.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -245,7 +291,18 @@
         <div class="book-content-col">
           <h3 class="book-title">The Palestine Laboratory</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://www.antonyloewenstein.com/" target="_blank" rel="noopener">Antony Loewenstein</a></div>
-          <p class="book-blurb">Loewenstein's account of how Israel tests military tech, surveillance systems, and crowd-control tools on Palestinians, then exports them worldwide — to authoritarian regimes and liberal democracies alike. <em>The "laboratory" framing is structural, not metaphorical</em>: specific contracts, specific buyers. Won the 2023 Walkley Book Award.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Loewenstein's argument is concrete: Israel runs the Occupied Territories as a testing ground for surveillance and military technology, then exports what works to authoritarian regimes and liberal democracies alike. The book documents the contracts. It names the buyers. The "laboratory" framing is structural, not metaphorical — there is a specific market for tools whose efficacy is established on Palestinians, and whose customers include governments that want to do similar things to their own populations.</p>
+              <p>What's useful about the book is that it doesn't moralize. Loewenstein lets the export records do the work. The companies are named. The regimes that buy from them are named. Once you see the supply chain, the argument that the conflict is purely regional becomes harder to sustain — the products are global, and the customers are using them on populations who have nothing to do with Israel or Palestine.</p>
+              <p>The book extends a frame that's already familiar from the U.S. context: that surveillance and crowd-control tools developed for one population get cycled into use against others, that the boundary between "war zone" and "domestic policing" is more porous than the public conversation admits. Loewenstein is making the case that this dynamic operates at international scale, with Israel as one of its central nodes.</p>
+              <p>Won the 2023 Walkley Book Award. Worth reading next to El-Kurd, who is making the moral argument; Loewenstein gives you the receipts that explain why the moral argument matters beyond Palestine.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -265,7 +322,18 @@
         <div class="book-content-col">
           <h3 class="book-title">The Looming Tower: Al-Qaeda and the Road to 9/11</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://lawrencewright.com/" target="_blank" rel="noopener">Lawrence Wright</a></div>
-          <p class="book-blurb">The decades of history that produced 9/11, told as four intersecting biographies: Sayyid Qutb radicalizing in 1948 America, Ayman al-Zawahiri hardening in Egyptian prisons, Osama bin Laden finding religion in Saudi Arabia, and FBI counterterrorism chief John O'Neill trying and failing to stop what was coming. <em>Five years of reporting, 560 interviews.</em> Won the Pulitzer.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Wright structured this as four intersecting biographies — Sayyid Qutb in 1948 America, Ayman al-Zawahiri in Egyptian prisons, Osama bin Laden finding religion in Saudi Arabia, and FBI counterterrorism chief John O'Neill trying and failing to stop what was coming. The decision to do it that way is the book's argument: 9/11 didn't come out of nowhere, and reducing it to "they hate us for our freedom" was a way for the U.S. to avoid looking at its own role in the long causal chain.</p>
+              <p>What Wright does well is explain radicalization without flattening it. The four biographies are taken seriously as inner lives. Qutb's experience as a graduate student in Greeley, Colorado in 1948 reads like exactly the kind of detail a thinner book would skip. Wright lets the reader see how a person becomes the thing they become, which is both more useful and more uncomfortable than a sociology-of-extremism treatment.</p>
+              <p>The O'Neill thread is what saves the book from becoming pure indictment of Islamism. Wright is also writing about American intelligence failure — the bureaucratic infighting, the cultural blind spots, the institutional unwillingness to take a warning from a man who didn't fit the profile of a serious source. O'Neill died in the towers. The book makes you feel the institutional weight of why no one listened to him while he was alive.</p>
+              <p>Five years of reporting, 560 interviews, won the Pulitzer. This is the book to start with on the post-9/11 Middle East if you want the framing without the post-9/11 American hubris.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -285,7 +353,18 @@
         <div class="book-content-col">
           <h3 class="book-title">The Message</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://ta-nehisicoates.com/" target="_blank" rel="noopener">Ta-Nehisi Coates</a></div>
-          <p class="book-blurb">Three essays on how stories distort and what they reveal. First trip to Africa (Senegal, the Gorée slave memorial). A return to South Carolina to report on the banning of his own book. And a ten-day trip to Israel and the occupied West Bank, just before October 7, 2023. <em>The Palestine essay is the longest and most divisive</em> — Coates draws a direct parallel to Jim Crow and indicts the media establishment that enabled his own rise for silencing Palestinian voices. October 2024.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Three essays, three trips. Senegal and the Gorée slave memorial. Columbia, South Carolina, where his book was being banned. Israel and the occupied West Bank, just before October 7, 2023. Coates is asking what happens when a writer trained on the American story arrives at a story he wasn't trained for, and what the comparison costs and what it earns.</p>
+              <p>The Palestine essay is the longest and the most divisive. Coates draws a direct line to Jim Crow and indicts the same media establishment that built his career for silencing Palestinian voices. Critics from his own usual coalition called the comparison reductive. He didn't soften it.</p>
+              <p>What I appreciate is that he names the personal cost. Coates spent a career as the Black writer American liberalism assigned its racial reckonings to, and he's directly aware that turning the same instrument toward a different oppression risks the access and protection that role bought him. He decided the access wasn't worth keeping. That's a structural admission about who gets to write what under what conditions, and it lands harder than the political argument it sits next to.</p>
+              <p>Whether you finish the book agreeing with the comparison is less the point than whether you finish the book taking seriously what was costly about making it. Coates is doing what he says writers should do — he's trying to haunt the reader, and he's accepting that a writer who haunts a reader doesn't get to keep the reader.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -305,7 +384,18 @@
         <div class="book-content-col">
           <h3 class="book-title">One Day, Everyone Will Have Always Been Against This</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Omar_El_Akkad" target="_blank" rel="noopener">Omar El Akkad</a></div>
-          <p class="book-blurb">Expanded from El Akkad's viral October 2023 tweet: <em>once the personal cost of speaking up has passed, everyone will claim to have been against Gaza all along</em>. The book is aimed squarely at Western liberals and centrists who knew what was happening and stayed quiet. Won the 2025 National Book Award for Nonfiction. Uncomfortable in the right direction.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>El Akkad's title is the book in miniature — once the personal cost of speaking up has passed, everyone will retroactively claim to have been against Gaza all along. The book is aimed squarely at Western liberals and centrists who knew what was happening and stayed quiet, and at the institutions that rewarded silence and punished speech.</p>
+              <p>What El Akkad gets right is the structural move. He doesn't waste the book on what makes the violence in Gaza wrong — he assumes the reader can do that math — and instead spends the pages on what makes the silence convenient. Who benefits from the pretense that this is complicated, who pays for the pretense, what kind of career you preserve by treating an obvious moral question as ambiguous.</p>
+              <p>The book is uncomfortable in the right direction for a particular kind of reader. If you watched 2023 and 2024 and 2025 and noticed that the people most fluent in moral reasoning in your professional life suddenly went quiet, this book is for you. If you were one of those people, this book is also for you, and the discomfort is the assignment.</p>
+              <p>Won the 2025 National Book Award for Nonfiction, which is itself part of the reception story — the book has been honored by the same institutional layer it indicts. El Akkad is presumably aware. The contradiction doesn't blunt the argument so much as illustrate it.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -326,7 +416,18 @@
         <div class="book-content-col">
           <h3 class="book-title">12 Years a Slave</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Solomon_Northup" target="_blank" rel="noopener">Solomon Northup</a></div>
-          <p class="book-blurb">A free Black man in 1841 Saratoga, New York — educated, married, working — is drugged, kidnapped, and sold into Louisiana bondage. Northup kept his literacy secret for twelve years to survive. One of the most detailed and widely-read slave narratives ever published, and <em>the book that made me pay attention to American history as an adult</em>. Basis for McQueen's 2013 film.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Most of what most of us learned about slavery came filtered through somebody else's framing — a textbook, a movie, a museum that had to decide what to keep and what to leave out. This is the ground-level account, written by a man who was kidnapped from a free life in New York and spent twelve years being denied his name in Louisiana. He survived to write it. Most didn't.</p>
+              <p>What hits is how exact Northup is. He isn't making a case. He's making a record. Names, dates, prices paid for human beings, what was said in what room, what was done with the whip and why. He tells you what happened and lets the cumulative weight of the facts argue for him. The years pile up.</p>
+              <p>The book also corrects a particular kind of distance the United States has put between itself and slavery. We talk about it as past, as overcome, as something whose lessons have been integrated. Northup makes you reckon with the fact that this happened to specific people in specific rooms, that it had a daily texture and a daily ledger. The cruelty wasn't a system in the abstract. It was a person paying another person to do this to you on Tuesday.</p>
+              <p>I read it alongside the Malcolm X autobiography and Khalidi's Palestine book, and the same thing kept showing up. The people closest to the harm produce the clearest record, and the rest of us either go to that record or settle for somebody else's version. Northup is a strong case for going to the record. The book is short, the prose is plain, and you finish it knowing you cannot say you didn't know.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -346,7 +447,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Narrative of the Life of Frederick Douglass</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Frederick_Douglass" target="_blank" rel="noopener">Frederick Douglass</a></div>
-          <p class="book-blurb">Published in 1845, when Douglass was 27 and still legally a fugitive. Covers his childhood on a Maryland plantation, the moment he taught himself to read, and his escape to freedom. <em>The prose is so precise and forceful</em> it was used, at the time, to refute the pro-slavery argument that Black people were incapable of authorship. Foundational.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Douglass published this in 1845 when he was 27 and still legally a fugitive. He used real names, real places, and his real history — meaning that printing the book put him at immediate risk of being recaptured. He went on a speaking tour in Britain and Ireland to put an ocean between himself and the men who legally owned him. The willingness to take that risk is part of what the book is.</p>
+              <p>What's striking is the prose itself. Douglass had been free less than a decade. He had no formal schooling. The sentences are precise, the rhetoric is measured, and the case is unrelenting. At the time, the book was used by abolitionists as direct evidence against the pro-slavery argument that Black people were intellectually incapable of authorship. The book exists. The argument was wrong. That was its first political function.</p>
+              <p>The autobiography is short by design. Douglass cuts what isn't necessary. The famous moment when he learns to read — and the slaveholder's wife who teaches him is forbidden from continuing once her husband recognizes the threat literacy poses to the institution — is a single chapter that does what whole sociology textbooks would later try to do. Power keeps the people it controls illiterate because literacy is what unbuilds the control.</p>
+              <p>Read this before any later abolitionist or civil-rights text. Most of the moves you'll recognize from later writers — Du Bois, King, Baldwin — are already here in skeleton. Douglass set the form. The descendants are working in his shadow.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -366,7 +478,18 @@
         <div class="book-content-col">
           <h3 class="book-title">The 1619 Project</h3>
           <div class="book-author"><span class="by">Edited by</span> <a href="https://nikolehannahjones.com/" target="_blank" rel="noopener">Nikole Hannah-Jones</a></div>
-          <p class="book-blurb">The 2021 book expansion of the Times Magazine project that placed slavery and its consequences at the center of American history. Hannah-Jones collects essays, poems, and scholarship from Matthew Desmond, Ibram X. Kendi, Jamelle Bouie, and others, reframing the nation's founding around the arrival of the first enslaved Africans in Virginia. <em>Banned in multiple school districts</em> — good sign of hitting something real.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>The argument the book is making, distilled: the United States started in 1619 with the arrival of enslaved Africans in Virginia, not in 1776 with the Declaration. The political point isn't to displace the founding myths but to add one — to refuse the editorial decision that made slavery a regrettable subplot rather than a load-bearing wall. The book is what happens when the most-attacked Times Magazine special issue gets expanded into a 600-page case.</p>
+              <p>What's useful is the breadth of the contributors. Hannah-Jones edits, but the essays come from Matthew Desmond, Linda Villarosa, Jamelle Bouie, Ibram Kendi, and others. The book doesn't make a single argument so much as run the same lens over multiple American institutions — capitalism, medicine, mass incarceration, real estate, music, food — and ask what changes once you stop treating slavery as exception and start treating it as foundation.</p>
+              <p>The criticism the book gets, including from credentialed historians, is that it sometimes overstates how directly slavery caused specific later outcomes. Some of those criticisms are fair. The book is at its strongest when it's documenting structural inheritances that have been politely sidelined and at its weakest when it's reaching for direct causation that the record doesn't fully support. Both can be true.</p>
+              <p>Where the book is unambiguously useful is in what it forces — the question of whose story has been allowed to organize the American narrative, and what the cost of that organization has been. It's been banned in multiple school districts. That's a useful tell for what kind of question it raised.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -386,7 +509,18 @@
         <div class="book-content-col">
           <h3 class="book-title">How to Be an Antiracist</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://www.ibramxkendi.com/" target="_blank" rel="noopener">Ibram X. Kendi</a></div>
-          <p class="book-blurb">Part memoir, part theory. Kendi's structural move: <em>the opposite of "racist" is not "not racist" but "antiracist"</em> — a verb rather than an identity. Confronts his own earlier racial thinking across chapters on power, biology, ethnicity, class, gender, and sexuality. Spent 45 weeks at #1 on the NYT list after the murder of George Floyd.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Kendi's structural move is the title — the opposite of "racist" is not "not racist" but "antiracist." The book is part theory and part memoir, working through racial categories he himself once held: that some forms of racism are bigger problems than others, that economic uplift solves the racial problem, that some Black conservatism is a form of disloyalty. Each chapter unwinds a position he used to hold and shows the work of leaving it.</p>
+              <p>Where the book is most useful is in refusing the lane separation between "I am a good person" and "I am part of a system that produces racial harm." Kendi argues that the second is the thing that matters, and that the first is a comfort that doesn't have to be true to be felt. The book is asking the reader to give up the comfort.</p>
+              <p>The book has been used in opposite directions by readers who agree with it and by readers who don't. Right-wing critics treat it as a manifesto requiring loyalty oaths; left-wing critics treat it as a flattening of more nuanced traditions of Black political thought. The book is neither, but it is shorter and more declarative than the questions deserve, and that combination makes it easier to weaponize than to engage with.</p>
+              <p>Worth reading next to Du Bois, Baldwin, and Coates — the long tradition Kendi is part of and not displacing. The case for "antiracist as verb" lands differently if you've read enough of the lineage to know where the move comes from.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -406,7 +540,18 @@
         <div class="book-content-col">
           <h3 class="book-title">The Fire Next Time</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://www.jamesbaldwin.info/" target="_blank" rel="noopener">James Baldwin</a></div>
-          <p class="book-blurb">Two essays. The first is a short letter to Baldwin's nephew on the hundredth anniversary of Emancipation — <em>it still lands like it was written this morning</em>. The second is a longer reported piece on his childhood in Harlem, his time in the Nation of Islam, and a meeting with Elijah Muhammad. Title from a slave spiritual: "God gave Noah the rainbow sign / No more water but the fire next time." 1963.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Baldwin in 1963 sounds like Baldwin would sound today. That's the thing that hits. Sixty years later, the letter to his nephew is still the clearest-eyed thing I've read about being American, and most of what he's describing has barely shifted.</p>
+              <p>He assumes you're an adult capable of hearing hard things, then he tells you hard things in prose so beautiful you read it twice just for the cadence. The book is short because he doesn't waste a sentence. "Down at the Cross," the second essay, goes after the Nation of Islam, Christianity, and what white America has done with its terror of being seen. He doesn't offer redemption. He offers the chance to look.</p>
+              <p>What I keep coming back to is how Baldwin handles love and rage in the same sentence. He's writing to a nephew he loves, in a country whose violence he hates, and he refuses to choose between the two registers. Most political writing collapses to one or the other — either tender appeals or pure indictment — and Baldwin keeps both lit at full brightness. That's the trick. That's why the book still works. Most writers who try to write like Baldwin pick the indictment and lose the love, and the result reads as performance.</p>
+              <p>One line in here keeps catching me, about the necessity of giving up cherished myths in order to become free. It's the same beat that hit me in the Malcolm autobiography, and Baldwin has it more honestly — he's asking for something that costs the reader, and he's clear-eyed that most readers won't pay it. The book is short. The cost isn't.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -426,7 +571,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Nobody Knows My Name</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://www.jamesbaldwin.info/" target="_blank" rel="noopener">James Baldwin</a></div>
-          <p class="book-blurb">Baldwin's 1961 essay collection, written between Paris and the American South. Includes his pieces on Richard Wright, Norman Mailer, Ingmar Bergman, and his own return to the States after a decade abroad. Subtitled <em>"More Notes of a Native Son."</em> If The Fire Next Time is the shorter, hotter book, this is the one where you watch him think.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Baldwin's 1961 essay collection sits between <em>Notes of a Native Son</em> and <em>The Fire Next Time</em>, and its register is closer to <em>Notes</em> — these are working essays, written occasion by occasion, more interested in thinking than in arriving. If <em>The Fire Next Time</em> is the lightning, this is the longer weather.</p>
+              <p>The pieces on Richard Wright are the most painful. Baldwin had idolized Wright, then publicly broken with him over what Baldwin saw as the limits of protest fiction. Wright died before they reconciled, and Baldwin is here writing about a friendship and a literary inheritance and an unresolved argument all at once. He doesn't pretend the grief is clean.</p>
+              <p>The Norman Mailer essay — "The Black Boy Looks at the White Boy" — is the one I find most useful. Baldwin watches Mailer perform Blackness as bohemian costume, and names it, while still taking Mailer's actual writing seriously. He concedes what Mailer got right and pushes hard on what he didn't. It's the move at scale: empathy as floor, directness as register.</p>
+              <p>Where this collection lands is in the watching-him-think register. Baldwin is testing the same questions that later become arguments in <em>The Fire Next Time</em> — what white America needs to give up to become free, what Black writers owe each other, what the South looked like to a man returning after a decade in Paris. The collection is preparation. It's also, in places, better than the more famous book that followed it.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -446,7 +602,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Just Mercy</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://eji.org/bryan-stevenson/" target="_blank" rel="noopener">Bryan Stevenson</a></div>
-          <p class="book-blurb">Stevenson's memoir of founding the Equal Justice Initiative in Montgomery, Alabama, and of his years representing death-row prisoners in the Deep South. The book centers on the Walter McMillian case — a Black man wrongfully convicted of a 1986 murder in Monroeville, Harper Lee's hometown. <em>A primer on how the American criminal justice system punishes poverty and race more reliably than it punishes guilt.</em></p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Stevenson's book is structured as a memoir of founding the Equal Justice Initiative in Montgomery, with the Walter McMillian case as its spine — a Black man wrongfully convicted of a 1986 murder in Monroeville, Alabama, the same town that gave us <em>To Kill a Mockingbird</em>. The literary irony is too on-the-nose to be made up. Stevenson lets it sit.</p>
+              <p>What the book is doing is showing, case by case, how the American criminal justice system punishes poverty and race more reliably than it punishes guilt. The argument is structural. Stevenson doesn't write angry. He writes precise. The cumulative effect of the cases — children sentenced to die in prison, men executed on evidence that would not survive a competent appeal — is more devastating than any polemical version of the same argument would be.</p>
+              <p>The book is also doing something quieter. Stevenson is naming the cost of the work on the worker. He's been representing the same kinds of clients for decades. He doesn't perform exhaustion, but you can feel it under the prose, and the way he handles the human beings on each side of the cases — including the prosecutors and judges who are doing legal violence for legal reasons — is the most useful kind of moral instruction. He extends specific people the dignity of being specific people.</p>
+              <p>Read this with <em>The Sun Does Shine</em>, which covers the McMillian case from inside the death row Stevenson was working to empty. The two books are companion pieces. The same case from opposite sides of the bars is the closest thing American justice writing has to a complete picture.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -466,7 +633,18 @@
         <div class="book-content-col">
           <h3 class="book-title">The New Jim Crow</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Michelle_Alexander" target="_blank" rel="noopener">Michelle Alexander</a></div>
-          <p class="book-blurb">Alexander names the American mass incarceration system for what it is: <em>a racial caste system operating under the legal language of colorblindness</em>. The argument: the War on Drugs functions as a legal replacement for Jim Crow — disproportionately labeling Black men as felons, then using that label to deny them housing, employment, voting rights, and jury service. Widely credited as the intellectual foundation of criminal justice reform and Black Lives Matter. 2010.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Alexander's argument is precise: American mass incarceration is a racial caste system operating under the legal language of colorblindness. The War on Drugs, structurally, functions as a legal replacement for Jim Crow — disproportionately labeling Black men as felons, then using that label to deny them housing, employment, voting rights, jury service, and the ordinary social goods that make a life. The criminal record does the work the explicit racial law used to do, and the system maintains the same outcomes while rejecting the language of the previous system.</p>
+              <p>What makes the book load-bearing is that it predates the Black Lives Matter formulation. Alexander published in 2010 with no institutional cover and got read because the case is airtight. Once you read it, you can't see drug-policy debates the same way. The seemingly race-neutral metric — drug enforcement, sentencing guidelines, parole rules — is the operative racial mechanism, and the book documents it line by line.</p>
+              <p>Where Alexander is most useful is in refusing the sorting move that divides "violent" and "non-violent" felons into different moral categories. She insists, correctly, that the political work being done by mass incarceration is largely independent of the rates of actual harm; the system's growth and shape track political opportunity, not crime. That's a hard claim to absorb if you've internalized the law-and-order frame. The book makes you sit with it.</p>
+              <p>Read this with Stevenson and Hinton on one side and the 1619 Project on the other. The institutional inheritance is what binds them.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -486,7 +664,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Letter from Birmingham Jail</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://thekingcenter.org/about-tkc/martin-luther-king-jr/" target="_blank" rel="noopener">Martin Luther King Jr.</a></div>
-          <p class="book-blurb">Written from a jail cell in 1963, addressed to eight white Alabama clergymen who had called King's nonviolent protest "unwise and untimely." A defense of civil disobedience against unjust laws. The line everyone remembers is about <em>"the white moderate, who is more devoted to order than to justice"</em> — but the whole thing is worth reading, short and unrelenting. Collected in Why We Can't Wait.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>King wrote this from a jail cell in 1963, addressed to eight white Alabama clergymen who had called the Birmingham nonviolent protest "unwise and untimely." The letter is the most underread of King's major texts because everyone thinks they already know what's in it. The line about the white moderate is famous; the rest of the letter is what the line is doing inside.</p>
+              <p>The argument is a defense of civil disobedience against unjust laws, built on a careful read of Aquinas, Augustine, and Buber. King isn't being rhetorical when he calls the white moderate the greatest stumbling block to Black freedom — he's being analytical. The moderate prefers order to justice; the moderate's posture is a structural drag on the movement; the moderate's good intentions don't compensate for what the order they prefer is doing to the people the law is grinding. It's a structural critique, not a moral one.</p>
+              <p>What's useful in 2026 is how transferable the argument is. King is naming a specific posture — the one that pleads for civility, that asks the harmed to wait, that treats nonviolent disruption as the actual problem — and the posture has not gone away. Every protest movement of the past sixty years has had to answer the same set of objections from the same set of people, and the letter is still the cleanest reply.</p>
+              <p>Short, unrelenting, and the right place to start with King if you've only read the speeches. The speeches are sermons. The letter is the argument the sermons are built on.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -506,7 +695,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Chain of Ideas</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://www.ibramxkendi.com/" target="_blank" rel="noopener">Ibram X. Kendi</a></div>
-          <p class="book-blurb">A global history of "great replacement theory" — the racist conspiracy that non-white peoples, migrants, and minorities are being deliberately empowered to displace white majorities. Kendi traces its path from French extremist Renaud Camus through Charlottesville and Christchurch to the political programs of Le Pen, Orbán, Modi, Bolsonaro, and Trump. <em>Argues it has become the dominant political idea of the twenty-first century.</em> March 2026.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Kendi's argument: "great replacement theory" — the racist conspiracy that non-white peoples and migrants are being deliberately empowered to displace white majorities — has become the dominant political idea of the twenty-first century. The book traces it from Renaud Camus's <em>Le Grand Remplacement</em> through Charlottesville and Christchurch into the political programs of Le Pen, Orbán, Modi, Bolsonaro, and Trump.</p>
+              <p>What the book does well is show the chain. Kendi is not arguing that these movements coordinate; he's arguing that they share a structural idea, and that the idea is what makes their otherwise different politics legible as a single global project. The case is mostly genealogical — who said what, who borrowed from whom, what specific sentence in what speech links to what other sentence — and the documentation is meticulous.</p>
+              <p>Where the book is going to draw the most fire is in the breadth of the application. Kendi includes movements and politicians some readers will think don't belong in the same frame. The case for inclusion rests on the idea, not the specific style, and the question of whether the idea travels intact is exactly the question the book is making readers face. He concedes that some of the inclusions are debatable. Then he makes the case anyway.</p>
+              <p>Released March 2026, in a political moment where the argument is going to be tested in real time. Whether you agree with every specific application, the structural claim — that we are watching a shared idea reorganize world politics — is the right question to ask, and the book is the most thorough current attempt to answer it.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -526,7 +726,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Between the World and Me</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://ta-nehisicoates.com/" target="_blank" rel="noopener">Ta-Nehisi Coates</a></div>
-          <p class="book-blurb">A book-length letter from Coates to his teenage son on being Black in America — specifically on <em>the vulnerability of the Black body to state violence</em>. Ranges across his own coming-of-age in West Baltimore, his years at Howard, and the 2000 killing of his college friend Prince Jones by a Prince George's County police officer. Modeled on Baldwin's The Fire Next Time, and makes no secret of it. Won the 2015 National Book Award.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Coates is doing something specific here — writing to his son, but also writing to readers like me who are not his son. The letter form lets him be tender in a way that an essay can't, and direct in a way that fiction can't. The book is short because it doesn't waste a sentence.</p>
+              <p>I came to it expecting argument. What I got was grief. Coates is mourning, in real time, what it has cost him to raise a Black boy into the country we live in. He doesn't ask the reader to do anything. He asks the reader to stop pretending the cost isn't real.</p>
+              <p>There's a specific texture to grief on the page that most American nonfiction doesn't allow itself. We tend to want our writers either angry or instructive — to land on a thesis, to give us next steps. Coates refuses the format. He's written something that sits closer to a eulogy, and he keeps it there because the situation he's writing about hasn't ended. You don't get to grieve and then get on with it. Grief is the form.</p>
+              <p>It's a corrective to a particular kind of conversation that wants tidy resolution — that wants Coates to land on hope, or strategy, or what-do-we-do-now. He doesn't. The book ends where it ends because that's where the honest sentence stops. If you want the next move, that's on you.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -546,7 +757,20 @@
         <div class="book-content-col">
           <h3 class="book-title">The Autobiography of Malcolm X</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Malcolm_X" target="_blank" rel="noopener">Malcolm X, as told to Alex Haley</a></div>
-          <p class="book-blurb">Published posthumously in 1965, months after Malcolm's assassination, and based on interviews Haley conducted with him from 1963 until his death. Omaha, Lansing, Boston, Harlem, prison, the Nation of Islam, the break with Elijah Muhammad, the pilgrimage to Mecca. Time named it one of the ten most important nonfiction books of the twentieth century — <em>which undersells it</em>. A case for reading the primary source.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Regardless of how you feel about Malcolm X, this autobiography is brutally honest. Like many other reviewers, I do not agree with his views on women or many of his other beliefs. What I do admire is his devotion to reading and education, his openness to new ideas, his exploration of other cultures, the clarity of his truth, and above all his curiosity. He consistently took in new information and changed his beliefs over time. If you approach the book with the same curiosity, you can also find moments (through looking online) where he speaks positively about women and women's rights. His life was taken before he had the chance to continue evolving on that front. Regardless of the specifics of his beliefs, Malcolm comes across as more human than many public figures who followed him.</p>
+              <p>While reading this alongside other books on slavery, a few things became very clear to me. For hundreds of years, Black Americans were enslaved, tortured, separated, segregated, brutalized, lynched, and systematically dehumanized. The word slavery does not fully capture the scale or cruelty of what occurred. It is one of the most inhumane chapters in human history. It is not something that becomes acceptable with time, nor something that disappears with a national apology, a holiday, or a celebration of Martin Luther King Jr. It is a permanent scar on American history. Arguments that slavery still exists elsewhere in the world or that America has made progress often function as distractions from fully accepting and emotionally integrating what was done and what continues to be done to Black Americans.</p>
+              <p>It also became clear to me that later generations are, in effect, asking those who were harmed to sit at the table with them. Malcolm uses a version of this analogy in the book, and it stuck with me. It is like being stabbed repeatedly, surviving, healing, and being left with scars, only to be asked to share dinner every night with the person who stabbed you.</p>
+              <p>I keep returning to the question of what you do with something that feels unforgivable. I do not have a clean answer, but the question itself seems central to conversations about slavery, civil rights, and America as a whole. Sitting with that unanswered question helped me better understand Malcolm's perspective and many of his statements about the American nightmare, capitalism, and racism. By the end of the book, one conclusion Malcolm seems to reach is that living alongside the person who stabbed you is not possible in any way currently imagined. At that point of tension, both individuals and societies face what James Baldwin described when he wrote that real change requires the loss of safety, identity, and long-held illusions. Only by surrendering cherished dreams or privileges, without bitterness or self-pity, can people become free for something greater.</p>
+              <p>Malcolm repeatedly said he was not for violence but for self-defense. The problem is that if the conflict between white America and Black America is not only historical but ongoing, then violence becomes predictable. This is what I ultimately took away. Malcolm was not advocating violence so much as describing what inevitably follows from the conditions he observed.</p>
+              <p>This book stirred up many more thoughts, but I will leave it there.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -566,7 +790,18 @@
         <div class="book-content-col">
           <h3 class="book-title">The Sun Does Shine</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Anthony_Ray_Hinton" target="_blank" rel="noopener">Anthony Ray Hinton</a></div>
-          <p class="book-blurb">Hinton spent thirty years on Alabama's death row for two 1985 murders he didn't commit — convicted on racially biased forensic evidence and inadequate legal counsel, freed in 2015 after Bryan Stevenson's Equal Justice Initiative took up the case. Oprah's Book Club pick. <em>A companion to Just Mercy, which covers the same case from Stevenson's side.</em></p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Hinton spent thirty years on Alabama's death row for two 1985 murders he didn't commit. The conviction was secured on racially biased forensic evidence and the kind of legal counsel that the Sixth Amendment is supposed to make impossible. He was freed in 2015 after Bryan Stevenson's Equal Justice Initiative took the case. The book is what those thirty years felt like from inside.</p>
+              <p>What's striking is the choice of register. Hinton could have written this as pure indictment. He didn't. The book spends most of its pages on the friendships he built on death row, on the imaginative life he constructed to survive the daily reality of waiting for the state to kill him for something he didn't do, on the small decisions that kept him from breaking. The indictment is there. It's not the through-line.</p>
+              <p>Read this with Stevenson's <em>Just Mercy</em>. <em>Just Mercy</em> is the McMillian case from the lawyer's side; <em>The Sun Does Shine</em> is its companion from the cell. The two books together are the closest thing the American carceral story has to a complete picture — the work of getting people out and the work of staying alive long enough to be gotten out.</p>
+              <p>Hinton's prose is plain. He didn't go to college. He spent thirty years reading what the prison library had and writing in his head. The result is a memoir more controlled than most career memoirists produce. Make of that what you will about what the system was doing to a man it was supposed to be punishing for crimes he didn't commit.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -586,7 +821,18 @@
         <div class="book-content-col">
           <h3 class="book-title">The Souls of Black Folk</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/W._E._B._Du_Bois" target="_blank" rel="noopener">W. E. B. Du Bois</a></div>
-          <p class="book-blurb">The founding work of modern Black American scholarship — a 1903 collection of fourteen essays. Introduced <em>"double consciousness"</em> ("the sense of always looking at one's self through the eyes of others") and the metaphor of "the veil" between the races. Includes his famous critique of Booker T. Washington's accommodationist program. Every later Black American intellectual has had to answer to it in some way.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Du Bois's 1903 collection is the founding document of modern Black American scholarship, and a hundred and twenty years later it still does most of the explanatory work it set out to do. "Double consciousness" — the experience of always seeing yourself through the eyes of others — and "the veil" between the races aren't archaic categories. They're load-bearing in 2026, and every later Black American writer has had to answer them in some way.</p>
+              <p>The book is fourteen essays, ranging across history, sociology, music, education, and biography. The piece on Booker T. Washington is the most consequential — Du Bois's careful, public break with the accommodationist program Washington had been selling, and the political consequences that break would set in motion. He doesn't tear Washington down. He concedes what Washington got right, then makes the case that the program asks Black Americans to give up too much in exchange for too little.</p>
+              <p>What's most striking on a current read is how clearly Du Bois saw the American problem in structural terms before structural analysis was the dominant frame. He wasn't writing about prejudice as an attitude. He was writing about a country whose economic, political, and educational systems had been built around a racial caste, and what those systems would have to be re-designed to be anything else. The book is a research program. The questions are the right ones.</p>
+              <p>Read this before reading later Black American thought. Most of the moves are already here — the argument with respectability, the argument with white liberalism, the argument with the kind of progress that asks the wrong people to wait — and Du Bois worked them out first.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -607,7 +853,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Abortion: Our Bodies, Their Lies, and the Truths We Use to Win</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://www.jessicavalenti.com/" target="_blank" rel="noopener">Jessica Valenti</a></div>
-          <p class="book-blurb">Valenti's handbook for the post-Roe moment, drawn from her daily newsletter Abortion, Every Day. Structural claim: <em>abortion isn't actually the polarizing issue American media makes it out to be</em> — roughly 80% of Americans oppose government regulation of pregnancy. The book gives readers the language and data to push back against legislative attacks. Released one month before the 2024 election.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Valenti's structural claim is the part most worth reading the book for: abortion isn't actually the polarizing issue American media makes it out to be. Roughly 80% of Americans oppose government regulation of pregnancy. The framing of "two sides" is itself a political achievement of a movement that doesn't have public opinion on its side, and the book is partly an argument about what it cost the country to let that framing dominate.</p>
+              <p>The rest of the book is the working version of her daily newsletter <em>Abortion, Every Day</em>. Specific bills, specific clinics, specific lawsuits, specific data. Valenti is one of the few writers covering the post-<em>Dobbs</em> reality with the granularity of a beat reporter, and the book gives you the language to push back against legislative attacks because she's been documenting, day by day, what the legislative attacks actually look like — not the version they get translated into for cable news.</p>
+              <p>What's useful is the refusal to let "personal" function as the limit of the argument. Valenti makes the structural case without abandoning the personal — these are individual lives being damaged in real time, and there is also a coordinated political project that depends on damaging them. Both are true. The book holds both.</p>
+              <p>Released a month before the 2024 election. The political situation has only gotten harder since. The book's value as a working manual has gone up.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -627,7 +884,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Men Who Hate Women</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://www.laurabates.co.uk/" target="_blank" rel="noopener">Laura Bates</a></div>
-          <p class="book-blurb">Bates's investigation into the online "manosphere" — the linked subcultures of incels, pickup artists, men's rights activists, and MGTOW communities. Years of undercover research, plus interviews with deradicalized former members. The argument: <em>this is not a fringe problem but a pipeline</em> that has produced multiple mass murderers, reshaped online discourse, and found its way into mainstream politics. From the founder of the Everyday Sexism Project.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Bates spent years undercover in the online manosphere — incels, pickup artists, MGTOW, men's rights forums — and the argument the book makes is that this is not a fringe problem but a pipeline. A pipeline that has produced multiple mass murderers, reshaped online discourse, and walked itself into mainstream political vocabulary. The fact that most public conversation still treats it as a curiosity is part of the problem the book is documenting.</p>
+              <p>What Bates does well is take the men inside the pipeline seriously as people, even as she's making the case against the politics they've adopted. The book includes interviews with men who've left, who've radicalized, and who've talked themselves back. The fact that exit is possible is the small structural hope the book holds onto. The infrastructure that made the radicalization possible is what she wants policy to address.</p>
+              <p>Where the book is most uncomfortable is in showing how the manosphere's vocabulary has migrated upward — into mainstream commentary, into political speeches, into product design at the platform level. Bates wrote it as a warning. The warning was correct. Years later, the vocabulary is fully ambient, and the political costs are being paid.</p>
+              <p>Read this with <em>The New Age of Sexism</em>, her follow-up. The first book documents the human pipeline; the second book documents the same dynamic now operating with AI tools. Both books treat the misogyny as politically organized, not as private pathology. That framing is the right one.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -647,7 +915,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Know My Name</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://chanel-miller.com/" target="_blank" rel="noopener">Chanel Miller</a></div>
-          <p class="book-blurb">Miller's memoir — <em>the first book she published under her own name</em> after years as "Emily Doe," the victim in the Brock Turner Stanford sexual assault case. Reconstructs the 2015 attack, the trial, the media circus, and the years of recovery. Her viral 7,000-word victim impact statement, read into the Congressional Record, was the first draft of this book in miniature. Won the 2019 National Book Critics Circle Award.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Miller spent years as "Emily Doe" — the victim in the 2015 Brock Turner Stanford case — before publishing this book under her own name in 2019. The 7,000-word victim impact statement she read into the Congressional Record was the first draft of this in miniature. The book is the long version. It is also a different book than the statement, because the statement was written for a courtroom and the book is written for a reader.</p>
+              <p>What Miller does that most rape memoirs don't is refuse the narrative arc the genre wants. There is no transformative ending. There is no triumphant turn where she becomes whole. The book is structured as the actual shape of recovery — accumulation, regression, the slow re-acquisition of small things. She insists on that shape because the other shape is a lie.</p>
+              <p>The book is also doing legal-critique work without ever calling itself that. Miller walks the reader through how the system is designed to break a survivor's testimony, how the cross-examination is engineered to suggest unreliability, how the press participates in what the defense lawyers begin. The Stanford swimming team yearbook entered into evidence; Turner's father's "twenty minutes of action" letter; the judge's six-month sentence. None of it was an accident, and the book makes you see the architecture.</p>
+              <p>Won the 2019 National Book Critics Circle Award. The most useful book I know on what the assault and the system do to someone, and on what it costs someone to write about both honestly.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -667,7 +946,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Caliban and the Witch</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Silvia_Federici" target="_blank" rel="noopener">Silvia Federici</a></div>
-          <p class="book-blurb">A 2004 rereading of the European witch hunts as a tool of capitalist labor discipline. Federici's argument: the hundreds of thousands of women executed as witches from the 15th to 17th centuries were targeted not for religious heresy but <em>to destroy peasant women's economic independence, reproductive control, and communal knowledge</em> — clearing the ground for wage labor and the nuclear family. A foundational text for feminist critiques of capitalism.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Federici's argument is one of the major recoveries of late twentieth-century feminist scholarship: the European witch hunts, between the 15th and 17th centuries, were not religious mania. They were a tool of capitalist labor discipline. Hundreds of thousands of women were executed, and the targets were specifically women whose economic independence, communal knowledge, and reproductive control made the transition to wage labor and the nuclear family harder to enforce. Once you see the argument, the period reads differently.</p>
+              <p>The structural move the book makes is reframing what counts as economic history. Federici insists that the privatization of women's labor — domestic, reproductive, caregiving — is not a side effect of capitalism's emergence but a precondition for it. The household had to be reorganized for the wage relation to function. The witch hunts were one of the mechanisms.</p>
+              <p>Where the book is most generative is in connecting the early-modern argument to the present. Federici's later work argues that current attacks on social reproduction — on healthcare, on welfare, on the conditions of caregiving labor — are an ongoing version of the same project, not a new one. Whether you accept the full continuity, the historical case in this book is rigorous, and once you've read it, the casual treatment of "primitive accumulation" in standard economic histories starts to feel like an editing decision.</p>
+              <p>Foundational text. Read it before reading current feminist economics. Most of the framing in newer books assumes you've already absorbed Federici's case, and they don't always make it explicit.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -687,7 +977,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Invisible Women</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://carolinecriadoperez.com/" target="_blank" rel="noopener">Caroline Criado Perez</a></div>
-          <p class="book-blurb">A catalog of the gender data gap — the consequences of building a world around an assumed male default. Crash-test dummies modeled on male bodies. Medical drug trials that exclude women. Snow-plowing schedules optimized for commuters over caregivers. Phone keyboards too wide for women's hands. <em>Criado Perez makes the case calmly, with the data, and the cumulative effect is devastating.</em> Won the 2019 Royal Society Science Book Prize.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>The book is a catalog. Criado Perez collected the consequences of building a world around an assumed male default and ran the data. Crash-test dummies modeled on male bodies. Drug trials that excluded women. Snow-plowing schedules optimized for commuters over caregivers. Phone keyboards too wide for women's hands. The PPE designed for the average male body that left women in healthcare and emergency response wearing equipment that didn't fit. Each example is small. The cumulative effect is the argument.</p>
+              <p>What makes the book work is the calmness of the case. Criado Perez is not writing polemic. She's writing a research summary. The data does the work, and the data is overwhelming. The reader isn't being asked to feel a particular way. They're being asked to notice that "neutral" defaults are not neutral, and that the cost of treating them as neutral is paid disproportionately by half the population.</p>
+              <p>The structural insight that survives the catalog is harder to absorb than the individual examples: most policy and design assumes a single user-default, and the user-default has historically been male and white and middle-class. The data gap is not a problem of malice. It's a problem of who gets counted as the standard observer. Once that's named, the question of how to fix specific gaps becomes secondary to the question of how the standard got built.</p>
+              <p>Won the 2019 Royal Society Science Book Prize. The book to give to anyone who thinks the gender gap conversation is overstated. The data is the rebuttal.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -707,7 +1008,18 @@
         <div class="book-content-col">
           <h3 class="book-title">The New Age of Sexism</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://www.laurabates.co.uk/" target="_blank" rel="noopener">Laura Bates</a></div>
-          <p class="book-blurb">Bates's 2025 follow-up to Men Who Hate Women. Subtitled <em>How AI and Emerging Technologies Are Reinventing Misogyny</em>, and it covers exactly that: deepfake pornography, AI chatbot "girlfriends," metaverse harassment, sex robots, image-based abuse, and the bias embedded in AI training data. The argument: the window to regulate these systems is closing fast, and most policymakers have no idea what they're looking at.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Bates's 2025 follow-up to <em>Men Who Hate Women</em> covers what changed when the misogyny got a new toolkit: deepfake pornography, AI chatbot "girlfriends," metaverse harassment, sex robots, image-based abuse, and the bias embedded in AI training data. The argument is that the window to regulate these systems is closing fast, and most policymakers have no idea what they're looking at.</p>
+              <p>What's most useful in the book is the documentation of how the same dynamics from the first book — the politicization of misogyny, the pipeline-shaped radicalization — have been embedded into product design at the platform level. The AI girlfriend chatbots are not a niche curiosity; they're a multi-billion-dollar market with explicit feedback loops that train users into specific relational patterns. The deepfake market is not theoretical; it has identifiable supply chains and identifiable customers.</p>
+              <p>Where the book pushes hardest is on the framing of AI ethics as a "neutral safety" question. Bates's case is that the harms being designed into these tools are gender-specific, that the labor going into surfacing them is disproportionately done by women researchers, and that the discourse around AI safety has so far refused to take the gender dimension seriously as load-bearing. The result is a regulatory environment that's missing the most predictable category of harm.</p>
+              <p>Read this if you're working anywhere near AI policy or product. The book is the cleanest current statement of what's being missed, written by someone who has done the documentation and isn't going to soften it.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -727,7 +1039,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Shrill</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://www.lindywest.net/" target="_blank" rel="noopener">Lindy West</a></div>
-          <p class="book-blurb">Essays on being a loud woman in a culture that rewards women for being quiet. Fat acceptance, abortion, rape jokes in comedy, the time she confronted the internet troll impersonating her dead father, the years at Jezebel and The Stranger. <em>Funny in places where funny wouldn't survive without the substance underneath.</em> Adapted into the 2019 Hulu series with Aidy Bryant.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Lindy West's essay collection is funny, and it would not survive being only funny. The substance underneath is what carries it. Fat acceptance, abortion, rape jokes in comedy, the time she confronted the internet troll impersonating her dead father — each piece is doing the comic register and a structural argument at the same time. The argument doesn't get neutralized by the laughs.</p>
+              <p>West is most useful on the rape-jokes-in-comedy chapter, which is also the one most often misread. Her case isn't that the jokes shouldn't exist. It's that the comedy industry's defense of the jokes — that they're punching at power, that they're transgressive — collapses on inspection, because the jokes overwhelmingly punch in the same direction the culture already punches. The structural read: the comic establishment is not a brave outsider; it's a status quo defending itself with the language of subversion.</p>
+              <p>What West also does, and what the book is rare for, is take seriously the cost of being publicly fat and publicly female and publicly opinionated, all at the same time, on a 2010s internet that was practicing exactly how to make all three things expensive. She's writing partly from inside the storm. The fact that she stayed funny inside it is an achievement.</p>
+              <p>Adapted into the 2019 Hulu series with Aidy Bryant. The series is good. The book is sharper, because the book is the thing without the network's comfort layer. Start here.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -748,7 +1071,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Careless People</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Sarah_Wynn-Williams" target="_blank" rel="noopener">Sarah Wynn-Williams</a></div>
-          <p class="book-blurb">Seven years inside Meta, told by its former global policy director. Wynn-Williams was in the room for the company's complicity in the Rohingya genocide, for secret negotiations with the Chinese government over censorship tools, and for what she describes as serial misconduct by Sheryl Sandberg and Joel Kaplan. <em>Meta obtained an emergency arbitration order to bar her from promoting the book</em> — which drove it to #1 on the NYT list anyway. Title from Gatsby: the carelessness of people who smash things and retreat into their money.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Seven years inside Meta, told by its former global policy director. Wynn-Williams was in the room for the company's complicity in the Rohingya genocide, for secret negotiations with the Chinese government over censorship tools, and for what she describes as serial misconduct by Sheryl Sandberg and Joel Kaplan. The title is from <em>Gatsby</em>: the carelessness of people who smash things and retreat into their money. The frame is correct.</p>
+              <p>What makes the book valuable is that it isn't a tell-all in the gossipy sense. Wynn-Williams was the policy person — she knows how the decisions were structured, who was in the room, what the institutional incentives were that produced the outcomes. The Rohingya chapters in particular are a case study in how a platform's moderation choices, framed internally as "neutral," operate as foreign policy in countries where the platform is the dominant information environment.</p>
+              <p>Meta obtained an emergency arbitration order to bar Wynn-Williams from promoting the book. The order drove the book to #1 on the New York Times list, which is the smaller story; the larger story is what kind of leverage a company has to suppress a former employee's account of its operations. The willingness to use that leverage is part of the indictment.</p>
+              <p>Read this if you work in tech and especially if you've ever told yourself that the institutional culture is "broken but well-intentioned." The book makes a precise case that the culture is not broken — it's working as designed — and the design produces predictable harms. The cost falls disproportionately on populations the company isn't accountable to.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -768,7 +1102,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Bad Blood</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/John_Carreyrou" target="_blank" rel="noopener">John Carreyrou</a></div>
-          <p class="book-blurb">The rise and fall of Theranos — the Silicon Valley biotech founded by Elizabeth Holmes that claimed to run hundreds of medical tests on a drop of blood, hit a $9B valuation, and turned out to be a fraud. Expanded from Carreyrou's Wall Street Journal stories that first cracked it open. <em>Shows how Stanford pedigree, political connections (George Shultz, Henry Kissinger, and Jim Mattis were on the board), and a culture of internal fear kept the deception going for over a decade.</em> Basis for the Hulu series The Dropout.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>The Theranos story, told by the Wall Street Journal reporter who broke it. Carreyrou's expanded case shows how Stanford pedigree, political connections (Shultz, Kissinger, Mattis on the board), and a culture of internal fear kept a fraud going for over a decade. The book is the cleanest current account of how Silicon Valley's "fake it till you make it" register meets a domain — medical testing — where faking it is also poisoning patients.</p>
+              <p>What's useful in the book is the granularity of the cover-up. Theranos didn't fail because of one bad bet. It failed because every layer of the company was structured to suppress information that would have killed the company sooner — internal critics fired, whistleblowers sued, journalists threatened, board members reassured by Holmes's TED-talk delivery rather than by lab results they could verify. The institutional culture of "trust the founder" was the operative mechanism. The medical fraud was the predictable output.</p>
+              <p>The political tell, in retrospect, is which categories of people the system protected and which it didn't. Holmes's lawyers and PR machine treated dissent as treason long after the fraud was provable. The cost fell on the patients getting wrong test results, on the employees who tried to flag what they were seeing, and on the journalists who took the legal risk of reporting it. None of those costs were borne by the people running the company.</p>
+              <p>Basis for the Hulu series <em>The Dropout</em>. The book is sharper, because the book is reporting and the show is dramatization. Read this with <em>Careless People</em> — same structural pattern, different industry, same lesson about what a "visionary founder" frame is doing to the social cost calculus.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -789,7 +1134,18 @@
         <div class="book-content-col">
           <h3 class="book-title">My Next Breath</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://officialjeremyrenner.com/" target="_blank" rel="noopener">Jeremy Renner</a></div>
-          <p class="book-blurb">Renner's debut memoir. New Year's Day 2023, a 14,000-pound snowplow runs him over while he's helping his nephew at his Lake Tahoe home. <em>He stayed conscious under it for more than half an hour by using Lamaze breathing he'd learned as a teenager helping his mother through her pregnancies.</em> The rest is surgeries and rehab. Published April 2025, the same month he returned to filming Mayor of Kingstown.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>A 14,000-pound snowplow ran Renner over on New Year's Day 2023 while he was helping his nephew at his Lake Tahoe home. He stayed conscious under it for more than half an hour by using the Lamaze breathing he'd learned as a teenager helping his mother through her pregnancies. The rest of the book is surgeries and rehab. That's the spine.</p>
+              <p>What makes the book worth reading is what Renner doesn't do. He doesn't moralize the experience. He doesn't pretend the recovery has rebuilt him into a new person with a new philosophy. The book is about the mechanics — what the body had to do, what the family had to do, what kept him in the room with himself when the obvious move was to leave. The plainness is the register.</p>
+              <p>Where Renner is honest is on the question of what the accident did to his sense of who he was. He was a working actor doing physically demanding work; he was the man who could do that work; the accident made him, for a long time, not that man anymore. The book is partly about what it costs to lose the version of yourself you'd built a career around, and what it takes to assemble whatever comes next without faking the gap between them.</p>
+              <p>Published April 2025, the same month he returned to filming <em>Mayor of Kingstown</em>. The book is short. The story is the one a celebrity memoir usually wouldn't tell as plainly as he tells it. Worth picking up if you've ever had to put yourself back together after the thing you thought you were.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -809,7 +1165,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Greenlights</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Matthew_McConaughey" target="_blank" rel="noopener">Matthew McConaughey</a></div>
-          <p class="book-blurb">McConaughey's memoir, built from thirty-five years of journals he'd been keeping since he was a teenager. Structured around <em>"greenlights"</em> — the moments life gives you permission to go — and the yellows and reds that force you to stop and reroute. Sold over three million copies in its first year. Not a conventional Hollywood memoir: more time on his Texas childhood, his year in Australia, and his personal philosophy than on the film career.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>McConaughey built this from thirty-five years of journals he'd been keeping since he was a teenager. The structure is "greenlights" — the moments life gives you permission to go — and the yellows and reds that force you to stop and reroute. It's a memoir in the shape of a personal philosophy, and whether you find that combination useful or insufferable is going to depend a lot on whether you can sit with someone working out their own framework in public.</p>
+              <p>What I appreciate about the book is that it doesn't try to be a Hollywood memoir. McConaughey spends more time on his Texas childhood, the year in Australia, his relationship with his parents, and his thinking about how to live than on the films. The films are present, but they're not the load-bearing material. The memoir is about building a way of being in the world, and the films are evidence of how that building has gone.</p>
+              <p>Where the book is going to lose readers is in the philosophical asides. McConaughey writes the way he talks, and the way he talks involves earnest, slightly-too-tidy aphorisms about persistence and presence. He's aware. The book includes them anyway, because what he's writing is the actual contents of his journals, and the actual contents include the earnestness. You either find the earnestness charming or you don't.</p>
+              <p>Sold over three million copies in the first year. Not a book I'd press into the hands of someone looking for cultural critique, but a real one if you're interested in the genre of "person trying, in public, to be honest about their own framework." The honesty is what carries it.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -829,7 +1196,18 @@
         <div class="book-content-col">
           <h3 class="book-title">When I Left Home</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://www.buddyguy.net/" target="_blank" rel="noopener">Buddy Guy (with David Ritz)</a></div>
-          <p class="book-blurb">Buddy Guy's memoir, written with David Ritz. Lettsworth, Louisiana — picking cotton, fashioning his first guitar from window-screen wire. Chicago in 1957. Decades at Chess Records alongside Muddy Waters and Howlin' Wolf. Eventually, recognition as one of the most influential guitarists in American music. <em>Clapton, Hendrix, and Vaughan all named him as a primary inspiration</em> — this is the same story in his own words.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Buddy Guy's memoir, written with David Ritz. The structure traces the life: Lettsworth, Louisiana, picking cotton, fashioning his first guitar from window-screen wire. Chicago in 1957. Decades at Chess Records alongside Muddy Waters and Howlin' Wolf. Eventually, recognition as one of the most influential guitarists in American music — Clapton, Hendrix, and Vaughan all named him as a primary inspiration. This is the same story in his own voice.</p>
+              <p>What makes the book valuable is the granularity on the Chicago years. Most blues histories tell the story from the outside — the labels, the recordings, the touring circuits. Guy tells it from inside the rooms. What it was actually like to be a young Black guitarist arriving at Chess in 1957, what the older men taught him and what they made him earn, how much of the famous discography is the product of specific Tuesday afternoons that nobody at the time was treating as historic.</p>
+              <p>The Vaughan and Clapton material is the part most casual blues fans pick up. What's more useful is the long account of how the British Invasion took Black American music abroad, made it commercially viable, and brought it back to the United States where Black artists who had originated it had spent decades being underpaid for it. Guy is clear-eyed about the dynamics. He doesn't bitter himself with them. He names them.</p>
+              <p>Read this if you've never read a memoir from inside the Chess generation. The story is American music history told by one of the people who built it, and it stays specific enough that the broader claims about race, money, and credit land harder than they would in a general history.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span><span class="name">Parnassus Books</span><span class="arrow" aria-hidden="true">↗</span>
@@ -884,6 +1262,32 @@
     <path d="M9 14 V4 M4 9 L9 4 L14 9" />
   </svg>
 </button>
+
+<!-- Book review modal — singleton, populated dynamically from
+     the clicked row's cover/title/author/blurb. Mirrors the
+     editorial register of the homepage book-page sections. -->
+<div class="book-modal" id="bookModal" aria-hidden="true"
+     role="dialog" aria-modal="true" aria-labelledby="bookModalTitle">
+  <button class="book-modal-close" type="button"
+          aria-label="Close review" data-modal-close>×</button>
+  <div class="book-modal-panel" role="document" tabindex="-1">
+    <div class="book-modal-content">
+      <div class="book-modal-cover-col">
+        <div class="book-modal-cover-wrap">
+          <img class="book-modal-cover" src="" alt="">
+        </div>
+      </div>
+      <div class="book-modal-text">
+        <h2 id="bookModalTitle" class="book-modal-title"></h2>
+        <div class="book-modal-by"></div>
+        <div class="book-modal-divider"></div>
+        <div class="book-modal-review"></div>
+        <div class="book-modal-purchase"></div>
+        <div class="book-modal-author"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="js/motion.js"></script>
 <script src="js/site.js"></script>

@@ -41,6 +41,7 @@
 <link rel="stylesheet" href="css/site.css">
 <link rel="stylesheet" href="css/motion.css">
 <link rel="stylesheet" href="css/components/book-list.css">
+<link rel="stylesheet" href="css/components/book-modal.css">
 </head>
 
 <body>
@@ -143,7 +144,6 @@
   <!-- GENRE FILTER — sticky beneath the header -->
   <section class="sticky-filter" data-sticky-filter aria-label="Genre filter">
     <div class="sticky-filter-inner">
-      <span class="sticky-filter-label">Genre</span>
       <div class="btn-group" role="group" aria-label="Filter fiction by genre">
         <button class="btn btn--filter btn--sm" type="button" data-filter="all" aria-pressed="true">All <span class="count">14</span></button>
         <button class="btn btn--filter btn--sm" type="button" data-filter="literary" aria-pressed="false">Literary <span class="count">5</span></button>
@@ -168,7 +168,19 @@
         <div class="book-content-col">
           <h3 class="book-title">Lonesome Dove</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Larry_McMurtry" target="_blank" rel="noopener">Larry McMurtry</a></div>
-          <p class="book-blurb">Eight hundred pages of Gus McCrae and Woodrow Call, two aging Texas Rangers on one last cattle drive from the Rio Grande to Montana. McMurtry set out to dismantle the myth of the American West and accidentally wrote its monument. <em>The friendship at the center is one of the truest things in American fiction.</em> Pulitzer, 1986.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>It's eight hundred pages of two old men riding north with cattle. That should be unbearable, and instead it's one of the few novels I've read three times. McMurtry's gift is patience. He lets the friendship between Gus and Call build at the speed it actually would, and never makes either of them say out loud what the other one means to them.</p>
+              <p>The cattle drive is the pretext. The book is really about long friendships — what they ask of you, what they cost, what you owe each other after forty years. McMurtry doesn't tell you that's what he's doing. He just keeps his camera on the men and lets you arrive at it.</p>
+              <p>The supporting cast is a mile deep. Lorena, Newt, Jake Spoon, Deets, Pea Eye — every one of them gets a real interior life. McMurtry treats secondary characters with the same patience he gives the leads. By the end you've lived with these people long enough that the way they speak becomes familiar, the way you'd know somebody's voice on the phone before they say their name.</p>
+              <p>It's also unsentimental about the frontier in a way most westerns aren't. The "dying days" framing doesn't get romanticized. It's a slow-motion description of land taken and people displaced, riders moving through somebody else's history without quite admitting it. McMurtry doesn't editorialize. He lets the events be what they are and trusts you to notice.</p>
+              <p>The book earns the length. None of it is wasted. Most "long novel" recommendations come from people performing literary virtue. This isn't that. This is the one I've read three times and would read again. The only thing I want to say to anyone who thinks they don't have time for an eight-hundred-page western is that you'll know within the first hundred pages whether McMurtry has you. He had me by page twenty.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span>
@@ -190,7 +202,19 @@
         <div class="book-content-col">
           <h3 class="book-title">Demon Copperhead</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://barbarakingsolver.com/" target="_blank" rel="noopener">Barbara Kingsolver</a></div>
-          <p class="book-blurb">Kingsolver takes <em>David Copperfield</em> out of Victorian England and resets it in opioid-era Appalachia. A red-haired kid narrates his own passage through foster care, high-school football, injury, addiction — first person the whole way down, systems failing him at every turn. Earns every inch of the 2023 Pulitzer it shares with <em>Trust</em>.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Kingsolver took the David Copperfield frame and dropped it into Lee County, Virginia in the worst years of the opioid crisis. That could have been gimmicky. Instead it's a 560-page argument that systems built to protect kids — foster care, schools, medicine, the law — are mostly built to process them, and the processing is what shapes the lives.</p>
+              <p>The narrator's voice is the whole game. He's a kid who's read enough to know how he's getting played by every adult institution around him, bitter enough to say so out loud, and funny enough to keep you with him for 560 pages. Kingsolver is a good enough writer to never flatten Appalachia into ruin porn. These are real lives, drawn with care.</p>
+              <p>One of the things the book does well is refuse the easy distinction between people who deserve help and people who don't. The opioid crisis is full of writing that quietly lets the reader off the hook by sorting people into worthy victims and unworthy ones. Kingsolver doesn't allow it. The kid is funny and sharp and also makes bad decisions, and the bad decisions don't stop the empathy, and the empathy doesn't soften the bad decisions. Both stay true.</p>
+              <p>It's a sad book that isn't a hopeless one. The hope is structural — there's love in here, between people who try imperfectly to be there for each other. That's what the book wants you to notice. Whether the systems can be made to do better is a question it leaves open. Honestly, I think that's the right place to leave it.</p>
+              <p>If you grew up around any of this, the book is going to be familiar in a way that hurts. If you didn't, it's going to be educational in a way that hurts differently. Either way, you don't come out the other side neutral. That's the point.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span>
@@ -212,7 +236,19 @@
         <div class="book-content-col">
           <h3 class="book-title">Stoner</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/John_Edward_Williams" target="_blank" rel="noopener">John Williams</a></div>
-          <p class="book-blurb">The quiet life of a Missouri farm boy who becomes an English professor. Almost nothing happens. <em>Somehow everything does.</em> Forgotten for decades, then rediscovered after a 2003 NYRB reissue — now the standard case for what plain American prose can carry.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>The premise is almost a joke. A man's whole life, told in 280 pages, in which essentially nothing of consequence happens. He marries badly, raises a daughter he loves, teaches Latin literature to undergraduates who don't care. That's it.</p>
+              <p>By the last twenty pages I was wrecked. Williams wrote this as a quiet study of integrity — a man who tries, again and again, to do his work honestly against people and forces who don't think his work matters. The book makes the case that doing the work honestly is its own argument, even when no one is keeping score. Especially then.</p>
+              <p>It's also one of the great novels about institutional small-mindedness. The university Stoner spends his career at is a regular American university — petty, political, occasionally generous, mostly indifferent — and Williams has the patience to draw the institutional weather day by day. He doesn't make it dramatic. He just makes it real. If you've ever worked at a place long enough to know its weather, the book will feel uncomfortably accurate.</p>
+              <p>I press it into people's hands when they ask me what literary fiction is for. It's also a strange recovery story. Williams died in 1994 and almost nobody read this while he was alive. NYRB Classics reissued it twenty years later and it became one of the great recovered novels. Sometimes the work is right and the moment is wrong, and you have to make peace with both halves of that.</p>
+              <p>There's a particular kind of reader for this book. If you have ever cared about doing something well that nobody is going to thank you for — the right thing in your job, the right thing in your marriage, the right thing in a piece of work no one will read — you will recognize Stoner. He's not a hero in any conventional sense. He's just a man who keeps showing up. That's enough for the book, and by the end, it's enough for you.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span>
@@ -234,7 +270,20 @@
         <div class="book-content-col">
           <h3 class="book-title">East of Eden</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://steinbeck.org/" target="_blank" rel="noopener">John Steinbeck</a></div>
-          <p class="book-blurb">Two California families retrace the Cain-and-Abel story across three generations in the Salinas Valley. Steinbeck's widest canvas — he thought everything he'd written before was preparation for this. The whole book turns on <em>timshel</em>: the Hebrew word the characters end up reading as "thou mayest." Choice, not fate.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Steinbeck thought it was the only book he'd written. You can feel that on every page — the ambition is enormous, the canvas is enormous, and the question (can a person choose to be good?) is enormous. He's swinging for the fences and mostly connecting.</p>
+              <p>The character of Cathy Ames is one of the most quietly disturbing things in American fiction. Lee, the Trask family's housekeeper, is one of the most quietly luminous. The book lives in the gap between those two — between the human capacity for evil and the human capacity to choose otherwise — and Steinbeck doesn't pretend that gap closes easily.</p>
+              <p>Lee is the character I think about most. He's the moral intelligence of the book, mostly working in the background, and Steinbeck gives him conversations that stop the novel cold for ten or twenty pages while three men sit in a kitchen and try to translate a Hebrew word correctly. That kind of digression should be unforgivable in a 600-page novel. Steinbeck makes it the spine. He believes the question is worth that long a stop.</p>
+              <p><em>Timshel</em> — "thou mayest" — is the word the book turns on. The choice is always yours, even when the inheritance is brutal. I think about it constantly. There's something American about that as a frame — the insistence on free will, sometimes against the evidence — and Steinbeck makes the case for it without pretending the evidence isn't there.</p>
+              <p>The book is also about California in a way that gets less attention than it should. Steinbeck wrote California the way Faulkner wrote Mississippi — as a place where the land itself is part of the moral argument. The Salinas Valley shapes the people, and the people shape themselves in response, and you can't separate the two. The first hundred pages are essentially geography, and they earn it.</p>
+              <p>I read it the year I left California for the South. I think that timing is part of why the book stayed with me. <em>East of Eden</em> is about leaving and being left, about what gets passed down whether you want it or not, about the work of choosing well inside an inheritance you didn't choose. That's a question I'm not done with. I don't think Steinbeck thought he was either.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span>
@@ -256,7 +305,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Giovanni's Room</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://www.jamesbaldwin.info/" target="_blank" rel="noopener">James Baldwin</a></div>
-          <p class="book-blurb">Paris, 1956. An American engaged to be married starts an affair with an Italian bartender while his fiancée is away. Baldwin's American publisher reportedly told him to burn the manuscript — too gay, too white, too unmarketable. He published it anyway. <em>A first-person confession without self-pity</em>, and one of the foundational texts of American queer literature.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Baldwin's American publisher told him to burn the manuscript. Too white, too gay, too unmarketable. He published it in 1956 anyway. That decision is part of the argument — a writer staking his career on saying what he knew, not what was easy. The book is the result of that bet.</p>
+              <p>An American in Paris, engaged to a woman, has an affair with an Italian bartender named Giovanni. The narrator is the kind of man who can't admit to himself what he's choosing, and Baldwin doesn't let him off the hook. The first-person voice is what makes it. You're inside someone telling himself the wrong story about his own life, in real time, and you can see exactly when he could have made a different call.</p>
+              <p>What Baldwin does, and what most novels of repressed desire don't, is refuse the comfort of redemption. The narrator isn't a sympathetic victim of his time. He's a person responsible for what he did. The book gives you no exit from that, and the prose is beautiful enough that you stay anyway.</p>
+              <p>It's also one of the rare American novels where Whiteness is named as a thing the narrator carries rather than the default to subtract. Baldwin had been writing about Blackness for years. Here he points the same instrument at a white American man and watches what happens. The result is the book most often borrowed from when contemporary writers try to do queer fiction with weight. Most of those borrowings show how hard it is to do well.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span>
@@ -279,7 +339,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Project Hail Mary</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://andyweirauthor.com/" target="_blank" rel="noopener">Andy Weir</a></div>
-          <p class="book-blurb">An astronaut wakes alone in deep space with no memory of who he is or why he's there. He figures it out — and his one job is to save the sun. Weir makes orbital mechanics feel like the plot, and <em>the friendship at the center blindsided me</em>. Lord and Miller's Gosling adaptation hits theaters March 2026.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>I went in expecting <em>The Martian</em> in space and got something completely different. Weir builds the science meticulously — there's a stretch around the middle where the physics is the suspense, somehow — and the book turns on a friendship I won't describe so I don't ruin it.</p>
+              <p>I closed the book and immediately wanted to call somebody. It's a science fiction novel that's secretly about loneliness, and what another mind can mean when there's no one else around to think with. Earnest in the best way.</p>
+              <p>It also belongs to the optimistic-engineering register that's hard to find right now in fiction. Most current sci-fi is either dystopian or knowing-cynical. Weir is just guy-who-likes-orbital-mechanics, sincerely problem-solving his way through. There's room for that. More than I expected.</p>
+              <p>I'd give this one to anyone going through a hard time. It's not heavy in the way most "smart" fiction is. It's heavy in a different way — about how the small acts of trying to figure something out together are maybe what most of being alive is. Weir is unfashionable for caring about that. I respect him for caring anyway.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span>
@@ -301,7 +372,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Jurassic Park</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://michaelcrichton.com/" target="_blank" rel="noopener">Michael Crichton</a></div>
-          <p class="book-blurb">A billionaire clones dinosaurs from amber-preserved DNA and opens a theme park off the coast of Costa Rica. It goes badly. Under the set pieces Crichton is running a real argument about chaos theory, corporate hubris, and the ethics of deploying biotech before anyone understands it. <em>The book is considerably meaner than Spielberg's 1993 film.</em></p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>The book is meaner than the movie. Spielberg made the dinosaurs into wonder; Crichton made them into a thesis statement about what happens when you ship technology you don't understand. The argument isn't subtle and the book doesn't pretend it is — it's a 400-page case for taking biotech seriously, dressed up as a thriller about an island.</p>
+              <p>The thing Crichton actually cared about is chaos theory — the way complex systems fail in ways their designers can't anticipate. Ian Malcolm is the mouthpiece, and the long lectures from Malcolm should be unbearable. They mostly aren't, because Crichton trusted that you'd hang with him through the math if the dinosaurs were good enough. The dinosaurs are good enough.</p>
+              <p>Hammond is more clearly a villain in the book. The film made him benevolent and bewildered; Crichton wrote him as a man who is exactly arrogant enough to do this and exactly vain enough to keep doing it. That version reads more useful in 2026, when "move fast and break things" is no longer a quote about software.</p>
+              <p>If you like Crichton's later thrillers, this is the cleanest one. He hadn't yet drifted into the cranky-uncle politics that made some of the late books harder to read. Jurassic Park is just an engineer who likes dinosaurs writing a book where the engineering is also the indictment.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span>
@@ -323,7 +405,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Red Rising</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://www.piercebrown.com" target="_blank" rel="noopener">Pierce Brown</a></div>
-          <p class="book-blurb">On a terraformed Mars run as a color-coded caste system, Darrow is a Red miner pulled into a plot against the ruling Golds. He undergoes reconstructive surgery to pass as one and infiltrates their academy. Seven books in, Brown has built a universe that reads like <em>The Hunger Games</em> if everyone in it grew up on Gibbon. <em>Bloodydamn.</em></p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>The premise is YA-shaped — caste-system Mars, low-class kid infiltrates the elites — but Brown is doing something heavier with it. He's writing about how empires reproduce themselves, what it costs to wear the skin of the people who killed your family, and whether a revolution made by the methods of the old regime is still the revolution. The Hunger Games framing is deliberate; the engagement with Roman history and political theology is the part nobody warns you about.</p>
+              <p>The first book is the trial run. Darrow goes through the Institute — a year-long combination of Hunger Games, Lord of the Flies, and Roman senate — and Brown spends most of the page count there. It works. The thing he's stress-testing is whether you, the reader, will start rooting for an ostensible hero who is also doing things that are clearly indefensible. You will. That's the trick.</p>
+              <p>The series sustains it for seven books, which is its own achievement. Most space-opera collapses by book three under the weight of its own worldbuilding. Brown keeps the political stakes legible because he keeps making the characters pay for the choices they make. People die. Alliances break. The body count earns the scope.</p>
+              <p>"Bloodydamn" is silly the first time you read it and earned by book six. That's a small marker for the series as a whole — the things that look like genre furniture turn out to be load-bearing. Start here, but know that book one is a setup. The thing the series is actually about doesn't fully arrive until later.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span>
@@ -345,7 +438,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Dune</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://dunenovels.com/frank-herbert/" target="_blank" rel="noopener">Frank Herbert</a></div>
-          <p class="book-blurb">Ecology, religion, and imperial politics on a desert planet that happens to be the sole source of the spice that makes interstellar travel possible. <em>Herbert invented the playbook</em> that Star Wars, Foundation, and half of modern science fiction have been quoting since. First Nebula winner, Hugo co-winner. Villeneuve's two-part 2021/2024 adaptation finally did it justice.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Dune invented the playbook. Star Wars borrows from it. Foundation borrows from it. Half the science fiction written since 1965 borrows from it. If you've read sci-fi at any point and felt the shape of a desert planet, an oppressed people, a religious-political prophecy, and an extractive empire — Herbert was there first. That's the structural fact.</p>
+              <p>The thing the movies can't capture is the interiority. Most of <em>Dune</em> is what people are thinking, and most of what they're thinking is whether the person across the table is lying to them. Herbert wrote a court-intrigue novel and dressed it as a planetary-scale war. Villeneuve's adaptations are good — better than the book deserved at this point — but they had to externalize what Herbert kept inside the head.</p>
+              <p>The colonialism reading is right there in the text. Herbert was clear that he was writing about the West's relationship with the Middle East and the politics of resource extraction. The Fremen are not noble savages waiting for a white messiah. The book is about what happens when a colonizing prince decides he can ride the religious instrument of an oppressed people, and Herbert is honest about the fact that this works, and that the cost falls on the Fremen. Paul is not a hero. The book wants you to notice.</p>
+              <p>Read it once for the worldbuilding. Read it again for the politics. The second pass is the one that makes the rest of the series make sense.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span>
@@ -367,7 +471,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Empire of Silence</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://www.highmatterbooks.com/" target="_blank" rel="noopener">Christopher Ruocchio</a></div>
-          <p class="book-blurb">A far-future space opera narrated, memoir-style, by a disgraced nobleman awaiting execution for crimes he's about to explain. Ruocchio writes <em>like Gene Wolfe crossed with Warhammer 40,000</em> — literary science fiction at operatic scale. Book one of the Sun Eater series. The usual next stop for readers who finish Dune and need somewhere to go.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Ruocchio writes like Gene Wolfe with a Warhammer 40K problem, and I mean that as a compliment. The narrator is a disgraced nobleman writing his memoirs from a cell, awaiting execution for the worst crime in the empire's history, and he's going to take the whole series to tell you what he did. The form is the bait. You stay because you want the confession.</p>
+              <p>The world is operatic in a way modern sci-fi rarely is. Ruocchio takes Roman political structure, classical Greek tragedy, and a future-medieval interstellar empire and builds something that reads more like Cugel's Saga than like the Star Wars descendants. The prose is dense by current genre standards. He's asking you to slow down and let the names accrete.</p>
+              <p>Where this book lands hardest is in the question of whether a person can tell you the truth about themselves. The narrator is unreliable in the way good first-person narrators are unreliable — he's not lying so much as protecting himself from his own conclusions. The series gets sharper about this as it goes. Book one is the long setup. The payoff is real.</p>
+              <p>If you finished <em>Dune</em> and didn't know where to go next, this is the recommendation. Same pattern of literary sci-fi taking its philosophical and historical inheritance seriously without flinching.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span>
@@ -389,7 +504,18 @@
         <div class="book-content-col">
           <h3 class="book-title">It</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://stephenking.com/" target="_blank" rel="noopener">Stephen King</a></div>
-          <p class="book-blurb">Seven children in Derry, Maine, confront an ancient evil that takes the shape of their fears — most famously a clown called Pennywise. The book cuts between 1958 and 1985, when the seven return as adults to finish what they started. Over 1,100 pages, and <em>King's best novel about the things small towns hide in plain sight</em>. Not for the squeamish.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>An 1,100-page book about seven kids in Maine fighting a clown is one of the most American novels of the late twentieth century. It's also, if you sit with it, a book about what small towns agree to forget so the surface stays calm. The clown is a vessel. Derry is the subject.</p>
+              <p>King's gift, when he's at the height of it, is interiority for ordinary people. The Loser's Club kids feel like specific kids — the asthma, the stuttering, the dad who hits, the mom who controls — and the years he spends with them as adults makes the loss between the timelines hurt. The book is doing a horror plot and a coming-of-age plot and a midlife-reckoning plot at once, and most of the time the seams don't show.</p>
+              <p>It's also a hard book to defend uncomplicatedly. The famous late-section scene with the kids is indefensible by current standards, and possibly by 1986 standards. King has talked about regretting it. The book is great. That scene is in the book. Both can be true, and I'd rather name that than pretend it isn't there.</p>
+              <p>Where <em>It</em> still works is in the central observation — that the things we agree not to look at as a community accumulate, and the cost of that agreement gets paid by somebody. King is not subtle about this. He doesn't need to be. The book is an 1,100-page argument that small towns hide things in plain sight, and that the people who survive are the ones who refuse the deal.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span>
@@ -411,7 +537,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Piranesi</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://en.wikipedia.org/wiki/Susanna_Clarke" target="_blank" rel="noopener">Susanna Clarke</a></div>
-          <p class="book-blurb">A narrator keeps a daily journal from inside an infinite house of statues, halls, and tides — vast, beautiful, and the whole world he knows. Clarke's first novel in sixteen years, after <em>Jonathan Strange &amp; Mr Norrell</em>. Won the 2021 Women's Prize. <em>Short, strange, and hard to stop thinking about.</em></p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Sixteen years between <em>Jonathan Strange</em> and this. Clarke's first novel was 800 pages of footnoted alt-history. <em>Piranesi</em> is 245 pages of a man writing in a journal from inside an infinite house of statues and tides. The pivot is the point. Whatever she was solving for, this is what she found.</p>
+              <p>The narrator doesn't know what he doesn't know. The book is structured around the slow accumulation of evidence that the world he's describing is not what he thinks it is, and Clarke is patient enough to let you arrive there before he does. The first hundred pages should feel longer than they do. They don't, because she's writing in a register that makes you want to keep walking the halls with him.</p>
+              <p>What she's actually writing about is captivity and what it does to the imagination — specifically her own years of chronic illness, which the book doesn't mention but is obviously the engine. The narrator is at peace inside a circumstance most people would not be at peace inside. Clarke isn't arguing that the captivity is good. She's arguing that the mind does what it has to do to make a livable interior, and that whatever's beautiful about Piranesi's account is also a measure of what's been taken from him.</p>
+              <p>Short, strange, and the book most worth recommending to people who don't think they like fantasy. Won the Women's Prize. Earned it.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span>
@@ -434,7 +571,18 @@
         <div class="book-content-col">
           <h3 class="book-title">Atmosphere</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://www.taylorjenkinsreid.com/" target="_blank" rel="noopener">Taylor Jenkins Reid</a></div>
-          <p class="book-blurb">NASA, early 1980s. Joan Goodwin is a Rice astronomy professor in the second cohort of female astronauts — training for flight, carrying on a secret relationship with a fellow candidate, and heading toward a Space Shuttle disaster. Reid's latest, set in the same loose universe as <em>Daisy Jones</em> and <em>Evelyn Hugo</em>.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>Reid's specialty is the celebrity-life period piece — Daisy Jones, Evelyn Hugo, the universe she's been building one book at a time. <em>Atmosphere</em> is the same playbook in a different uniform: 1980s NASA, the second cohort of female astronauts, the Challenger years. The framing is romance against catastrophe. You know roughly what's going to happen because you know what happened in 1986.</p>
+              <p>What she does well is character access. Joan Goodwin is an astronomy professor flying the second shuttle, and Reid lets you stay close enough to her interior that the program-and-procedure stuff feels like the air around her, not the subject. The relationship at the center is treated with care. Reid has gotten better, book by book, at writing women who exist for reasons other than being looked at.</p>
+              <p>Where this book lands or doesn't is going to depend on whether you find the period detail load-bearing or decorative. I think she does the work. The training, the technical scaffolding, the politics of being a woman the program tolerated rather than welcomed — Reid researched it. It shows.</p>
+              <p>Not the book of hers I'd start with — that's still <em>Evelyn Hugo</em> — but a real one if you've been with her since 2017 and want to see her stretch. Set in the same loose continuity as the others. The references will land if you've read them.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span>
@@ -456,7 +604,18 @@
         <div class="book-content-col">
           <h3 class="book-title">The Storied Life of A.J. Fikry</h3>
           <div class="book-author"><span class="by">By</span> <a href="https://gabriellezevin.com/" target="_blank" rel="noopener">Gabrielle Zevin</a></div>
-          <p class="book-blurb">A widowed, misanthropic bookshop owner on a fictional New England island finds an abandoned baby in the aisles of his shop. Each chapter opens with the owner's notes on a short story — <em>a device that doubles as a reading list</em>. A word-of-mouth indie-bookstore favorite, over two million copies sold.</p>
+          <div class="book-blurb">
+            <div class="blurb-body">
+              <p>A widowed bookshop owner on a fictional New England island finds an abandoned baby in his store. That sentence is going to sound twee, and the book mostly outruns the twee. Zevin is a careful enough writer to land what she promises and skip what she can't.</p>
+              <p>The structural device is each chapter opening with A.J.'s notes on a short story, and the notes do real work — they're a reading list, they're a portrait of the man, they're how the book teaches you to read what's coming. By chapter three you know what kind of book this is, and you're either with it or you're not. Most readers I know are with it.</p>
+              <p>What she's actually doing is writing a novel about how people put themselves back together using the books they read. That's a sentimental claim, and the book is sentimental. The honesty is that Zevin doesn't pretend it isn't. She delivers a small story at the scale of a small story and trusts that the small story is the point.</p>
+              <p>Indie bookstores have sold over two million copies on word of mouth, which is a kind of recommendation in itself. If you want a book that's going to be hard, this isn't it. If you want a book a friend would press into your hands and say "trust me," that's what it is.</p>
+            </div>
+            <button class="blurb-toggle" type="button" aria-haspopup="dialog">
+              <span class="toggle-label">Read Review</span>
+              <span class="toggle-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
           <div class="book-footer">
             <a class="book-bookstore" href="https://parnassusbooks.net" target="_blank" rel="noopener">
               <span class="label">Read at</span>
@@ -515,6 +674,32 @@
     <path d="M9 14 V4 M4 9 L9 4 L14 9" />
   </svg>
 </button>
+
+<!-- Book review modal — singleton, populated dynamically from
+     the clicked row's cover/title/author/blurb. Mirrors the
+     editorial register of the homepage book-page sections. -->
+<div class="book-modal" id="bookModal" aria-hidden="true"
+     role="dialog" aria-modal="true" aria-labelledby="bookModalTitle">
+  <button class="book-modal-close" type="button"
+          aria-label="Close review" data-modal-close>×</button>
+  <div class="book-modal-panel" role="document" tabindex="-1">
+    <div class="book-modal-content">
+      <div class="book-modal-cover-col">
+        <div class="book-modal-cover-wrap">
+          <img class="book-modal-cover" src="" alt="">
+        </div>
+      </div>
+      <div class="book-modal-text">
+        <h2 id="bookModalTitle" class="book-modal-title"></h2>
+        <div class="book-modal-by"></div>
+        <div class="book-modal-divider"></div>
+        <div class="book-modal-review"></div>
+        <div class="book-modal-purchase"></div>
+        <div class="book-modal-author"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="js/motion.js"></script>
 <script src="js/site.js"></script>

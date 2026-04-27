@@ -52,6 +52,12 @@
   align-items: center;
   gap: 20px;
   min-height: var(--filter-h);
+  transition: padding-left var(--dur-base) var(--ease-out);
+}
+/* When stuck under the header, drop the content indent so the
+   filter's left edge lines up with the wordmark above it. */
+.sticky-filter.is-stuck .sticky-filter-inner {
+  padding-left: var(--gutter);
 }
 .sticky-filter-label {
   font-family: var(--mono);
