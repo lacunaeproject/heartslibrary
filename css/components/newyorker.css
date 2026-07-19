@@ -1,0 +1,894 @@
+/* ════════════════════════════════════════════════════════
+   NEW YORKER — heavy override layer
+   Loaded LAST on every page so it wins the cascade against
+   both site.css and per-page inline <style> blocks.
+   `!important` is used deliberately on the rules that would
+   otherwise be overridden by the homepage's inline styles.
+
+   What this file does:
+   1. Rebuilds the header into a centered newspaper masthead
+   2. Rebuilds the chapter-title into a New Yorker piece opener
+      (kicker → italic serif headline → byline → deck)
+   3. Kills the Unbounded 700 poster look in favor of
+      Newsreader italic at opsz 72
+   4. Adds a two-column body option for long-form
+   5. Redresses the book-list rows into a "Briefly Noted"
+      style review card
+   ════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────
+   BODY — reads like a magazine leaf
+   ───────────────────────────────────────────────────────── */
+body {
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  font-family: var(--serif) !important;
+  font-feature-settings: "kern", "liga", "onum", "ss01" !important;
+}
+.atmosphere { background: var(--paper) !important; }
+
+/* ═════════════════════════════════════════════════════════
+   1. MASTHEAD HEADER
+   Centered wordmark in Newsreader semibold small caps. Above
+   it a small date line, below it the nav in tracked mono
+   caps. Three rows, hairline between them.
+   ═════════════════════════════════════════════════════════ */
+header#header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0; right: 0;
+  z-index: var(--z-header) !important;
+  background: var(--paper) !important;
+  border-bottom: 1px solid var(--ink) !important;
+  height: auto !important;
+  padding: 0 !important;
+}
+header#header.scrolled {
+  background: color-mix(in srgb, var(--paper) 94%, transparent) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+header#header .header-inner {
+  max-width: var(--max-container) !important;
+  margin: 0 auto !important;
+  padding: 10px 32px 8px !important;
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr !important;
+  grid-template-rows: auto auto auto !important;
+  grid-template-areas:
+    "left    date     right"
+    "left    brand    right"
+    "nav     nav      nav" !important;
+  align-items: center !important;
+  gap: 2px 20px !important;
+  height: auto !important;
+  min-height: auto !important;
+}
+header#header .header-inner::before {
+  /* Date line above the brand — "APRIL 2026 · A LIBRARY OF ONE" */
+  content: 'April 2026 · A Library of One · Vol. II N° IV';
+  grid-area: date;
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  text-align: center;
+  padding-bottom: 2px;
+}
+/* Wordmark becomes the big centered brand */
+header#header .wordmark {
+  grid-area: brand !important;
+  justify-self: center !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  font-family: var(--serif) !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  font-variation-settings: "opsz" 72, "wght" 600 !important;
+  font-size: clamp(28px, 3.6vw, 52px) !important;
+  letter-spacing: 0.02em !important;
+  text-transform: uppercase !important;
+  color: var(--ink) !important;
+  padding: 4px 0 6px !important;
+  text-align: center !important;
+  line-height: 1 !important;
+}
+header#header .wordmark .logo-heart {
+  width: 22px !important;
+  height: 20px !important;
+  flex: 0 0 auto;
+  fill: var(--accent) !important;
+}
+/* Small logo variant if the SVG appears without heart class */
+header#header .wordmark .logo {
+  width: 22px !important;
+  height: 22px !important;
+  flex: 0 0 auto;
+}
+/* Any legacy masthead-meta that got injected — hide, since
+   the header now owns the date line above the brand. */
+header#header .masthead-meta { display: none !important; }
+
+/* Nav sits below the wordmark, centered, mono tracked caps */
+header#header nav.primary {
+  grid-area: nav !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 0 !important;
+  padding: 8px 0 4px !important;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  margin-top: 4px !important;
+  flex-wrap: wrap;
+}
+header#header nav.primary > a,
+header#header nav.primary .nav-trigger {
+  font-family: var(--mono) !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  font-size: var(--t-75) !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
+  color: var(--ink) !important;
+  padding: 4px 18px !important;
+  background: transparent !important;
+  border: 0 !important;
+  cursor: pointer;
+  transition: color 0.2s ease !important;
+}
+header#header nav.primary > a + a,
+header#header nav.primary .nav-item + .nav-item,
+header#header nav.primary .nav-item + a,
+header#header nav.primary a + .nav-item {
+  border-left: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+}
+header#header nav.primary > a:hover,
+header#header nav.primary .nav-trigger:hover,
+header#header nav.primary .nav-trigger[aria-expanded="true"],
+header#header nav.primary .nav-trigger.active,
+header#header nav.primary > a.active {
+  color: var(--accent) !important;
+}
+header#header nav.primary .nav-trigger::after {
+  border-color: currentColor !important;
+  opacity: 0.55;
+}
+/* Kill the underline on active — the color shift is enough */
+header#header nav.primary > a.active::after { display: none !important; }
+/* Nav dropdown panels get a book-plate treatment */
+header#header .nav-dropdown {
+  background: var(--paper) !important;
+  border: 1px solid var(--ink) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+header#header .nav-dropdown a {
+  font-family: var(--serif) !important;
+  font-size: var(--t-100) !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+  letter-spacing: -0.005em !important;
+  color: var(--ink) !important;
+  border-radius: 0 !important;
+  padding: 8px 16px !important;
+}
+header#header .nav-dropdown a:hover { color: var(--accent) !important; background: color-mix(in srgb, var(--accent) 5%, transparent) !important; }
+header#header .nav-dropdown .all-link { color: var(--marginalia) !important; }
+
+/* Hamburger stays on the right on mobile — override the grid */
+header#header .nav-toggle {
+  position: absolute;
+  right: 24px;
+  top: 12px;
+}
+
+/* Mobile: collapse the masthead */
+@media (max-width: 760px) {
+  header#header .header-inner {
+    grid-template-areas:
+      "date"
+      "brand"
+      "nav" !important;
+    grid-template-columns: 1fr !important;
+    padding: 6px 22px 6px !important;
+  }
+  header#header .wordmark { font-size: 24px !important; }
+  header#header nav.primary { display: none !important; }
+}
+
+/* Push the whole document down to clear the taller masthead.
+   Compute a fresh --header-h so breadcrumb / sticky-filter /
+   chapter-title padding measurements come out right. */
+:root { --header-h: 140px; }
+@media (max-width: 760px) {
+  :root { --header-h: 108px; --header-h-mobile: 108px; }
+}
+main { padding-top: 0; }
+
+/* ═════════════════════════════════════════════════════════
+   2. CHAPTER TITLE — the piece opener
+   Replaces the poster "Unbounded 700" hero with a proper
+   New Yorker piece opener: kicker → italic serif headline
+   → byline → deck.
+   ═════════════════════════════════════════════════════════ */
+.chapter-title {
+  max-width: 900px !important;
+  margin: 0 auto !important;
+  padding: clamp(80px, 12vh, 160px) 32px clamp(40px, 6vh, 80px) !important;
+  min-height: auto !important;
+  display: block !important;
+  text-align: left;
+}
+.chapter-title .chapter-stage {
+  padding-left: 0 !important;
+  max-width: 780px;
+  margin: 0 auto;
+}
+/* Kicker — now uses .chapter-eyebrow but restyled */
+.chapter-title .chapter-eyebrow {
+  font-family: var(--mono) !important;
+  font-size: var(--t-75) !important;
+  letter-spacing: 0.28em !important;
+  text-transform: uppercase !important;
+  color: var(--accent) !important;
+  margin-bottom: 22px !important;
+  padding-bottom: 14px !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  display: block !important;
+}
+.chapter-title .chapter-eyebrow > * {
+  color: inherit !important;
+}
+.chapter-title .chapter-eyebrow .num,
+.chapter-title .chapter-eyebrow .pip {
+  color: color-mix(in srgb, var(--accent) 55%, transparent) !important;
+  padding: 0 6px;
+}
+.chapter-title .chapter-eyebrow .dash { display: none !important; }
+
+/* Headline — Newsreader italic at optical size 72, weight 500.
+   No Unbounded, no poster geometry. This is the piece. */
+.chapter-title h2 {
+  font-family: var(--serif) !important;
+  font-style: italic !important;
+  font-weight: 500 !important;
+  font-variation-settings: "opsz" 72, "wght" 500 !important;
+  font-size: clamp(40px, 6.2vw, 84px) !important;
+  line-height: 1.06 !important;
+  letter-spacing: -0.022em !important;
+  color: var(--ink) !important;
+  text-wrap: balance;
+  margin: 0 0 24px !important;
+  max-width: 22ch;
+}
+.chapter-title h2 em,
+.chapter-title h2 .accent {
+  font-family: var(--serif) !important;
+  font-style: italic !important;
+  font-weight: 500 !important;
+  font-variation-settings: "opsz" 72, "wght" 500 !important;
+  color: var(--accent) !important;
+}
+.chapter-title h2 br { display: initial; }
+
+/* Deck — sits under the headline, roman not italic, quiet */
+.chapter-title .chapter-deck {
+  font-family: var(--serif) !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-variation-settings: "opsz" 22, "wght" 400 !important;
+  font-size: clamp(17px, 1.35vw, 22px) !important;
+  line-height: 1.5 !important;
+  color: var(--ink-soft) !important;
+  max-width: 62ch !important;
+  margin-top: 20px !important;
+}
+.chapter-title .chapter-deck a {
+  color: var(--ink) !important;
+  border-bottom: 1px solid var(--accent) !important;
+}
+
+/* Meta strip — small mono under the deck, tight tracked caps */
+.chapter-title .chapter-meta {
+  margin-top: 40px !important;
+  padding-top: 20px !important;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 15%, transparent);
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+  gap: 22px 40px !important;
+  font-family: var(--mono) !important;
+  font-size: var(--t-69) !important;
+  letter-spacing: 0.2em !important;
+  text-transform: uppercase !important;
+  color: var(--marginalia) !important;
+  max-width: none !important;
+}
+.chapter-title .chapter-meta strong {
+  font-family: var(--serif) !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  font-variation-settings: "opsz" 24, "wght" 400 !important;
+  font-size: var(--t-112) !important;
+  text-transform: none !important;
+  letter-spacing: -0.005em !important;
+  color: var(--ink) !important;
+  margin-top: 4px !important;
+  display: block !important;
+}
+
+/* Kill any leftover .hero-illustration / video on homepage.
+   Poster art doesn't belong in a New Yorker piece opener. */
+.chapter-title .hero-illustration,
+.chapter-title video.hero-illustration {
+  display: none !important;
+}
+
+/* Chapter-byline (homepage) becomes proper New Yorker byline */
+.chapter-title .chapter-byline {
+  font-family: var(--serif) !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  font-variation-settings: "opsz" 24, "wght" 400 !important;
+  font-size: var(--t-125) !important;
+  color: var(--ink) !important;
+  margin: 8px 0 24px !important;
+  letter-spacing: -0.005em !important;
+}
+.chapter-title .chapter-byline span {
+  font-style: italic !important;
+  color: var(--ink) !important;
+  border-bottom: 1px solid var(--ink) !important;
+  padding-bottom: 1px;
+}
+
+/* Kill the poster hero-eyebrow (.eyebrow.eyebrow--accent...) so
+   the New Yorker kicker is the only kicker */
+.chapter-title .hero-eyebrow {
+  font-family: var(--mono) !important;
+  font-size: var(--t-75) !important;
+  letter-spacing: 0.28em !important;
+  text-transform: uppercase !important;
+  color: var(--accent) !important;
+  padding-bottom: 14px !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  margin-bottom: 22px !important;
+  display: block !important;
+}
+.chapter-title .hero-eyebrow::before {
+  display: none !important;
+}
+
+/* ═════════════════════════════════════════════════════════
+   3. BREADCRUMB — sits above the piece opener as a small
+   department mark, not a nav trail.
+   ═════════════════════════════════════════════════════════ */
+.breadcrumb {
+  max-width: 900px !important;
+  margin: 0 auto !important;
+  padding: 160px 32px 0 !important;
+  font-family: var(--mono) !important;
+  font-size: var(--t-69) !important;
+  letter-spacing: 0.24em !important;
+  color: var(--marginalia) !important;
+}
+.breadcrumb .current { color: var(--accent) !important; }
+
+/* ═════════════════════════════════════════════════════════
+   4. END PAGE — colophon reads like the New Yorker's
+   "The Mail" or masthead footer.
+   ═════════════════════════════════════════════════════════ */
+.end-page {
+  max-width: 900px !important;
+  margin: 0 auto !important;
+  padding: clamp(80px, 12vh, 160px) 32px clamp(40px, 6vh, 80px) !important;
+  min-height: auto !important;
+  display: block !important;
+}
+.end-stage {
+  padding-left: 0 !important;
+  max-width: 62ch !important;
+  margin: 0 auto;
+}
+.end-stage .ornament {
+  font-family: var(--serif) !important;
+  font-style: italic !important;
+  color: var(--accent) !important;
+  font-size: clamp(28px, 3vw, 44px) !important;
+  margin-bottom: 20px !important;
+  display: block !important;
+}
+.end-stage h2 {
+  font-family: var(--serif) !important;
+  font-style: italic !important;
+  font-weight: 500 !important;
+  font-variation-settings: "opsz" 72, "wght" 500 !important;
+  font-size: clamp(36px, 4.6vw, 68px) !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.018em !important;
+  color: var(--ink) !important;
+  margin: 0 0 24px !important;
+}
+.end-stage h2 em,
+.end-stage h2 .accent {
+  color: var(--accent) !important;
+}
+.end-stage p {
+  font-family: var(--serif) !important;
+  font-size: clamp(16px, 1.2vw, 19px) !important;
+  line-height: 1.55 !important;
+  color: var(--ink-soft) !important;
+  max-width: 62ch !important;
+}
+.end-links {
+  margin-top: 20px !important;
+  gap: 24px !important;
+}
+.end-links a {
+  font-family: var(--mono) !important;
+  font-size: var(--t-75) !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
+  color: var(--accent) !important;
+  border-bottom: 1px solid var(--accent) !important;
+  padding-bottom: 4px !important;
+  font-weight: 500 !important;
+}
+.end-footer {
+  padding-top: 32px !important;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 18%, transparent) !important;
+  font-family: var(--mono) !important;
+  font-size: var(--t-69) !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
+  color: var(--marginalia) !important;
+}
+.end-footer a {
+  font-family: var(--mono) !important;
+  color: var(--marginalia) !important;
+}
+.end-footer a:hover { color: var(--accent) !important; }
+
+/* ═════════════════════════════════════════════════════════
+   5. BOOK-LIST — every review card gets New Yorker
+   "Briefly Noted" treatment. Kicker → italic serif title →
+   byline → body with drop cap.
+   ═════════════════════════════════════════════════════════ */
+.book-list {
+  max-width: 1000px !important;
+  margin: 0 auto !important;
+  padding: 0 32px !important;
+}
+.book-list .book-rows,
+.book-list ol.book-rows {
+  display: block !important;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.book-list .book-row {
+  display: grid !important;
+  grid-template-columns: 200px 1fr !important;
+  gap: 48px !important;
+  padding: 56px 0 !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  align-items: start;
+}
+.book-list .book-row:last-child { border-bottom: 0; }
+.book-list .book-cover-col { min-width: 0; }
+.book-list .book-content-col { min-width: 0; }
+
+.book-list .book-title {
+  font-family: var(--serif) !important;
+  font-style: italic !important;
+  font-weight: 500 !important;
+  font-variation-settings: "opsz" 60, "wght" 500 !important;
+  font-size: clamp(28px, 2.4vw, 40px) !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.018em !important;
+  color: var(--ink) !important;
+  margin: 0 0 6px !important;
+}
+.book-list .book-author {
+  font-family: var(--serif) !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: var(--t-100) !important;
+  color: var(--ink-soft) !important;
+  margin-bottom: 20px !important;
+}
+.book-list .book-author .by {
+  font-family: var(--mono) !important;
+  font-size: var(--t-69) !important;
+  letter-spacing: 0.24em !important;
+  text-transform: uppercase !important;
+  color: var(--marginalia) !important;
+  margin-right: 8px !important;
+}
+.book-list .book-author a {
+  color: var(--ink) !important;
+  font-style: italic !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 30%, transparent);
+  padding-bottom: 1px;
+}
+.book-list .book-author a:hover {
+  color: var(--accent) !important;
+  border-bottom-color: var(--accent) !important;
+}
+.book-list .book-blurb {
+  font-family: var(--serif) !important;
+  font-size: var(--t-112) !important;
+  line-height: 1.55 !important;
+  color: var(--ink) !important;
+  max-width: 62ch !important;
+  font-variation-settings: "opsz" 20, "wght" 400 !important;
+}
+.book-list .book-blurb em {
+  font-style: italic !important;
+  color: var(--ink) !important;
+}
+.book-list .blurb-body p:first-of-type::first-letter {
+  font-family: var(--serif) !important;
+  font-style: italic !important;
+  font-weight: 500 !important;
+  color: var(--accent) !important;
+  float: left;
+  font-size: 3.2em;
+  line-height: 0.9;
+  padding: 0.02em 0.12em 0 0;
+  margin-top: 0.02em;
+}
+
+/* Book footer — genre + bookstore link in tight small caps */
+.book-list .book-footer {
+  margin-top: 24px !important;
+  display: flex !important;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 14px !important;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  font-family: var(--mono) !important;
+  font-size: var(--t-69) !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
+  color: var(--marginalia) !important;
+}
+.book-list .book-genre {
+  color: var(--accent) !important;
+  font-weight: 500;
+}
+.book-list .book-bookstore {
+  color: var(--marginalia) !important;
+  display: inline-flex;
+  gap: 8px;
+  align-items: baseline;
+}
+.book-list .book-bookstore .name {
+  color: var(--ink) !important;
+  font-family: var(--serif) !important;
+  font-style: italic !important;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: var(--t-100);
+}
+.book-list .book-bookstore .label { color: var(--marginalia) !important; }
+.book-list .book-bookstore .arrow { color: var(--accent) !important; }
+
+/* Modal trigger becomes a mono link */
+.book-list .blurb-toggle {
+  margin-top: 18px !important;
+  padding: 8px 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--accent) !important;
+  background: transparent !important;
+  color: var(--accent) !important;
+  font-family: var(--mono) !important;
+  font-size: var(--t-75) !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
+}
+.book-list .blurb-toggle .toggle-arrow { margin-left: 10px; }
+
+/* Cover — sharp corners, no roundy card feel */
+.book-list .book-cover-wrap {
+  border-radius: 0 !important;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06), 0 12px 32px -12px rgba(0,0,0,0.25) !important;
+}
+
+/* ═════════════════════════════════════════════════════════
+   6. LIST FILTER — quiet mono line, not a chip row
+   ═════════════════════════════════════════════════════════ */
+.list-filter,
+.sticky-filter {
+  background: var(--paper) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent) !important;
+  padding: 12px 32px !important;
+  max-width: 1000px !important;
+  margin: 0 auto !important;
+}
+.list-filter-btn,
+.btn--filter {
+  font-family: var(--mono) !important;
+  font-size: var(--t-69) !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--marginalia) !important;
+  padding: 6px 12px !important;
+  border-radius: 0 !important;
+}
+.list-filter-btn[aria-pressed="true"],
+.btn--filter[aria-pressed="true"] {
+  color: var(--accent) !important;
+  border-bottom: 1px solid var(--accent) !important;
+}
+
+/* ═════════════════════════════════════════════════════════
+   7. TWO-COLUMN BODY — utility for long-form prose
+   Add `class="two-col"` to a prose container to render two
+   text columns with a hairline gap. Reads like a magazine
+   spread.
+   ═════════════════════════════════════════════════════════ */
+.two-col {
+  column-count: 2;
+  column-gap: 44px;
+  column-rule: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+}
+.two-col > * {
+  break-inside: avoid-column;
+}
+.two-col p {
+  margin: 0 0 1em;
+}
+@media (max-width: 900px) {
+  .two-col { column-count: 1; column-rule: 0; }
+}
+
+/* ═════════════════════════════════════════════════════════
+   8. CITY / REGION BLOCKS — pared down to New Yorker
+   "Tables for Two" reviewer register
+   ═════════════════════════════════════════════════════════ */
+.region-block {
+  max-width: 1000px !important;
+  margin: 0 auto !important;
+  padding: 56px 32px !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+}
+.region-block:last-of-type { border-bottom: 0; }
+.region-block .region-stage { padding-left: 0 !important; max-width: none !important; }
+.region-block .region-eyebrow {
+  font-family: var(--mono) !important;
+  font-size: var(--t-75) !important;
+  letter-spacing: 0.28em !important;
+  text-transform: uppercase !important;
+  color: var(--accent) !important;
+  margin-bottom: 12px !important;
+}
+.region-block .region-name {
+  font-family: var(--serif) !important;
+  font-style: italic !important;
+  font-weight: 500 !important;
+  font-variation-settings: "opsz" 60, "wght" 500 !important;
+  font-size: clamp(32px, 3.6vw, 60px) !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--ink) !important;
+  margin: 0 0 24px !important;
+}
+.region-block .count-pill {
+  font-family: var(--serif) !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  color: var(--marginalia) !important;
+  font-size: 0.5em !important;
+  background: transparent !important;
+  padding: 0 !important;
+  border: 0 !important;
+  margin-left: 12px;
+  letter-spacing: 0;
+}
+.region-block .shop-entry {
+  padding: 22px 0 !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.region-block .shop-entry:last-child { border-bottom: 0; }
+.region-block .shop-name {
+  font-family: var(--serif) !important;
+  font-style: italic !important;
+  font-weight: 500 !important;
+  font-variation-settings: "opsz" 40, "wght" 500 !important;
+  font-size: clamp(20px, 1.8vw, 28px) !important;
+  color: var(--ink) !important;
+  letter-spacing: -0.015em !important;
+}
+.region-block .shop-locale {
+  font-family: var(--mono) !important;
+  font-size: var(--t-69) !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
+  color: var(--marginalia) !important;
+  margin-left: 12px;
+}
+.region-block .shop-blurb {
+  font-family: var(--serif) !important;
+  font-size: var(--t-112) !important;
+  line-height: 1.55 !important;
+  color: var(--ink) !important;
+  margin-top: 8px !important;
+  max-width: 62ch !important;
+}
+.region-block .shop-blurb em { font-style: italic !important; color: var(--accent) !important; }
+.region-block .region-source {
+  font-family: var(--mono) !important;
+  font-size: var(--t-69) !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
+  color: var(--marginalia) !important;
+}
+
+/* ═════════════════════════════════════════════════════════
+   9. ABOUT / MOVEMENT — long-form pages render as spreads
+   ═════════════════════════════════════════════════════════ */
+.movement {
+  max-width: 900px !important;
+  margin: 0 auto !important;
+  padding: 48px 32px !important;
+}
+.movement-eyebrow {
+  font-family: var(--mono) !important;
+  font-size: var(--t-75) !important;
+  letter-spacing: 0.28em !important;
+  text-transform: uppercase !important;
+  color: var(--accent) !important;
+  margin-bottom: 24px !important;
+  padding-bottom: 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+}
+.movement-body {
+  font-family: var(--serif) !important;
+  font-size: clamp(17px, 1.35vw, 20px) !important;
+  line-height: 1.6 !important;
+  color: var(--ink) !important;
+  max-width: 62ch !important;
+  font-variation-settings: "opsz" 20 !important;
+}
+.movement-body p { margin-bottom: 1.1em !important; }
+.movement-body em { font-style: italic !important; color: var(--ink) !important; }
+
+/* ═════════════════════════════════════════════════════════
+   10. PORTRAIT / IMAGE — treat like a magazine plate
+   ═════════════════════════════════════════════════════════ */
+.portrait-section {
+  max-width: 900px !important;
+  margin: 0 auto !important;
+  padding: 32px !important;
+}
+.portrait,
+.portrait-mat {
+  background: transparent !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+.portrait-img {
+  border-radius: 0 !important;
+  filter: grayscale(0.2) contrast(1.02);
+}
+.portrait-caption {
+  font-family: var(--mono) !important;
+  font-size: var(--t-69) !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
+  color: var(--marginalia) !important;
+  margin-top: 12px !important;
+}
+.portrait-caption .accent { color: var(--accent) !important; }
+
+/* ═════════════════════════════════════════════════════════
+   11. HOMEPAGE-SPECIFIC INLINE STYLE OVERRIDES
+   Homepage has a giant inline <style> block that duplicates
+   chrome. Force the same New Yorker treatment. Uses body-
+   scoped selectors so the overrides bind tight.
+   ═════════════════════════════════════════════════════════ */
+body .tbr-page,
+body .book-page {
+  max-width: 1000px !important;
+  margin: 0 auto !important;
+  padding: 56px 32px !important;
+}
+body .tbr-page h2,
+body .book-page h2 {
+  font-family: var(--serif) !important;
+  font-style: italic !important;
+  font-weight: 500 !important;
+  font-variation-settings: "opsz" 72, "wght" 500 !important;
+  font-size: clamp(36px, 5vw, 72px) !important;
+  line-height: 1.06 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--ink) !important;
+}
+body .tbr-page h2 .accent,
+body .book-page h2 .accent,
+body .tbr-page h2 em,
+body .book-page h2 em {
+  color: var(--accent) !important;
+  font-family: var(--serif) !important;
+  font-style: italic !important;
+  font-weight: 500 !important;
+}
+body .tbr-deck {
+  font-family: var(--serif) !important;
+  font-size: clamp(17px, 1.3vw, 20px) !important;
+  line-height: 1.5 !important;
+  color: var(--ink-soft) !important;
+  max-width: 62ch !important;
+  margin-top: 20px !important;
+}
+
+/* ═════════════════════════════════════════════════════════
+   12. SELECTION + LINKS
+   ═════════════════════════════════════════════════════════ */
+::selection {
+  background: var(--accent) !important;
+  color: var(--paper) !important;
+}
+a { color: inherit; }
+main a:not(.wordmark):not(.btn):not(.nav-toggle):not([class^="nav-"]):hover {
+  color: var(--accent);
+}
+
+/* ═════════════════════════════════════════════════════════
+   13. BUTTONS — quieter, print-inspired
+   ═════════════════════════════════════════════════════════ */
+.btn {
+  border-radius: 0 !important;
+  font-family: var(--mono) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.20em !important;
+  text-transform: uppercase !important;
+  font-size: var(--t-75) !important;
+  padding: 12px 22px !important;
+}
+.btn--primary {
+  background: var(--ink) !important;
+  color: var(--paper) !important;
+  border: 1px solid var(--ink) !important;
+}
+.btn--primary:hover {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+}
+
+/* ═════════════════════════════════════════════════════════
+   14. BACK-TO-TOP — a small mono label, not a floating chip
+   ═════════════════════════════════════════════════════════ */
+.back-to-top {
+  border-radius: 0 !important;
+  background: var(--paper) !important;
+  border: 1px solid var(--ink) !important;
+  color: var(--ink) !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 10px 18px !important;
+  font-family: var(--mono) !important;
+  font-size: var(--t-69) !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
+}
+
+/* ═════════════════════════════════════════════════════════
+   15. HAIRLINE MASTHEAD RULE — a double rule under the
+   header, magazine masthead style
+   ═════════════════════════════════════════════════════════ */
+header#header::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: var(--ink);
+  opacity: 0.9;
+}

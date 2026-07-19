@@ -1,0 +1,6 @@
+/* Retired. The radical layer (Chicago L-train ribbon, vertical
+   spine, folio watermarks, cursor-proximity trick) was pulled
+   in favor of a quieter New Yorker register. Editorial
+   primitives live in editorial.css.
+   File is kept as a no-op so the <link> tags on every page
+   don't 404 until they're removed. */

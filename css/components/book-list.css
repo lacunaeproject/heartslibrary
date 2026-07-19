@@ -293,6 +293,22 @@
 .book-blurb .blurb-body p {
   margin: 0;
 }
+/* New Yorker-style drop cap on the review lede — italic
+   Newsreader, accent-red, floats left. Sized modest so it
+   doesn't crowd the compact blurb column. Applied via
+   ::first-letter so no HTML change is required per review. */
+.book-blurb .blurb-body p:first-of-type::first-letter {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-variation-settings: "opsz" 72, "wght" 500;
+  color: var(--accent);
+  float: left;
+  font-size: 3.2em;
+  line-height: 0.9;
+  padding: 0.05em 0.14em 0 0;
+  margin-top: 0.02em;
+}
 /* Inline teaser — show the lede paragraph only; the rest is
    reserved for the modal. Hiding (not removing) keeps the
    review crawlable + lets the modal read it back out. */

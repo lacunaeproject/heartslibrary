@@ -7,18 +7,26 @@
    ════════════════════════════════════════════════════════ */
 
 :root {
-  --paper:           #FFFFFF;
-  --paper-sunk:      #F4F4F2;
-  --ink:             #1A1D24;
-  --ink-soft:        #3E434E;
-  --marginalia:      #6B6E76;
-  --rule:            #E5E5E2;
-  --rule-strong:     #B8B8B4;
+  /* New Yorker register — very quiet warm off-white,
+     near-black ink, red used sparingly for section marks
+     and drop caps only. No oxblood, no ambient warmth
+     beyond what a printed magazine actually has. */
+  --paper:           #FBF9F4;
+  --paper-sunk:      #F1EDE3;
+  --paper-warm:      #FDFBF6;
+  --ink:             #131313;
+  --ink-soft:        #3A3A3A;
+  --marginalia:      #6E6E6E;
+  --rule:            #E4E1D8;
+  --rule-strong:     #B4B0A6;
+  /* The New Yorker's section-mark red — brighter than oxblood,
+     narrower in the palette. Used for section labels, drop
+     caps, hover underlines, and (very sparingly) accent words. */
   --accent:          #C8102E;
-  --accent-quiet:    #8C1F2C;
-  --accent-ink:      #FFFFFF;
-  --mark:            #40B4E4;
-  --mark-ink:        #1A1D24;
+  --accent-quiet:    #921423;
+  --accent-ink:      #FBF9F4;
+  --mark:            #FCE38A;
+  --mark-ink:        #131313;
 
   --book-shadow:
     0 1px 0 rgba(0, 0, 0, 0.05),

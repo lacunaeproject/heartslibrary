@@ -226,7 +226,7 @@ nav.primary > a.active::after {
   font-family: var(--serif);
   font-style: normal;
   font-weight: 500;
-  font-size: 15px;
+  font-size: var(--t-94);
   letter-spacing: -0.005em;
   color: var(--ink);
   text-decoration: none;
@@ -800,7 +800,9 @@ nav.primary > a.active::after {
 .word { display: inline-block; }
 .word-inner { display: inline-block; will-change: transform; }
 @media (prefers-reduced-motion: reduce) {
-  .word, .word-inner { display: inline; transform: none !important; }
+  /* Keep inline-block so line-broken headline layout is preserved;
+     just make sure any transforms applied by JS are reset. */
+  .word, .word-inner { transform: none !important; }
 }
 
 .draw-line {

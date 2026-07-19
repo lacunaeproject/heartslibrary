@@ -283,6 +283,67 @@
   }
   setupMobileNav();
 
+  // ─── Colophon enrichment ─────────────────────────────────
+  // Every page's <div class="end-footer"> gets two rows added
+  // beneath it at runtime:
+  //  1. .sitemap-row — links to every top-level destination so a
+  //     reader can jump anywhere from anywhere (fixes the
+  //     styleguide orphan; the header nav owns everything else).
+  //  2. .colophon-meta — "Set in Chicago" mark + typeface list,
+  //     the New Yorker colophon detail, cut with the Chicago
+  //     flag hexagram star.
+  // Injecting rather than editing 12 HTML files keeps the pattern
+  // consistent — one edit here changes every page.
+  const CSTAR_SVG =
+    '<svg class="cstar" viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
+    + '<path d="M12 1 L15.18 6.5 L21.5 6.5 L18.35 12 L21.5 17.5 L15.18 17.5 '
+    + 'L12 23 L8.82 17.5 L2.5 17.5 L5.65 12 L2.5 6.5 L8.82 6.5 Z"/></svg>';
+
+  function enrichColophon() {
+    const endFooter = document.querySelector('.end-footer');
+    if (!endFooter || endFooter.dataset.enriched === '1') return;
+
+    // Detect current page — normalize trailing slash and default
+    // to index.html for the root.
+    const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+
+    // The Bookstores destination is a hub — mark it "here" for
+    // both the index and every city page so a reader coming from
+    // Chicago still recognizes they're in the Bookstores section.
+    const isCityPage = /^bookstores-/.test(path);
+
+    const links = [
+      { href: 'index.html',      label: 'Home',       match: (p) => p === 'index.html' || p === '' },
+      { href: 'fiction.html',    label: 'Fiction',    match: (p) => p === 'fiction.html' },
+      { href: 'nonfiction.html', label: 'Nonfiction', match: (p) => p === 'nonfiction.html' },
+      { href: 'bookstores.html', label: 'Bookstores', match: (p) => p === 'bookstores.html' || /^bookstores-/.test(p) },
+      { href: 'dashboards.html', label: 'Dashboards', match: (p) => p === 'dashboards.html' },
+      { href: 'about.html',      label: 'About',      match: (p) => p === 'about.html' },
+      { href: 'styleguide.html', label: 'Style Guide', match: (p) => p === 'styleguide.html' }
+    ];
+
+    const sitemap = document.createElement('div');
+    sitemap.className = 'sitemap-row';
+    const parts = ['<span class="sitemap-label">All sections</span>'];
+    links.forEach((l, i) => {
+      const here = l.match(path) ? ' class="here"' : '';
+      parts.push(`<a href="${l.href}"${here}>${l.label}</a>`);
+      if (i < links.length - 1) parts.push('<span class="sitemap-sep" aria-hidden="true">·</span>');
+    });
+    sitemap.innerHTML = parts.join('');
+
+    const colophon = document.createElement('div');
+    colophon.className = 'colophon-meta';
+    colophon.innerHTML =
+      `<span class="set-in"><span class="set-in-text">Heart's Library · A library of one · Est. 2024</span></span>`
+      + `<span class="typefaces">Set in Newsreader, Bricolage Grotesque, and JetBrains Mono</span>`;
+
+    endFooter.insertAdjacentElement('afterend', sitemap);
+    sitemap.insertAdjacentElement('afterend', colophon);
+    endFooter.dataset.enriched = '1';
+  }
+  enrichColophon();
+
   // ─── Sticky filter bar ───────────────────────────────────
   // Adds .is-stuck to the bar when its top hits the header.
   // Also computes a body class so the back-to-top can adjust
@@ -481,6 +542,11 @@
   const endLinks = document.querySelectorAll('.end-links a');
   const footerLeft = document.querySelector('.end-footer .left');
   const footerLinks = document.querySelectorAll('.end-footer .right a');
+  // Colophon extras injected by enrichColophon() above.
+  const sitemapRow = document.querySelector('.sitemap-row');
+  const sitemapLinks = document.querySelectorAll('.sitemap-row a');
+  const colophonMeta = document.querySelector('.colophon-meta');
+  const chiStar = document.querySelector('.colophon-meta .cstar');
 
   if (endStage && !prefersReducedMotion) {
     if (ornament) gsap.set(ornament, { rotate: -18, scale: 0.6, opacity: 0 });
@@ -489,6 +555,10 @@
     if (endLinks.length) gsap.set(endLinks, { y: 12, opacity: 0 });
     if (footerLeft) gsap.set(footerLeft, { y: 10, opacity: 0 });
     if (footerLinks.length) gsap.set(footerLinks, { y: 10, opacity: 0 });
+    if (sitemapRow) gsap.set(sitemapRow, { y: 10, opacity: 0 });
+    if (sitemapLinks.length) gsap.set(sitemapLinks, { y: 8, opacity: 0 });
+    if (colophonMeta) gsap.set(colophonMeta, { y: 10, opacity: 0 });
+    if (chiStar) gsap.set(chiStar, { rotate: -60, opacity: 0, transformOrigin: 'center center' });
 
     if (typeof ScrollTrigger !== 'undefined') {
       const endTl = gsap.timeline({
@@ -503,7 +573,14 @@
           y: 0, opacity: 1, duration: 0.5, stagger: 0.05, ease: 'power3.out'
         }, 1.5);
       }
+      if (sitemapRow) endTl.to(sitemapRow, { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out' }, 1.7);
+      if (sitemapLinks.length) endTl.to(sitemapLinks, { y: 0, opacity: 1, duration: 0.45, stagger: 0.04, ease: 'power3.out' }, 1.75);
+      if (chiStar) endTl.to(chiStar, { rotate: 0, opacity: 1, duration: 0.9, ease: 'back.out(1.6)' }, 1.9);
+      if (colophonMeta) endTl.to(colophonMeta, { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out' }, 1.85);
     }
+  } else if (endStage && prefersReducedMotion) {
+    // No transforms needed — CSS defaults are the final state.
+    // enrichColophon has already added the markup; nothing to hide.
   }
 
   // ─── Note block fade ─────────────────────────────────────
