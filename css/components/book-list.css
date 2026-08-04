@@ -1,0 +1,541 @@
+/* ════════════════════════════════════════════════════════
+   COMPONENT — BOOK LIST
+   Editorial list of books, used by fiction.html and
+   nonfiction.html. Each row is a cover + serif title +
+   italic author + Newsreader blurb + footer with bookstore
+   link and genre label.
+   No cards. Type does the work.
+   Filter row markup uses .list-filter (defined in site.css).
+   ════════════════════════════════════════════════════════ */
+
+.book-list {
+  max-width: var(--max-container);
+  margin: 0 auto;
+  padding: var(--pad-section-md) var(--gutter) var(--pad-section-md);
+}
+.book-list-stage {
+  padding-left: var(--gutter-content);
+  padding-right: var(--gutter);
+}
+.book-list-eyebrow {
+  font-family: var(--mono);
+  font-size: var(--t-75);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: clamp(20px, 3vh, 32px);
+}
+.book-list-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.7;
+}
+
+.book-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Book row ──────────────────────────────────────────── */
+.book-row {
+  display: grid;
+  grid-template-columns: clamp(140px, 16vw, 200px) 1fr;
+  gap: clamp(32px, 4.5vw, 72px);
+  padding: var(--pad-row-md) 0;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  position: relative;
+  align-items: start;
+
+  /* Filter transition (collapse/restore) */
+  overflow: hidden;
+  will-change: opacity, height;
+  transition:
+    opacity var(--dur-mid) var(--ease-out),
+    transform var(--dur-mid) var(--ease-out);
+}
+.book-row:last-child {
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+}
+.book-row.is-filtered-out {
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+
+/* ─── Cover column (left) ───────────────────────────────── */
+.book-cover-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-self: start;
+  /* Push the cover down so its hard top edge lines up with the
+     title's cap height instead of the title's line-box top.
+     Scaled with the title font-size — the leading-above-cap
+     grows with type. */
+  padding-top: clamp(8px, 0.6vw, 14px);
+}
+/* (.book-num retired — the "№ 01" / "№ 02" numbered eyebrows on
+   each row were noise; the row order itself communicates the
+   sequence.) The .book-num element is hidden if any pages still
+   have the markup, so the migration to the new layout doesn't
+   require touching every li at once. */
+.book-num { display: none; }
+.book-cover-wrap {
+  width: 100%;
+  aspect-ratio: 0.66 / 1;
+  position: relative;
+  border-radius: 4px 1px 1px 4px;
+  overflow: hidden;
+  background: var(--paper-sunk);
+  box-shadow: var(--book-shadow);
+  transition:
+    transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.book-cover-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 1;
+}
+/* Page-block right-edge shadow + top highlight (matches v44 cover treatment) */
+.book-cover-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 6px;
+  background: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(0, 0, 0, 0.12) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+.book-cover-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    155deg,
+    rgba(255, 235, 200, 0.06) 0%,
+    transparent 30%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ─── Content column (right) ────────────────────────────── */
+.book-content-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Title — Unbounded poster face, matching the homepage book-page
+   titles so a reader moving from index → fiction → nonfiction
+   sees the same typographic register on every book name. The
+   homepage uses 'Unbounded' 700 for book titles; we mirror that. */
+.book-title {
+  font-family: 'Unbounded', 'Bricolage Grotesque', 'Helvetica Neue', sans-serif;
+  font-weight: 700;
+  font-variation-settings: "wght" 700;
+  font-size: clamp(var(--t-175), 2.4vw, var(--t-225));
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  margin: 0 0 12px;
+  transition: color var(--dur-mid) var(--ease-out);
+}
+/* Italic accents inside book titles drop to Newsreader 500 italic
+   — matches the homepage's accent treatment exactly. */
+.book-title em {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-variation-settings: "opsz" 40, "wght" 500;
+  letter-spacing: -0.018em;
+  color: var(--accent);
+}
+
+/* Byline — "By [Author]" — the homepage's book-page uses a small
+   mono label + serif author name. We carry that exact register
+   here so the byline reads identically on the list pages. */
+.book-author {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-variation-settings: "opsz" 22, "wght" 500;
+  font-size: clamp(var(--t-125), 1.6vw, var(--t-150));
+  line-height: var(--lh-meta);
+  color: var(--ink-soft);
+  margin-bottom: clamp(20px, 2.5vh, 28px);
+}
+/* "BY" / "EDITED BY" label hidden in the row byline — the
+   inline portrait + the author name carry the meaning. The
+   modal byline keeps the label since its selector path is
+   .book-modal-by .by (different scope). */
+.book-author .by {
+  display: none;
+}
+
+/* Author portrait inline in the byline — NYT-byline scale,
+   ~40px round, sits between "BY" and the author name. JS
+   injects this on page load by reading the row's author link
+   text. Missing photo files degrade to an accent-colored
+   initials disc. */
+.book-author-photo {
+  display: inline-block;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  margin: 0 2px 0 0;
+  background: color-mix(in srgb, var(--accent) 18%, var(--paper));
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  flex: 0 0 auto;
+}
+.book-author-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 2;
+}
+.book-author-photo .initials {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Unbounded', 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  color: var(--accent);
+  z-index: 1;
+}
+.book-author a {
+  color: var(--ink);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  padding-bottom: 1px;
+  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+}
+.book-author a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* Inline wrapper around the author link + year. Keeps them
+   as one logical unit so the parent flex-gap doesn't push the
+   interpunct off into empty space. Inline content inside; not
+   itself a flex container. */
+.book-author .book-author-line {
+  display: inline;
+}
+/* Year tail — italic Newsreader, marginalia color, with an
+   interpunct separator that sits flush between the name and
+   the year. */
+.book-author .year {
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: "opsz" 22, "wght" 400;
+  color: var(--marginalia);
+  white-space: nowrap;
+}
+.book-author .year::before {
+  content: "·";
+  font-style: normal;
+  margin: 0 0.5em;
+  opacity: 0.6;
+}
+/* The "(year)" tag — same treatment the homepage uses. */
+.book-author .year {
+  color: var(--marginalia);
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* Book blurb — wrapper for the inline teaser + the "Read full
+   review" trigger that opens the modal. Only the first paragraph
+   inside .blurb-body is shown in the row; the rest stays in the
+   DOM so the modal can pull from it on open. */
+.book-blurb {
+  font-family: var(--serif);
+  font-size: clamp(var(--t-125), 1.3vw, var(--t-137));
+  line-height: var(--lh-body);
+  color: var(--ink-soft);
+  font-variation-settings: "opsz" 18;
+  max-width: 64ch;
+  margin: 0 0 clamp(24px, 3vh, 36px);
+}
+.book-blurb em {
+  font-style: italic;
+  color: var(--ink);
+}
+.book-blurb .blurb-body p {
+  margin: 0;
+}
+/* Inline teaser — show the lede paragraph only; the rest is
+   reserved for the modal. Hiding (not removing) keeps the
+   review crawlable + lets the modal read it back out. */
+.book-blurb .blurb-body p + p {
+  display: none;
+}
+
+/* Modal trigger — uses the same framed-CTA pattern as the
+   bookstore link so it sits cleanly in the .book-footer slot
+   the bookstore used to occupy. Bordered box on the left
+   (label) + bordered arrow cell on the right (↗), divided by
+   a vertical accent rule. */
+.blurb-toggle {
+  display: inline-flex;
+  align-items: stretch;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: var(--radius-1);
+  cursor: pointer;
+  padding: 0;
+  letter-spacing: -0.003em;
+  font-family: var(--display);
+  transition:
+    background 0.2s ease,
+    color 0.18s ease,
+    border-color 0.2s ease;
+}
+.blurb-toggle:focus { outline: none; }
+.blurb-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.blurb-toggle .toggle-label {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--t-87);
+  font-variation-settings: "wdth" 100, "opsz" 14, "wght" 600;
+  letter-spacing: -0.003em;
+  line-height: 1.35;
+  padding: 11px 18px;
+  white-space: nowrap;
+}
+.blurb-toggle .toggle-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 22px;
+  border-left: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 18px;
+  letter-spacing: 0;
+  color: var(--accent);
+  opacity: 0.85;
+  transform: translate(0, 0);
+  transition: opacity 0.2s ease, transform 0.25s ease;
+}
+@media (hover: hover) {
+  .blurb-toggle:hover {
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    color: var(--accent);
+    border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  }
+  .blurb-toggle:hover .toggle-arrow {
+    opacity: 1;
+    transform: translate(2px, -2px);
+  }
+}
+
+/* ─── Footer row: bookstore link + genre label ──────────── */
+.book-footer {
+  padding-top: 18px;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* Bookstore CTA — ports the homepage's .purchase-row component to
+   the list pages. Bordered, framed link with the source name in
+   sans display, a small mono location label, and an oversized ↗
+   in its own cell separated by a vertical accent rule. Markup is
+   unchanged (label / name / arrow spans); flex `order` arranges
+   them into [name | label │ arrow]. */
+.book-bookstore {
+  display: inline-flex;
+  align-items: stretch;
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: var(--radius-1);
+  text-transform: none;
+  letter-spacing: -0.003em;
+  transition:
+    background 0.2s ease,
+    color 0.18s ease,
+    border-color 0.2s ease;
+}
+.book-bookstore .name {
+  order: 1;
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--t-87);
+  font-variation-settings: "wdth" 100, "opsz" 14, "wght" 600;
+  letter-spacing: -0.003em;
+  line-height: 1.35;
+  padding: 11px 0 11px 18px;
+  white-space: nowrap;
+}
+.book-bookstore .label {
+  order: 2;
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: var(--t-69);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  padding: 11px 18px 11px 14px;
+  white-space: nowrap;
+}
+.book-bookstore .arrow {
+  order: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 22px;
+  border-left: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 18px;
+  letter-spacing: 0;
+  color: var(--accent);
+  opacity: 0.85;
+  transform: translate(0, 0);
+  transition: opacity 0.2s ease, transform 0.25s ease;
+}
+@media (hover: hover) {
+  .book-bookstore:hover {
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    color: var(--accent);
+    border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  }
+  .book-bookstore:hover .label { color: var(--accent); }
+  .book-bookstore:hover .arrow {
+    opacity: 1;
+    transform: translate(2px, -2px);
+  }
+}
+
+.book-genre {
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+.book-genre::before {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: var(--marginalia);
+  display: inline-block;
+  opacity: 0.5;
+}
+.book-genre[data-genre="literary"]      { color: var(--accent); }
+.book-genre[data-genre="literary"]::before { background: var(--accent); opacity: 0.7; }
+.book-genre[data-genre="speculative"]   { color: var(--mark); }
+.book-genre[data-genre="speculative"]::before { background: var(--mark); opacity: 0.7; }
+.book-genre[data-genre="contemporary"]  { color: var(--marginalia); }
+
+/* ─── Hover state ────────────────────────────────────── */
+@media (hover: hover) {
+  .book-row:hover .book-cover-wrap {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--book-shadow-large);
+  }
+  .book-row:hover .book-title { color: var(--accent); }
+}
+
+/* ─── List trailer (count summary below the rows) ───────── */
+.book-list-trailer {
+  padding-left: var(--gutter-content);
+  padding-right: var(--gutter);
+  margin-top: clamp(28px, 4vh, 48px);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: var(--mono);
+  font-size: var(--t-69);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--marginalia);
+}
+.book-list-trailer::before {
+  content: '';
+  flex: 0 0 28px;
+  height: 1px;
+  background: var(--rule-strong);
+}
+.book-list-trailer .live-count {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: var(--t-87);
+}
+
+/* ─── Responsive ───────────────────────────────────────── */
+@media (max-width: 980px) {
+  .book-list { padding: clamp(32px, 5vh, 56px) 28px clamp(40px, 6vh, 64px); }
+  .book-list-stage { padding-left: var(--gutter-content-mobile); padding-right: 0; }
+  .book-list-trailer { padding-left: var(--gutter-content-mobile); padding-right: 0; }
+}
+
+@media (max-width: 720px) {
+  .book-row {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .book-cover-col {
+    position: static;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .book-cover-wrap {
+    width: 50%;
+    max-width: 200px;
+  }
+  .book-num { padding-top: 4px; }
+ 

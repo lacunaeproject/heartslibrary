@@ -1,0 +1,524 @@
+/* ════════════════════════════════════════════════════════
+   COMPONENT — BOOK MODAL
+   Full-bleed reading modal that opens from a fiction/nonfiction
+   row's "Read full review" trigger. Mirrors the typographic
+   register of the homepage's .book-page sections — Unbounded
+   title, italic-serif byline, red divider, drop-capped review
+   prose, bordered purchase table, About-the-Author block.
+
+   Full-page (no margin, no border-radius, no scrim) — the
+   modal IS the page while open. Close button is a floating
+   action button fixed in the upper-left, outside the scrolling
+   panel so it stays reachable at any scroll depth.
+
+   Markup (singleton, lives at the end of the body):
+
+     <div class="book-modal" id="bookModal" aria-hidden="true"
+          role="dialog" aria-modal="true" aria-labelledby="bookModalTitle">
+       <button class="book-modal-close" type="button"
+               aria-label="Close" data-modal-close>×</button>
+       <div class="book-modal-panel" role="document" tabindex="-1">
+         <div class="book-modal-content">
+           <div class="book-modal-cover-col">
+             <div class="book-modal-cover-wrap">
+               <img class="book-modal-cover" src="" alt="">
+             </div>
+           </div>
+           <div class="book-modal-text">
+             <h2 id="bookModalTitle" class="book-modal-title"></h2>
+             <div class="book-modal-by"></div>
+             <div class="book-modal-divider"></div>
+             <div class="book-modal-review"></div>
+             <div class="book-modal-purchase"></div>
+             <div class="book-modal-author"></div>
+           </div>
+         </div>
+       </div>
+     </div>
+
+   Body scroll lock is via body.book-modal-open.
+   ════════════════════════════════════════════════════════ */
+
+/* Per-book palette — set as inline custom properties on .book-modal
+   when a row is opened. Mirrors the homepage's .book-page palette
+   variables exactly so the modal sits in the same printed-paper-
+   stock register the homepage uses. Defaults fall back to the
+   site's neutral paper / ink / accent for books without a palette. */
+.book-modal {
+  --book-bg: var(--paper);
+  --page-fg: var(--ink);
+  --page-accent: var(--accent);
+
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  background: var(--book-bg);
+  color: var(--page-fg);
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    background-color 0.5s var(--ease-out),
+    color 0.5s var(--ease-out),
+    visibility 0s linear var(--dur-base);
+}
+.book-modal.is-open {
+  visibility: visible;
+  opacity: 1;
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    visibility 0s linear 0s;
+}
+
+/* Floating close button — fixed upper-left corner of the
+   viewport, outside the scrolling panel so it stays reachable
+   at any depth. Round, prominent, picks up the book's accent
+   on the border so it reads as part of the book's surface. */
+.book-modal-close {
+  position: fixed;
+  top: clamp(16px, 2.5vh, 28px);
+  left: clamp(16px, 2.5vw, 28px);
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid color-mix(in srgb, var(--page-accent) 35%, transparent);
+  border-radius: 50%;
+  cursor: pointer;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1;
+  z-index: 2;
+  box-shadow: var(--shadow-1);
+  transition:
+    border-color var(--dur-base) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.book-modal-close:hover {
+  border-color: var(--page-accent);
+  color: var(--page-accent);
+  transform: scale(1.04);
+  box-shadow: var(--shadow-2);
+}
+.book-modal-close:active { transform: scale(0.98); }
+.book-modal-close:focus { outline: none; }
+.book-modal-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Scroll panel — fills the viewport; the cover sticks while
+   the right column scrolls past. */
+.book-modal-panel {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* Slide-up entrance — the panel rises slightly into place
+     when the modal opens. */
+  transform: translateY(12px);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.book-modal.is-open .book-modal-panel {
+  transform: translateY(0);
+}
+.book-modal-panel:focus { outline: none; }
+
+/* Content grid — same editorial spread as .book-page on the
+   homepage: cover left, title + byline + review + purchase +
+   author right. Generous padding mirrors the homepage's
+   editorial breathing room. */
+.book-modal-content {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  column-gap: clamp(48px, 6vw, 100px);
+  padding: clamp(96px, 12vh, 140px) clamp(40px, 6vw, 100px) clamp(72px, 10vh, 120px);
+  max-width: 1600px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+/* Cover column — sticks to the top inside the panel; the
+   right column scrolls past while the cover stays in place,
+   matching the homepage's anchored-cover behavior. The wrap
+   inside is centered horizontally so the cover sits as a
+   proportionate page-mate to the editorial column, not the
+   dominant figure on the spread (same sizing register the
+   homepage uses for .book-page-cover). */
+.book-modal-cover-col {
+  position: sticky;
+  top: clamp(96px, 12vh, 140px);
+  align-self: start;
+  display: flex;
+  justify-content: center;
+}
+.book-modal-cover-wrap {
+  position: relative;
+  width: clamp(240px, 23vw, 380px);
+  aspect-ratio: 0.66 / 1;
+  border-radius: 7px 1px 1px 7px;
+  overflow: hidden;
+  background: var(--paper-sunk);
+  box-shadow: var(--book-shadow-large);
+}
+.book-modal-cover-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 1;
+}
+.book-modal-cover-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 6px;
+  background: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(0, 0, 0, 0.12) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+.book-modal-cover-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    155deg,
+    rgba(255, 235, 200, 0.06) 0%,
+    transparent 30%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Text column — same editorial measure (60ch max) as the
+   homepage. */
+.book-modal-text {
+  max-width: 60ch;
+  align-self: start;
+}
+
+/* Title — Unbounded 700 at the same scale as the homepage's
+   .book-page-text h2. */
+.book-modal-title {
+  font-family: 'Unbounded', 'Bricolage Grotesque', 'Helvetica Neue', sans-serif;
+  font-weight: 700;
+  font-size: clamp(32px, 2.6vw, 48px);
+  line-height: 1.06;
+  letter-spacing: -0.04em;
+  margin: 0 0 14px;
+  color: var(--page-fg);
+  font-variation-settings: "wght" 700;
+  transition: color 0.5s var(--ease-out);
+}
+.book-modal-title em {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.018em;
+  font-variation-settings: "opsz" 40, "wght" 500;
+  color: var(--page-accent);
+}
+
+/* Byline — Newsreader 500 at the same scale as the homepage's
+   .book-page-text .by, with the mono "BY" label. */
+.book-modal-by {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.4;
+  margin: 0 0 22px;
+  color: var(--page-fg);
+  font-variation-settings: "opsz" 22, "wght" 500;
+  opacity: 0.95;
+  transition: color 0.5s var(--ease-out);
+}
+.book-modal-by .label,
+.book-modal-by .by {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--page-fg);
+  opacity: 0.6;
+  font-weight: 500;
+  margin-right: 10px;
+}
+.book-modal-by a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--page-fg) 25%, transparent);
+  padding-bottom: 1px;
+  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+}
+/* Suppress the row's tiny author photo when the byline is
+   cloned into the modal — the big portrait above the bio is
+   the load-bearing one here. */
+.book-modal-by .book-author-photo { display: none; }
+.book-modal-by a:hover {
+  color: var(--page-accent);
+  border-bottom-color: var(--page-accent);
+}
+
+.book-modal-divider {
+  width: 48px;
+  height: 1px;
+  background: var(--page-fg);
+  opacity: 0.32;
+  margin-bottom: 22px;
+}
+
+/* Review prose — Newsreader 400 / clamp 18–20px / 1.62 line-
+   height. First paragraph gets the italic serif drop cap in
+   accent. Same scale as the row blurb on fiction/nonfiction
+   and the homepage review-body. */
+.book-modal-review {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.25rem, 1.3vw, 1.375rem);
+  line-height: 1.62;
+  color: var(--page-fg);
+  font-variation-settings: "opsz" 18, "wght" 400;
+  transition: color 0.5s var(--ease-out);
+}
+.book-modal-review p {
+  margin: 0;
+}
+.book-modal-review p + p {
+  margin-top: 0.85em;
+  text-indent: 1.5em;
+}
+.book-modal-review p:first-child::first-letter {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 3.4em;
+  line-height: 0.85;
+  color: var(--page-accent);
+  float: left;
+  padding: 0.05em 0.12em 0 0;
+  margin-top: 0.05em;
+}
+.book-modal-review em {
+  font-style: italic;
+  color: var(--page-fg);
+}
+
+/* Purchase table — bordered table of stacked rows, each linking
+   to a source for the book (Kobo, indie bookstore, Libby).
+   Mirrors the homepage's .purchase-table component exactly. */
+.book-modal-purchase {
+  margin-top: var(--s-8);
+  border: 1px solid var(--page-accent);
+}
+.book-modal-purchase .purchase-row {
+  display: flex;
+  align-items: stretch;
+  text-decoration: none;
+  color: var(--page-fg);
+  border-bottom: 1px solid var(--page-accent);
+  transition: background 0.2s ease, color 0.18s ease;
+}
+.book-modal-purchase .purchase-row:last-child { border-bottom: none; }
+.book-modal-purchase .purchase-row:hover {
+  background: color-mix(in srgb, var(--page-accent) 10%, transparent);
+  color: var(--page-accent);
+}
+.book-modal-purchase .source {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+  padding: 14px 22px;
+}
+.book-modal-purchase .source .name {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.35;
+  letter-spacing: -0.003em;
+  font-variation-settings: "wdth" 100, "opsz" 14, "wght" 600;
+  white-space: nowrap;
+}
+.book-modal-purchase .source .meta {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--page-fg);
+  opacity: 0.8;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.book-modal-purchase .arrow-out {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 22px;
+  font-family: var(--mono);
+  font-size: 18px;
+  color: var(--page-accent);
+  opacity: 0.8;
+  flex-shrink: 0;
+  border-left: 1px solid var(--page-accent);
+  transition: opacity 0.2s ease, transform 0.25s ease;
+}
+.book-modal-purchase .purchase-row:hover .arrow-out {
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+
+/* About-the-Author block — sits beneath the purchase table.
+   Hairline rule on top, mono kicker, accent-colored author
+   name in Unbounded, serif body for the bio. Mirrors the
+   homepage's .book-page-author. */
+.book-modal-author {
+  margin-top: var(--s-8);
+  padding-top: var(--s-5);
+  border-top: 1px solid color-mix(in srgb, var(--page-fg) 12%, transparent);
+}
+.book-modal-author .kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--page-fg);
+  opacity: 0.55;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.book-modal-author .kicker::before {
+  content: "";
+  display: block;
+  width: 18px;
+  height: 1px;
+  background: var(--page-accent);
+  opacity: 0.7;
+}
+/* Author portrait — round, sits between the kicker and the
+   author name. .initials renders behind .img; if the file is
+   missing the img is removed by onerror and the initials become
+   visible (tinted, accent-colored, in Unbounded). */
+.book-modal-author .author-photo {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 18px;
+  background: color-mix(in srgb, var(--page-accent) 22%, var(--book-bg));
+  border: 1px solid color-mix(in srgb, var(--page-accent) 32%, transparent);
+  transition: background 0.5s var(--ease-out), border-color 0.5s var(--ease-out);
+}
+.book-modal-author .author-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 2;
+}
+.book-modal-author .author-photo .initials {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Unbounded', 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.01em;
+  color: var(--page-accent);
+  z-index: 1;
+}
+.book-modal-author .author-name {
+  font-family: 'Unbounded', 'Bricolage Grotesque', 'Helvetica Neue', sans-serif;
+  font-weight: 700;
+  font-size: clamp(22px, 1.8vw, 28px);
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+  color: var(--page-accent);
+  margin: 0 0 14px;
+  font-variation-settings: "wght" 700;
+}
+.book-modal-author .author-name a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--page-accent) 35%, transparent);
+  padding-bottom: 1px;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.book-modal-author .author-name a:hover {
+  border-bottom-color: var(--page-accent);
+}
+.book-modal-author .author-bio {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.25rem, 1.3vw, 1.375rem);
+  line-height: 1.62;
+  color: var(--page-fg);
+  font-variation-settings: "opsz" 18, "wght" 400;
+  margin: 0;
+}
+.book-modal-author .author-bio em { font-style: italic; }
+
+/* Body scroll lock when modal is open. */
+body.book-modal-open {
+  overflow: hidden;
+}
+
+/* Reduced motion — kill the slide-up entrance. */
+@media (prefers-reduced-motion: reduce) {
+  .book-modal,
+  .book-modal-panel,
+  .book-modal-close { transition: none; }
+}
+
+/* Mobile — stack cover above text, drop sticky behavior, pull
+   padding in. */
+@media (max-width: 760px) {
+  .book-modal-content {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: 28px;
+    padding: clamp(80px, 14vh, 112px) 22px clamp(48px, 9vh, 80px);
+  }
+  .book-modal-cover-col {
+    position: static;
+    align-self: center;
+    width: 100%;
+  }
+  .book-modal-cover-wrap {
+    width: clamp(220px, 62vw, 320px);
+  }
+  .book-modal-close {
+    width: 44px;
+    height: 44px;
+    font-size: 24px;
+    top: 12px;
+    left: 12px;
+  }
+  .book-modal-purchase .source { padding: 12px 16px; }
+  .book-modal-purchase .arrow-out { padding: 0 16px; }
+}
