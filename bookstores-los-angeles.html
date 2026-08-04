@@ -1,554 +1,297 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8ELFFQERJ7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-8ELFFQERJ7');
-</script>
-<title>Los Angeles Bookstores — Heart's Library</title>
-<meta name="description" content="Nineteen independent bookstores in Los Angeles — from The Last Bookstore and Skylight to Vroman's and Octavia's. The shops that raised me.">
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
-<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
-
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap">
-
-<!-- GSAP -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomEase.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-
-<!-- (theme toggle retired — site is light-only) -->
-
-<!-- Design system + shared components — single source of truth.
-     Order: tokens → component primitives → site-wide → motion →
-     page-specific component CSS. -->
-<link rel="stylesheet" href="css/tokens.css">
-<link rel="stylesheet" href="css/components/buttons.css">
-<link rel="stylesheet" href="css/components/eyebrow.css">
-<link rel="stylesheet" href="css/components/header.css">
-<link rel="stylesheet" href="css/components/sticky-filter.css">
-<link rel="stylesheet" href="css/components/back-to-top.css">
-<link rel="stylesheet" href="css/site.css">
-<link rel="stylesheet" href="css/motion.css">
-<link rel="stylesheet" href="css/components/city-page.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bookstores — Los Angeles — Heart&#x27;s Library</title>
+<meta name="description" content="Independent bookstores in Los Angeles, from Heart&#x27;s Library.">
+<link rel="stylesheet" href="css/review.css">
+<script>window.coverFallback=window.coverFallback||function(i){(window.__fellCovers=window.__fellCovers||[]).push(i)}</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script defer src="js/review.js"></script>
 </head>
-
 <body>
 
-<div class="atmosphere" id="atmosphere"></div>
-
-<header id="header">
-  <div class="header-inner">
-    <a href="index.html" class="wordmark">
-      <svg class="logo logo-heart" viewBox="0 0 24 22" aria-hidden="true" focusable="false">
-        <path d="M12 20.4 C 5.5 16.5, 1.5 12, 1.5 7.6 C 1.5 4.5, 4 2, 7 2 C 9 2, 10.8 3.1, 12 4.9 C 13.2 3.1, 15 2, 17 2 C 20 2, 22.5 4.5, 22.5 7.6 C 22.5 12, 18.5 16.5, 12 20.4 Z" />
-      </svg>
-      <span class="logo-text">Heart's Library</span>
-    </a>
-    <nav class="primary">
-      <div class="nav-item has-dropdown">
-        <button class="nav-trigger" type="button" aria-haspopup="menu" aria-expanded="false">Lists</button>
-        <div class="nav-dropdown" role="menu">
-          <a href="fiction.html" role="menuitem">Fiction</a>
-          <a href="nonfiction.html" role="menuitem">Non-Fiction</a>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Main navigation">
+  <div class="nav__inner">
+    <a class="nav__wordmark" href="index.html"><svg width="13" height="12" viewBox="2.462 4.062 19.133 17.838" aria-hidden="true"><path fill="#E5484D" d="M12.1 7.6C13.7 5 15.8 3.7 18 4.15 20.9 4.6 22.1 7.1 21.4 9.9 20.8 12.5 18 15.4 11.7 21.9 5.6 15.4 3.1 12.4 2.6 9.7 2 6.9 3.4 4.6 6 4.2 8.1 3.85 10.5 5 12.1 7.6Z"/></svg><span>Heart’s Library</span></a>
+    <button class="nav__scrolltitle" type="button" aria-label="Back to top">Los Angeles</button>
+    <div class="nav__links">
+      <a class="nav__link link-hover" href="index.html">The Shelf</a>
+      <div class="nav__drop">
+        <button class="nav__link link-hover press-scale is-current" aria-expanded="false" aria-haspopup="true" aria-controls="menu-bookstores">Bookstores<svg class="chev" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4L5 6.5L7.5 4"/></svg></button>
+        <div class="nav__menu" id="menu-bookstores" role="menu" aria-hidden="true">
+          <div class="nav__menu-pad">
+            <a class="menu-item" role="menuitem" href="bookstores-chicago.html"><div class="menu-item__tile"><svg class="icon-duo c-blue" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle class="duo-a" cx="12" cy="12" r="12"/><path class="duo-b" d="M12 2 20.4 16.5H3.6L12 2Zm0 20L3.6 7.5h16.8L12 22Z"/></svg></div><div><span class="menu-item__title">Chicago</span><span class="menu-item__desc">Where the library’s headed</span></div></a>
+            <a class="menu-item" role="menuitem" href="bookstores-nashville.html"><div class="menu-item__tile"><svg class="icon-duo c-orange" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle class="duo-a" cx="12" cy="12" r="12"/><path class="duo-b" d="M14.6 4.5h4.4V8h-2.6v8.6a3.6 3.6 0 1 1-1.8-3.12V4.5Z"/></svg></div><div><span class="menu-item__title">Nashville</span><span class="menu-item__desc">The Franklin years</span></div></a>
+            <a class="menu-item" role="menuitem" href="bookstores-new-york.html"><div class="menu-item__tile"><svg class="icon-duo c-purple" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect class="duo-a" x="1" y="9" width="6" height="15" rx="1"/><rect class="duo-a" x="17" y="5" width="6" height="19" rx="1"/><rect class="duo-b" x="9" y="0" width="6" height="24" rx="1"/></svg></div><div><span class="menu-item__title">New York</span><span class="menu-item__desc">Two years in Manhattan</span></div></a>
+            <a class="menu-item" role="menuitem" href="bookstores-bay-area.html"><div class="menu-item__tile"><svg class="icon-duo c-teal" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path class="duo-a" d="M0 16c4 2.2 8 3.3 12 3.3S20 18.2 24 16v8H0v-8Z"/><rect class="duo-b" x="4.5" y="2" width="2.4" height="17" rx="1.2"/><rect class="duo-b" x="17.1" y="2" width="2.4" height="17" rx="1.2"/><path class="duo-b" d="M0 5.5C4 10 8 12.2 12 12.2S20 10 24 5.5v3C20 13 16 15.2 12 15.2S4 13 0 8.5v-3Z"/></svg></div><div><span class="menu-item__title">Bay Area</span><span class="menu-item__desc">School, and after</span></div></a>
+            <a class="menu-item" role="menuitem" href="bookstores-los-angeles.html"><div class="menu-item__tile"><svg class="icon-duo c-pink" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle class="duo-a" cx="12" cy="12" r="12"/><circle class="duo-b" cx="12" cy="12" r="4.6"/><rect class="duo-b" x="11.1" y="1" width="1.8" height="4" rx=".9"/><rect class="duo-b" x="11.1" y="19" width="1.8" height="4" rx=".9"/><rect class="duo-b" x="1" y="11.1" width="4" height="1.8" rx=".9"/><rect class="duo-b" x="19" y="11.1" width="4" height="1.8" rx=".9"/><rect class="duo-b" x="11.1" y="1" width="1.8" height="4" rx=".9" transform="rotate(45 12 12)"/><rect class="duo-b" x="11.1" y="19" width="1.8" height="4" rx=".9" transform="rotate(45 12 12)"/><rect class="duo-b" x="1" y="11.1" width="4" height="1.8" rx=".9" transform="rotate(45 12 12)"/><rect class="duo-b" x="19" y="11.1" width="4" height="1.8" rx=".9" transform="rotate(45 12 12)"/></svg></div><div><span class="menu-item__title">Los Angeles</span><span class="menu-item__desc">Where it started</span></div></a>
+            <a class="menu-item menu-item--all" role="menuitem" href="bookstores.html"><span>All five cities, and the timeline</span><span aria-hidden="true">&#8594;</span></a>
+          </div>
         </div>
       </div>
-      <div class="nav-item has-dropdown">
-        <button class="nav-trigger active" type="button" aria-haspopup="menu" aria-expanded="false">Bookstores</button>
-        <div class="nav-dropdown" role="menu">
-          <a href="bookstores.html" class="all-link" role="menuitem">All bookstores</a>
-          <a href="bookstores-chicago.html" role="menuitem">Chicago</a>
-          <a href="bookstores-nashville.html" role="menuitem">Nashville</a>
-          <a href="bookstores-new-york.html" role="menuitem">New York</a>
-          <a href="bookstores-bay-area.html" role="menuitem">Bay Area</a>
-          <a href="bookstores-los-angeles.html" role="menuitem" class="active">Los Angeles</a>
+      <a class="nav__link link-hover" href="dashboards.html">Dashboards</a>
+      <a class="nav__link link-hover" href="about.html">About</a>
+      <div class="nav__drop">
+        <button class="nav__link link-hover press-scale" aria-expanded="false" aria-haspopup="true" aria-controls="menu-elsewhere">Elsewhere<svg class="chev" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4L5 6.5L7.5 4"/></svg></button>
+        <div class="nav__menu" id="menu-elsewhere" role="menu" aria-hidden="true">
+          <div class="nav__menu-pad">
+            <a class="menu-item" role="menuitem" target="_blank" rel="noopener noreferrer" href="https://substack.com/@codyheart"><div class="menu-item__tile"><svg class="icon-duo c-orange" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect class="duo-a" x="2" y="2" width="20" height="20" rx="3"/><rect class="duo-b" x="6" y="6.5" width="12" height="2.4" rx="1.2"/><rect class="duo-b" x="6" y="11" width="12" height="2.4" rx="1.2"/><path class="duo-b" d="M6 15.5h12v2a1 1 0 0 1-1.4.92L12 16.6l-4.6 1.82A1 1 0 0 1 6 17.5v-2Z"/></svg></div><div><span class="menu-item__title">Substack</span><span class="menu-item__desc">The newsletter</span></div></a>
+            <a class="menu-item" role="menuitem" target="_blank" rel="noopener noreferrer" href="https://www.goodreads.com/user/show/164877363-cody-heart"><div class="menu-item__tile"><svg class="icon-duo c-teal" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path class="duo-a" d="M12 4.8C9.2 3 5.9 2.7 2 3.6v15.6c3.9-.9 7.2-.6 10 1.2V4.8Z"/><path class="duo-b" d="M12 4.8C14.8 3 18.1 2.7 22 3.6v15.6c-3.9-.9-7.2-.6-10 1.2V4.8Z"/></svg></div><div><span class="menu-item__title">Goodreads</span><span class="menu-item__desc">The live shelf</span></div></a>
+            <a class="menu-item" role="menuitem" href="mailto:hello@heartslibrary.com"><div class="menu-item__tile"><svg class="icon-duo c-green" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path class="duo-b" d="M12 12.6 0 5.4V5a3 3 0 0 1 3-3h18a3 3 0 0 1 3 3v.4l-12 7.2Z"/><path class="duo-a" d="M0 8.2 12 15.4 24 8.2V19a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V8.2Z"/></svg></div><div><span class="menu-item__title">Email</span><span class="menu-item__desc">hello@heartslibrary.com</span></div></a>
+          </div>
         </div>
       </div>
-      <a href="dashboards.html">Dashboards</a>
-      <a href="about.html">About</a>
-    </nav>
-    <button class="nav-toggle" id="navToggle" type="button"
-            aria-label="Open navigation menu"
-            aria-controls="navDrawer"
-            aria-expanded="false">
-      <span class="toggle-icon" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </span>
-    </button>
+    </div>
+    <div class="nav__burger-wrap">
+      <button class="nav__burger" aria-expanded="false" aria-label="Open menu"><span></span><span></span></button>
+    </div>
   </div>
-</header>
-
-<!-- Mobile drawer + scrim — wired up by site.js's setupMobileNav. -->
-<div class="nav-scrim" id="navScrim" aria-hidden="true"></div>
-<aside class="nav-drawer" id="navDrawer" aria-label="Site navigation">
-  <div class="nav-drawer-header">
-    <span class="nav-drawer-eyebrow">Heart's Library</span>
+</nav>
+<div class="mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <div class="mobile-menu__inner">
+    <a class="mobile-menu__link" href="index.html">The Shelf</a>
+    <a class="mobile-menu__link" href="dashboards.html">Dashboards</a>
+    <a class="mobile-menu__link" href="about.html">About</a>
+    <div class="mobile-menu__section">
+      <p class="mobile-menu__label">Bookstores</p>
+      <div class="mobile-menu__list">
+        <a class="mobile-menu__item" href="bookstores-chicago.html"><div class="menu-item__tile"><svg class="icon-duo is-colored c-blue" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle class="duo-a" cx="12" cy="12" r="12"/><path class="duo-b" d="M12 2 20.4 16.5H3.6L12 2Zm0 20L3.6 7.5h16.8L12 22Z"/></svg></div><div><span class="menu-item__title">Chicago</span><span class="menu-item__desc">Where the library’s headed</span></div></a>
+        <a class="mobile-menu__item" href="bookstores-nashville.html"><div class="menu-item__tile"><svg class="icon-duo is-colored c-orange" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle class="duo-a" cx="12" cy="12" r="12"/><path class="duo-b" d="M14.6 4.5h4.4V8h-2.6v8.6a3.6 3.6 0 1 1-1.8-3.12V4.5Z"/></svg></div><div><span class="menu-item__title">Nashville</span><span class="menu-item__desc">The Franklin years</span></div></a>
+        <a class="mobile-menu__item" href="bookstores-new-york.html"><div class="menu-item__tile"><svg class="icon-duo is-colored c-purple" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect class="duo-a" x="1" y="9" width="6" height="15" rx="1"/><rect class="duo-a" x="17" y="5" width="6" height="19" rx="1"/><rect class="duo-b" x="9" y="0" width="6" height="24" rx="1"/></svg></div><div><span class="menu-item__title">New York</span><span class="menu-item__desc">Two years in Manhattan</span></div></a>
+        <a class="mobile-menu__item" href="bookstores-bay-area.html"><div class="menu-item__tile"><svg class="icon-duo is-colored c-teal" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path class="duo-a" d="M0 16c4 2.2 8 3.3 12 3.3S20 18.2 24 16v8H0v-8Z"/><rect class="duo-b" x="4.5" y="2" width="2.4" height="17" rx="1.2"/><rect class="duo-b" x="17.1" y="2" width="2.4" height="17" rx="1.2"/><path class="duo-b" d="M0 5.5C4 10 8 12.2 12 12.2S20 10 24 5.5v3C20 13 16 15.2 12 15.2S4 13 0 8.5v-3Z"/></svg></div><div><span class="menu-item__title">Bay Area</span><span class="menu-item__desc">School, and after</span></div></a>
+        <a class="mobile-menu__item" href="bookstores-los-angeles.html"><div class="menu-item__tile"><svg class="icon-duo is-colored c-pink" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle class="duo-a" cx="12" cy="12" r="12"/><circle class="duo-b" cx="12" cy="12" r="4.6"/><rect class="duo-b" x="11.1" y="1" width="1.8" height="4" rx=".9"/><rect class="duo-b" x="11.1" y="19" width="1.8" height="4" rx=".9"/><rect class="duo-b" x="1" y="11.1" width="4" height="1.8" rx=".9"/><rect class="duo-b" x="19" y="11.1" width="4" height="1.8" rx=".9"/><rect class="duo-b" x="11.1" y="1" width="1.8" height="4" rx=".9" transform="rotate(45 12 12)"/><rect class="duo-b" x="11.1" y="19" width="1.8" height="4" rx=".9" transform="rotate(45 12 12)"/><rect class="duo-b" x="1" y="11.1" width="4" height="1.8" rx=".9" transform="rotate(45 12 12)"/><rect class="duo-b" x="19" y="11.1" width="4" height="1.8" rx=".9" transform="rotate(45 12 12)"/></svg></div><div><span class="menu-item__title">Los Angeles</span><span class="menu-item__desc">Where it started</span></div></a>
+        <a class="mobile-menu__link" href="bookstores.html">All five cities &#8594;</a>
+      </div>
+    </div>
+    <div class="mobile-menu__section">
+      <p class="mobile-menu__label">Elsewhere</p>
+      <div class="mobile-menu__list">
+        <a class="mobile-menu__item" target="_blank" rel="noopener noreferrer" href="https://substack.com/@codyheart"><div class="menu-item__tile"><svg class="icon-duo is-colored c-orange" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect class="duo-a" x="2" y="2" width="20" height="20" rx="3"/><rect class="duo-b" x="6" y="6.5" width="12" height="2.4" rx="1.2"/><rect class="duo-b" x="6" y="11" width="12" height="2.4" rx="1.2"/><path class="duo-b" d="M6 15.5h12v2a1 1 0 0 1-1.4.92L12 16.6l-4.6 1.82A1 1 0 0 1 6 17.5v-2Z"/></svg></div><div><span class="menu-item__title">Substack</span><span class="menu-item__desc">The newsletter</span></div></a>
+        <a class="mobile-menu__item" target="_blank" rel="noopener noreferrer" href="https://www.goodreads.com/user/show/164877363-cody-heart"><div class="menu-item__tile"><svg class="icon-duo is-colored c-teal" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path class="duo-a" d="M12 4.8C9.2 3 5.9 2.7 2 3.6v15.6c3.9-.9 7.2-.6 10 1.2V4.8Z"/><path class="duo-b" d="M12 4.8C14.8 3 18.1 2.7 22 3.6v15.6c-3.9-.9-7.2-.6-10 1.2V4.8Z"/></svg></div><div><span class="menu-item__title">Goodreads</span><span class="menu-item__desc">The live shelf</span></div></a>
+        <a class="mobile-menu__item" href="mailto:hello@heartslibrary.com"><div class="menu-item__tile"><svg class="icon-duo is-colored c-green" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path class="duo-b" d="M12 12.6 0 5.4V5a3 3 0 0 1 3-3h18a3 3 0 0 1 3 3v.4l-12 7.2Z"/><path class="duo-a" d="M0 8.2 12 15.4 24 8.2V19a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V8.2Z"/></svg></div><div><span class="menu-item__title">Email</span><span class="menu-item__desc">hello@heartslibrary.com</span></div></a>
+      </div>
+    </div>
   </div>
-  <ul class="nav-drawer-list">
-    <li><a href="index.html">Home</a></li>
-    <li>
-      <span class="drawer-section-label">Lists</span>
-      <ul class="drawer-sublist">
-        <li><a href="fiction.html">Fiction</a></li>
-        <li><a href="nonfiction.html">Non-Fiction</a></li>
-      </ul>
-    </li>
-    <li>
-      <span class="drawer-section-label">Bookstores</span>
-      <ul class="drawer-sublist">
-        <li><a href="bookstores.html">All bookstores</a></li>
-        <li><a href="bookstores-chicago.html">Chicago</a></li>
-        <li><a href="bookstores-nashville.html">Nashville</a></li>
-        <li><a href="bookstores-new-york.html">New York</a></li>
-        <li><a href="bookstores-bay-area.html">Bay Area</a></li>
-        <li><a href="bookstores-los-angeles.html" class="active">Los Angeles</a></li>
-      </ul>
-    </li>
-    <li><a href="dashboards.html">Dashboards</a></li>
-    <li><a href="about.html">About</a></li>
-  </ul>
-  <div class="nav-drawer-footer">A library of one</div>
-</aside>
+</div>
 
-<main>
+<section class="page-head wrap">
+  <span class="crumb reveal"><a href="index.html">Heart’s Library</a> <span class="sep">/</span> Bookstores <span class="sep">/</span> Los Angeles</span>
+  <h1 class="reveal">Where reading <span class="accent">started</span>.</h1>
+  <p class="deck reveal">Nineteen indie bookstores across LA — from DTLA to the Valley to the beach. Drawn from <a href="https://www.timeout.com/los-angeles/books/best-shops-in-la-the-citys-best-independent-booksellers" rel="noopener" target="_blank">Time Out Los Angeles</a>, the list I still reach for when someone asks where to go in my hometown.</p>
+  <div class="props reveal">
+      <div class="prop"><span class="prop-label">Compiled</span><span class="prop-value">April 2026</span></div>
+      <div class="prop"><span class="prop-label">Shops</span><span class="prop-value">19 across three regions</span></div>
+      <div class="prop"><span class="prop-label">Source</span><span class="prop-value">Time Out LA · Michael Juliano</span></div>
+      <div class="prop"><span class="prop-label">Era</span><span class="prop-value">1993 — 2012 · Hometown</span></div>
+  </div>
+</section>
 
-  <!-- BREADCRUMB -->
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <a href="bookstores.html">Bookstores</a>
-    <span class="sep" aria-hidden="true"></span>
-    <span class="current" aria-current="page">Los Angeles</span>
+<main id="main">
+<div class="filterbar" data-filterbar>
+  <div class="filter-inner" role="group" aria-label="Filter by region">
+    <button type="button" data-filter="all" aria-pressed="true">All <span class="count">19</span></button>
+    <button type="button" data-filter="central" aria-pressed="false">Central + Eastside <span class="count">8</span></button>
+    <button type="button" data-filter="westside" aria-pressed="false">Westside + Beach <span class="count">7</span></button>
+    <button type="button" data-filter="valley" aria-pressed="false">Valley + Pasadena <span class="count">4</span></button>
+  </div>
+</div>
+<section class="region-section wrap" data-filter-divider="central" id="region-central">
+  <div class="region-head">
+    <div>
+      <span class="kicker region-eyebrow">Region One</span>
+      <h2>Central + Eastside <span class="count-word">eight</span></h2>
+    </div>
+    <a class="region-source" href="https://www.timeout.com/los-angeles/books/best-shops-in-la-the-citys-best-independent-booksellers" target="_blank" rel="noopener">Source · Time Out LA ↗</a>
+  </div>
+  <ol class="shops">
+      <li class="shop" data-filter-item="central">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.shopthelastbookstore.com/" target="_blank" rel="noopener">The Last Bookstore<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">DTLA·Historic Core</span>
+        </div>
+        <p class="shop-blurb">The DTLA landmark. Housed in an old bank — marble columns, vaulted ceilings — with a record shop, coffee bar, and a Labyrinth mezzanine of dollar books upstairs. Readings, signings, writing groups, open mics. <em>Community hub masquerading as a bookstore.</em></p>
+      </li>
+      <li class="shop" data-filter-item="central">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.skylightbooks.com/" target="_blank" rel="noopener">Skylight Books<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Los Feliz</span>
+        </div>
+        <p class="shop-blurb">The mid-'90s Los Feliz neighborhood icon. Intellectual but unfussy — literary fiction, strong zines, great book clubs. Bucked industry trends by <em>expanding</em> rather than contracting. If you miss a reading, they podcast it.</p>
+      </li>
+      <li class="shop" data-filter-item="central">
+        <div class="shop-head">
+          <a class="shop-name" href="https://storiesla.com/" target="_blank" rel="noopener">Stories Books &amp; Cafe<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Echo Park</span>
+        </div>
+        <p class="shop-blurb">Funky, cozy, off Sunset. New and used stacked floor to ceiling. Cafe in back with good coffee and food, a patio popular with freelancers. Readings, signings, comedy nights. Greeting cards and coloring books if you need a gift on the way out.</p>
+      </li>
+      <li class="shop" data-filter-item="central">
+        <div class="shop-head">
+          <a class="shop-name" href="https://thesecretheadquarters.bigcartel.com/" target="_blank" rel="noopener">Secret Headquarters<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Atwater Village</span>
+        </div>
+        <p class="shop-blurb">Graphic novels and comics specialist (formerly Silver Lake, now Atwater). Art books, local zines, knowledgeable staff who'll geek out on <em>Aquaman</em> or first-issue recommendations. Solid first-timer shelf.</p>
+      </li>
+      <li class="shop" data-filter-item="central">
+        <div class="shop-head">
+          <a class="shop-name" href="https://nowservingla.com/" target="_blank" rel="noopener">Now Serving<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Chinatown·Far East Plaza</span>
+        </div>
+        <p class="shop-blurb">Food magazines, cookbooks from around the world, and <em>the</em> destination for food-related book talks in LA. Some seriously enviable boutique kitchenware on the front table too.</p>
+      </li>
+      <li class="shop" data-filter-item="central">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.hennesseyingalls.com/" target="_blank" rel="noopener">Hennessey + Ingalls<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Downtown Arts District</span>
+        </div>
+        <p class="shop-blurb">Art and architecture. Rare and out-of-print titles, maps, guidebooks, culinary books — and a deep wall of notebooks, journals, and planners. Highbrow stock, friendly staff, no intimidation factor.</p>
+      </li>
+      <li class="shop" data-filter-item="central">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.artbook.com/artbook-hw-la.html" target="_blank" rel="noopener">Artbook @ Hauser &amp; Wirth<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Downtown Arts District</span>
+        </div>
+        <p class="shop-blurb">Inside the Hauser & Wirth gallery complex. Beautifully-designed books on photography, architecture, film, music, fashion, culture. Tight, curated, and about as good as it gets for art books in LA.</p>
+      </li>
+      <li class="shop" data-filter-item="central">
+        <div class="shop-head">
+          <a class="shop-name" href="http://www.thepophop.com/bookshop" target="_blank" rel="noopener">The Pop-Hop<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Highland Park</span>
+        </div>
+        <p class="shop-blurb">Intimate fiction, art, and indie-press shop with a print studio in back. Books sit on wooden shelves on rolling casters — <em>elementary-school-library energy in the best way</em>. Weekly classes: screen-printing, zine-making, baby sign language.</p>
+      </li>
+  </ol>
+</section>
+<section class="region-section wrap" data-filter-divider="westside" id="region-westside">
+  <div class="region-head">
+    <div>
+      <span class="kicker region-eyebrow">Region Two</span>
+      <h2>Westside + Beach <span class="count-word">seven</span></h2>
+    </div>
+    <a class="region-source" href="https://www.timeout.com/los-angeles/books/best-shops-in-la-the-citys-best-independent-booksellers" target="_blank" rel="noopener">Source · Time Out LA ↗</a>
+  </div>
+  <ol class="shops">
+      <li class="shop" data-filter-item="westside">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.booksoup.com/" target="_blank" rel="noopener">Book Soup<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">West Hollywood</span>
+        </div>
+        <p class="shop-blurb">Massive, squeezed, easy to get lost in — which is the point. Strong newsstand with international papers and magazines. Pro tip: the <em>LA history, architecture, and lore</em> section is exceptional.</p>
+      </li>
+      <li class="shop" data-filter-item="westside">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.childrensbookworld.com/" target="_blank" rel="noopener">Children&#x27;s Book World<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Westside</span>
+        </div>
+        <p class="shop-blurb">Tens of thousands of kids' titles, audio books, puppets, craft and science kits. Open-minded curation (gay-friendly, multicultural), clear age sections, cozy reading nooks. Regular story hours.</p>
+      </li>
+      <li class="shop" data-filter-item="westside">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.dieselbookstore.com/" target="_blank" rel="noopener">Diesel, A Bookstore<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Brentwood</span>
+        </div>
+        <p class="shop-blurb">35+ years in Brentwood Country Mart. Modern aesthetic, eclectic stock, an actual video channel of author events and book recs. Per Time Out's writeup: currently <em>up for sale</em> — so if you've ever dreamed of running a bookshop, there's your opening.</p>
+      </li>
+      <li class="shop" data-filter-item="westside">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.arcanabooks.com/" target="_blank" rel="noopener">Arcana: Books on the Arts<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Culver City</span>
+        </div>
+        <p class="shop-blurb">100,000+ rare, obscure, out-of-print art, photography, and design books. Staff will track down anything. <em>Plan on losing several hours.</em></p>
+      </li>
+      <li class="shop" data-filter-item="westside">
+        <div class="shop-head">
+          <a class="shop-name" href="https://bookshop.org/shop/smallworldbooks" target="_blank" rel="noopener">Small World Books<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Venice</span>
+        </div>
+        <p class="shop-blurb">Literary calm in the middle of the Venice Boardwalk chaos. Local author shelf up front. Hard-to-find indie imprints in back. Tucked behind the Sidewalk Cafe & Bar — easy to miss if you're not looking.</p>
+      </li>
+      <li class="shop" data-filter-item="westside">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.mysterypierbooks.com/" target="_blank" rel="noopener">Mystery Pier Books<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">West Hollywood·off Sunset</span>
+        </div>
+        <p class="shop-blurb">Antiquarian. Beautiful rare first editions, collectibles, out-of-print, signed. <em>Like a museum where you can buy the exhibits.</em> Staff as gracious hosts. A short walk from Book Soup, so you can hit both on the same trip.</p>
+      </li>
+      <li class="shop" data-filter-item="westside">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.timeout.com/los-angeles/shopping/angel-city-books-records" target="_blank" rel="noopener">Angel City Books &amp; Records<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Santa Monica</span>
+        </div>
+        <p class="shop-blurb">Vintage-shop vibe near the beach. New and used books in every genre — plus a deep vinyl selection, vintage record players, speakers, amps. Gallery inside featuring local beachside artists. Book catalogs to help you find what you need.</p>
+      </li>
+  </ol>
+</section>
+<section class="region-section wrap" data-filter-divider="valley" id="region-valley">
+  <div class="region-head">
+    <div>
+      <span class="kicker region-eyebrow">Region Three</span>
+      <h2>Valley + Pasadena <span class="count-word">four</span></h2>
+    </div>
+    <a class="region-source" href="https://www.timeout.com/los-angeles/books/best-shops-in-la-the-citys-best-independent-booksellers" target="_blank" rel="noopener">Source · Time Out LA ↗</a>
+  </div>
+  <ol class="shops">
+      <li class="shop" data-filter-item="valley">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.vromansbookstore.com/" target="_blank" rel="noopener">Vroman&#x27;s<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Pasadena·Playhouse District</span>
+        </div>
+        <p class="shop-blurb">Southern California's largest indie, over a century old. Strong stock, genuinely helpful staff. They also sell more-than-books — music, luggage, jewelry, cookware, candles — plus a coffee shop and wine bar inside. Steady calendar of author events.</p>
+      </li>
+      <li class="shop" data-filter-item="valley">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.octaviasbookshelf.com/" target="_blank" rel="noopener">Octavia&#x27;s Bookshelf<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Pasadena</span>
+        </div>
+        <p class="shop-blurb">Black-owned, named for Pasadena's own Octavia E. Butler. Specializes in books by BIPOC writers across biography, fiction, and children's. Cute, cozy space that hosts book talks and live performances.</p>
+      </li>
+      <li class="shop" data-filter-item="valley">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.iliadbooks.com/shop/" target="_blank" rel="noopener">The Iliad Bookshop<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">North Hollywood</span>
+        </div>
+        <p class="shop-blurb">A NoHo fixture for 20+ years (named to play off neighboring Odyssey Video in its earliest days). Over 100,000 used titles, strong in literary fiction and the arts. Rare and under-the-radar stock.</p>
+      </li>
+      <li class="shop" data-filter-item="valley">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.thesalteatersbooks.com/" target="_blank" rel="noopener">The Salt Eaters Bookshop<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Inglewood</span>
+        </div>
+        <p class="shop-blurb">Grew out of the Free Black Women's Library (a traveling pop-up). Prioritizes books by and about Black women, girls, femmes, and non-binary people. Meditation sessions, game nights, story times, clothing swaps alongside the literary programming.</p>
+      </li>
+  </ol>
+</section>
+<div class="wrap"><div class="list-trailer">Showing <span class="live" data-live-count>19</span> shops · April 2026</div></div>
+<section class="colophon-note wrap">
+  <h2>Los Angeles, <span class="accent">shelved</span>.</h2>
+  <p>Back to the timeline for another city, or wander the rest of the library.</p>
+</section>
+<div class="wrap">
+  <nav class="link-row" aria-label="Read deeper">
+      <a class="press-scale" href="bookstores.html">All bookstores <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="press-scale" href="index.html#fiction">Best of Fiction <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="press-scale" href="index.html#nonfiction">Best of Nonfiction <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="press-scale" href="about.html">About <span class="arrow" aria-hidden="true">→</span></a>
   </nav>
-
-  <!-- CHAPTER TITLE -->
-  <section class="chapter-title" id="chapterTitle">
-    <div class="chapter-stage">
-      <div class="chapter-eyebrow">
-        <span>1993 — 2012</span>
-        <span class="pip">·</span>
-        <span>Hometown</span>
-      </div>
-      <h2>
-        Where reading <span class="accent">started</span>.
-      </h2>
-      <p class="chapter-deck">
-        Nineteen indie bookstores across LA — from DTLA to the Valley to the beach. Drawn from <a href="https://www.timeout.com/los-angeles/books/best-shops-in-la-the-citys-best-independent-booksellers" target="_blank" rel="noopener">Time Out Los Angeles</a>, the list I still reach for when someone asks where to go in my hometown.
-      </p>
-      <div class="chapter-meta">
-        <div class="item">Compiled<strong>April 2026</strong></div>
-        <div class="item">Shops<strong>19 across three regions</strong></div>
-        <div class="item">Source<strong>Time Out LA · Michael Juliano</strong></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- REGION FILTER — sticky beneath the header -->
-  <section class="sticky-filter" data-sticky-filter aria-label="Region filter">
-    <div class="sticky-filter-inner">
-      <span class="sticky-filter-label">Region</span>
-      <div class="btn-group" role="group" aria-label="Filter shops by region">
-        <button class="btn btn--filter btn--sm" type="button" data-filter="all" aria-pressed="true">All <span class="count">19</span></button>
-        <button class="btn btn--filter btn--sm" type="button" data-filter="central" aria-pressed="false">Central + Eastside <span class="count">8</span></button>
-        <button class="btn btn--filter btn--sm" type="button" data-filter="westside" aria-pressed="false">Westside + Beach <span class="count">7</span></button>
-        <button class="btn btn--filter btn--sm" type="button" data-filter="valley" aria-pressed="false">Valley + Pasadena <span class="count">4</span></button>
-      </div>
-    </div>
-  </section>
-
-  <!-- REGION 1 — Central + Eastside -->
-  <section class="region-block" data-region="central" id="region-central">
-    <div class="region-stage">
-      <div class="region-eyebrow">
-        <span>Region One</span>
-      </div>
-      <div class="region-headrow">
-        <h3 class="region-name">
-          Central + Eastside
-          <span class="count-pill">eight</span>
-        </h3>
-        <a href="https://www.timeout.com/los-angeles/books/best-shops-in-la-the-citys-best-independent-booksellers" target="_blank" rel="noopener" class="region-source">Source · Time Out LA ↗</a>
-      </div>
-      <ol class="shops-list">
-
-        <li class="shop-entry" data-region="central">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.shopthelastbookstore.com/" target="_blank" rel="noopener">
-                <span class="name-text">The Last Bookstore</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">DTLA <span class="dot">·</span> Historic Core</span>
-            </div>
-            <p class="shop-blurb">The DTLA landmark. Housed in an old bank — marble columns, vaulted ceilings — with a record shop, coffee bar, and a Labyrinth mezzanine of dollar books upstairs. Readings, signings, writing groups, open mics. <em>Community hub masquerading as a bookstore.</em></p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="central">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.skylightbooks.com/" target="_blank" rel="noopener">
-                <span class="name-text">Skylight Books</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">Los Feliz</span>
-            </div>
-            <p class="shop-blurb">The mid-'90s Los Feliz neighborhood icon. Intellectual but unfussy — literary fiction, strong zines, great book clubs. Bucked industry trends by <em>expanding</em> rather than contracting. If you miss a reading, they podcast it.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="central">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://storiesla.com/" target="_blank" rel="noopener">
-                <span class="name-text">Stories Books &amp; Cafe</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">Echo Park</span>
-            </div>
-            <p class="shop-blurb">Funky, cozy, off Sunset. New and used stacked floor to ceiling. Cafe in back with good coffee and food, a patio popular with freelancers. Readings, signings, comedy nights. Greeting cards and coloring books if you need a gift on the way out.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="central">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://thesecretheadquarters.bigcartel.com/" target="_blank" rel="noopener">
-                <span class="name-text">Secret Headquarters</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">Atwater Village</span>
-            </div>
-            <p class="shop-blurb">Graphic novels and comics specialist (formerly Silver Lake, now Atwater). Art books, local zines, knowledgeable staff who'll geek out on <em>Aquaman</em> or first-issue recommendations. Solid first-timer shelf.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="central">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://nowservingla.com/" target="_blank" rel="noopener">
-                <span class="name-text">Now Serving</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">Chinatown <span class="dot">·</span> Far East Plaza</span>
-            </div>
-            <p class="shop-blurb">Food magazines, cookbooks from around the world, and <em>the</em> destination for food-related book talks in LA. Some seriously enviable boutique kitchenware on the front table too.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="central">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.hennesseyingalls.com/" target="_blank" rel="noopener">
-                <span class="name-text">Hennessey + Ingalls</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">Downtown Arts District</span>
-            </div>
-            <p class="shop-blurb">Art and architecture. Rare and out-of-print titles, maps, guidebooks, culinary books — and a deep wall of notebooks, journals, and planners. Highbrow stock, friendly staff, no intimidation factor.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="central">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.artbook.com/artbook-hw-la.html" target="_blank" rel="noopener">
-                <span class="name-text">Artbook @ Hauser &amp; Wirth</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">Downtown Arts District</span>
-            </div>
-            <p class="shop-blurb">Inside the Hauser &amp; Wirth gallery complex. Beautifully-designed books on photography, architecture, film, music, fashion, culture. Tight, curated, and about as good as it gets for art books in LA.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="central">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="http://www.thepophop.com/bookshop" target="_blank" rel="noopener">
-                <span class="name-text">The Pop-Hop</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">Highland Park</span>
-            </div>
-            <p class="shop-blurb">Intimate fiction, art, and indie-press shop with a print studio in back. Books sit on wooden shelves on rolling casters — <em>elementary-school-library energy in the best way</em>. Weekly classes: screen-printing, zine-making, baby sign language.</p>
-          </div>
-        </li>
-
-      </ol>
-    </div>
-  </section>
-
-  <!-- REGION 2 — Westside + Beach -->
-  <section class="region-block" data-region="westside" id="region-westside">
-    <div class="region-stage">
-      <div class="region-eyebrow">
-        <span>Region Two</span>
-      </div>
-      <div class="region-headrow">
-        <h3 class="region-name">
-          Westside + Beach
-          <span class="count-pill">seven</span>
-        </h3>
-        <a href="https://www.timeout.com/los-angeles/books/best-shops-in-la-the-citys-best-independent-booksellers" target="_blank" rel="noopener" class="region-source">Source · Time Out LA ↗</a>
-      </div>
-      <ol class="shops-list">
-
-        <li class="shop-entry" data-region="westside">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.booksoup.com/" target="_blank" rel="noopener">
-                <span class="name-text">Book Soup</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">West Hollywood</span>
-            </div>
-            <p class="shop-blurb">Massive, squeezed, easy to get lost in — which is the point. Strong newsstand with international papers and magazines. Pro tip: the <em>LA history, architecture, and lore</em> section is exceptional.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="westside">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.childrensbookworld.com/" target="_blank" rel="noopener">
-                <span class="name-text">Children's Book World</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">Westside</span>
-            </div>
-            <p class="shop-blurb">Tens of thousands of kids' titles, audio books, puppets, craft and science kits. Open-minded curation (gay-friendly, multicultural), clear age sections, cozy reading nooks. Regular story hours.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="westside">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.dieselbookstore.com/" target="_blank" rel="noopener">
-                <span class="name-text">Diesel, A Bookstore</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">Brentwood</span>
-            </div>
-            <p class="shop-blurb">35+ years in Brentwood Country Mart. Modern aesthetic, eclectic stock, an actual video channel of author events and book recs. Per Time Out's writeup: currently <em>up for sale</em> — so if you've ever dreamed of running a bookshop, there's your opening.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="westside">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.arcanabooks.com/" target="_blank" rel="noopener">
-                <span class="name-text">Arcana: Books on the Arts</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">Culver City</span>
-            </div>
-            <p class="shop-blurb">100,000+ rare, obscure, out-of-print art, photography, and design books. Staff will track down anything. <em>Plan on losing several hours.</em></p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="westside">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://bookshop.org/shop/smallworldbooks" target="_blank" rel="noopener">
-                <span class="name-text">Small World Books</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">Venice</span>
-            </div>
-            <p class="shop-blurb">Literary calm in the middle of the Venice Boardwalk chaos. Local author shelf up front. Hard-to-find indie imprints in back. Tucked behind the Sidewalk Cafe &amp; Bar — easy to miss if you're not looking.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="westside">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.mysterypierbooks.com/" target="_blank" rel="noopener">
-                <span class="name-text">Mystery Pier Books</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">West Hollywood <span class="dot">·</span> off Sunset</span>
-            </div>
-            <p class="shop-blurb">Antiquarian. Beautiful rare first editions, collectibles, out-of-print, signed. <em>Like a museum where you can buy the exhibits.</em> Staff as gracious hosts. A short walk from Book Soup, so you can hit both on the same trip.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="westside">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.timeout.com/los-angeles/shopping/angel-city-books-records" target="_blank" rel="noopener">
-                <span class="name-text">Angel City Books &amp; Records</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">Santa Monica</span>
-            </div>
-            <p class="shop-blurb">Vintage-shop vibe near the beach. New and used books in every genre — plus a deep vinyl selection, vintage record players, speakers, amps. Gallery inside featuring local beachside artists. Book catalogs to help you find what you need.</p>
-          </div>
-        </li>
-
-      </ol>
-    </div>
-  </section>
-
-  <!-- REGION 3 — Valley + Pasadena -->
-  <section class="region-block" data-region="valley" id="region-valley">
-    <div class="region-stage">
-      <div class="region-eyebrow">
-        <span>Region Three</span>
-      </div>
-      <div class="region-headrow">
-        <h3 class="region-name">
-          Valley + Pasadena
-          <span class="count-pill">four</span>
-        </h3>
-        <a href="https://www.timeout.com/los-angeles/books/best-shops-in-la-the-citys-best-independent-booksellers" target="_blank" rel="noopener" class="region-source">Source · Time Out LA ↗</a>
-      </div>
-      <ol class="shops-list">
-
-        <li class="shop-entry" data-region="valley">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.vromansbookstore.com/" target="_blank" rel="noopener">
-                <span class="name-text">Vroman's</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">Pasadena <span class="dot">·</span> Playhouse District</span>
-            </div>
-            <p class="shop-blurb">Southern California's largest indie, over a century old. Strong stock, genuinely helpful staff. They also sell more-than-books — music, luggage, jewelry, cookware, candles — plus a coffee shop and wine bar inside. Steady calendar of author events.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="valley">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.octaviasbookshelf.com/" target="_blank" rel="noopener">
-                <span class="name-text">Octavia's Bookshelf</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">Pasadena</span>
-            </div>
-            <p class="shop-blurb">Black-owned, named for Pasadena's own Octavia E. Butler. Specializes in books by BIPOC writers across biography, fiction, and children's. Cute, cozy space that hosts book talks and live performances.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="valley">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.iliadbooks.com/shop/" target="_blank" rel="noopener">
-                <span class="name-text">The Iliad Bookshop</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">North Hollywood</span>
-            </div>
-            <p class="shop-blurb">A NoHo fixture for 20+ years (named to play off neighboring Odyssey Video in its earliest days). Over 100,000 used titles, strong in literary fiction and the arts. Rare and under-the-radar stock.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="valley">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.thesalteatersbooks.com/" target="_blank" rel="noopener">
-                <span class="name-text">The Salt Eaters Bookshop</span>
-                <span class="arrow" aria-hidden="true">↗</span>
-              </a>
-              <span class="shop-locale">Inglewood</span>
-            </div>
-            <p class="shop-blurb">Grew out of the Free Black Women's Library (a traveling pop-up). Prioritizes books by and about Black women, girls, femmes, and non-binary people. Meditation sessions, game nights, story times, clothing swaps alongside the literary programming.</p>
-          </div>
-        </li>
-
-      </ol>
-    </div>
-  </section>
-
-  <!-- CREDIT BLOCK -->
-  <section class="credit">
-    <div class="credit-stage">
-      <div class="credit-block">
-        <div class="credit-kicker">Credit where it's due</div>
-        <h3 class="credit-headline">This list is <em>Time Out LA's</em>, not mine.</h3>
-        <div class="credit-body">
-          <p>I lived in LA for nineteen years. That doesn't mean I know every bookstore in this list — it means I grew up with some and drove past others for years without going in. The selection above, the descriptions, and almost all the local color came from <a href="https://www.timeout.com/los-angeles/books/best-shops-in-la-the-citys-best-independent-booksellers" target="_blank" rel="noopener">Time Out LA's guide</a>, edited by Michael Juliano. My only real contribution was the three-region split to make the sprawl navigable.</p>
-          <p>Read the <a href="https://www.timeout.com/los-angeles/books/best-shops-in-la-the-citys-best-independent-booksellers" target="_blank" rel="noopener">full Time Out LA piece</a> for photos, price indicators, and linked individual store pages with more detail on each shop.</p>
-        </div>
-        <div class="credit-signoff">
-          <span><span class="mark">¶</span>C.H. · Franklin, TN</span>
-          <span>LA · 19 of 19</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- NEXT-CITY POINTER -->
-  <section class="next-city">
-    <div class="next-city-inner">
-      <a href="bookstores-bay-area.html" class="next-city-row" id="nextCityRow">
-        <div class="next-city-label">Next in the timeline · 2012 — 2021</div>
-        <div>
-          <h3 class="next-city-name">The Bay <em>Area</em></h3>
-          <p class="next-city-blurb">Nine years, three cities. Twenty-two shops across Oakland, Berkeley, and San Francisco.</p>
-        </div>
-        <span class="next-city-arrow" aria-hidden="true">→</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- COLOPHON / END -->
-  <section class="end-page" id="endPage">
-    <div class="end-stage">
-      <span class="ornament">❦</span>
-      <h2>
-        Nineteen shops, <em>one hometown</em>.
-      </h2>
-      <p>
-        That's LA. Nineteen years in one sprawling city — the bookstores I grew up in, the ones I drove past forever, and the ones still on my list whenever I'm back. Pick the next city, or wander the rest of the library.
-      </p>
-      <div class="end-links">
-        <a href="bookstores.html">All cities</a>
-        <a href="bookstores-bay-area.html">Bay Area</a>
-        <a href="fiction.html">Best of Fiction</a>
-        <a href="about.html">About</a>
-      </div>
-    </div>
-    <div class="end-footer">
-      <div class="left">A library of one. Franklin → Chicago.</div>
-      <div class="right">
-        <a href="#">Newsletter</a>
-        <a href="#">RSS</a>
-        <a href="mailto:hello@heartslibrary.com">Contact</a>
-      </div>
-    </div>
-  </section>
+</div>
 
 </main>
-
-<!-- Back-to-top button — site.js's setupBackToTop wires it up.
-     Hidden until the user scrolls past 600px; smooth-scrolls
-     to top on click; shifts focus back to the wordmark for a11y. -->
-<button class="btn btn--icon back-to-top" id="backToTop"
-        type="button"
-        aria-label="Back to top"
-        aria-hidden="true">
-  <svg viewBox="0 0 18 18" aria-hidden="true" focusable="false">
-    <path d="M9 14 V4 M4 9 L9 4 L14 9" />
-  </svg>
-</button>
-
-<!-- Shared system JS -->
-<script src="js/motion.js"></script>
-<script src="js/site.js"></script>
-<!-- Component JS -->
-<script src="js/components/city-page.js"></script>
-
+<footer class="footer">
+  <div class="footer__inner">
+    <span class="footer__mark"><svg width="13" height="12" viewBox="2.462 4.062 19.133 17.838" aria-hidden="true"><path fill="#E5484D" d="M12.1 7.6C13.7 5 15.8 3.7 18 4.15 20.9 4.6 22.1 7.1 21.4 9.9 20.8 12.5 18 15.4 11.7 21.9 5.6 15.4 3.1 12.4 2.6 9.7 2 6.9 3.4 4.6 6 4.2 8.1 3.85 10.5 5 12.1 7.6Z"/></svg><span>Heart’s Library</span></span>
+    <span class="footer__stars" aria-hidden="true">✶✶✶✶</span>
+    <span>A library of one. Franklin → Chicago.</span>
+    <span class="footer__links">
+      <a class="link-hover" href="https://substack.com/@codyheart" target="_blank" rel="noopener">Newsletter</a>
+      <a class="link-hover" href="https://www.goodreads.com/user/show/164877363-cody-heart" target="_blank" rel="noopener">Goodreads</a>
+      <a class="link-hover" href="mailto:hello@heartslibrary.com">Contact</a>
+    </span>
+  </div>
+</footer>
 </body>
 </html>

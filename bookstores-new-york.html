@@ -1,408 +1,243 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8ELFFQERJ7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-8ELFFQERJ7');
-</script>
-<title>New York Bookstores — Heart's Library</title>
-<meta name="description" content="Thirteen independent bookstores in New York City — smaller, niche-interest shops across Manhattan, Brooklyn, and Queens.">
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
-<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..700&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomEase.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-
-<!-- (theme toggle retired — site is light-only) -->
-
-<!-- Design system + shared components — single source of truth.
-     Order: tokens → component primitives → site-wide → motion →
-     page-specific component CSS. -->
-<link rel="stylesheet" href="css/tokens.css">
-<link rel="stylesheet" href="css/components/buttons.css">
-<link rel="stylesheet" href="css/components/eyebrow.css">
-<link rel="stylesheet" href="css/components/header.css">
-<link rel="stylesheet" href="css/components/sticky-filter.css">
-<link rel="stylesheet" href="css/components/back-to-top.css">
-<link rel="stylesheet" href="css/site.css">
-<link rel="stylesheet" href="css/motion.css">
-<link rel="stylesheet" href="css/components/city-page.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bookstores — New York — Heart&#x27;s Library</title>
+<meta name="description" content="Independent bookstores in New York, from Heart&#x27;s Library.">
+<link rel="stylesheet" href="css/review.css">
+<script>window.coverFallback=window.coverFallback||function(i){(window.__fellCovers=window.__fellCovers||[]).push(i)}</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script defer src="js/review.js"></script>
 </head>
-
 <body>
 
-<div class="atmosphere" id="atmosphere"></div>
-
-<header id="header">
-  <div class="header-inner">
-    <a href="index.html" class="wordmark">
-      <svg class="logo logo-heart" viewBox="0 0 24 22" aria-hidden="true" focusable="false">
-        <path d="M12 20.4 C 5.5 16.5, 1.5 12, 1.5 7.6 C 1.5 4.5, 4 2, 7 2 C 9 2, 10.8 3.1, 12 4.9 C 13.2 3.1, 15 2, 17 2 C 20 2, 22.5 4.5, 22.5 7.6 C 22.5 12, 18.5 16.5, 12 20.4 Z" />
-      </svg>
-      <span class="logo-text">Heart's Library</span>
-    </a>
-    <nav class="primary">
-      <div class="nav-item has-dropdown">
-        <button class="nav-trigger" type="button" aria-haspopup="menu" aria-expanded="false">Lists</button>
-        <div class="nav-dropdown" role="menu">
-          <a href="fiction.html" role="menuitem">Fiction</a>
-          <a href="nonfiction.html" role="menuitem">Non-Fiction</a>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Main navigation">
+  <div class="nav__inner">
+    <a class="nav__wordmark" href="index.html"><svg width="13" height="12" viewBox="2.462 4.062 19.133 17.838" aria-hidden="true"><path fill="#E5484D" d="M12.1 7.6C13.7 5 15.8 3.7 18 4.15 20.9 4.6 22.1 7.1 21.4 9.9 20.8 12.5 18 15.4 11.7 21.9 5.6 15.4 3.1 12.4 2.6 9.7 2 6.9 3.4 4.6 6 4.2 8.1 3.85 10.5 5 12.1 7.6Z"/></svg><span>Heart’s Library</span></a>
+    <button class="nav__scrolltitle" type="button" aria-label="Back to top">New York</button>
+    <div class="nav__links">
+      <a class="nav__link link-hover" href="index.html">The Shelf</a>
+      <div class="nav__drop">
+        <button class="nav__link link-hover press-scale is-current" aria-expanded="false" aria-haspopup="true" aria-controls="menu-bookstores">Bookstores<svg class="chev" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4L5 6.5L7.5 4"/></svg></button>
+        <div class="nav__menu" id="menu-bookstores" role="menu" aria-hidden="true">
+          <div class="nav__menu-pad">
+            <a class="menu-item" role="menuitem" href="bookstores-chicago.html"><div class="menu-item__tile"><svg class="icon-duo c-blue" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle class="duo-a" cx="12" cy="12" r="12"/><path class="duo-b" d="M12 2 20.4 16.5H3.6L12 2Zm0 20L3.6 7.5h16.8L12 22Z"/></svg></div><div><span class="menu-item__title">Chicago</span><span class="menu-item__desc">Where the library’s headed</span></div></a>
+            <a class="menu-item" role="menuitem" href="bookstores-nashville.html"><div class="menu-item__tile"><svg class="icon-duo c-orange" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle class="duo-a" cx="12" cy="12" r="12"/><path class="duo-b" d="M14.6 4.5h4.4V8h-2.6v8.6a3.6 3.6 0 1 1-1.8-3.12V4.5Z"/></svg></div><div><span class="menu-item__title">Nashville</span><span class="menu-item__desc">The Franklin years</span></div></a>
+            <a class="menu-item" role="menuitem" href="bookstores-new-york.html"><div class="menu-item__tile"><svg class="icon-duo c-purple" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect class="duo-a" x="1" y="9" width="6" height="15" rx="1"/><rect class="duo-a" x="17" y="5" width="6" height="19" rx="1"/><rect class="duo-b" x="9" y="0" width="6" height="24" rx="1"/></svg></div><div><span class="menu-item__title">New York</span><span class="menu-item__desc">Two years in Manhattan</span></div></a>
+            <a class="menu-item" role="menuitem" href="bookstores-bay-area.html"><div class="menu-item__tile"><svg class="icon-duo c-teal" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path class="duo-a" d="M0 16c4 2.2 8 3.3 12 3.3S20 18.2 24 16v8H0v-8Z"/><rect class="duo-b" x="4.5" y="2" width="2.4" height="17" rx="1.2"/><rect class="duo-b" x="17.1" y="2" width="2.4" height="17" rx="1.2"/><path class="duo-b" d="M0 5.5C4 10 8 12.2 12 12.2S20 10 24 5.5v3C20 13 16 15.2 12 15.2S4 13 0 8.5v-3Z"/></svg></div><div><span class="menu-item__title">Bay Area</span><span class="menu-item__desc">School, and after</span></div></a>
+            <a class="menu-item" role="menuitem" href="bookstores-los-angeles.html"><div class="menu-item__tile"><svg class="icon-duo c-pink" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle class="duo-a" cx="12" cy="12" r="12"/><circle class="duo-b" cx="12" cy="12" r="4.6"/><rect class="duo-b" x="11.1" y="1" width="1.8" height="4" rx=".9"/><rect class="duo-b" x="11.1" y="19" width="1.8" height="4" rx=".9"/><rect class="duo-b" x="1" y="11.1" width="4" height="1.8" rx=".9"/><rect class="duo-b" x="19" y="11.1" width="4" height="1.8" rx=".9"/><rect class="duo-b" x="11.1" y="1" width="1.8" height="4" rx=".9" transform="rotate(45 12 12)"/><rect class="duo-b" x="11.1" y="19" width="1.8" height="4" rx=".9" transform="rotate(45 12 12)"/><rect class="duo-b" x="1" y="11.1" width="4" height="1.8" rx=".9" transform="rotate(45 12 12)"/><rect class="duo-b" x="19" y="11.1" width="4" height="1.8" rx=".9" transform="rotate(45 12 12)"/></svg></div><div><span class="menu-item__title">Los Angeles</span><span class="menu-item__desc">Where it started</span></div></a>
+            <a class="menu-item menu-item--all" role="menuitem" href="bookstores.html"><span>All five cities, and the timeline</span><span aria-hidden="true">&#8594;</span></a>
+          </div>
         </div>
       </div>
-      <div class="nav-item has-dropdown">
-        <button class="nav-trigger active" type="button" aria-haspopup="menu" aria-expanded="false">Bookstores</button>
-        <div class="nav-dropdown" role="menu">
-          <a href="bookstores.html" class="all-link" role="menuitem">All bookstores</a>
-          <a href="bookstores-chicago.html" role="menuitem">Chicago</a>
-          <a href="bookstores-nashville.html" role="menuitem">Nashville</a>
-          <a href="bookstores-new-york.html" role="menuitem" class="active">New York</a>
-          <a href="bookstores-bay-area.html" role="menuitem">Bay Area</a>
-          <a href="bookstores-los-angeles.html" role="menuitem">Los Angeles</a>
+      <a class="nav__link link-hover" href="dashboards.html">Dashboards</a>
+      <a class="nav__link link-hover" href="about.html">About</a>
+      <div class="nav__drop">
+        <button class="nav__link link-hover press-scale" aria-expanded="false" aria-haspopup="true" aria-controls="menu-elsewhere">Elsewhere<svg class="chev" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4L5 6.5L7.5 4"/></svg></button>
+        <div class="nav__menu" id="menu-elsewhere" role="menu" aria-hidden="true">
+          <div class="nav__menu-pad">
+            <a class="menu-item" role="menuitem" target="_blank" rel="noopener noreferrer" href="https://substack.com/@codyheart"><div class="menu-item__tile"><svg class="icon-duo c-orange" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect class="duo-a" x="2" y="2" width="20" height="20" rx="3"/><rect class="duo-b" x="6" y="6.5" width="12" height="2.4" rx="1.2"/><rect class="duo-b" x="6" y="11" width="12" height="2.4" rx="1.2"/><path class="duo-b" d="M6 15.5h12v2a1 1 0 0 1-1.4.92L12 16.6l-4.6 1.82A1 1 0 0 1 6 17.5v-2Z"/></svg></div><div><span class="menu-item__title">Substack</span><span class="menu-item__desc">The newsletter</span></div></a>
+            <a class="menu-item" role="menuitem" target="_blank" rel="noopener noreferrer" href="https://www.goodreads.com/user/show/164877363-cody-heart"><div class="menu-item__tile"><svg class="icon-duo c-teal" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path class="duo-a" d="M12 4.8C9.2 3 5.9 2.7 2 3.6v15.6c3.9-.9 7.2-.6 10 1.2V4.8Z"/><path class="duo-b" d="M12 4.8C14.8 3 18.1 2.7 22 3.6v15.6c-3.9-.9-7.2-.6-10 1.2V4.8Z"/></svg></div><div><span class="menu-item__title">Goodreads</span><span class="menu-item__desc">The live shelf</span></div></a>
+            <a class="menu-item" role="menuitem" href="mailto:hello@heartslibrary.com"><div class="menu-item__tile"><svg class="icon-duo c-green" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path class="duo-b" d="M12 12.6 0 5.4V5a3 3 0 0 1 3-3h18a3 3 0 0 1 3 3v.4l-12 7.2Z"/><path class="duo-a" d="M0 8.2 12 15.4 24 8.2V19a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V8.2Z"/></svg></div><div><span class="menu-item__title">Email</span><span class="menu-item__desc">hello@heartslibrary.com</span></div></a>
+          </div>
         </div>
       </div>
-      <a href="dashboards.html">Dashboards</a>
-      <a href="about.html">About</a>
-    </nav>
-    <button class="nav-toggle" id="navToggle" type="button"
-            aria-label="Open navigation menu"
-            aria-controls="navDrawer"
-            aria-expanded="false">
-      <span class="toggle-icon" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </span>
-    </button>
+    </div>
+    <div class="nav__burger-wrap">
+      <button class="nav__burger" aria-expanded="false" aria-label="Open menu"><span></span><span></span></button>
+    </div>
   </div>
-</header>
-
-<!-- Mobile drawer + scrim — wired up by site.js's setupMobileNav. -->
-<div class="nav-scrim" id="navScrim" aria-hidden="true"></div>
-<aside class="nav-drawer" id="navDrawer" aria-label="Site navigation">
-  <div class="nav-drawer-header">
-    <span class="nav-drawer-eyebrow">Heart's Library</span>
+</nav>
+<div class="mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <div class="mobile-menu__inner">
+    <a class="mobile-menu__link" href="index.html">The Shelf</a>
+    <a class="mobile-menu__link" href="dashboards.html">Dashboards</a>
+    <a class="mobile-menu__link" href="about.html">About</a>
+    <div class="mobile-menu__section">
+      <p class="mobile-menu__label">Bookstores</p>
+      <div class="mobile-menu__list">
+        <a class="mobile-menu__item" href="bookstores-chicago.html"><div class="menu-item__tile"><svg class="icon-duo is-colored c-blue" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle class="duo-a" cx="12" cy="12" r="12"/><path class="duo-b" d="M12 2 20.4 16.5H3.6L12 2Zm0 20L3.6 7.5h16.8L12 22Z"/></svg></div><div><span class="menu-item__title">Chicago</span><span class="menu-item__desc">Where the library’s headed</span></div></a>
+        <a class="mobile-menu__item" href="bookstores-nashville.html"><div class="menu-item__tile"><svg class="icon-duo is-colored c-orange" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle class="duo-a" cx="12" cy="12" r="12"/><path class="duo-b" d="M14.6 4.5h4.4V8h-2.6v8.6a3.6 3.6 0 1 1-1.8-3.12V4.5Z"/></svg></div><div><span class="menu-item__title">Nashville</span><span class="menu-item__desc">The Franklin years</span></div></a>
+        <a class="mobile-menu__item" href="bookstores-new-york.html"><div class="menu-item__tile"><svg class="icon-duo is-colored c-purple" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect class="duo-a" x="1" y="9" width="6" height="15" rx="1"/><rect class="duo-a" x="17" y="5" width="6" height="19" rx="1"/><rect class="duo-b" x="9" y="0" width="6" height="24" rx="1"/></svg></div><div><span class="menu-item__title">New York</span><span class="menu-item__desc">Two years in Manhattan</span></div></a>
+        <a class="mobile-menu__item" href="bookstores-bay-area.html"><div class="menu-item__tile"><svg class="icon-duo is-colored c-teal" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path class="duo-a" d="M0 16c4 2.2 8 3.3 12 3.3S20 18.2 24 16v8H0v-8Z"/><rect class="duo-b" x="4.5" y="2" width="2.4" height="17" rx="1.2"/><rect class="duo-b" x="17.1" y="2" width="2.4" height="17" rx="1.2"/><path class="duo-b" d="M0 5.5C4 10 8 12.2 12 12.2S20 10 24 5.5v3C20 13 16 15.2 12 15.2S4 13 0 8.5v-3Z"/></svg></div><div><span class="menu-item__title">Bay Area</span><span class="menu-item__desc">School, and after</span></div></a>
+        <a class="mobile-menu__item" href="bookstores-los-angeles.html"><div class="menu-item__tile"><svg class="icon-duo is-colored c-pink" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle class="duo-a" cx="12" cy="12" r="12"/><circle class="duo-b" cx="12" cy="12" r="4.6"/><rect class="duo-b" x="11.1" y="1" width="1.8" height="4" rx=".9"/><rect class="duo-b" x="11.1" y="19" width="1.8" height="4" rx=".9"/><rect class="duo-b" x="1" y="11.1" width="4" height="1.8" rx=".9"/><rect class="duo-b" x="19" y="11.1" width="4" height="1.8" rx=".9"/><rect class="duo-b" x="11.1" y="1" width="1.8" height="4" rx=".9" transform="rotate(45 12 12)"/><rect class="duo-b" x="11.1" y="19" width="1.8" height="4" rx=".9" transform="rotate(45 12 12)"/><rect class="duo-b" x="1" y="11.1" width="4" height="1.8" rx=".9" transform="rotate(45 12 12)"/><rect class="duo-b" x="19" y="11.1" width="4" height="1.8" rx=".9" transform="rotate(45 12 12)"/></svg></div><div><span class="menu-item__title">Los Angeles</span><span class="menu-item__desc">Where it started</span></div></a>
+        <a class="mobile-menu__link" href="bookstores.html">All five cities &#8594;</a>
+      </div>
+    </div>
+    <div class="mobile-menu__section">
+      <p class="mobile-menu__label">Elsewhere</p>
+      <div class="mobile-menu__list">
+        <a class="mobile-menu__item" target="_blank" rel="noopener noreferrer" href="https://substack.com/@codyheart"><div class="menu-item__tile"><svg class="icon-duo is-colored c-orange" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect class="duo-a" x="2" y="2" width="20" height="20" rx="3"/><rect class="duo-b" x="6" y="6.5" width="12" height="2.4" rx="1.2"/><rect class="duo-b" x="6" y="11" width="12" height="2.4" rx="1.2"/><path class="duo-b" d="M6 15.5h12v2a1 1 0 0 1-1.4.92L12 16.6l-4.6 1.82A1 1 0 0 1 6 17.5v-2Z"/></svg></div><div><span class="menu-item__title">Substack</span><span class="menu-item__desc">The newsletter</span></div></a>
+        <a class="mobile-menu__item" target="_blank" rel="noopener noreferrer" href="https://www.goodreads.com/user/show/164877363-cody-heart"><div class="menu-item__tile"><svg class="icon-duo is-colored c-teal" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path class="duo-a" d="M12 4.8C9.2 3 5.9 2.7 2 3.6v15.6c3.9-.9 7.2-.6 10 1.2V4.8Z"/><path class="duo-b" d="M12 4.8C14.8 3 18.1 2.7 22 3.6v15.6c-3.9-.9-7.2-.6-10 1.2V4.8Z"/></svg></div><div><span class="menu-item__title">Goodreads</span><span class="menu-item__desc">The live shelf</span></div></a>
+        <a class="mobile-menu__item" href="mailto:hello@heartslibrary.com"><div class="menu-item__tile"><svg class="icon-duo is-colored c-green" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path class="duo-b" d="M12 12.6 0 5.4V5a3 3 0 0 1 3-3h18a3 3 0 0 1 3 3v.4l-12 7.2Z"/><path class="duo-a" d="M0 8.2 12 15.4 24 8.2V19a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V8.2Z"/></svg></div><div><span class="menu-item__title">Email</span><span class="menu-item__desc">hello@heartslibrary.com</span></div></a>
+      </div>
+    </div>
   </div>
-  <ul class="nav-drawer-list">
-    <li><a href="index.html">Home</a></li>
-    <li>
-      <span class="drawer-section-label">Lists</span>
-      <ul class="drawer-sublist">
-        <li><a href="fiction.html">Fiction</a></li>
-        <li><a href="nonfiction.html">Non-Fiction</a></li>
-      </ul>
-    </li>
-    <li>
-      <span class="drawer-section-label">Bookstores</span>
-      <ul class="drawer-sublist">
-        <li><a href="bookstores.html">All bookstores</a></li>
-        <li><a href="bookstores-chicago.html">Chicago</a></li>
-        <li><a href="bookstores-nashville.html">Nashville</a></li>
-        <li><a href="bookstores-new-york.html" class="active">New York</a></li>
-        <li><a href="bookstores-bay-area.html">Bay Area</a></li>
-        <li><a href="bookstores-los-angeles.html">Los Angeles</a></li>
-      </ul>
-    </li>
-    <li><a href="dashboards.html">Dashboards</a></li>
-    <li><a href="about.html">About</a></li>
-  </ul>
-  <div class="nav-drawer-footer">A library of one</div>
-</aside>
+</div>
 
-<main>
+<section class="page-head wrap">
+  <span class="crumb reveal"><a href="index.html">Heart’s Library</a> <span class="sep">/</span> Bookstores <span class="sep">/</span> New York</span>
+  <h1 class="reveal">Manhattan, briefly. <span class="accent">Thirteen</span> shops.</h1>
+  <p class="deck reveal">Thirteen indie bookstores across Manhattan, Brooklyn, and Queens — smaller and more niche than the big three (Strand, Books Are Magic, McNally Jackson). Drawn from <a href="https://www.katie-ward.com/journal/best-independent-bookstores-in-nyc" rel="noopener" target="_blank">Katie Ward's guide</a>, a photographer's round-up of her city's deeper literary bench.</p>
+  <div class="props reveal">
+      <div class="prop"><span class="prop-label">Compiled</span><span class="prop-value">April 2026</span></div>
+      <div class="prop"><span class="prop-label">Shops</span><span class="prop-value">13 across two boroughs</span></div>
+      <div class="prop"><span class="prop-label">Source</span><span class="prop-value">Katie Ward · Photographer</span></div>
+      <div class="prop"><span class="prop-label">Era</span><span class="prop-value">2021 — 2023 · Two-year stint</span></div>
+  </div>
+</section>
 
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <a href="bookstores.html">Bookstores</a>
-    <span class="sep" aria-hidden="true"></span>
-    <span class="current" aria-current="page">New York</span>
+<main id="main">
+<div class="filterbar" data-filterbar>
+  <div class="filter-inner" role="group" aria-label="Filter by region">
+    <button type="button" data-filter="all" aria-pressed="true">All <span class="count">13</span></button>
+    <button type="button" data-filter="manhattan" aria-pressed="false">Manhattan <span class="count">6</span></button>
+    <button type="button" data-filter="brooklyn-queens" aria-pressed="false">Brooklyn + Queens <span class="count">7</span></button>
+  </div>
+</div>
+<section class="region-section wrap" data-filter-divider="manhattan" id="region-manhattan">
+  <div class="region-head">
+    <div>
+      <span class="kicker region-eyebrow">Region One</span>
+      <h2>Manhattan <span class="count-word">six</span></h2>
+    </div>
+    <a class="region-source" href="https://www.katie-ward.com/journal/best-independent-bookstores-in-nyc" target="_blank" rel="noopener">Source · Katie Ward ↗</a>
+  </div>
+  <ol class="shops">
+      <li class="shop" data-filter-item="manhattan">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.mysteriousbookshop.com/" target="_blank" rel="noopener">The Mysterious Bookshop<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Tribeca</span>
+        </div>
+        <p class="shop-blurb">Crime, thrillers, mystery. Floor-to-ceiling shelves in a <em>dark-academia-meets-jigsaw-puzzle</em> setting. Staff gives real recommendations whether you're an expert or a newcomer.</p>
+      </li>
+      <li class="shop" data-filter-item="manhattan">
+        <div class="shop-head">
+          <a class="shop-name" href="https://mastbooks.com/" target="_blank" rel="noopener">Mast Books<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">East Village</span>
+        </div>
+        <p class="shop-blurb">Rare editions, art books, indie press. No-frills East Village space built for unhurried browsing. Tompkins Square Park is a few blocks away if you want to read what you just bought.</p>
+      </li>
+      <li class="shop" data-filter-item="manhattan">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.villageworksnyc.com/" target="_blank" rel="noopener">Village Works<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">East Village·St. Mark&#x27;s</span>
+        </div>
+        <p class="shop-blurb">Deeply devoted to New York's artistic and literary history, past and present. Events happen on the sidewalk out front. Usually an art exhibition on the walls inside.</p>
+      </li>
+      <li class="shop" data-filter-item="manhattan">
+        <div class="shop-head">
+          <a class="shop-name" href="https://booksofwonder.com/" target="_blank" rel="noopener">Books of Wonder<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Flatiron</span>
+        </div>
+        <p class="shop-blurb">The best children's bookstore in New York, full stop. Rare editions and special collections alongside the new stuff. <em>Where you take kids when you want them to feel the full weight of what books can do.</em></p>
+      </li>
+      <li class="shop" data-filter-item="manhattan">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.yuandmebooks.com/" target="_blank" rel="noopener">Yu &amp; Me Books<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Chinatown</span>
+        </div>
+        <p class="shop-blurb">The first Asian-American woman-owned bookstore in NYC, opened by Lucy Yu. Titles emphasizing Asian and immigrant writers. The building's original facade is preserved as tribute to its past life as a funeral supply store. Bar with cafe classics and craft beer.</p>
+      </li>
+      <li class="shop" data-filter-item="manhattan">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.argosybooks.com/" target="_blank" rel="noopener">Argosy Book Store<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Midtown East</span>
+        </div>
+        <p class="shop-blurb">Literally a hundred years old. Antiquarian, for real bibliophiles. Dark wood and green-shaded lamps — <em>walking in feels like entering the heart of an old library</em>. Janet Malcolm profiled it for <em>The New Yorker</em> in 2014.</p>
+      </li>
+  </ol>
+</section>
+<section class="region-section wrap" data-filter-divider="brooklyn-queens" id="region-brooklyn-queens">
+  <div class="region-head">
+    <div>
+      <span class="kicker region-eyebrow">Region Two</span>
+      <h2>Brooklyn + Queens <span class="count-word">seven</span></h2>
+    </div>
+    <a class="region-source" href="https://www.katie-ward.com/journal/best-independent-bookstores-in-nyc" target="_blank" rel="noopener">Source · Katie Ward ↗</a>
+  </div>
+  <ol class="shops">
+      <li class="shop" data-filter-item="brooklyn-queens">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.toposbookstore.com/topos-too" target="_blank" rel="noopener">Topos Too<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Ridgewood, Queens</span>
+        </div>
+        <p class="shop-blurb">Heady reads, small publishers, and a standout zine section. Airy, well-lit, with tables in the back for tea and pastries. Evening readings from NYC's indie presses. Ward notes this is one of her locals — <em>they give her kids hot chocolate</em>.</p>
+      </li>
+      <li class="shop" data-filter-item="brooklyn-queens">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.therippedbodice.com/" target="_blank" rel="noopener">The Ripped Bodice<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Park Slope, Brooklyn</span>
+        </div>
+        <p class="shop-blurb">Woman- and queer-owned romance specialist. All subgenres — YA, paranormal, LGBTQ+, erotica, mystery, historical, romantasy, classics. The Brooklyn location is thoughtfully laid out for the sheer volume. Gorgeous space.</p>
+      </li>
+      <li class="shop" data-filter-item="brooklyn-queens">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.molassesbooks.org/" target="_blank" rel="noopener">Molasses Books<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Bushwick, Brooklyn</span>
+        </div>
+        <p class="shop-blurb">Used books near Maria Hernandez Park. A bar — wine, coffee, snacks. Deep cuts: translation, theory, poetry, things you won't find anywhere else. Fair prices for your own books if you're looking to rehome them.</p>
+      </li>
+      <li class="shop" data-filter-item="brooklyn-queens">
+        <div class="shop-head">
+          <a class="shop-name" href="https://powerhousearena.com/" target="_blank" rel="noopener">powerHouse Arena<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">DUMBO, Brooklyn</span>
+        </div>
+        <p class="shop-blurb">A big, bright space under the Manhattan Bridge. Art, photo, small press, literature, architecture, design, subculture, and a huge children's section. Old pews for flipping through before you buy. One of the few licensed Jellycat vendors in the city.</p>
+      </li>
+      <li class="shop" data-filter-item="brooklyn-queens">
+        <div class="shop-head">
+          <a class="shop-name" href="https://spoonbillbooks.com/" target="_blank" rel="noopener">Spoonbill &amp; Sugartown<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Williamsburg, Brooklyn</span>
+        </div>
+        <p class="shop-blurb">For the page you have to read twice. Poetic, theoretical, thick with ideas. Tarot decks and occult texts alongside the literary stock. <em>Something here you can't find elsewhere.</em></p>
+      </li>
+      <li class="shop" data-filter-item="brooklyn-queens">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.thewordischange.com/" target="_blank" rel="noopener">The Word Is Change<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Bed-Stuy, Brooklyn</span>
+        </div>
+        <p class="shop-blurb">Community-first and political. Strong events calendar, especially for poets. Posters and ephemera from local and international artists alongside the books.</p>
+      </li>
+      <li class="shop" data-filter-item="brooklyn-queens">
+        <div class="shop-head">
+          <a class="shop-name" href="https://www.twistedspinebooks.com/" target="_blank" rel="noopener">Twisted Spine<span class="arrow" aria-hidden="true">↗</span></a>
+          <span class="shop-locale">Williamsburg, Brooklyn·Honorable mention</span>
+        </div>
+        <p class="shop-blurb">The first horror-devoted bookstore in NYC (brick-and-mortar opened 2024). Marketed at covens and Shelley-heads. The cafe menu tips hard into autumn — <em>Vampire's Kiss, Mary Shelley, Eternal Pumpkin Spice Latte</em>. Kid-friendly tiny chairs in the back.</p>
+      </li>
+  </ol>
+</section>
+<div class="wrap"><div class="list-trailer">Showing <span class="live" data-live-count>13</span> shops · April 2026</div></div>
+<section class="colophon-note wrap">
+  <h2>New York, <span class="accent">shelved</span>.</h2>
+  <p>Back to the timeline for another city, or wander the rest of the library.</p>
+</section>
+<div class="wrap">
+  <nav class="link-row" aria-label="Read deeper">
+      <a class="press-scale" href="bookstores.html">All bookstores <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="press-scale" href="index.html#fiction">Best of Fiction <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="press-scale" href="index.html#nonfiction">Best of Nonfiction <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="press-scale" href="about.html">About <span class="arrow" aria-hidden="true">→</span></a>
   </nav>
-
-  <section class="chapter-title" id="chapterTitle">
-    <div class="chapter-stage">
-      <div class="chapter-eyebrow">
-        <span>2021 — 2023</span>
-        <span class="pip">·</span>
-        <span>Two-year stint</span>
-      </div>
-      <h2>
-        Manhattan, briefly. <span class="accent">Thirteen</span> shops.
-      </h2>
-      <p class="chapter-deck">
-        Thirteen indie bookstores across Manhattan, Brooklyn, and Queens — smaller and more niche than the big three (Strand, Books Are Magic, McNally Jackson). Drawn from <a href="https://www.katie-ward.com/journal/best-independent-bookstores-in-nyc" target="_blank" rel="noopener">Katie Ward's guide</a>, a photographer's round-up of her city's deeper literary bench.
-      </p>
-      <div class="chapter-meta">
-        <div class="item">Compiled<strong>April 2026</strong></div>
-        <div class="item">Shops<strong>13 across two boroughs</strong></div>
-        <div class="item">Source<strong>Katie Ward · Photographer</strong></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Compact aside about the big three (NY-specific structural quirk) -->
-  <section class="note-block compact">
-    <div class="note-stage">
-      <div class="note-label">A note on the big three</div>
-      <p class="note-body">
-        Strand, Books Are Magic, and McNally Jackson are New York institutions. They're not on this list because they're not on Katie Ward's list either — she explicitly set them aside to highlight smaller shops. <em>Go to them anyway.</em> Everyone does, and for good reason.
-      </p>
-    </div>
-  </section>
-
-  <!-- REGION FILTER — sticky beneath the header -->
-  <section class="sticky-filter" data-sticky-filter aria-label="Region filter">
-    <div class="sticky-filter-inner">
-      <span class="sticky-filter-label">Region</span>
-      <div class="btn-group" role="group" aria-label="Filter shops by region">
-        <button class="btn btn--filter btn--sm" type="button" data-filter="all" aria-pressed="true">All <span class="count">13</span></button>
-        <button class="btn btn--filter btn--sm" type="button" data-filter="manhattan" aria-pressed="false">Manhattan <span class="count">6</span></button>
-        <button class="btn btn--filter btn--sm" type="button" data-filter="brooklyn-queens" aria-pressed="false">Brooklyn + Queens <span class="count">7</span></button>
-      </div>
-    </div>
-  </section>
-
-  <!-- REGION 1 — Manhattan -->
-  <section class="region-block" data-region="manhattan" id="region-manhattan">
-    <div class="region-stage">
-      <div class="region-eyebrow"><span>Region One</span></div>
-      <div class="region-headrow">
-        <h3 class="region-name">Manhattan <span class="count-pill">six</span></h3>
-        <a href="https://www.katie-ward.com/journal/best-independent-bookstores-in-nyc" target="_blank" rel="noopener" class="region-source">Source · Katie Ward ↗</a>
-      </div>
-      <ol class="shops-list">
-
-        <li class="shop-entry" data-region="manhattan">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.mysteriousbookshop.com/" target="_blank" rel="noopener"><span class="name-text">The Mysterious Bookshop</span><span class="arrow" aria-hidden="true">↗</span></a>
-              <span class="shop-locale">Tribeca</span>
-            </div>
-            <p class="shop-blurb">Crime, thrillers, mystery. Floor-to-ceiling shelves in a <em>dark-academia-meets-jigsaw-puzzle</em> setting. Staff gives real recommendations whether you're an expert or a newcomer.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="manhattan">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://mastbooks.com/" target="_blank" rel="noopener"><span class="name-text">Mast Books</span><span class="arrow" aria-hidden="true">↗</span></a>
-              <span class="shop-locale">East Village</span>
-            </div>
-            <p class="shop-blurb">Rare editions, art books, indie press. No-frills East Village space built for unhurried browsing. Tompkins Square Park is a few blocks away if you want to read what you just bought.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="manhattan">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.villageworksnyc.com/" target="_blank" rel="noopener"><span class="name-text">Village Works</span><span class="arrow" aria-hidden="true">↗</span></a>
-              <span class="shop-locale">East Village <span class="dot">·</span> St. Mark's</span>
-            </div>
-            <p class="shop-blurb">Deeply devoted to New York's artistic and literary history, past and present. Events happen on the sidewalk out front. Usually an art exhibition on the walls inside.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="manhattan">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://booksofwonder.com/" target="_blank" rel="noopener"><span class="name-text">Books of Wonder</span><span class="arrow" aria-hidden="true">↗</span></a>
-              <span class="shop-locale">Flatiron</span>
-            </div>
-            <p class="shop-blurb">The best children's bookstore in New York, full stop. Rare editions and special collections alongside the new stuff. <em>Where you take kids when you want them to feel the full weight of what books can do.</em></p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="manhattan">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.yuandmebooks.com/" target="_blank" rel="noopener"><span class="name-text">Yu &amp; Me Books</span><span class="arrow" aria-hidden="true">↗</span></a>
-              <span class="shop-locale">Chinatown</span>
-            </div>
-            <p class="shop-blurb">The first Asian-American woman-owned bookstore in NYC, opened by Lucy Yu. Titles emphasizing Asian and immigrant writers. The building's original facade is preserved as tribute to its past life as a funeral supply store. Bar with cafe classics and craft beer.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="manhattan">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.argosybooks.com/" target="_blank" rel="noopener"><span class="name-text">Argosy Book Store</span><span class="arrow" aria-hidden="true">↗</span></a>
-              <span class="shop-locale">Midtown East</span>
-            </div>
-            <p class="shop-blurb">Literally a hundred years old. Antiquarian, for real bibliophiles. Dark wood and green-shaded lamps — <em>walking in feels like entering the heart of an old library</em>. Janet Malcolm profiled it for <em>The New Yorker</em> in 2014.</p>
-          </div>
-        </li>
-
-      </ol>
-    </div>
-  </section>
-
-  <!-- REGION 2 — Brooklyn + Queens -->
-  <section class="region-block" data-region="brooklyn-queens" id="region-brooklyn-queens">
-    <div class="region-stage">
-      <div class="region-eyebrow"><span>Region Two</span></div>
-      <div class="region-headrow">
-        <h3 class="region-name">Brooklyn + Queens <span class="count-pill">seven</span></h3>
-        <a href="https://www.katie-ward.com/journal/best-independent-bookstores-in-nyc" target="_blank" rel="noopener" class="region-source">Source · Katie Ward ↗</a>
-      </div>
-      <ol class="shops-list">
-
-        <li class="shop-entry" data-region="brooklyn-queens">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.toposbookstore.com/topos-too" target="_blank" rel="noopener"><span class="name-text">Topos Too</span><span class="arrow" aria-hidden="true">↗</span></a>
-              <span class="shop-locale">Ridgewood, Queens</span>
-            </div>
-            <p class="shop-blurb">Heady reads, small publishers, and a standout zine section. Airy, well-lit, with tables in the back for tea and pastries. Evening readings from NYC's indie presses. Ward notes this is one of her locals — <em>they give her kids hot chocolate</em>.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="brooklyn-queens">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.therippedbodice.com/" target="_blank" rel="noopener"><span class="name-text">The Ripped Bodice</span><span class="arrow" aria-hidden="true">↗</span></a>
-              <span class="shop-locale">Park Slope, Brooklyn</span>
-            </div>
-            <p class="shop-blurb">Woman- and queer-owned romance specialist. All subgenres — YA, paranormal, LGBTQ+, erotica, mystery, historical, romantasy, classics. The Brooklyn location is thoughtfully laid out for the sheer volume. Gorgeous space.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="brooklyn-queens">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.molassesbooks.org/" target="_blank" rel="noopener"><span class="name-text">Molasses Books</span><span class="arrow" aria-hidden="true">↗</span></a>
-              <span class="shop-locale">Bushwick, Brooklyn</span>
-            </div>
-            <p class="shop-blurb">Used books near Maria Hernandez Park. A bar — wine, coffee, snacks. Deep cuts: translation, theory, poetry, things you won't find anywhere else. Fair prices for your own books if you're looking to rehome them.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="brooklyn-queens">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://powerhousearena.com/" target="_blank" rel="noopener"><span class="name-text">powerHouse Arena</span><span class="arrow" aria-hidden="true">↗</span></a>
-              <span class="shop-locale">DUMBO, Brooklyn</span>
-            </div>
-            <p class="shop-blurb">A big, bright space under the Manhattan Bridge. Art, photo, small press, literature, architecture, design, subculture, and a huge children's section. Old pews for flipping through before you buy. One of the few licensed Jellycat vendors in the city.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="brooklyn-queens">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://spoonbillbooks.com/" target="_blank" rel="noopener"><span class="name-text">Spoonbill &amp; Sugartown</span><span class="arrow" aria-hidden="true">↗</span></a>
-              <span class="shop-locale">Williamsburg, Brooklyn</span>
-            </div>
-            <p class="shop-blurb">For the page you have to read twice. Poetic, theoretical, thick with ideas. Tarot decks and occult texts alongside the literary stock. <em>Something here you can't find elsewhere.</em></p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="brooklyn-queens">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.thewordischange.com/" target="_blank" rel="noopener"><span class="name-text">The Word Is Change</span><span class="arrow" aria-hidden="true">↗</span></a>
-              <span class="shop-locale">Bed-Stuy, Brooklyn</span>
-            </div>
-            <p class="shop-blurb">Community-first and political. Strong events calendar, especially for poets. Posters and ephemera from local and international artists alongside the books.</p>
-          </div>
-        </li>
-
-        <li class="shop-entry" data-region="brooklyn-queens">
-          <div class="shop-body">
-            <div class="shop-headline">
-              <a class="shop-name" href="https://www.twistedspinebooks.com/" target="_blank" rel="noopener"><span class="name-text">Twisted Spine</span><span class="arrow" aria-hidden="true">↗</span></a>
-              <span class="shop-locale">Williamsburg, Brooklyn <span class="dot">·</span> Honorable mention</span>
-            </div>
-            <p class="shop-blurb">The first horror-devoted bookstore in NYC (brick-and-mortar opened 2024). Marketed at covens and Shelley-heads. The cafe menu tips hard into autumn — <em>Vampire's Kiss, Mary Shelley, Eternal Pumpkin Spice Latte</em>. Kid-friendly tiny chairs in the back.</p>
-          </div>
-        </li>
-
-      </ol>
-    </div>
-  </section>
-
-  <section class="credit">
-    <div class="credit-stage">
-      <div class="credit-block">
-        <div class="credit-kicker">Credit where it's due</div>
-        <h3 class="credit-headline">This list is <em>Katie Ward's</em>, not mine.</h3>
-        <div class="credit-body">
-          <p>I lived in Manhattan for two years and mostly orbited Strand, McNally Jackson, and a couple of neighborhood shops. The shops above — the smaller, more niche ones — are shops I learned from <a href="https://www.katie-ward.com/journal/best-independent-bookstores-in-nyc" target="_blank" rel="noopener">Katie Ward's piece</a>. She's a photographer with a bookshelf worth photographing and an appreciation for the city's literary topography. Her descriptions do more with a paragraph than I could do with three.</p>
-          <p>Read the <a href="https://www.katie-ward.com/journal/best-independent-bookstores-in-nyc" target="_blank" rel="noopener">full Katie Ward post</a> — photos of each shop, and her framing of "<em>collecting books and reading books are two different hobbies</em>" is worth the click by itself.</p>
-        </div>
-        <div class="credit-signoff">
-          <span><span class="mark">¶</span>C.H. · Franklin, TN</span>
-          <span>NYC · 13 of 13</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="next-city">
-    <div class="next-city-inner">
-      <a href="bookstores-nashville.html" class="next-city-row" id="nextCityRow">
-        <div class="next-city-label">Next in the timeline · 2023 — 2027</div>
-        <div>
-          <h3 class="next-city-name">Nashville, <em>Tennessee</em></h3>
-          <p class="next-city-blurb">Where I moved next. Nine shops — Parnassus anchors it.</p>
-        </div>
-        <span class="next-city-arrow" aria-hidden="true">→</span>
-      </a>
-    </div>
-  </section>
-
-  <section class="end-page" id="endPage">
-    <div class="end-stage">
-      <span class="ornament">❦</span>
-      <h2>
-        Thirteen shops, <em>two years</em>.
-      </h2>
-      <p>
-        That's the New York stint. Two years of orbiting Strand and McNally Jackson and missing most of these. The list above is what I'd hit first if I were back. Pick the next city, or wander the rest of the library.
-      </p>
-      <div class="end-links">
-        <a href="bookstores.html">All cities</a>
-        <a href="bookstores-nashville.html">Nashville</a>
-        <a href="fiction.html">Best of Fiction</a>
-        <a href="about.html">About</a>
-      </div>
-    </div>
-    <div class="end-footer">
-      <div class="left">A library of one. Franklin → Chicago.</div>
-      <div class="right">
-        <a href="#">Newsletter</a>
-        <a href="#">RSS</a>
-        <a href="mailto:hello@heartslibrary.com">Contact</a>
-      </div>
-    </div>
-  </section>
+</div>
 
 </main>
-
-<!-- Back-to-top button — site.js's setupBackToTop wires it up.
-     Hidden until the user scrolls past 600px; smooth-scrolls
-     to top on click; shifts focus back to the wordmark for a11y. -->
-<button class="btn btn--icon back-to-top" id="backToTop"
-        type="button"
-        aria-label="Back to top"
-        aria-hidden="true">
-  <svg viewBox="0 0 18 18" aria-hidden="true" focusable="false">
-    <path d="M9 14 V4 M4 9 L9 4 L14 9" />
-  </svg>
-</button>
-
-<script src="js/motion.js"></script>
-<script src="js/site.js"></script>
-<script src="js/components/city-page.js"></script>
-
+<footer class="footer">
+  <div class="footer__inner">
+    <span class="footer__mark"><svg width="13" height="12" viewBox="2.462 4.062 19.133 17.838" aria-hidden="true"><path fill="#E5484D" d="M12.1 7.6C13.7 5 15.8 3.7 18 4.15 20.9 4.6 22.1 7.1 21.4 9.9 20.8 12.5 18 15.4 11.7 21.9 5.6 15.4 3.1 12.4 2.6 9.7 2 6.9 3.4 4.6 6 4.2 8.1 3.85 10.5 5 12.1 7.6Z"/></svg><span>Heart’s Library</span></span>
+    <span class="footer__stars" aria-hidden="true">✶✶✶✶</span>
+    <span>A library of one. Franklin → Chicago.</span>
+    <span class="footer__links">
+      <a class="link-hover" href="https://substack.com/@codyheart" target="_blank" rel="noopener">Newsletter</a>
+      <a class="link-hover" href="https://www.goodreads.com/user/show/164877363-cody-heart" target="_blank" rel="noopener">Goodreads</a>
+      <a class="link-hover" href="mailto:hello@heartslibrary.com">Contact</a>
+    </span>
+  </div>
+</footer>
 </body>
 </html>
