@@ -3,14 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dashboards — Heart&#x27;s Library</title>
-<meta name="description" content="Live data, built from the reading. Two dashboards: the war on Gaza, and who holds American wealth.">
+<title>The Log — Heart&#x27;s Library</title>
+<meta name="description" content="Every book Cody Heart has finished — ratings and dates, synced straight from Goodreads.">
 <link rel="stylesheet" href="css/review.css">
-<script>window.coverFallback=window.coverFallback||function(i){(window.__fellCovers=window.__fellCovers||[]).push(i)}</script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
 <script defer src="js/review.js"></script>
+<script defer src="js/log.js"></script>
+<script defer src="js/log-page.js"></script>
 </head>
 <body>
 
@@ -33,7 +34,7 @@
           </div>
         </div>
       </div>
-      <a class="nav__link link-hover" href="dashboards.html" aria-current="page">Dashboards</a>
+      <a class="nav__link link-hover" href="dashboards.html">Dashboards</a>
       <a class="nav__link link-hover" href="about.html">About</a>
       <div class="nav__drop">
         <button class="nav__link link-hover press-scale" aria-expanded="false" aria-haspopup="true" aria-controls="menu-elsewhere">Elsewhere<svg class="chev" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4L5 6.5L7.5 4"/></svg></button>
@@ -80,117 +81,17 @@
 </div>
 
 <section class="page-head wrap">
-  <span class="crumb reveal"><a href="index.html">Heart’s Library</a> <span class="sep">/</span> Dashboards</span>
-  <h1 class="reveal">Live data, <span class="accent">built</span> from the reading.</h1>
-  <p class="deck reveal">One tracks the war on Gaza. The other maps who holds American wealth — and who doesn’t. Both started with a book.</p>
-  <div class="props reveal">
-      <div class="prop"><span class="prop-label">Compiled</span><span class="prop-value">April 2026</span></div>
-      <div class="prop"><span class="prop-label">Updated</span><span class="prop-value">Live · refreshed continuously</span></div>
-      <div class="prop"><span class="prop-label">Built with</span><span class="prop-value">Claude · Anthropic</span></div>
-  </div>
+  <span class="crumb reveal">Heart&rsquo;s Library <span class="sep">/</span> The Log</span>
+  <h1 class="reveal">Every book, <span class="accent">logged</span>.</h1>
+  <p class="deck reveal">The complete record, synced straight from Goodreads —
+  the Shelf keeps the five-stars, this keeps score. It updates itself.</p>
+  <p class="log-stats reveal" id="logStats"></p>
 </section>
-
 <main id="main">
-<p class="dash-note wrap">A book teaches you the history of a subject. Live data shows you where it
-stands today. These dashboards are my attempt to turn topics I’ve been reading
-about into something I can watch change in real time. Built with help from
-Claude, the AI assistant from Anthropic. They’re <em>exploratory rather than
-journalistic</em> — extensions of the reading, meant to send you back to the
-books for real context.</p>
-
-<section class="dash-feature wrap" aria-label="Conflict Casualties">
-  <div class="rubric" role="presentation"><span class="rubric-label">The Dashboards · Two Explorations · Live</span></div>
-  <div class="statrow">
-    <div class="stat">
-      <div class="figure" data-count="75200" data-post="+">75,200+</div>
-      <p class="what">violent deaths estimated by the Gaza Mortality Survey through Jan 2025</p>
-      <div class="source">The Lancet Global Health</div>
-    </div>
-    <div class="stat">
-      <div class="figure" data-count="17492">17,492</div>
-      <p class="what">children killed in Gaza as of Feb 2025</p>
-      <div class="source">Palestinian Ministry of Health</div>
-    </div>
-    <div class="stat">
-      <div class="figure">12 / 36</div>
-      <p class="what">hospitals still functioning as of May 2025</p>
-      <div class="source">World Health Organization</div>
-    </div>
-    <div class="stat">
-      <div class="figure" data-count="200" data-post="+">200+</div>
-      <p class="what">journalists killed since October 2023</p>
-      <div class="source">Committee to Protect Journalists</div>
-    </div>
-  </div>
-  <div class="dash-body">
-    <span class="kicker companion">Companion to · Middle East</span>
-    <h2>Conflict <span class="accent">Casualties</span>.</h2>
-    <p>Live casualty data from Gaza and the West Bank, drawn from the most
-    reliable public sources — the Gaza Ministry of Health’s administrative
-    records, verified third-party surveys published in <em>The Lancet</em>, and
-    UN OCHA field reporting. Built to make the scale of what’s happening harder
-    to turn away from.</p>
-    <div class="behind"><span class="label">Books behind it</span>
-      <em>The Hundred Years’ War on Palestine</em><span class="sep">·</span>
-      <em>The Eyes of Gaza</em><span class="sep">·</span>
-      <em>One Day, Everyone Will Have Always Been Against This</em>
-    </div>
-    <a class="btn-open" href="https://conflictcasualties.org" target="_blank" rel="noopener">Open the dashboard →</a>
-  </div>
+<section class="wrap" aria-label="Reading log">
+  <div id="logList" class="log-list"></div>
+  <noscript><p class="noscript-note">The log needs JavaScript to render — it reads from <code>js/log.js</code>.</p></noscript>
 </section>
-
-<section class="dash-feature wrap" aria-label="Lacunae">
-  <div class="statrow">
-    <div class="stat">
-      <div class="figure" data-count="30.5" data-post="%">30.5%</div>
-      <p class="what">of U.S. household wealth held by the top 1%</p>
-      <div class="source">Federal Reserve · Q1 2024</div>
-    </div>
-    <div class="stat">
-      <div class="figure" data-count="2.5" data-post="%">2.5%</div>
-      <p class="what">of U.S. household wealth held by the bottom 50%</p>
-      <div class="source">Federal Reserve · Q1 2024</div>
-    </div>
-    <div class="stat">
-      <div class="figure" data-count="4.3" data-post="×">4.3×</div>
-      <p class="what">average wealth of white households ($1.5M) vs Black households ($352K)</p>
-      <div class="source">Federal Reserve · SCF 2022</div>
-    </div>
-    <div class="stat">
-      <div class="figure" data-count="2.7" data-pre="$" data-post="T">$2.7T</div>
-      <p class="what">combined net worth of the 12 wealthiest Americans</p>
-      <div class="source">Bloomberg Billionaires Index · Jan 2026</div>
-    </div>
-  </div>
-  <div class="dash-body">
-    <span class="kicker companion">Companion to · Black History · Feminism</span>
-    <h2><span class="accent">Lacunae</span>.</h2>
-    <p>The racial and gender dimensions of wealth concentration in America. The
-    top 1% owns roughly 30.5% of the country’s wealth; the bottom 50% owns 2.5%.
-    Broken down by race and by gender, <em>the history on the Nonfiction page
-    stops being history</em>.</p>
-    <div class="behind"><span class="label">Books behind it</span>
-      <em>The 1619 Project</em><span class="sep">·</span>
-      <em>The New Jim Crow</em><span class="sep">·</span>
-      <em>Caliban and the Witch</em><span class="sep">·</span>
-      <em>Invisible Women</em>
-    </div>
-    <a class="btn-open" href="https://lacunae.us" target="_blank" rel="noopener">Open the dashboard →</a>
-  </div>
-</section>
-<section class="colophon-note wrap">
-  <h2>Two explorations, <span class="accent">and counting</span>.</h2>
-  <p>Each dashboard started with a book that left me with follow-up questions. More are in the queue — abortion access in the post-Roe map, climate displacement, prison labor. If a topic on the Nonfiction page raises a question for you, write in.</p>
-</section>
-<div class="wrap">
-  <nav class="link-row" aria-label="Read deeper">
-      <a class="press-scale" href="index.html#nonfiction">Best of Nonfiction <span class="arrow" aria-hidden="true">→</span></a>
-      <a class="press-scale" href="index.html#fiction">Best of Fiction <span class="arrow" aria-hidden="true">→</span></a>
-      <a class="press-scale" href="bookstores.html">Bookstores by city <span class="arrow" aria-hidden="true">→</span></a>
-      <a class="press-scale" href="about.html">About <span class="arrow" aria-hidden="true">→</span></a>
-  </nav>
-</div>
-
 </main>
 <footer class="footer">
   <div class="footer__inner">

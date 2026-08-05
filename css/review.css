@@ -191,6 +191,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   }
 }
 
+/* The Shelf's "shelved" wears Chicago-flag blue instead. */
+.accent--chicago { color: #2493C6; }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .accent--chicago { background-image: linear-gradient(100deg, #2493C6, #41B6E6); }
+}
+
 /* ============================================================
    NAV — sticky, blurred, hides on scroll down (portfolio port)
    ============================================================ */
@@ -605,6 +611,130 @@ main { display: block; }
 .kicker--ink { color: var(--ink-55); }
 
 /* ============================================================
+   HERO (index) — weighted page-head: bigger display type + a
+   byline avatar on the left, the currently-reading card riding
+   the right column. Hovering the avatar zooms the full photo
+   in a floating tooltip (nothing shifts).
+   ============================================================ */
+/* Set like a book's title page: everything centered on one axis —
+   department, title, dek, author line, printer's ornament. */
+.page-head--hero { display: block; text-align: center; }
+/* A breath of sky behind the title page, fading to the white ground.
+   Painted on the body so it bleeds full width with no overflow. */
+body.is-shelf {
+  background-image: linear-gradient(180deg, rgba(65, 182, 230, .10), rgba(65, 182, 230, 0) 620px);
+  background-repeat: no-repeat;
+}
+.page-head--hero h1 { font-size: 40px; letter-spacing: -.015em; }
+.page-head--hero .deck {
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-wrap: balance;
+}
+.hero-ornament {
+  margin-top: 40px;
+  font-size: 12px;
+  letter-spacing: .4em;
+  color: var(--heart);
+}
+/* The headline's full stop is the wordmark heart. */
+.h1-heart svg {
+  width: .38em;
+  height: .36em;
+  display: inline-block;
+  margin-left: .06em;
+}
+
+/* Hover "Chicago" in the deck → the Cubs W flag flies. */
+.chi-w {
+  position: relative;
+  border-bottom: 1px dotted var(--ink-30);
+  cursor: default;
+}
+.w-pop {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  width: 140px;
+  height: 92px;
+  transform: translate(-50%, 6px) scale(.9) rotate(-4deg);
+  transform-origin: bottom center;
+  opacity: 0;
+  pointer-events: none;
+  border-radius: 6px;
+  box-shadow: var(--shadow-floating);
+  transition: opacity .2s ease, transform .25s var(--ease-out-quart);
+  z-index: var(--z-overlay);
+}
+@media (hover: hover) and (pointer: fine) {
+  .chi-w:hover .w-pop { opacity: 1; transform: translate(-50%, 0) rotate(-4deg); }
+}
+/* Title-page author line: centered, no furniture. */
+.hero-byline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  margin-top: 22px;
+}
+.byline-dot { color: var(--ink-30); }
+.avatar-zoom {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+}
+.byline-avatar {
+  display: block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 50% 42%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .08);
+}
+.avatar-pop {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  width: 230px;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: var(--shadow-floating);
+  opacity: 0;
+  transform: translateY(-6px) scale(.92);
+  transform-origin: top left;
+  transition: opacity .2s ease, transform .25s var(--ease-out-quart);
+  pointer-events: none;
+  z-index: var(--z-overlay);
+}
+@media (hover: hover) and (pointer: fine) {
+  .avatar-zoom:hover .avatar-pop { opacity: 1; transform: none; }
+}
+.byline-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-85);
+}
+.byline-gr {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+  transition: color .15s ease;
+}
+.byline-gr:hover { color: var(--ink-80); }
+@media (min-width: 900px) {
+  .page-head--hero h1 { font-size: 64px; }
+}
+
+/* ============================================================
    SHELF — currently reading, chips, book rows
    ============================================================ */
 
@@ -635,14 +765,37 @@ main { display: block; }
   color: var(--ink-40);
   margin-bottom: 6px;
 }
-.cr-list li {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 8px 0;
-}
 .cr-list li + li { border-top: 1px solid rgba(0, 0, 0, .05); }
+.cr-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 10px;
+  margin: 0 -10px;
+  border-radius: 8px;
+  transition: background-color .15s ease;
+}
+.cr-arrow {
+  font-size: 12px;
+  color: var(--ink-40);
+  opacity: 0;
+  transform: translate(-3px, 2px);
+  transition: opacity .15s ease, transform .15s var(--ease-out-quart);
+}
+@media (hover: hover) and (pointer: fine) {
+  .cr-link[href]:hover { background: var(--surface-hover); }
+  .cr-link[href]:hover .cr-arrow { opacity: 1; transform: none; }
+}
+.cr-thumb {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--surface-hover);
+  box-shadow: var(--shadow-flush);
+}
+.cr-by { margin-left: auto; }
 .cr-title {
   font-family: var(--serif);
   font-size: 15px;
@@ -1561,7 +1714,7 @@ main { display: block; }
   margin-top: 24px;
 }
 
-.about-essay a, .colophon-note a, .dash-note a {
+.about-essay a, .colophon-note a, .dash-note a, .deck a {
   font-weight: 500;
   text-decoration: underline;
   text-decoration-color: rgba(0, 0, 0, .22);
@@ -1569,7 +1722,7 @@ main { display: block; }
   text-underline-offset: 3px;
   transition: color .15s ease;
 }
-.about-essay a:hover, .colophon-note a:hover, .dash-note a:hover { color: var(--ink-85); }
+.about-essay a:hover, .colophon-note a:hover, .dash-note a:hover, .deck a:hover { color: var(--ink-85); }
 
 /* ============================================================
    FOOTER — portfolio footer, with the library's four stars
@@ -1612,6 +1765,137 @@ main { display: block; }
 .footer__links { display: flex; align-items: center; gap: 16px; }
 .footer__links a { transition: color .15s ease; }
 .footer__links a:hover { color: rgba(0, 0, 0, .85); }
+
+/* ============================================================
+   LOG BANNER — the "look at everything I've read" card on the
+   Shelf, in the hero's Chicago blue. Lives where Up Next did.
+   ============================================================ */
+.log-banner { padding-top: 64px; }
+.log-card {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  padding: 44px 36px 40px;
+  background: linear-gradient(120deg, #1E86BC, #41B6E6);
+  color: #fff;
+  box-shadow: var(--shadow-floating);
+  transition: transform .35s var(--ease-out-quart), box-shadow .35s var(--ease-out-quart);
+}
+.log-card:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(30, 134, 188, .35), inset 0 0 0 1px rgba(255, 255, 255, .12); }
+.log-card__stars {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 96px;
+  letter-spacing: 8px;
+  color: rgba(255, 255, 255, .14);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.log-card__kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: rgba(255, 255, 255, .75);
+}
+.log-card__title {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.15;
+  margin-top: 10px;
+  max-width: 560px;
+}
+.log-card__title em { font-style: italic; }
+.log-card__stats {
+  font-size: 14px;
+  color: rgba(255, 255, 255, .85);
+  margin-top: 10px;
+}
+.log-card__cta {
+  display: inline-block;
+  margin-top: 22px;
+  background: #fff;
+  color: #1E86BC;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: transform .25s var(--ease-out-quart);
+}
+.log-card:hover .log-card__cta { transform: translateX(2px); }
+@media (min-width: 640px) {
+  .log-card { padding: 56px 56px 52px; }
+  .log-card__title { font-size: 38px; }
+}
+@media (max-width: 560px) {
+  .log-card__stars { font-size: 56px; right: 12px; }
+}
+
+/* ============================================================
+   THE LOG — the complete reading record (log.html)
+   ============================================================ */
+.log-stats {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--ink-40);
+  margin-top: 14px;
+}
+.log-list { padding-bottom: 32px; }
+.log-year {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--ink-85);
+  margin: 40px 0 4px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.log-rows { list-style: none; }
+.log-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border);
+}
+.log-row .t {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink-85);
+  min-width: 0;
+}
+.log-row .a {
+  font-size: 13px;
+  color: var(--ink-45);
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.log-row .spacer { flex: 1; }
+.log-row .stars {
+  font-size: 10px;
+  letter-spacing: 3px;
+  white-space: nowrap;
+  color: var(--ink-85);
+}
+.log-row .stars .off { color: var(--ink-30); opacity: .5; }
+.log-row.is-five .stars .on { color: var(--heart); }
+.log-row .d {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-30);
+  white-space: nowrap;
+  min-width: 52px;
+  text-align: right;
+}
 
 /* ============================================================
    MOTION HELPERS

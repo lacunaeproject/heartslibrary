@@ -48,6 +48,11 @@ from your Goodreads "currently reading" shelf every 6 hours by a GitHub
 Action (`.github/workflows/sync-goodreads.yml`, which runs
 `scripts/sync-goodreads.py`). Just update Goodreads and the site follows.
 
+**Currently not displayed** — the card was retired from the Shelf's hero.
+The data keeps syncing and the renderer in `js/shelf.js` is intact; to
+bring it back, add `<div id="currentlyReading" class="current-read reveal">
+</div>` to `index.html`.
+
 - Don't hand-edit `CURRENT` — the next sync overwrites it. To change what
   shows, change the shelf on Goodreads.
 - To sync right now instead of waiting: GitHub → Actions → "Sync Goodreads"
@@ -56,8 +61,10 @@ Action (`.github/workflows/sync-goodreads.yml`, which runs
 - Subtitles ("Rise and Kill First: The Secret History of…") and series
   markers are trimmed automatically so the card stays tidy.
 - Empty shelf on Goodreads = the callout quietly disappears. Nothing breaks.
-- `META.avatar` (also near the top of `js/books.js`) — the URL of the
-  circular author photo on the Shelf. Still manual.
+- Your photo on the Shelf is `images/cody-portrait.jpg` — it's the little
+  byline avatar under the deck, and hovering it zooms the full photo.
+  Swap the file to change it (portrait-ish works best; the tooltip crops
+  it 4:5, the circle crops near the top).
 
 ## Five-star reads → drafts
 
@@ -79,3 +86,13 @@ Don't want one on the shelf? Delete the block and add its title to
 `DRAFT_SKIP` at the top of `js/drafts.js` so it isn't re-drafted.
 Only books finished after 29 Jul 2026 are picked up — the older backlog
 stays untouched.
+
+## The Log (log.html)
+
+**Fully automatic.** `log.html` shows every book on your Goodreads "read"
+shelf — title, author, star rating, date finished, grouped by year. The
+sync rewrites `js/log.js` from the full shelf on every run; there is
+nothing to maintain. Five-star rows get their stars in the wordmark red.
+Mark a book read (or fix a rating) on Goodreads and the page follows.
+It's linked from the footer on every page, the "A library of one" note
+on the Shelf, and the mobile menus — deliberately not the main nav.

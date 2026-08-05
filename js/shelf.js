@@ -31,9 +31,18 @@
       '<span class="cr-label">Currently reading</span>' +
       '<ul class="cr-list">' +
       currentBooks.map(function (c) {
-        return "<li><span class=\"cr-title\">" + esc(c.title) + "</span>" +
+        return "<li>" +
+          '<a class="cr-link"' +
+          (c.href ? ' href="' + esc(c.href) + '" target="_blank" rel="noopener"' : "") + ">" +
+          (c.cover
+            ? '<img class="cr-thumb" src="' + esc(c.cover) + '" alt="" ' +
+              'loading="lazy" onerror="this.remove()">'
+            : "") +
+          '<span class="cr-title">' + esc(c.title) + "</span>" +
           (c.author ? ' <span class="cr-by">' + esc(c.author) + "</span>" : "") +
-          (c.note ? ' <span class="cr-note">' + esc(c.note) + "</span>" : "") + "</li>";
+          (c.note ? ' <span class="cr-note">' + esc(c.note) + "</span>" : "") +
+          (c.href ? '<span class="cr-arrow" aria-hidden="true">↗</span>' : "") +
+          "</a></li>";
       }).join("") +
       "</ul>";
   } else if (cr) {
@@ -236,6 +245,19 @@
 
   /* Up-next strip retired — the UPNEXT data in books.js is kept
      but no longer rendered (its markup is gone from index.html). */
+
+  /* ---------- log banner stats (reads js/log.js) ---------- */
+  var lb = document.getElementById("logBannerStats");
+  if (lb && window.LOG && window.LOG.length) {
+    var lbFive = 0, lbSince = null;
+    window.LOG.forEach(function (b) {
+      if (b.rating === 5) lbFive++;
+      if (b.date) lbSince = b.date.slice(0, 4);
+    });
+    lb.textContent = window.LOG.length + " books · " + lbFive +
+      " five-stars" + (lbSince ? " · logging since " + lbSince : "") +
+      " — straight from Goodreads.";
+  }
 
   apply();
 })();

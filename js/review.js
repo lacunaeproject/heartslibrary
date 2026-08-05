@@ -223,6 +223,9 @@
     }
     arrival.from(".page-head .crumb", { autoAlpha: 0, y: 6, duration: 0.5 }, 0.35);
     arrival.from(".page-head .deck", { autoAlpha: 0, y: 14, duration: 0.8 }, 0.65);
+    if (document.querySelector(".page-head .hero-byline")) {
+      arrival.from(".page-head .hero-byline", { autoAlpha: 0, y: 10, duration: 0.7 }, 0.75);
+    }
     arrival.from(".page-head .props .prop", {
       autoAlpha: 0, y: 8, duration: 0.5, stagger: 0.06
     }, 0.8);
@@ -231,7 +234,7 @@
     if (hasST) {
       var groups = document.querySelectorAll(
         ".front-card, .review-article, .entry, .briefly-card, .era-chapter, .dash-feature, " +
-        ".colophon-note, .note-block, .region-section, .about-grid, .pull-quote, .link-row"
+        ".log-banner, .colophon-note, .note-block, .region-section, .about-grid, .pull-quote, .link-row"
       );
       Array.prototype.forEach.call(groups, function (el) {
         gsap.set(el.querySelectorAll(".reveal"), { visibility: "visible" });

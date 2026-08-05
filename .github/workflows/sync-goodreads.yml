@@ -21,6 +21,7 @@ jobs:
         run: |
           git add js/books.js
           if [ -f js/drafts.js ]; then git add js/drafts.js; fi
+          if [ -f js/log.js ]; then git add js/log.js; fi
           if ! git diff --cached --quiet; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

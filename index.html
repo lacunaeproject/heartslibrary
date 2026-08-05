@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Heart&#x27;s Library — Five-star reads, shelved</title>
-<meta name="description" content="Cody Heart&#x27;s five-star reads: short reviews with stars, filterable by topic, with the full review a tap away.">
+<title>Heart&#x27;s Library — My reading life, shelved</title>
+<meta name="description" content="Cody Heart&#x27;s reading life, catalogued: the five-star shelf with short takes, a log of everything finished, and the bookstores along the way.">
 <link rel="stylesheet" href="css/review.css">
 <script>window.coverFallback=window.coverFallback||function(i){(window.__fellCovers=window.__fellCovers||[]).push(i)}</script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
@@ -12,9 +12,10 @@
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
 <script defer src="js/review.js"></script>
 <script defer src="js/books.js"></script>
+<script defer src="js/log.js"></script>
 <script defer src="js/shelf.js"></script>
 </head>
-<body>
+<body class="is-shelf">
 
 <a class="skip" href="#main">Skip to content</a>
 <nav class="nav" aria-label="Main navigation">
@@ -56,6 +57,7 @@
 <div class="mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">
   <div class="mobile-menu__inner">
     <a class="mobile-menu__link" href="index.html">The Shelf</a>
+    <a class="mobile-menu__link" href="log.html">The Log</a>
     <a class="mobile-menu__link" href="dashboards.html">Dashboards</a>
     <a class="mobile-menu__link" href="about.html">About</a>
     <div class="mobile-menu__section">
@@ -80,14 +82,28 @@
   </div>
 </div>
 
-<section class="page-head wrap">
-  <span class="crumb reveal">Heart’s Library <span class="sep">/</span> The Shelf</span>
-  <span id="authorAvatar"></span>
-  <h1 class="reveal">Five-star reads, <span class="accent">shelved</span>.</h1>
-  <p class="deck reveal">American slavery told by the man who lived it. James Baldwin in 1963.
-  A novel about a quiet professor. Every book here earned its spot — short takes
-  below, the full review one tap away.</p>
-  <div id="currentlyReading" class="current-read reveal"></div>
+<section class="page-head page-head--hero wrap">
+  <div class="hero-main">
+    <h1 class="reveal">My reading life, <span class="accent accent--chicago">shelved</span><span
+      class="h1-heart" aria-hidden="true"><svg viewBox="2.462 4.062 19.133 17.838"><path fill="#E5484D" d="M12.1 7.6C13.7 5 15.8 3.7 18 4.15 20.9 4.6 22.1 7.1 21.4 9.9 20.8 12.5 18 15.4 11.7 21.9 5.6 15.4 3.1 12.4 2.6 9.7 2 6.9 3.4 4.6 6 4.2 8.1 3.85 10.5 5 12.1 7.6Z"/></svg></span></h1>
+    <p class="deck reveal">Reading has followed me from Los Angeles to <span class="chi-w">Chicago<svg
+      class="w-pop" viewBox="0 0 140 92" aria-hidden="true"><rect x="1" y="1" width="138" height="90" rx="4" fill="#fff" stroke="rgba(0,0,0,.14)"/><text x="70" y="72" text-anchor="middle" font-family="Geist, system-ui, sans-serif" font-size="78" font-weight="800" fill="#0E3386">W</text></svg></span> — this is the
+    record it left. A shelf of five-stars with a short take on each, a log of
+    <a href="log.html">everything I’ve finished</a>, and
+    <a href="bookstores.html">the bookstores I loved along the way</a>.</p>
+    <div class="hero-byline reveal">
+      <span class="avatar-zoom">
+        <img class="byline-avatar" src="images/cody-portrait.jpg" alt="Cody Heart"
+             onerror="this.closest('.hero-byline').remove()">
+        <img class="avatar-pop" src="images/cody-portrait.jpg" alt="" aria-hidden="true">
+      </span>
+      <span class="byline-name">By Cody Heart</span>
+      <span class="byline-dot" aria-hidden="true">·</span>
+      <a class="byline-gr" href="https://www.goodreads.com/user/show/164877363-cody-heart"
+         target="_blank" rel="noopener">Follow me on Goodreads ↗</a>
+    </div>
+    <div class="hero-ornament reveal" aria-hidden="true">✶&ensp;✶&ensp;✶&ensp;✶</div>
+  </div>
 </section>
 <main id="main">
 <section class="wrap" aria-label="The shelf">
@@ -106,12 +122,24 @@
   <noscript><p class="noscript-note">The shelf needs JavaScript to render — it reads from <code>js/books.js</code>.</p></noscript>
 </section>
 
+<section class="log-banner wrap" id="log">
+  <a class="log-card" href="log.html">
+    <span class="log-card__stars" aria-hidden="true">✶✶✶✶</span>
+    <span class="log-card__kicker">The Log</span>
+    <h2 class="log-card__title">Look at <em>everything</em> I’ve read.</h2>
+    <p class="log-card__stats" id="logBannerStats">The complete record, straight from Goodreads.</p>
+    <span class="log-card__cta">Open the Log <span aria-hidden="true">→</span></span>
+  </a>
+</section>
+
 <section class="colophon-note wrap">
   <h2>A library of one.</h2>
   <p>A reading list, updated as I read. Reviews are mine, not press copy. The
-  dashboards page tracks what’s currently open and where I am. The live shelf
-  lives on Goodreads — usually a few books ahead of this page catching up.</p>
+  shelf keeps the five-stars; <a href="log.html">the log</a> keeps the complete
+  record — every book, rated, straight from Goodreads. The dashboards page
+  tracks what’s currently open and where I am.</p>
   <div class="follow">
+    <a href="log.html">The Log</a>
     <a href="https://substack.com/@codyheart" target="_blank" rel="noopener">Substack ↗</a>
     <a href="https://www.goodreads.com/user/show/164877363-cody-heart" target="_blank" rel="noopener">Goodreads ↗</a>
     <a href="mailto:hello@heartslibrary.com">Email →</a>
@@ -124,6 +152,7 @@
     <span class="footer__stars" aria-hidden="true">✶✶✶✶</span>
     <span>A library of one. Franklin → Chicago.</span>
     <span class="footer__links">
+      <a class="link-hover" href="log.html">The Log</a>
       <a class="link-hover" href="https://substack.com/@codyheart" target="_blank" rel="noopener">Newsletter</a>
       <a class="link-hover" href="https://www.goodreads.com/user/show/164877363-cody-heart" target="_blank" rel="noopener">Goodreads</a>
       <a class="link-hover" href="mailto:hello@heartslibrary.com">Contact</a>

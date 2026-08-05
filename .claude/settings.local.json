@@ -19,7 +19,11 @@
       "Bash(sed -E 's/^\\([^:]+\\):.*[^0-9]\\([0-9]+x[0-9]+\\)$/\\\\2 \\\\1/')",
       "Bash(sort -t x -k1 -n)",
       "Bash(python *)",
-      "Bash(curl -s -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\)\" \"https://www.goodreads.com/review/list_rss/164877363?shelf=currently-reading\")"
+      "Bash(curl -s -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\)\" \"https://www.goodreads.com/review/list_rss/164877363?shelf=currently-reading\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://heartslibrary.com/images/cody-portrait.jpg)",
+      "Bash(curl -s -A \"Mozilla/5.0\" https://codyheart.design)",
+      "Bash(curl -s -o \"C:/Users/codyj/AppData/Local/Temp/claude/C--Users-codyj-Documents-heartslibrary/f73163c2-6845-4bee-899e-249dd9980b3d/scratchpad/me-monet.jpg\" https://codyheart.design/assets/self/me-monet.web.jpg)",
+      "Bash(curl -s -A \"Mozilla/5.0\" https://codyheart.design/about.html)"
     ]
   }
 }

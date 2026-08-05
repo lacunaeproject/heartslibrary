@@ -28,19 +28,27 @@
 window.CURRENT = [
   {
     "title": "If Beale Street Could Talk",
-    "author": "James Baldwin"
+    "author": "James Baldwin",
+    "cover": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1632433694l/38463._SX98_.jpg",
+    "href": "https://www.goodreads.com/book/show/38463"
   },
   {
     "title": "The Iliad",
-    "author": "Homer"
+    "author": "Homer",
+    "cover": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1625333695l/1371._SX98_.jpg",
+    "href": "https://www.goodreads.com/book/show/1371"
   },
   {
     "title": "Rise and Kill First",
-    "author": "Ronen Bergman"
+    "author": "Ronen Bergman",
+    "cover": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1495743181l/33598223._SX98_.jpg",
+    "href": "https://www.goodreads.com/book/show/33598223"
   },
   {
     "title": "The Underground Railroad",
-    "author": "Colson Whitehead"
+    "author": "Colson Whitehead",
+    "cover": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1592235875l/54102715._SX98_.jpg",
+    "href": "https://www.goodreads.com/book/show/54102715"
   }
 ];
 
