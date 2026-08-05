@@ -23,7 +23,13 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://heartslibrary.com/images/cody-portrait.jpg)",
       "Bash(curl -s -A \"Mozilla/5.0\" https://codyheart.design)",
       "Bash(curl -s -o \"C:/Users/codyj/AppData/Local/Temp/claude/C--Users-codyj-Documents-heartslibrary/f73163c2-6845-4bee-899e-249dd9980b3d/scratchpad/me-monet.jpg\" https://codyheart.design/assets/self/me-monet.web.jpg)",
-      "Bash(curl -s -A \"Mozilla/5.0\" https://codyheart.design/about.html)"
+      "Bash(curl -s -A \"Mozilla/5.0\" https://codyheart.design/about.html)",
+      "Bash(curl -s https://heartslibrary.com/index.html)",
+      "Bash(curl -s https://heartslibrary.com/css/review.css)",
+      "Bash(curl -s -o /dev/null -w \"css cache-control: %{header_json}\" https://heartslibrary.com/css/review.css)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
   }
 }
