@@ -8,7 +8,6 @@
   "use strict";
 
   var BOOKS = window.BOOKS || [];
-  var UPNEXT = window.UPNEXT || [];
 
   function el(tag, cls, html) {
     var n = document.createElement(tag);
@@ -66,7 +65,7 @@
         lastSection = b.section;
         var deck = b.section === "Fiction"
           ? "Fourteen novels I hand people when they ask what to read next. Literary, sci-fi, and the ones I keep going back to."
-          : "Thirty-four books that shaped how I understand the world. Essays, histories, criticism — organized by topic. A reader’s shelf, not a library.";
+          : "Thirty-six books that shaped how I understand the world. Essays, histories, criticism — organized by topic. A reader’s shelf, not a library.";
         var div = el("li", "shelf-divider");
         div.id = b.section.toLowerCase();
         div.setAttribute("data-section-divider", b.section.toLowerCase());
@@ -84,18 +83,8 @@
         ? '<a href="' + esc(b.authorHref) + '" target="_blank" rel="noopener">' + esc(b.author) + "</a>"
         : esc(b.author);
 
-      var fullBits = (b.full || []).join("");
-      var extras = "";
-      if (b.authorBio) {
-        extras += '<div class="about-author"><h4>About the author</h4><p>' + b.authorBio + "</p>";
-        if (b.works && b.works.length) {
-          extras += '<ul class="also-by">' + b.works.map(function (w) {
-            return '<li><a href="' + esc(w.href) + '" target="_blank" rel="noopener">' +
-              esc(w.title) + "</a> <span>" + esc(w.year) + "</span></li>";
-          }).join("") + "</ul>";
-        }
-        extras += "</div>";
-      }
+      /* Full-review toggle retired for now — the `full`, `authorBio`,
+         and `works` data in books.js is kept but not rendered. */
       var shopLine = b.shopName
         ? '<p class="shop-line">Read at <a href="' + esc(b.shopHref) + '" target="_blank" rel="noopener">' +
           esc(b.shopName) + " ↗</a></p>"
@@ -114,10 +103,7 @@
             (b.featured ? '<span class="dot">·</span><span class="toppill">✶ Top ten</span>' : "") +
           "</p>" +
           '<p class="book-short">' + b.short + "</p>" +
-          (fullBits
-            ? "<details><summary>Full review</summary><div class=\"book-full\">" +
-              fullBits + extras + shopLine + "</div></details>"
-            : shopLine) +
+          shopLine +
         "</div>";
       li.style.animationDelay = Math.min(shelf.children.length * 22, 500) + "ms";
       shelf.appendChild(li);
@@ -248,21 +234,8 @@
     if (sheetScrim) sheetScrim.addEventListener("click", function () { setMenu(false); });
   }
 
-  /* ---------- up next ---------- */
-  var un = document.getElementById("upnext");
-  if (un) {
-    UPNEXT.forEach(function (t) {
-      var card = el("div", "upnext-card");
-      card.innerHTML =
-        '<img src="' + esc(t.cover) + '" alt="" loading="lazy" ' +
-          'data-title="' + esc(t.title) + '" data-author="' + esc(t.author) + '" onerror="coverFallback(this)">' +
-        "<div><h3>" + esc(t.title) + "</h3>" +
-        '<p class="who">' + esc(t.author) +
-          (t.subtitle ? " · " + esc(t.subtitle) : "") + "</p>" +
-        '<p class="why">' + esc(t.why) + "</p></div>";
-      un.appendChild(card);
-    });
-  }
+  /* Up-next strip retired — the UPNEXT data in books.js is kept
+     but no longer rendered (its markup is gone from index.html). */
 
   apply();
 })();

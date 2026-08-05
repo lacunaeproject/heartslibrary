@@ -25,10 +25,11 @@ step, hosts anywhere (GitHub Pages, Netlify, any web server), or open
 site reads as an extension of it:
 
 - Fonts (all self-hosted in fonts/, same files as the portfolio):
-  Geist Variable (body, 15px / weight 450), Cheltenham Classic ×6 cuts
+  Geist Variable (body, 15px / weight 450), Gooper ×6 cuts
   (wordmark + all display headings, weight 500), Geist Mono Variable
-  (kickers, counts, meta labels). Regards is retired but its files stay in
-  fonts/ — restore its @font-face and point `--serif` at it to bring it back.
+  (kickers, counts, meta labels). Regards and Cheltenham Classic are retired
+  but their files stay in fonts/ — restore an @font-face and point `--serif`
+  at it to bring one back.
 - Tokens in `:root`, copied 1:1 from the portfolio: white ground,
   `--foreground:#171717`, the ink-opacity scale (`--ink-85` … `--ink-30`),
   `--surface:#f6f7f9` cards, `--border`, `--accent:#4c74ff`, the three

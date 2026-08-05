@@ -16,23 +16,31 @@
      featured        — true puts it in the Top Ten chip
      shopName/shopHref — the "Read at" credit (optional)
 
-   UPNEXT at the bottom is the to-be-read strip on the shelf.
+   UPNEXT at the bottom is the to-be-read strip — currently retired
+   (kept here, not rendered).
    Save the file, refresh the page — done.
    ════════════════════════════════════════════════════════════ */
 
-/* What you're reading right now — one entry per book, shown on the Shelf. */
+/* What you're reading right now — one entry per book, shown on the Shelf.
+   Synced automatically from the Goodreads currently-reading shelf by
+   .github/workflows/sync-goodreads.yml — edit the shelf on Goodreads,
+   not here; hand edits get overwritten on the next sync. */
 window.CURRENT = [
   {
-    "title": "Remarkably Bright Creatures",
-    "author": "Shelby Van Pelt"
+    "title": "If Beale Street Could Talk",
+    "author": "James Baldwin"
+  },
+  {
+    "title": "The Iliad",
+    "author": "Homer"
+  },
+  {
+    "title": "Rise and Kill First",
+    "author": "Ronen Bergman"
   },
   {
     "title": "The Underground Railroad",
     "author": "Colson Whitehead"
-  },
-  {
-    "title": "The Only Plane in the Sky",
-    "author": "Garrett M. Graff"
   }
 ];
 
@@ -445,6 +453,19 @@ window.BOOKS = [
       "<p>What she's actually doing is writing a novel about how people put themselves back together using the books they read. That's a sentimental claim, and the book is sentimental. The honesty is that Zevin doesn't pretend it isn't. She delivers a small story at the scale of a small story and trusts that the small story is the point.</p>",
       "<p>Indie bookstores have sold over two million copies on word of mouth, which is a kind of recommendation in itself. If you want a book that's going to be hard, this isn't it. If you want a book a friend would press into your hands and say \"trust me,\" that's what it is.</p>"
     ]
+  },
+  {
+    "id": 50,
+    "title": "Every Moment Is a Life",
+    "author": "Susan Abulhawa",
+    "authorHref": "https://en.wikipedia.org/wiki/Susan_Abulhawa",
+    "byLabel": "Compiled by",
+    "section": "Nonfiction",
+    "tag": "middle-east",
+    "tagLabel": "Middle East",
+    "cover": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1759699333l/242438105._SY475_.jpg",
+    "featured": false,
+    "short": "Eighteen young writers in Gaza's tent camps, writing through the genocide — an Arabic-English anthology from the workshops Abulhawa held on her trips into the strip in early 2024. Dispatches on what survival actually looks like, from the people living it."
   },
   {
     "id": 15,
@@ -1193,6 +1214,19 @@ window.BOOKS = [
       "<p>The political tell, in retrospect, is which categories of people the system protected and which it didn't. Holmes's lawyers and PR machine treated dissent as treason long after the fraud was provable. The cost fell on the patients getting wrong test results, on the employees who tried to flag what they were seeing, and on the journalists who took the legal risk of reporting it. None of those costs were borne by the people running the company.</p>",
       "<p>Basis for the Hulu series <em>The Dropout</em>. The book is sharper, because the book is reporting and the show is dramatization. Read this with <em>Careless People</em> — same structural pattern, different industry, same lesson about what a \"visionary founder\" frame is doing to the social cost calculus.</p>"
     ]
+  },
+  {
+    "id": 49,
+    "title": "Letter to My Father",
+    "author": "Franz Kafka",
+    "authorHref": "https://en.wikipedia.org/wiki/Franz_Kafka",
+    "byLabel": "By",
+    "section": "Nonfiction",
+    "tag": "memoir",
+    "tagLabel": "Memoir",
+    "cover": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1737359720l/223794625._SY475_.jpg",
+    "featured": false,
+    "short": "The letter Kafka wrote his father in 1919 and never delivered — a hundred pages on fear, authority, and growing up in the shadow of a man who filled every room. As close to an autobiography as Kafka ever came."
   },
   {
     "id": 46,

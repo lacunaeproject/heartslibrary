@@ -2,15 +2,15 @@
    HEART'S LIBRARY — an extension of codyheart.design
    ------------------------------------------------------------
    The design system here is ported verbatim from Cody's
-   portfolio (codyheart.design): Geist body, Cheltenham Classic
-   display, Geist Mono labels, the ink-opacity scale, the
-   #4c74ff accent, the surface/shadow language, the sticky blur
-   nav with duotone dropdown menus. Site-specific pieces (the
+   portfolio (codyheart.design): Geist body, Gooper display,
+   Geist Mono labels, the ink-opacity scale, the #4c74ff
+   accent, the surface/shadow language, the sticky blur nav
+   with duotone dropdown menus. Site-specific pieces (the
    shelf, chips, book rows) are built in that same vocabulary.
 
-   Regards (the previous display face) is retired but kept in
-   /fonts — re-enable by restoring its @font-face and pointing
-   --serif at it.
+   Regards and Cheltenham Classic (previous display faces) are
+   retired but kept in /fonts — re-enable one by restoring its
+   @font-face and pointing --serif at it.
    ============================================================ */
 
 /* ---------- Fonts (self-hosted, same files as the portfolio) ---------- */
@@ -25,33 +25,33 @@
   font-weight: 100 900; font-style: normal; font-display: swap;
 }
 @font-face {
-  font-family: 'Cheltenham Classic';
-  src: url('../fonts/CheltenhamClassic.woff2') format('woff2');
+  font-family: 'Gooper';
+  src: url('../fonts/Gooper7-Regular-Trial.otf') format('opentype');
   font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
-  font-family: 'Cheltenham Classic';
-  src: url('../fonts/CheltenhamClassicItalic.woff2') format('woff2');
+  font-family: 'Gooper';
+  src: url('../fonts/Gooper7-RegularItalic-Trial.otf') format('opentype');
   font-weight: 400; font-style: italic; font-display: swap;
 }
 @font-face {
-  font-family: 'Cheltenham Classic';
-  src: url('../fonts/CheltenhamClassicMedium.woff2') format('woff2');
+  font-family: 'Gooper';
+  src: url('../fonts/Gooper7-Medium-Trial.otf') format('opentype');
   font-weight: 500; font-style: normal; font-display: swap;
 }
 @font-face {
-  font-family: 'Cheltenham Classic';
-  src: url('../fonts/CheltenhamClassicMediumltalic.woff2') format('woff2');
+  font-family: 'Gooper';
+  src: url('../fonts/Gooper7-MediumItalic-Trial.otf') format('opentype');
   font-weight: 500; font-style: italic; font-display: swap;
 }
 @font-face {
-  font-family: 'Cheltenham Classic';
-  src: url('../fonts/CheltenhamClassicBold.woff2') format('woff2');
+  font-family: 'Gooper';
+  src: url('../fonts/Gooper7-Bold-Trial.otf') format('opentype');
   font-weight: 700; font-style: normal; font-display: swap;
 }
 @font-face {
-  font-family: 'Cheltenham Classic';
-  src: url('../fonts/CheltenhamClassicBoldltalic.woff2') format('woff2');
+  font-family: 'Gooper';
+  src: url('../fonts/Gooper7-BoldItalic-Trial.otf') format('opentype');
   font-weight: 700; font-style: italic; font-display: swap;
 }
 
@@ -75,7 +75,7 @@
   --ink-30: rgba(0, 0, 0, .3);
 
   --sans: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --serif: 'Cheltenham Classic', Georgia, serif;
+  --serif: 'Gooper', Georgia, serif;
   --mono: 'Geist Mono', ui-monospace, 'Cascadia Mono', monospace;
 
   --ease: cubic-bezier(.25, .1, .25, 1);
@@ -182,6 +182,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
+    /* background-clip:text only paints inside the span's background
+       box, and Gooper's italic ascenders reach past it. Vertical
+       padding on an inline box grows the paint area without touching
+       line layout; the horizontal pair is offset by the margins. */
+    padding: .25em .15em;
+    margin: 0 -.15em;
   }
 }
 
@@ -1612,7 +1618,13 @@ main { display: block; }
    ============================================================ */
 .js .reveal { visibility: hidden; }
 .no-js .reveal { visibility: visible; }
-.mask-line { overflow: hidden; }
+.mask-line {
+  overflow: hidden;
+  /* Gooper's ascenders + italic overhang extend past the line box;
+     widen the mask window without shifting layout. */
+  padding: .15em .2em;
+  margin: -.15em -.2em;
+}
 .mask-inner { display: inline-block; will-change: transform; }
 
 /* Filtering: class + attribute both win over any display rule */
