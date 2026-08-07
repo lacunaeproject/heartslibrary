@@ -2,6 +2,7 @@
    "read" shelf, newest first. Do not edit by hand; the sync
    overwrites this file. Rendered by log.html via js/log-page.js. */
 window.LOG = [
+  { "title": "If Beale Street Could Talk", "author": "James Baldwin", "rating": 5, "date": "2026-08-06" },
   { "title": "Letter to My Father", "author": "Franz Kafka", "rating": 5, "date": "2026-07-30" },
   { "title": "Every Moment Is a Life", "author": "Susan Abulhawa", "rating": 5, "date": "2026-07-30" },
   { "title": "What Does Israel Fear From Palestine?", "author": "Raja Shehadeh", "rating": 4, "date": "2026-07-22" },

@@ -27,12 +27,6 @@
    not here; hand edits get overwritten on the next sync. */
 window.CURRENT = [
   {
-    "title": "If Beale Street Could Talk",
-    "author": "James Baldwin",
-    "cover": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1632433694l/38463._SX98_.jpg",
-    "href": "https://www.goodreads.com/book/show/38463"
-  },
-  {
     "title": "The Iliad",
     "author": "Homer",
     "cover": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1625333695l/1371._SX98_.jpg",

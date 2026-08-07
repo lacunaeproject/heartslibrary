@@ -17,4 +17,18 @@ window.DRAFT_SKIP = [
 ];
 
 window.DRAFTS = [
+  {
+    /* rated 5 stars on Goodreads, finished 06 Aug 2026 —
+       fill in section/tag/short, then move into js/books.js */
+    "title": "If Beale Street Could Talk",
+    "author": "James Baldwin",
+    "authorHref": "",
+    "byLabel": "By",
+    "section": "Fiction or Nonfiction",
+    "tag": "",
+    "tagLabel": "",
+    "cover": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1632433694l/38463._SY475_.jpg",
+    "featured": false,
+    "short": ""
+  }
 ];
