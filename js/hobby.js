@@ -28,7 +28,12 @@
     return out;
   }
   function cover(t) {
-    return (t.photos && t.photos[0]) || null;
+    var ps = t.photos || [];
+    if (t.cover) {
+      for (var i = 0; i < ps.length; i++) if (ps[i].src === t.cover) return ps[i];
+      return { src: t.cover, alt: t.place };
+    }
+    return ps[0] || null;
   }
   function shotHtml(t, p, i) {
     return '<figure class="shot">' +
