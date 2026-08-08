@@ -961,7 +961,7 @@ main { display: block; }
 /* --- Book rows --- */
 .book {
   display: grid;
-  grid-template-columns: 84px 1fr;
+  grid-template-columns: 104px 1fr;
   gap: 20px;
   padding: 24px 0;
   border-top: 1px solid var(--border);
@@ -972,11 +972,18 @@ main { display: block; }
   to   { opacity: 1; transform: none; }
 }
 @media (min-width: 640px) {
-  .book { grid-template-columns: 96px 1fr; gap: 24px; padding: 28px 0; }
+  .book { grid-template-columns: 128px 1fr; gap: 28px; padding: 28px 0; }
+}
+/* iOS-card corners: ~11% of the cover's width, in px so the 2:3
+   jacket keeps circular (not elliptical) corners. */
+.book .thumb, .book .cover-plate {
+  border-radius: 12px;
+}
+@media (min-width: 640px) {
+  .book .thumb, .book .cover-plate { border-radius: 14px; }
 }
 .book .thumb {
   width: 100%;
-  border-radius: 4px;
   box-shadow: var(--shadow-raised);
   align-self: start;
 }
@@ -1150,7 +1157,7 @@ main { display: block; }
   aspect-ratio: 2 / 3;
   padding: 12px;
   background: var(--surface);
-  border-radius: 4px;
+  border-radius: 12px;
   box-shadow: var(--shadow-flush);
 }
 .plate-title {
@@ -1202,7 +1209,7 @@ main { display: block; }
   width: 56px;
   flex-shrink: 0;
   align-self: start;
-  border-radius: 4px;
+  border-radius: 8px;
   box-shadow: var(--shadow-raised);
 }
 .upnext-card .cover-plate { aspect-ratio: 2 / 3; padding: 6px; }
