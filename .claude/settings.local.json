@@ -67,7 +67,9 @@
       "Bash(git fetch *)",
       "Bash(git commit -m 'Update session tool permissions *)",
       "WebFetch(domain:heartslibrary.com)",
-      "Bash(curl -s https://www.park.photos/ -o \"C:\\\\Users\\\\codyj\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-codyj-Documents-heartslibrary\\\\2182bf28-ef2b-407f-abec-47455c78f861\\\\scratchpad\\\\park.html\")"
+      "Bash(curl -s https://www.park.photos/ -o \"C:\\\\Users\\\\codyj\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-codyj-Documents-heartslibrary\\\\2182bf28-ef2b-407f-abec-47455c78f861\\\\scratchpad\\\\park.html\")",
+      "Bash(powershell -Command 'Add-Type -AssemblyName System.Drawing; $i=[System.Drawing.Image]::FromFile\\('\\\\''C:\\\\Users\\\\codyj\\\\Documents\\\\heartslibrary\\\\photos\\\\sandiego-zoo\\\\web\\\\grizzly-2.jpg'\\\\''\\); $i.Width; $i.Height; $i.Dispose\\(\\)')",
+      "Bash(sed -i 's/v=20260809a/v=20260809b/g' *.html)"
     ]
   }
 }

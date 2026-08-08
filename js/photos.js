@@ -35,6 +35,7 @@ window.TRIPS = [
       { src: "photos/sandiego-zoo/web/cheetah-2.jpg", w: 1600, h: 1067, alt: "A cheetah in profile, close up", caption: "The ambassador cheetah, in profile" },
       { src: "photos/sandiego-zoo/web/panda.jpg", w: 1139, h: 1600, alt: "A giant panda eating bamboo", caption: "Lunch, taken seriously" },
       { src: "photos/sandiego-zoo/web/grizzly.jpg", w: 1059, h: 1600, alt: "A grizzly bear against dark wet rock", caption: "Grizzly against the wet rock" },
+      { src: "photos/sandiego-zoo/web/grizzly-2.jpg", w: 1059, h: 1600, alt: "A close-up of a grizzly bear resting its chin on a rock", caption: "Chin on the rock" },
       { src: "photos/sandiego-zoo/web/orang-2.jpg", w: 1173, h: 1600, alt: "An orangutan looking into the camera", caption: "The old man of the canopy" },
       { src: "photos/sandiego-zoo/web/bear_looking.jpg", w: 1600, h: 1067, alt: "A bear glancing over its shoulder", caption: "Caught looking" },
       { src: "photos/sandiego-zoo/web/camels.jpg", w: 1600, h: 1067, alt: "Camels standing in bright sun", caption: "Camels in the noon sun" },
