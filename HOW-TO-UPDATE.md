@@ -50,7 +50,7 @@ Action (`.github/workflows/sync-goodreads.yml`, which runs
 
 **Currently not displayed** — the card was retired from the Shelf's hero.
 The data keeps syncing and the renderer in `js/shelf.js` is intact; to
-bring it back, add `<div id="currentlyReading" class="current-read reveal">
+bring it back, add `<div id="currentlyReading" class="current-read">
 </div>` to `index.html`.
 
 - Don't hand-edit `CURRENT` — the next sync overwrites it. To change what

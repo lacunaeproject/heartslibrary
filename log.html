@@ -5,13 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Log — Heart&#x27;s Library</title>
 <meta name="description" content="Every book Cody Heart has finished — ratings and dates, synced straight from Goodreads.">
-<link rel="stylesheet" href="css/review.css?v=20260805a">
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
-<script defer src="js/review.js?v=20260805a"></script>
-<script defer src="js/log.js?v=20260805a"></script>
-<script defer src="js/log-page.js?v=20260805a"></script>
+<link rel="stylesheet" href="css/review.css?v=20260808a">
+<script defer src="js/review.js?v=20260808a"></script>
+<script defer src="js/log.js?v=20260808a"></script>
+<script defer src="js/log-page.js?v=20260808a"></script>
 </head>
 <body>
 
@@ -81,11 +78,11 @@
 </div>
 
 <section class="page-head wrap">
-  <span class="crumb reveal">Heart&rsquo;s Library <span class="sep">/</span> The Log</span>
-  <h1 class="reveal">Every book, <span class="accent">logged</span>.</h1>
-  <p class="deck reveal">The complete record, synced straight from Goodreads —
+  <span class="crumb">Heart&rsquo;s Library <span class="sep">/</span> The Log</span>
+  <h1>Every book, <span class="accent">logged</span>.</h1>
+  <p class="deck">The complete record, synced straight from Goodreads —
   the Shelf keeps the five-stars, this keeps score. It updates itself.</p>
-  <p class="log-stats reveal" id="logStats"></p>
+  <p class="log-stats" id="logStats"></p>
 </section>
 <main id="main">
 <section class="wrap" aria-label="Reading log">
@@ -95,9 +92,11 @@
 </main>
 <footer class="footer">
   <div class="footer__inner">
-    <span class="footer__mark"><svg width="13" height="12" viewBox="2.462 4.062 19.133 17.838" aria-hidden="true"><path fill="#E5484D" d="M12.1 7.6C13.7 5 15.8 3.7 18 4.15 20.9 4.6 22.1 7.1 21.4 9.9 20.8 12.5 18 15.4 11.7 21.9 5.6 15.4 3.1 12.4 2.6 9.7 2 6.9 3.4 4.6 6 4.2 8.1 3.85 10.5 5 12.1 7.6Z"/></svg><span>Heart’s Library</span></span>
-    <span class="footer__stars" aria-hidden="true">✶✶✶✶</span>
-    <span>A library of one. Franklin → Chicago.</span>
+    <span class="footer__left">
+      <span class="footer__mark"><svg width="13" height="12" viewBox="2.462 4.062 19.133 17.838" aria-hidden="true"><path fill="#E5484D" d="M12.1 7.6C13.7 5 15.8 3.7 18 4.15 20.9 4.6 22.1 7.1 21.4 9.9 20.8 12.5 18 15.4 11.7 21.9 5.6 15.4 3.1 12.4 2.6 9.7 2 6.9 3.4 4.6 6 4.2 8.1 3.85 10.5 5 12.1 7.6Z"/></svg><span>Heart’s Library</span></span>
+      <span class="footer__stars" aria-hidden="true">✶✶✶✶</span>
+      <span class="footer__tag">A library of one. Franklin → Chicago.</span>
+    </span>
     <span class="footer__links">
       <a class="link-hover" href="log.html">The Log</a>
       <a class="link-hover" href="https://substack.com/@codyheart" target="_blank" rel="noopener">Newsletter</a>

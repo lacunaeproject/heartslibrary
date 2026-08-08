@@ -1,12 +1,18 @@
 /* ============================================================
    HEART'S LIBRARY — an extension of codyheart.design
    ------------------------------------------------------------
-   The design system here is ported verbatim from Cody's
-   portfolio (codyheart.design): Geist body, Gooper display,
-   Geist Mono labels, the ink-opacity scale, the #4c74ff
-   accent, the surface/shadow language, the sticky blur nav
-   with duotone dropdown menus. Site-specific pieces (the
-   shelf, chips, book rows) are built in that same vocabulary.
+   The design system here is ported from Cody's portfolio
+   (codyheart.design), which itself follows the register of
+   andreavollendorf.com: Geist body at 14px/450, a serif for
+   the wordmark and display headings (Gooper here), Geist Mono
+   labels, the ink-opacity scale, the surface/flush-ring card
+   language, quiet 12px chrome, and the sticky blur nav with
+   duotone dropdown menus. Site-specific pieces (the shelf,
+   chips, book rows) are built in that same vocabulary.
+
+   Motion is CSS-only: content is never hidden waiting on a
+   script — entrances are short one-shot animations that the
+   style engine completes on its own.
 
    Regards and Cheltenham Classic (previous display faces) are
    retired but kept in /fonts — re-enable one by restoring its
@@ -110,12 +116,21 @@ html {
   scrollbar-color: rgba(0, 0, 0, .28) transparent;
   overflow-y: scroll;
 }
+html::-webkit-scrollbar { width: 10px; }
+html::-webkit-scrollbar-track { background: transparent; }
+html::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, .2);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  border-radius: 5px;
+}
+html::-webkit-scrollbar-thumb:hover { background-color: rgba(0, 0, 0, .32); }
 
 body {
   background: var(--background);
   color: var(--ink-80);
   font-family: var(--sans);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 450;
   line-height: 1.45rem;
   letter-spacing: -.005rem;
@@ -225,7 +240,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   align-items: center;
   gap: 7px;
   font-family: var(--serif);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: -.01em;
   color: var(--foreground);
@@ -265,7 +280,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 @media (min-width: 640px) { .nav__links { display: flex; } }
 
 .nav__link {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 450;
   color: var(--ink-55);
   height: 32px;
@@ -295,7 +310,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   background: var(--background);
   border-radius: 8px;
   overflow: hidden;
-  width: 300px;
+  width: 280px;
   box-shadow: var(--shadow-floating);
   opacity: 0;
   transform: translateY(-8px);
@@ -333,14 +348,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 .menu-item__tile svg { width: 28px; height: 28px; display: block; }
 .menu-item__title {
   display: block;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 550;
   color: var(--ink-85);
   line-height: 1.25;
 }
 .menu-item__desc {
   display: block;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--ink-45);
   line-height: 1.25;
   margin-top: 2px;
@@ -348,7 +363,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 
 .menu-item--all {
   justify-content: space-between;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--ink-55);
   padding: 10px 12px;
 }
@@ -521,7 +536,7 @@ main { display: block; }
 @media (min-width: 640px) { .page-head h1 { font-size: 32px; } }
 
 .deck {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 450;
   line-height: 1.45rem;
   letter-spacing: -.005em;
@@ -611,34 +626,20 @@ main { display: block; }
 .kicker--ink { color: var(--ink-55); }
 
 /* ============================================================
-   HERO (index) — weighted page-head: bigger display type + a
-   byline avatar on the left, the currently-reading card riding
-   the right column. Hovering the avatar zooms the full photo
-   in a floating tooltip (nothing shifts).
+   HERO (index) — the reference register: a left-set serif
+   statement in the article column, a quiet deck, a byline.
+   Nothing centered, nothing ornamental; the heart full stop
+   and the W-flag hover are the page's two winks.
    ============================================================ */
-/* Set like a book's title page: everything centered on one axis —
-   department, title, dek, author line, printer's ornament. */
-.page-head--hero { display: block; text-align: center; }
-/* A breath of sky behind the title page, fading to the white ground.
-   Painted on the body so it bleeds full width with no overflow. */
-body.is-shelf {
-  background-image: linear-gradient(180deg, rgba(65, 182, 230, .10), rgba(65, 182, 230, 0) 620px);
-  background-repeat: no-repeat;
+.page-head--hero { display: block; }
+.page-head--hero h1 {
+  font-size: 32px;
+  letter-spacing: -.01em;
+  margin-bottom: 16px;
 }
-.page-head--hero h1 { font-size: 40px; letter-spacing: -.015em; }
 .page-head--hero .deck {
-  font-size: 16px;
-  line-height: 1.6;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  text-wrap: balance;
-}
-.hero-ornament {
-  margin-top: 40px;
-  font-size: 12px;
-  letter-spacing: .4em;
-  color: var(--heart);
+  font-size: 14px;
+  max-width: 620px;
 }
 /* The headline's full stop is the wordmark heart. */
 .h1-heart svg {
@@ -672,14 +673,13 @@ body.is-shelf {
 @media (hover: hover) and (pointer: fine) {
   .chi-w:hover .w-pop { opacity: 1; transform: translate(-50%, 0) rotate(-4deg); }
 }
-/* Title-page author line: centered, no furniture. */
+/* Author line under the deck: left-set, no furniture. */
 .hero-byline {
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-wrap: wrap;
   gap: 8px 10px;
-  margin-top: 22px;
+  margin-top: 20px;
 }
 .byline-dot { color: var(--ink-30); }
 .avatar-zoom {
@@ -718,7 +718,7 @@ body.is-shelf {
 }
 .byline-name {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 550;
   color: var(--ink-85);
 }
 .byline-gr {
@@ -730,8 +730,8 @@ body.is-shelf {
   transition: color .15s ease;
 }
 .byline-gr:hover { color: var(--ink-80); }
-@media (min-width: 900px) {
-  .page-head--hero h1 { font-size: 64px; }
+@media (min-width: 640px) {
+  .page-head--hero h1 { font-size: 40px; }
 }
 
 /* ============================================================
@@ -1025,7 +1025,7 @@ body.is-shelf {
 
 .book-short {
   margin-top: 10px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 450;
   line-height: 1.45rem;
   letter-spacing: -.005em;
@@ -1064,7 +1064,7 @@ body.is-shelf {
 
 .book-full { padding: 8px 0 4px; }
 .book-full p {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 450;
   line-height: 1.45rem;
   letter-spacing: -.005em;
@@ -1229,7 +1229,7 @@ body.is-shelf {
   margin-bottom: 12px;
 }
 .colophon-note > p {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.45rem;
   letter-spacing: -.005em;
   color: var(--ink-80);
@@ -1499,7 +1499,7 @@ body.is-shelf {
    ============================================================ */
 .dash-note {
   padding-top: 8px;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.45rem;
   letter-spacing: -.005em;
   color: var(--ink-80);
@@ -1514,10 +1514,18 @@ body.is-shelf {
 @media (min-width: 640px) { .statrow { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 900px) { .statrow { grid-template-columns: repeat(4, 1fr); } }
 .stat {
-  background: #fff;
+  position: relative;
+  background: var(--surface);
   border-radius: 8px;
-  padding: 16px;
-  box-shadow: var(--shadow-raised);
+  padding: 20px;
+}
+.stat::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  pointer-events: none;
+  box-shadow: var(--shadow-flush);
 }
 .stat .figure {
   font-size: 21px;
@@ -1546,7 +1554,7 @@ body.is-shelf {
   color: var(--ink-85);
   margin-bottom: 12px;
 }
-.dash-body > p { font-size: 15px; line-height: 1.45rem; letter-spacing: -.005em; color: var(--ink-80); }
+.dash-body > p { font-size: 14px; line-height: 1.45rem; letter-spacing: -.005em; color: var(--ink-80); }
 .behind {
   margin-top: 16px;
   font-size: 13px;
@@ -1583,19 +1591,16 @@ body.is-shelf {
 /* ============================================================
    ABOUT
    ============================================================ */
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
-  padding-top: 16px;
-}
+/* The portrait floats right inside the essay, the reference's
+   about-page pattern; on phones it sits full-width up top. */
+.about-essay { padding-top: 16px; }
+.about-essay::after { content: ""; display: block; clear: both; }
+.portrait { margin: 0 0 24px; }
 @media (min-width: 640px) {
-  .about-grid { grid-template-columns: 200px 1fr; gap: 40px; align-items: start; }
-  .portrait { position: sticky; top: 96px; }
+  .portrait { float: right; width: 38%; margin: 4px 0 16px 32px; }
 }
-.portrait { margin: 0; }
-.portrait .cover-clip { border-radius: 8px; overflow: hidden; position: relative; box-shadow: var(--shadow-raised); }
-.portrait img { width: 100%; }
+.portrait .cover-clip { border-radius: 8px; overflow: hidden; position: relative; box-shadow: var(--shadow-flush); }
+.portrait img { width: 100%; object-fit: cover; }
 .portrait-clip { background: var(--surface); }
 .portrait-plate {
   position: absolute;
@@ -1607,7 +1612,7 @@ body.is-shelf {
   color: var(--ink-30);
 }
 .portrait .portrait-clip { aspect-ratio: 540 / 655; }
-.portrait figcaption { margin-top: 8px; font-size: 12px; color: var(--ink-45); }
+.portrait figcaption { margin-top: 8px; font-size: 12px; line-height: 1.5; color: var(--ink-40); }
 
 .about-essay h2 {
   font-size: 24px;
@@ -1618,7 +1623,7 @@ body.is-shelf {
 }
 .about-essay h2:first-child { margin-top: 0; }
 .about-essay p {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 450;
   line-height: 1.45rem;
   letter-spacing: -.005em;
@@ -1629,6 +1634,7 @@ body.is-shelf {
 
 .pull-quote {
   position: relative;
+  clear: both;
   margin: 28px 0;
   background: var(--surface);
   border-radius: 8px;
@@ -1738,11 +1744,17 @@ body.is-shelf {
   align-items: flex-start;
   justify-content: space-between;
   gap: 24px;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--ink-50);
 }
 @media (min-width: 640px) {
   .footer__inner { flex-direction: row; align-items: center; }
+}
+.footer__left {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
 }
 .footer__mark {
   display: inline-flex;
@@ -1768,71 +1780,89 @@ body.is-shelf {
 
 /* ============================================================
    LOG BANNER — the "look at everything I've read" card on the
-   Shelf, in the hero's Chicago blue. Lives where Up Next did.
+   Shelf: a surface case-plate in the reference's card language,
+   with the four stars as a quiet red watermark.
    ============================================================ */
 .log-banner { padding-top: 64px; }
 .log-card {
   display: block;
   position: relative;
   overflow: hidden;
-  border-radius: 20px;
-  padding: 44px 36px 40px;
-  background: linear-gradient(120deg, #1E86BC, #41B6E6);
-  color: #fff;
-  box-shadow: var(--shadow-floating);
-  transition: transform .35s var(--ease-out-quart), box-shadow .35s var(--ease-out-quart);
+  border-radius: 8px;
+  padding: 28px 24px;
+  background: var(--surface);
+  transition: transform .3s var(--ease-out-quart), background-color .15s ease;
 }
-.log-card:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(30, 134, 188, .35), inset 0 0 0 1px rgba(255, 255, 255, .12); }
+.log-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  pointer-events: none;
+  box-shadow: var(--shadow-flush);
+}
+@media (hover: hover) and (pointer: fine) {
+  .log-card:hover { transform: translateY(-3px); background: var(--surface-hover); }
+}
 .log-card__stars {
   position: absolute;
-  right: 24px;
+  right: 20px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 96px;
+  font-size: 80px;
   letter-spacing: 8px;
-  color: rgba(255, 255, 255, .14);
+  color: rgba(229, 72, 77, .09);
   white-space: nowrap;
   pointer-events: none;
 }
 .log-card__kicker {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 10px;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: .08em;
-  color: rgba(255, 255, 255, .75);
+  color: var(--ink-40);
 }
 .log-card__title {
   font-family: var(--serif);
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 500;
-  line-height: 1.15;
-  margin-top: 10px;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  color: var(--ink-85);
+  margin-top: 8px;
   max-width: 560px;
 }
 .log-card__title em { font-style: italic; }
 .log-card__stats {
-  font-size: 14px;
-  color: rgba(255, 255, 255, .85);
-  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-55);
+  margin-top: 8px;
 }
 .log-card__cta {
-  display: inline-block;
-  margin-top: 22px;
-  background: #fff;
-  color: #1E86BC;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  background: rgba(0, 0, 0, .85);
+  color: #fff;
   border-radius: 999px;
-  padding: 10px 18px;
+  padding: 0 14px;
+  height: 32px;
   font-size: 13px;
-  font-weight: 600;
-  transition: transform .25s var(--ease-out-quart);
+  font-weight: 500;
+  transition: background-color .15s ease;
 }
-.log-card:hover .log-card__cta { transform: translateX(2px); }
+.log-card:hover .log-card__cta { background: rgba(0, 0, 0, .75); }
+.log-card__cta span { transition: transform .2s var(--ease-out-quart); }
+.log-card:hover .log-card__cta span { transform: translateX(2px); }
 @media (min-width: 640px) {
-  .log-card { padding: 56px 56px 52px; }
-  .log-card__title { font-size: 38px; }
+  .log-card { padding: 36px 32px; }
+  .log-card__title { font-size: 28px; }
 }
 @media (max-width: 560px) {
-  .log-card__stars { font-size: 56px; right: 12px; }
+  .log-card__stars { font-size: 48px; right: 12px; }
 }
 
 /* ============================================================
@@ -1898,18 +1928,22 @@ body.is-shelf {
 }
 
 /* ============================================================
-   MOTION HELPERS
+   MOTION HELPERS — CSS-only. The page head rises once on
+   arrival; the style engine finishes it on wall-clock time, so
+   nothing can strand content invisible if a script never runs.
    ============================================================ */
-.js .reveal { visibility: hidden; }
-.no-js .reveal { visibility: visible; }
-.mask-line {
-  overflow: hidden;
-  /* Gooper's ascenders + italic overhang extend past the line box;
-     widen the mask window without shifting layout. */
-  padding: .15em .2em;
-  margin: -.15em -.2em;
+@keyframes head-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
 }
-.mask-inner { display: inline-block; will-change: transform; }
+.page-head > *:not(.hero-main),
+.page-head .hero-main > * {
+  animation: head-rise .5s var(--ease-out-quart) backwards;
+}
+.page-head > *:nth-child(2), .page-head .hero-main > *:nth-child(2) { animation-delay: .07s; }
+.page-head > *:nth-child(3), .page-head .hero-main > *:nth-child(3) { animation-delay: .14s; }
+.page-head > *:nth-child(4), .page-head .hero-main > *:nth-child(4) { animation-delay: .21s; }
+.page-head > *:nth-child(n+5), .page-head .hero-main > *:nth-child(n+5) { animation-delay: .28s; }
 
 /* Filtering: class + attribute both win over any display rule */
 .is-hidden { display: none !important; }
