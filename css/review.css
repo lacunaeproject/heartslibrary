@@ -2576,7 +2576,7 @@ body.home .nav.is-top .nav__burger span { background: rgba(255, 255, 255, .92); 
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   background: var(--surface);
 }
 .darkhero-bg {
@@ -2592,11 +2592,13 @@ body.home .nav.is-top .nav__burger span { background: rgba(255, 255, 255, .92); 
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(to top,
-    rgba(10, 10, 10, .82),
-    rgba(10, 10, 10, .34) 46%,
-    rgba(10, 10, 10, .1) 70%,
-    rgba(10, 10, 10, .38));
+  background:
+    radial-gradient(54% 44% at 50% 52%, rgba(10, 10, 10, .48), rgba(10, 10, 10, 0) 78%),
+    linear-gradient(to top,
+      rgba(10, 10, 10, .5),
+      rgba(10, 10, 10, 0) 24%,
+      rgba(10, 10, 10, 0) 78%,
+      rgba(10, 10, 10, .34));
   pointer-events: none;
 }
 .darkhero-inner {
@@ -2604,7 +2606,7 @@ body.home .nav.is-top .nav__burger span { background: rgba(255, 255, 255, .92); 
   z-index: 2;
   margin: 0 auto;
   max-width: 920px;
-  padding: 120px 24px clamp(28px, 5vh, 46px);
+  padding: 24px;
 }
 /* Hero photo meta, park's corners: the year bottom-left, where it
    was taken bottom-right with the state flag */
