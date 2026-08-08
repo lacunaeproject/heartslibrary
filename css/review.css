@@ -2010,90 +2010,117 @@ main { display: block; }
 }
 
 /* ============================================================
-   SHOWCASE — the hub's photo carousel in baptistebriel.com's
-   register: one huge media slide per view, super-rounded
-   corners, hairline ring, native snap scroll, and a small
-   caption row (name + muted note + → link) beneath.
+   GALLERIES — the park.photos register: big rounded-rectangle
+   covers in a grid, the trip title rising in over a soft scrim
+   on hover (always visible on touch), a small circular arrow
+   chip, and the whole tile clicking through to its gallery.
    ============================================================ */
-.showcase-sec { padding-top: 64px; }
-.showcase {
-  display: flex;
+.galleries-sec { padding-top: 64px; }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 20px;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  scroll-snap-type: x mandatory;
-  padding-bottom: 6px;
 }
-.showcase::-webkit-scrollbar { display: none; }
-.slide {
-  flex: 0 0 min(280px, 82%);
-  scroll-snap-align: start;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+@media (min-width: 640px) {
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .gcard--wide { grid-column: span 2; aspect-ratio: 1440 / 760; }
 }
-.slide-media {
+.gcard {
   position: relative;
   display: block;
-  aspect-ratio: 1 / 1;
-  border-radius: 30px;
+  aspect-ratio: 4 / 3;
+  border-radius: 28px;
   overflow: hidden;
   background: var(--surface);
 }
-@media (min-width: 640px) { .slide-media { border-radius: 40px; } }
-.slide-media img {
+.gcard img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform .7s var(--ease-out-quart);
 }
-.slide-media::after {
+.gcard::before {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 2;
   border-radius: inherit;
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .08);
   pointer-events: none;
 }
-.slide-media img { transition: transform .6s var(--ease-out-quart); }
-@media (hover: hover) and (pointer: fine) {
-  .slide-media:hover img { transform: scale(1.02); }
+.gcard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to top, rgba(23, 23, 23, .45), rgba(23, 23, 23, 0) 40%);
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
 }
-.slide-cap {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.slide-name {
-  font-size: 14px;
+.gcard-label {
+  position: absolute;
+  left: 22px;
+  bottom: 17px;
+  right: 70px;
+  z-index: 2;
+  color: #fff;
+  font-size: 16px;
   font-weight: 550;
-  line-height: 1.35;
+  letter-spacing: -.005em;
+  line-height: 1.3;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, .3);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .3s ease, transform .35s var(--ease-out-quart);
+}
+.gcard-meta {
+  display: block;
+  font-size: 13px;
+  font-weight: 450;
+  color: rgba(255, 255, 255, .82);
+  margin-top: 1px;
+}
+.gcard-go {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #fff;
   color: var(--ink-85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .18);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .3s ease, transform .35s var(--ease-out-quart);
 }
-.slide-meta {
-  font-size: 14px;
-  line-height: 1.35;
-  color: var(--ink-65);
+@media (hover: hover) and (pointer: fine) {
+  .gcard:hover img { transform: scale(1.025); }
+  .gcard:hover::after, .gcard:focus-visible::after,
+  .gcard:hover .gcard-label, .gcard:focus-visible .gcard-label,
+  .gcard:hover .gcard-go, .gcard:focus-visible .gcard-go { opacity: 1; transform: none; }
 }
-.slide-desc {
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--ink-45);
-  text-wrap: pretty;
+@media (hover: none) {
+  .gcard::after, .gcard-label, .gcard-go { opacity: 1; transform: none; }
 }
-.slide-desc a {
-  color: var(--ink-65);
-  text-decoration: underline;
-  text-decoration-color: rgba(0, 0, 0, .22);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  transition: color .15s ease;
+
+/* The rest of the library, one floor down */
+.backstacks { padding-top: 64px; }
+
+/* Gallery pages: prev/next trail */
+.gallery-trail {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
 }
-.slide-desc a:hover { color: var(--ink-85); }
-.frames-more { margin-top: 20px; }
 
 /* ============================================================
    PHOTOS PAGE — trips with photo grids, and a lightbox

@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Games — Heart’s Library</title>
-<meta name="description" content="What Cody Heart is playing — in rotation, finished, and shelved, with short takes.">
+<title>Gallery — Heart’s Library</title>
+<meta name="description" content="A photo gallery from Cody Heart’s travels.">
 <link rel="stylesheet" href="css/review.css?v=20260808m">
 <script>window.coverFallback=window.coverFallback||function(i){(window.__fellCovers=window.__fellCovers||[]).push(i)}</script>
 <script defer src="js/review.js?v=20260808m"></script>
-<script defer src="js/games.js?v=20260808m"></script>
+<script defer src="js/photos.js?v=20260808m"></script>
 <script defer src="js/hobby.js?v=20260808m"></script>
 </head>
 <body>
@@ -18,7 +18,7 @@
   <div class="nav__inner">
     <a class="nav__wordmark" href="index.html"><svg width="13" height="12" viewBox="2.462 4.062 19.133 17.838" aria-hidden="true"><path fill="#E5484D" d="M12.1 7.6C13.7 5 15.8 3.7 18 4.15 20.9 4.6 22.1 7.1 21.4 9.9 20.8 12.5 18 15.4 11.7 21.9 5.6 15.4 3.1 12.4 2.6 9.7 2 6.9 3.4 4.6 6 4.2 8.1 3.85 10.5 5 12.1 7.6Z"/></svg><span>Heart’s Library</span></a>
     <div class="nav__links">
-      <a class="nav__link link-hover" href="index.html">Galleries</a>
+      <a class="nav__link link-hover" href="index.html" aria-current="page">Galleries</a>
       <a class="nav__link link-hover" href="about.html">About</a>
       <div class="nav__drop">
         <button class="nav__link link-hover press-scale" aria-expanded="false" aria-haspopup="true" aria-controls="menu-elsewhere">Elsewhere<svg class="chev" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4L5 6.5L7.5 4"/></svg></button>
@@ -52,21 +52,25 @@
 </div>
 
 <section class="page-head wrap">
-  <span class="crumb"><a href="index.html">Heart’s Library</a> <span class="sep">/</span> Games</span>
-  <h1>What the console’s <span class="accent">running</span>.</h1>
-  <p class="deck">Games get a shelf too — what’s in rotation, what’s finished, and
-  what got shelved, with the same one-line honesty as the books.</p>
-  <div class="props">
-      <div class="prop"><span class="prop-label">Now playing</span><span class="prop-value">Two</span></div>
-      <div class="prop"><span class="prop-label">Finished</span><span class="prop-value">Three logged</span></div>
-      <div class="prop"><span class="prop-label">Platforms</span><span class="prop-value">PC · Switch</span></div>
-  </div>
+  <span class="crumb"><a href="index.html">Heart’s Library</a> <span class="sep">/</span> <a href="index.html#galleries">Galleries</a> <span class="sep">/</span> <span id="crumbTrip">This trip</span></span>
+  <h1 id="galleryTitle">The gallery</h1>
+  <p class="deck" id="galleryNote"></p>
+  <p class="log-stats" id="galleryMeta"></p>
 </section>
 <main id="main">
 <div class="wrap">
-  <div id="gameList"></div>
-  <noscript><p class="noscript-note">The games shelf needs JavaScript to render — it reads from <code>js/games.js</code>.</p></noscript>
+  <div class="photo-grid" id="galleryShots" style="padding-top:24px"></div>
+  <noscript><p class="noscript-note">This gallery needs JavaScript to render — it reads from <code>js/photos.js</code>.</p></noscript>
+  <nav class="link-row gallery-trail" id="galleryTrail" aria-label="More galleries">
+    <a class="press-scale" href="index.html#galleries">All galleries <span class="arrow" aria-hidden="true">→</span></a>
+  </nav>
 </div>
+<dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+  <figure>
+    <img src="" alt="">
+    <figcaption class="lightbox-cap"></figcaption>
+  </figure>
+</dialog>
 </main>
 <footer class="footer">
   <div class="footer__inner">

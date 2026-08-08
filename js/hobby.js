@@ -1,10 +1,11 @@
 /* ============================================================
-   HEART'S LIBRARY — hobby renderers.
-   One small file drives the hub and the four collection pages,
-   reading the plain data files (photos.js, pins.js, games.js,
-   writing.js, log.js). Each block no-ops unless its container
-   exists, so every page can load the same script. You never
-   need to edit this file to post — edit the data files.
+   HEART'S LIBRARY — page renderers.
+   One small file drives the photography pages (the homepage
+   gallery grid, gallery.html, the photos.html archive) and the
+   background wings (pins, games, writing), reading the plain
+   data files. Each block no-ops unless its container exists,
+   so every page can load the same script. You never need to
+   edit this file to post — edit the data files.
    ============================================================ */
 (function () {
   "use strict";
@@ -26,66 +27,95 @@
     });
     return out;
   }
+  function cover(t) {
+    return (t.photos && t.photos[0]) || null;
+  }
+  function shotHtml(t, p, i) {
+    return '<figure class="shot">' +
+      '<button class="shot-btn" type="button" data-trip="' + esc(t.slug) + '" data-i="' + i + '" aria-label="View larger: ' + esc(p.caption || t.place) + '">' +
+      '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '" loading="lazy"' +
+      (p.w && p.h ? ' style="aspect-ratio:' + Number(p.w) + '/' + Number(p.h) + '"' : "") + ">" +
+      "</button>" +
+      (p.caption ? '<figcaption class="shot-cap">' + esc(p.caption) + "</figcaption>" : "") +
+      "</figure>";
+  }
+
+  /* Lightbox: one <dialog>, shared by any page that renders shots. */
+  function bindLightbox() {
+    var dlg = document.getElementById("lightbox");
+    if (!dlg || typeof dlg.showModal !== "function") return;
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest(".shot-btn");
+      if (!btn) return;
+      var trip = TRIPS.filter(function (t) { return t.slug === btn.getAttribute("data-trip"); })[0];
+      var p = trip && trip.photos[Number(btn.getAttribute("data-i"))];
+      if (!p) return;
+      dlg.querySelector("img").src = p.src;
+      dlg.querySelector("img").alt = p.alt || "";
+      dlg.querySelector(".lightbox-cap").textContent =
+        (p.caption ? p.caption + " — " : "") + trip.place + ", " + trip.when;
+      dlg.showModal();
+    });
+    dlg.addEventListener("click", function () { dlg.close(); });
+  }
+  bindLightbox();
 
   /* ----------------------------------------------------------
-     HUB — the showcase carousel: one big slide per trip, built
-     from each trip's lead photo. The static slides in
-     index.html are only a no-JS fallback.
+     HOMEPAGE — the gallery grid: one big rounded cover per
+     trip, title on hover, clicking through to the gallery.
+     Static tiles in index.html are only a no-JS fallback.
      ---------------------------------------------------------- */
-  var showcase = document.getElementById("showcase");
-  if (showcase && TRIPS.length) {
-    showcase.innerHTML = TRIPS.map(function (t, i) {
-      var lead = (t.photos || [])[0];
-      if (!lead) return "";
-      return '<div class="slide">' +
-        '<a class="slide-media" href="photos.html#' + esc(t.slug) + '" aria-label="' + esc(t.place) + '">' +
-          '<img src="' + esc(lead.src) + '" alt="' + esc(lead.alt || "") + '"' +
-          (i === 0 ? "" : ' loading="lazy"') + "></a>" +
-        '<div class="slide-cap">' +
-        '<p class="slide-name">' + esc(t.place) + '<br><span class="slide-meta">' +
-          esc(t.when) + " · " + (t.photos || []).length + " frames</span></p>" +
-        '<p class="slide-desc">' + (t.note ? esc(t.note) + " " : "") +
-          '→ <a href="photos.html#' + esc(t.slug) + '">see the roll</a></p></div></div>';
+  var grid = document.getElementById("galleryGrid");
+  if (grid && TRIPS.length) {
+    grid.innerHTML = TRIPS.map(function (t, i) {
+      var c = cover(t);
+      if (!c) return "";
+      return '<a class="gcard' + (i === 0 ? " gcard--wide" : "") + '" href="gallery.html?trip=' + esc(t.slug) + '">' +
+        '<img src="' + esc(c.src) + '" alt="' + esc(t.place) + '"' + (i === 0 ? "" : ' loading="lazy"') + ">" +
+        '<span class="gcard-label">' + esc(t.place) +
+          '<span class="gcard-meta">' + esc(t.when) + " · " + (t.photos || []).length + " frames</span></span>" +
+        '<span class="gcard-go" aria-hidden="true">→</span></a>';
     }).join("");
   }
 
   /* ----------------------------------------------------------
-     HUB — drawer papers + sub-lines
+     GALLERY page — one trip, from ?trip=<slug>
      ---------------------------------------------------------- */
-  function fillPapers(id, items) {
-    var el = document.getElementById(id);
-    if (el && items.length) {
-      el.innerHTML = items.slice(0, 3).map(function (t) {
-        return '<span class="folder-paper">' + esc(t) + "</span>";
-      }).join("");
-    }
-  }
-  function setSub(id, text) {
-    var el = document.getElementById(id);
-    if (el && text) el.textContent = text;
-  }
+  var galleryShots = document.getElementById("galleryShots");
+  if (galleryShots && TRIPS.length) {
+    var slug = "";
+    try { slug = new URLSearchParams(location.search).get("trip") || ""; } catch (e) {}
+    var trip = TRIPS.filter(function (t) { return t.slug === slug; })[0] || TRIPS[0];
 
-  if (document.getElementById("folderPhotosPapers")) {
-    fillPapers("folderPhotosPapers", TRIPS.map(function (t) { return t.place; }));
-    var frameCount = allPhotos().length;
-    setSub("folderPhotosSub", frameCount + " frames from " + TRIPS.length + " trips");
+    document.title = trip.place + " — Heart’s Library";
+    var tEl = document.getElementById("galleryTitle");
+    if (tEl) tEl.textContent = trip.place;
+    var crumbEl = document.getElementById("crumbTrip");
+    if (crumbEl) crumbEl.textContent = trip.place;
+    var noteEl = document.getElementById("galleryNote");
+    if (noteEl) noteEl.textContent = trip.note || "";
+    var metaEl = document.getElementById("galleryMeta");
+    if (metaEl) metaEl.textContent =
+      (trip.photos || []).length + " frames · " + trip.when;
 
-    if (window.LOG && window.LOG.length) {
-      var five = window.LOG.filter(function (b) { return b.rating === 5; });
-      fillPapers("folderBooksPapers", five.map(function (b) { return b.title; }));
-      setSub("folderBooksSub", window.LOG.length + " read · " + five.length + " five-stars");
+    galleryShots.innerHTML = (trip.photos || []).map(function (p, i) {
+      return shotHtml(trip, p, i);
+    }).join("");
+
+    /* Trail: every other gallery, in order */
+    var trail = document.getElementById("galleryTrail");
+    if (trail) {
+      trail.innerHTML = TRIPS.filter(function (t) { return t.slug !== trip.slug; })
+        .map(function (t) {
+          return '<a class="press-scale" href="gallery.html?trip=' + esc(t.slug) + '">' +
+            esc(t.place) + ' <span class="arrow" aria-hidden="true">→</span></a>';
+        }).join("") +
+        '<a class="press-scale" href="index.html#galleries">All galleries <span class="arrow" aria-hidden="true">→</span></a>';
     }
-    fillPapers("folderPinsPapers", PINS.map(function (p) { return p.title; }));
-    setSub("folderPinsSub", PINS.length + " pinned so far");
-    fillPapers("folderWritingPapers", WRITING.map(function (w) { return w.title; }));
-    setSub("folderWritingSub", WRITING.length === 1 ? "One piece, more coming" : WRITING.length + " pieces");
-    var playing = GAMES.filter(function (g) { return g.status === "playing"; });
-    fillPapers("folderGamesPapers", (playing.length ? playing : GAMES).map(function (g) { return g.title; }));
-    setSub("folderGamesSub", playing.length ? "Now playing: " + playing.length : GAMES.length + " on the shelf");
   }
 
   /* ----------------------------------------------------------
-     PHOTOS page — trips, grids, lightbox
+     PHOTOS page — the archive: every trip on one page
      ---------------------------------------------------------- */
   var tripList = document.getElementById("tripList");
   if (tripList && TRIPS.length) {
@@ -95,41 +125,12 @@
           esc(t.place) + ' · ' + esc(t.when) + "</span></div>" +
         (t.note ? '<p class="trip-note">' + esc(t.note) + "</p>" : "") +
         '<div class="photo-grid">' +
-        (t.photos || []).map(function (p, i) {
-          return '<figure class="shot">' +
-            '<button class="shot-btn" type="button" data-trip="' + esc(t.slug) + '" data-i="' + i + '" aria-label="View larger: ' + esc(p.caption || t.place) + '">' +
-            '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '" loading="lazy"' +
-            (p.w && p.h ? ' style="aspect-ratio:' + Number(p.w) + '/' + Number(p.h) + '"' : "") + ">" +
-            "</button>" +
-            (p.caption ? '<figcaption class="shot-cap">' + esc(p.caption) + "</figcaption>" : "") +
-            "</figure>";
-        }).join("") +
+        (t.photos || []).map(function (p, i) { return shotHtml(t, p, i); }).join("") +
         "</div></section>";
     }).join("");
 
     var stats = document.getElementById("photoStats");
     if (stats) stats.textContent = allPhotos().length + " frames · " + TRIPS.length + " trips · newest first";
-
-    /* Lightbox: one <dialog>, filled on open. */
-    var dlg = document.getElementById("lightbox");
-    if (dlg && typeof dlg.showModal === "function") {
-      tripList.addEventListener("click", function (e) {
-        var btn = e.target.closest(".shot-btn");
-        if (!btn) return;
-        var trip = TRIPS.filter(function (t) { return t.slug === btn.getAttribute("data-trip"); })[0];
-        var p = trip && trip.photos[Number(btn.getAttribute("data-i"))];
-        if (!p) return;
-        dlg.querySelector("img").src = p.src;
-        dlg.querySelector("img").alt = p.alt || "";
-        dlg.querySelector(".lightbox-cap").textContent =
-          (p.caption ? p.caption + " — " : "") + trip.place + ", " + trip.when;
-        dlg.showModal();
-      });
-      dlg.addEventListener("click", function (e) {
-        /* click anywhere (backdrop or frame) closes; the image itself too */
-        dlg.close();
-      });
-    }
   }
 
   /* ----------------------------------------------------------

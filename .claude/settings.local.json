@@ -58,7 +58,9 @@
       "Bash(curl -sL \"https://www.baptistebriel.com/\" -o bb.html)",
       "Bash(git commit -m 'Showcase carousel in baptistebriel.com'\\\\''s register replaces the frames strip *)",
       "Bash(curl -s \"https://heartslibrary.com/css/review.css?v=20260808j\")",
-      "Bash(git commit -m 'Showcase restyled to baptistebriel'\\\\''s Recent Talks anatomy *)"
+      "Bash(git commit -m 'Showcase restyled to baptistebriel'\\\\''s Recent Talks anatomy *)",
+      "Bash(curl -s \"https://heartslibrary.com/css/review.css?v=20260808k\")",
+      "Bash(curl -sL \"https://www.park.photos/\" -o park.html)"
     ]
   }
 }
