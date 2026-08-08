@@ -7,16 +7,21 @@ step, hosts anywhere (GitHub Pages, Netlify, any web server), or open
 
 ## What it is
 
-**Since Aug 2026 a hobbies site** — photography first, books as a wing,
-plus pins, writing, and games. Every collection reads from one plain data
-file (see HOW-TO-UPDATE.md).
+**Since Aug 2026 a photography-first site** — the homepage is a
+park.photos-style gallery grid: big rounded trip covers (newest trip gets
+the wide tile), the title rising in on hover, each tile clicking through
+to that trip's gallery. The hobby wings survive one floor down, out of
+the global nav (which slims to Galleries · About · Elsewhere), reachable
+from the homepage's Rest-of-the-Library row and the footer. Every
+collection reads from one plain data file (see HOW-TO-UPDATE.md).
 
-- **index.html — the hub.** Hero, a Latest Frames photo strip, and the
-  six-drawer card catalog (Photos, Books, Pins, Writing, Games, Write
-  back); drawers fill their papers/counts live from the data files via
-  `js/hobby.js`.
-- **photos.html** — trips with photo grids and a `<dialog>` lightbox, from
-  `js/photos.js`. Ships with generated placeholder art in
+- **index.html** — hero + the gallery grid (`js/hobby.js` builds tiles
+  from `js/photos.js`) + background links + colophon.
+- **gallery.html?trip=<slug>** — one trip's gallery: crumb, title, note,
+  mono meta, photo grid, shared `<dialog>` lightbox, and a trail to the
+  other galleries.
+- **photos.html** — the archive: every trip on one page, same lightbox.
+  All photography ships with generated placeholder art in
   `photos/placeholders/` until real rolls land.
 - **books.html — The Shelf** (the old homepage). All 50 five-star reads
   rendered from `js/books.js`: Fiction and Nonfiction groups, one-line
@@ -31,9 +36,8 @@ file (see HOW-TO-UPDATE.md).
 - **log.html, dashboards.html, about.html** — the Goodreads-synced log and
   static content pages.
 - Shell: the codyheart.design top nav — sticky, backdrop-blurred, hides on
-  scroll down; Books + Elsewhere dropdowns with duotone icon tiles (burger
-  below 768px now that there are seven links); full-screen overlay menu on
-  phones.
+  scroll down; now just Galleries · About · Elsewhere (duotone-tile
+  dropdown), burger below 768px; full-screen overlay menu on phones.
 
 ## Design system (css/review.css)
 
