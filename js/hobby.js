@@ -66,8 +66,8 @@
   bindLightbox();
 
   /* ----------------------------------------------------------
-     HOMEPAGE — the gallery wall: a uniform 3-across grid of
-     square covers, title on hover, clicking through to the
+     HOMEPAGE — the gallery wall: big rounded-rectangle covers,
+     two across, title on hover, clicking through to the
      gallery. Static tiles in index.html are only a no-JS
      fallback.
      ---------------------------------------------------------- */

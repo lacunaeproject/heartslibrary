@@ -2029,8 +2029,8 @@ main { display: block; }
 }
 
 /* ============================================================
-   GALLERIES — the park.photos register: big rounded square
-   covers on a uniform 3-across wall, the trip title rising in
+   GALLERIES — the park.photos register: big rounded-rectangle
+   covers, two across and full-bleed, the trip title rising in
    over a soft scrim on hover (always visible on touch), a
    small circular arrow chip, and the whole tile clicking
    through to its gallery.
@@ -2048,8 +2048,8 @@ main { display: block; }
 .gcard {
   position: relative;
   display: block;
-  aspect-ratio: 1 / 1;
-  border-radius: 20px;
+  aspect-ratio: 3 / 4;
+  border-radius: 28px;
   overflow: hidden;
   background: var(--surface);
 }
