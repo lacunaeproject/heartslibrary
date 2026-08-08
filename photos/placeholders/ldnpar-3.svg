@@ -1,14 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900">
 <defs>
-<linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-<stop offset="0" stop-color="#B8BCC8"/><stop offset=".62" stop-color="#B8BCC8" stop-opacity=".55"/><stop offset="1" stop-color="#F0F2F6"/>
-</linearGradient>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8E8AA0"/><stop offset=".72" stop-color="#BDB4B3"/><stop offset="1" stop-color="#E4D6C2"/></linearGradient>
+<radialGradient id="glow"><stop offset="0" stop-color="#F2D9A8" stop-opacity=".9"/><stop offset="1" stop-color="#F2D9A8" stop-opacity="0"/></radialGradient>
+<radialGradient id="vig" cx=".5" cy=".46" r=".75"><stop offset=".62" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></radialGradient>
+<filter id="gr"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0"/></filter>
 </defs>
-<rect width="1200" height="900" fill="#F0F2F6"/>
-<rect width="1200" height="900" fill="url(#g)"/>
-<circle cx="825" cy="216" r="63" fill="#FFFFFF" opacity=".55"/>
-<rect y="612" width="1200" height="3" fill="#3E4658" opacity=".28"/>
-<path d="M-200 612 Q 300 468 660 612 T 1600 612 V900 H-200 Z" fill="#3E4658" opacity="0.18"/>
-<path d="M160 652 Q 660 553 1020 652 T 1960 652 V900 H160 Z" fill="#3E4658" opacity="0.26"/>
-<path d="M460 692 Q 960 512 1320 692 T 2260 692 V900 H460 Z" fill="#3E4658" opacity="0.13"/>
+<rect width="1200" height="900" fill="url(#sky)"/>
+<circle cx="776" cy="146" r="332" fill="url(#glow)"/>
+<circle cx="776" cy="146" r="64" fill="#F2D9A8" opacity=".95"/>
+<path d="M-60 493 Q105 457 270 490 Q435 415 600 474 Q765 415 930 495 Q1095 368 1260 440 V910 H-60 Z" fill="#C6BBB4" opacity="0.50"/>
+<path d="M-60 597 Q72 483 204 535 Q336 474 468 588 Q600 491 732 528 Q864 479 996 506 Q1128 445 1260 580 V910 H-60 Z" fill="#AAA09E" opacity="0.62"/>
+<path d="M-60 666 Q160 599 380 662 Q600 580 820 621 Q1040 583 1260 687 V910 H-60 Z" fill="#877F83" opacity="0.75"/>
+<path d="M-60 746 Q160 703 380 745 Q600 702 820 710 Q1040 696 1260 770 V910 H-60 Z" fill="#615B66" opacity="0.88"/>
+<path d="M-60 816 Q105 770 270 838 Q435 745 600 796 Q765 773 930 773 Q1095 766 1260 816 V910 H-60 Z" fill="#3A3648" opacity="1.00"/>
+<rect width="1200" height="900" fill="url(#vig)"/>
+<rect width="1200" height="900" filter="url(#gr)"/>
 </svg>

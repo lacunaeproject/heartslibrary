@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6E9BBF"/><stop offset=".72" stop-color="#AFC6D1"/><stop offset="1" stop-color="#E4E9E0"/></linearGradient>
+<radialGradient id="glow"><stop offset="0" stop-color="#FFE9CE" stop-opacity=".9"/><stop offset="1" stop-color="#FFE9CE" stop-opacity="0"/></radialGradient>
+<radialGradient id="vig" cx=".5" cy=".46" r=".75"><stop offset=".62" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></radialGradient>
+<filter id="gr"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0"/></filter>
+</defs>
+<rect width="1200" height="900" fill="url(#sky)"/>
+<circle cx="546" cy="301" r="336" fill="url(#glow)"/>
+<circle cx="546" cy="301" r="65" fill="#FFE9CE" opacity=".95"/>
+<path d="M298 235 q 4 -5 8 0 q 4 -5 8 0" stroke="#1F3A47" stroke-width="2.2" fill="none" opacity=".5" stroke-linecap="round"/>
+<path d="M507 118 q 4 -4 8 0 q 4 -4 8 0" stroke="#1F3A47" stroke-width="2.2" fill="none" opacity=".5" stroke-linecap="round"/>
+<path d="M719 157 q 4 -5 8 0 q 4 -5 8 0" stroke="#1F3A47" stroke-width="2.2" fill="none" opacity=".5" stroke-linecap="round"/>
+<path d="M-60 511 Q72 417 204 492 Q336 376 468 430 Q600 343 732 491 Q864 461 996 488 Q1128 370 1260 448 V910 H-60 Z" fill="#B9CDC4" opacity="0.50"/>
+<path d="M-60 598 Q72 578 204 608 Q336 437 468 528 Q600 507 732 577 Q864 512 996 652 Q1128 511 1260 562 V910 H-60 Z" fill="#9AB1AC" opacity="0.62"/>
+<path d="M-60 672 Q72 585 204 614 Q336 605 468 661 Q600 647 732 652 Q864 621 996 642 Q1128 605 1260 678 V910 H-60 Z" fill="#758E8F" opacity="0.75"/>
+<path d="M-60 761 Q72 700 204 751 Q336 673 468 714 Q600 678 732 716 Q864 678 996 706 Q1128 703 1260 774 V910 H-60 Z" fill="#4D6870" opacity="0.88"/>
+<path d="M-60 831 Q72 798 204 808 Q336 781 468 841 Q600 801 732 843 Q864 752 996 789 Q1128 783 1260 817 V910 H-60 Z" fill="#22414F" opacity="1.00"/>
+<rect width="1200" height="900" fill="url(#vig)"/>
+<rect width="1200" height="900" filter="url(#gr)"/>
+</svg>

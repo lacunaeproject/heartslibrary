@@ -61,7 +61,8 @@
       "Bash(git commit -m 'Showcase restyled to baptistebriel'\\\\''s Recent Talks anatomy *)",
       "Bash(curl -s \"https://heartslibrary.com/css/review.css?v=20260808k\")",
       "Bash(curl -sL \"https://www.park.photos/\" -o park.html)",
-      "Bash(git commit -m 'The darkroom: full park.photos register for the photography wing *)"
+      "Bash(git commit -m 'The darkroom: full park.photos register for the photography wing *)",
+      "Bash(git commit -m 'The full wall: eight galleries, real masonry, photographic placeholder art *)"
     ]
   }
 }

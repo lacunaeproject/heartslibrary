@@ -64,5 +64,80 @@ window.TRIPS = [
       { src: "photos/placeholders/ldnpar-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "St Paul's from the bridge" },
       { src: "photos/placeholders/ldnpar-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Montmartre stairs" }
     ]
+  },
+  {
+    slug: "nashville",
+    posted: "2025-08-16",
+    place: "Nashville, before the move",
+    when: "August 2025",
+    note: "One last slow lap of the city that held the Franklin years.",
+    photos: [
+      { src: "photos/placeholders/nash-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Lower Broadway from the bridge" },
+      { src: "photos/placeholders/nash-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Radnor Lake, first light" },
+      { src: "photos/placeholders/nash-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Porch storm, Franklin" },
+      { src: "photos/placeholders/nash-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "The Ryman’s alley" },
+      { src: "photos/placeholders/nash-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Harpeth bends" },
+      { src: "photos/placeholders/nash-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Neon spill, Printer’s Alley" }
+    ]
+  },
+  {
+    slug: "big-sur",
+    posted: "2025-05-18",
+    place: "Big Sur, Highway 1",
+    when: "May 2025",
+    note: "Windows down, fog in, fog out. The camera barely kept up.",
+    photos: [
+      { src: "photos/placeholders/bigsur-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Bixby at golden hour" },
+      { src: "photos/placeholders/bigsur-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Redwood understory" },
+      { src: "photos/placeholders/bigsur-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "McWay cove" },
+      { src: "photos/placeholders/bigsur-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Fog over Point Sur" },
+      { src: "photos/placeholders/bigsur-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Pfeiffer surf" },
+      { src: "photos/placeholders/bigsur-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Highway pull-off, dusk" }
+    ]
+  },
+  {
+    slug: "new-york",
+    posted: "2024-12-08",
+    place: "New York, back for a week",
+    when: "December 2024",
+    note: "Two years after leaving — the old commute, in the snow this time.",
+    photos: [
+      { src: "photos/placeholders/nyc-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Sixth Avenue steam" },
+      { src: "photos/placeholders/nyc-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Snow on the High Line" },
+      { src: "photos/placeholders/nyc-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Grand Central, 8 a.m." },
+      { src: "photos/placeholders/nyc-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Roosevelt Island tram" },
+      { src: "photos/placeholders/nyc-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Chinatown dusk" },
+      { src: "photos/placeholders/nyc-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "The park after the storm" }
+    ]
+  },
+  {
+    slug: "joshua-tree",
+    posted: "2024-03-22",
+    place: "Joshua Tree, dusk to dark",
+    when: "March 2024",
+    note: "Out for the boulders, stayed for the stars.",
+    photos: [
+      { src: "photos/placeholders/jtree-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Golden hour boulders" },
+      { src: "photos/placeholders/jtree-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "First stars, Cap Rock" },
+      { src: "photos/placeholders/jtree-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Cholla garden" },
+      { src: "photos/placeholders/jtree-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Skull Rock silhouette" },
+      { src: "photos/placeholders/jtree-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Dusk on the ridge" },
+      { src: "photos/placeholders/jtree-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "The Milky Way, faint" }
+    ]
+  },
+  {
+    slug: "the-bay",
+    posted: "2023-09-10",
+    place: "The Bay, revisited",
+    when: "September 2023",
+    note: "School streets and fog lines, a decade on.",
+    photos: [
+      { src: "photos/placeholders/bay-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Fog over the gate" },
+      { src: "photos/placeholders/bay-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Berkeley hills, dry gold" },
+      { src: "photos/placeholders/bay-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Ocean Beach wind" },
+      { src: "photos/placeholders/bay-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Sutro through the mist" },
+      { src: "photos/placeholders/bay-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Ferry wake" },
+      { src: "photos/placeholders/bay-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Twin Peaks, blue hour" }
+    ]
   }
 ];

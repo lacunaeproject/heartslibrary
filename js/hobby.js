@@ -67,45 +67,30 @@
      ---------------------------------------------------------- */
   var grid = document.getElementById("galleryGrid");
   if (grid && TRIPS.length) {
-    grid.innerHTML = TRIPS.map(function (t, i) {
+    var tileAspects = ["4/3", "3/4", "3/4", "4/3", "4/3", "3/4", "3/4", "4/3"];
+    function tileHtml(t, i) {
       var c = cover(t);
       if (!c) return "";
-      return '<a class="gcard' + (i === 0 ? " gcard--wide" : "") + '" href="gallery.html?trip=' + esc(t.slug) + '">' +
-        '<img src="' + esc(c.src) + '" alt="' + esc(t.place) + '"' + (i === 0 ? "" : ' loading="lazy"') + ">" +
+      return '<a class="gcard" style="aspect-ratio:' + tileAspects[i % tileAspects.length] + '" href="gallery.html?trip=' + esc(t.slug) + '">' +
+        '<img src="' + esc(c.src) + '" alt="' + esc(t.place) + '"' + (i < 2 ? "" : ' loading="lazy"') + ">" +
         '<span class="gcard-label">' + esc(t.place) +
           '<span class="gcard-meta">' + esc(t.when) + " · " + (t.photos || []).length + " frames</span></span>" +
         '<span class="gcard-go" aria-hidden="true">→</span></a>';
-    }).join("");
-  }
-
-  /* ----------------------------------------------------------
-     HOMEPAGE — the marquee rows: trip names and frame captions
-     on the move. Content is doubled so the CSS -50% loop lands
-     seamlessly; static markup in index.html is the fallback.
-     ---------------------------------------------------------- */
-  function mqItems(pairs) {
-    var one = pairs.map(function (x) {
-      return '<span class="mq-item"><span class="mq-name">' + esc(x[0]) +
-        '</span><img class="mq-thumb" src="' + esc(x[1]) + '" alt=""></span>';
-    }).join("");
-    return one + one;
-  }
-  var mqa = document.getElementById("marqueeA");
-  if (mqa && TRIPS.length) {
-    mqa.innerHTML = mqItems(TRIPS.map(function (t) {
-      var p = (t.photos && (t.photos[1] || t.photos[0])) || {};
-      return [t.place, p.src || ""];
-    }));
-    var mqb = document.getElementById("marqueeB");
-    if (mqb) {
-      var caps = [];
-      TRIPS.forEach(function (t) {
-        (t.photos || []).slice(0, 2).forEach(function (p) {
-          if (p.caption && p.src) caps.push([p.caption, p.src]);
-        });
-      });
-      if (caps.length) mqb.innerHTML = mqItems(caps.slice(0, 5));
     }
+    var twoCol = window.matchMedia("(min-width: 640px)");
+    function renderGrid() {
+      if (twoCol.matches) {
+        var a = [], b = [];
+        TRIPS.forEach(function (t, i) { (i % 2 ? b : a).push(tileHtml(t, i)); });
+        grid.innerHTML = '<div class="gallery-col">' + a.join("") + '</div>' +
+                         '<div class="gallery-col">' + b.join("") + "</div>";
+      } else {
+        grid.innerHTML = '<div class="gallery-col">' +
+          TRIPS.map(function (t, i) { return tileHtml(t, i); }).join("") + "</div>";
+      }
+    }
+    renderGrid();
+    if (twoCol.addEventListener) twoCol.addEventListener("change", renderGrid);
   }
 
   /* ----------------------------------------------------------
