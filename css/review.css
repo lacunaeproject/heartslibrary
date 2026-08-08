@@ -2374,7 +2374,7 @@ html.dark body::after {
   inset: -100%;
   z-index: 9999;
   pointer-events: none;
-  opacity: .12;
+  opacity: .16;
   /* Overlay blend, like park's: near-zero on the black ground, so
      the static lives in the photos and mid-tones instead of
      dusting the whole page */
