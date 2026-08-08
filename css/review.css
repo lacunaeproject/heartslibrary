@@ -2089,7 +2089,7 @@ main { display: block; }
   max-width: 40rem;
   margin: 0 auto;
 }
-.chat > * + * { margin-top: clamp(14px, 2.4vw, 24px); }
+.chat > * + * { margin-top: clamp(24px, 4vw, 40px); }
 
 .msg {
   position: relative;
@@ -2098,11 +2098,11 @@ main { display: block; }
   background: var(--surface);
   box-shadow: var(--shadow-flush);
   border-radius: 20px;
-  padding: clamp(14px, 2vw, 19px) clamp(17px, 2.4vw, 23px);
-  font-size: clamp(16px, 1.1vw + 11px, 20px);
+  padding: clamp(16px, 4vw, 20px) clamp(18px, 4vw, 24px);
+  font-size: clamp(20px, 4vw, 30px);
   font-weight: 450;
-  line-height: 1.4;
-  letter-spacing: -.008em;
+  line-height: 1.3;
+  letter-spacing: -.012em;
   color: var(--ink-80);
 }
 .msg em { font-style: normal; font-weight: 550; color: var(--ink-85); }
@@ -2116,14 +2116,14 @@ main { display: block; }
 .msg a:hover { color: var(--ink-85); text-decoration-color: rgba(0, 0, 0, .45); }
 .msg-meta {
   display: block;
-  margin-top: 5px;
-  font-size: clamp(13px, .8vw + 9px, 15px);
-  line-height: 1.5;
+  margin-top: 6px;
+  font-size: clamp(14px, 2.4vw, 17px);
+  line-height: 1.45;
   color: var(--ink-45);
 }
 
 /* Book ratings inside bubbles — the log's stars */
-.msg-stars { font-size: 11px; letter-spacing: 3.5px; color: var(--ink-85); }
+.msg-stars { font-size: 13px; letter-spacing: 4px; color: var(--ink-85); }
 .msg-stars .off { color: var(--ink-30); opacity: .5; }
 .msg-stars.is-five .on { color: var(--heart); }
 
@@ -2147,27 +2147,28 @@ main { display: block; }
 
 /* Photo-roll cards — the reference's media card: image on top
    with rounded top corners, caption block below */
-.msg-card { display: block; padding: 0; overflow: hidden; width: min(560px, 100%); }
+.msg-card { display: block; padding: 0; overflow: hidden; width: 100%; }
 .msg-card-img {
   display: block;
   width: 100%;
-  max-height: 360px;
+  max-height: 420px;
   object-fit: cover;
   border-radius: 20px 20px 0 0;
   background: var(--surface-hover);
 }
-.msg-card-body { display: block; padding: clamp(13px, 2vw, 17px) clamp(17px, 2.4vw, 22px) clamp(14px, 2vw, 18px); }
+.msg-card-body { display: block; padding: clamp(16px, 4vw, 22px) clamp(18px, 4vw, 24px); }
 .msg-card-title {
   display: block;
-  font-size: clamp(16px, 1vw + 11px, 19px);
+  font-size: clamp(18px, 3.2vw, 24px);
   font-weight: 550;
+  letter-spacing: -.01em;
   color: var(--ink-85);
 }
 .msg-card .msg-card-sub {
   display: block;
-  margin-top: 3px;
-  font-size: clamp(13px, .8vw + 9px, 15px);
-  line-height: 1.5;
+  margin-top: 4px;
+  font-size: clamp(14px, 2.4vw, 17px);
+  line-height: 1.45;
   color: var(--ink-45);
 }
 a.msg-card { text-decoration: none; transition: transform .3s var(--ease-out-quart), background-color .15s ease; }
@@ -2175,8 +2176,9 @@ a.msg-card { text-decoration: none; transition: transform .3s var(--ease-out-qua
   a.msg-card:hover { transform: translateY(-2px); background: var(--surface-hover); }
 }
 
-/* Day markers — quiet mono punctuation down the center */
-.day {
+/* No timestamps in the thread (goodthing has none) — only the
+   terminal hand-off keeps the quiet mono voice. */
+.day--end {
   align-self: center;
   font-family: var(--mono);
   font-size: 10px;
@@ -2184,10 +2186,8 @@ a.msg-card { text-decoration: none; transition: transform .3s var(--ease-out-qua
   letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--ink-40);
-  margin-top: clamp(26px, 4vw, 40px);
+  margin: clamp(32px, 5vw, 48px) 0 4px;
 }
-.chat > .day:first-child { margin-top: 4px; }
-.day--end { margin: clamp(30px, 4vw, 44px) 0 4px; }
 .day--end a { color: var(--ink-55); text-decoration: underline; text-underline-offset: 3px; }
 .day--end a:hover { color: var(--ink-85); }
 

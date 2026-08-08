@@ -178,16 +178,7 @@
   var deskFeed = document.getElementById("deskFeed");
   if (deskFeed) {
     var BATCH = 12, CAP = 48;
-    var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-    function dayLabel(iso) {
-      var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || "");
-      if (!m) return "";
-      var label = MONTHS[Number(m[2]) - 1] + " " + Number(m[3]);
-      var newest = (items[0] && items[0].d || "").slice(0, 4);
-      if (m[1] !== newest) label += ", " + m[1];
-      return label;
-    }
     function stars(rating) {
       var out = '<span class="msg-stars' + (rating === 5 ? " is-five" : "") + '" aria-label="' + rating + ' of 5 stars">';
       for (var i = 1; i <= 5; i++) out += '<span class="' + (i <= rating ? "on" : "off") + '">✶</span>';
@@ -240,23 +231,15 @@
     items.sort(function (a, b) { return a.d < b.d ? 1 : a.d > b.d ? -1 : 0; });
     items = items.slice(0, CAP);
 
-    var rendered = 0, lastDay = "";
+    var rendered = 0;
     var sentinel = document.getElementById("deskMore");
 
     function renderBatch() {
       var frag = document.createDocumentFragment();
       var end = Math.min(rendered + BATCH, items.length);
       for (; rendered < end; rendered++) {
-        var it = items[rendered];
-        var day = dayLabel(it.d);
-        var chunk = "";
-        if (day && day !== lastDay) {
-          chunk += '<div class="day">' + day + "</div>";
-          lastDay = day;
-        }
-        chunk += it.html;
         var holder = document.createElement("div");
-        holder.innerHTML = chunk;
+        holder.innerHTML = items[rendered].html;
         while (holder.firstChild) frag.appendChild(holder.firstChild);
       }
       deskFeed.appendChild(frag);
