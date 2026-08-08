@@ -65,7 +65,9 @@
       "Bash(git commit -m 'The full wall: eight galleries, real masonry, photographic placeholder art *)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://heartslibrary.com/photos/sandiego-zoo/web/cheetah-2.jpg\")",
       "Bash(git fetch *)",
-      "Bash(git commit -m 'Update session tool permissions *)"
+      "Bash(git commit -m 'Update session tool permissions *)",
+      "WebFetch(domain:heartslibrary.com)",
+      "Bash(curl -s https://www.park.photos/ -o \"C:\\\\Users\\\\codyj\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-codyj-Documents-heartslibrary\\\\2182bf28-ef2b-407f-abec-47455c78f861\\\\scratchpad\\\\park.html\")"
     ]
   }
 }
