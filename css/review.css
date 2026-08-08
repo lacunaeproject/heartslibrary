@@ -2063,112 +2063,96 @@ main { display: block; }
   gap: 16px;
 }
 
-/* The light/dark switch, sitting beside the pictures */
+/* The light/dark switch, park's: a track with a knob carrying the
+   moon (dark, left) or the sun (light, right) */
 .theme-toggle {
   flex: none;
-  width: 42px;
-  height: 42px;
-  margin-bottom: 6px;
-  display: inline-flex;
+  position: relative;
+  width: 56px;
+  height: 30px;
+  margin-bottom: 8px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .16);
+  cursor: pointer;
+  transition: background-color .2s ease;
+}
+html:not(.dark) .theme-toggle { background: rgba(0, 0, 0, .14); }
+.theme-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  background: var(--surface);
-  color: var(--ink-65);
-  cursor: pointer;
-  transition: color .15s ease, transform .2s var(--ease-out-quart);
+  background: #17170F;
+  color: #FBF9F0;
+  transition: transform .25s var(--ease-out-quart), background-color .2s ease;
 }
-.theme-toggle:hover { color: var(--ink-85); transform: translateY(-1px); }
-.theme-toggle svg { width: 17px; height: 17px; display: block; }
-.theme-toggle .icon-sun { display: none; }
-html.dark .theme-toggle .icon-sun { display: block; }
-html.dark .theme-toggle .icon-moon { display: none; }
+html:not(.dark) .theme-knob {
+  transform: translateX(26px);
+  background: #fff;
+  color: #17170F;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .25);
+}
+.theme-knob svg { width: 14px; height: 14px; display: block; }
+.theme-knob .icon-sun { display: none; }
+html:not(.dark) .theme-knob .icon-sun { display: block; }
+html:not(.dark) .theme-knob .icon-moon { display: none; }
 
 /* ============================================================
-   THE SEVEN CONTINENTS — the ledger: seven numbered rows,
-   visited ones opening to their trips, the rest waiting.
+   WHERE I'VE BEEN — park's places cloud: big bold names flowing
+   inline with small rounded photo thumbs, each linking to its
+   gallery. The continents still to come trail in low ink.
    ============================================================ */
-.continents-sec { padding-top: 0; }
-.cont-board { margin-top: 28px; border-bottom: 1px solid var(--border); }
-.cont-row { border-top: 1px solid var(--border); }
-.cont-row summary,
-.cont-row.is-unvisited {
-  display: grid;
-  grid-template-columns: 48px 1fr auto;
-  align-items: baseline;
-  gap: 16px;
-  padding: 18px 0;
-}
-.cont-row summary { list-style: none; cursor: pointer; }
-.cont-row summary::-webkit-details-marker { display: none; }
-.cont-num {
+.places-sec { padding-top: 0; }
+.places-label {
+  margin-top: clamp(72px, 10vw, 130px);
+  text-align: center;
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: .04em;
+  letter-spacing: .06em;
+  text-transform: uppercase;
   color: var(--ink-40);
 }
-.cont-name {
-  font-family: var(--display);
-  font-weight: 400;
-  font-synthesis: none;
-  font-size: clamp(24px, 3vw, 34px);
+.places-cloud {
+  margin-top: clamp(28px, 4vw, 48px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  column-gap: clamp(28px, 4vw, 64px);
+  row-gap: clamp(18px, 2.5vw, 34px);
+}
+.place {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(12px, 1.5vw, 22px);
+}
+.place-thumb {
+  width: clamp(56px, 6vw, 88px);
+  height: clamp(56px, 6vw, 88px);
+  border-radius: clamp(16px, 1.8vw, 24px);
+  object-fit: cover;
+  display: block;
+  transition: transform .3s var(--ease-out-quart);
+}
+.place-name {
+  font-size: clamp(34px, 4.6vw, 64px);
+  font-weight: 600;
+  letter-spacing: -.02em;
   line-height: 1.1;
   color: var(--ink-85);
   transition: color .15s ease;
 }
-.cont-row.is-unvisited .cont-name { color: var(--ink-40); }
 @media (hover: hover) and (pointer: fine) {
-  .cont-row summary:hover .cont-name { color: #E5484D; }
+  .place:hover .place-thumb { transform: scale(1.08) rotate(-2deg); }
+  .place:hover .place-name { color: #E5484D; }
 }
-.cont-meta {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: var(--ink-40);
-  white-space: nowrap;
-}
-.cont-chev {
-  font-size: 15px;
-  color: var(--ink-55);
-  transition: transform .25s var(--ease-out-quart);
-}
-.cont-row[open] .cont-chev { transform: rotate(45deg); }
-.cont-trips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  padding: 2px 0 24px 64px;
-}
-.cont-trip {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 16px 8px 8px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--surface);
-}
-.cont-trip img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  display: block;
-}
-.cont-trip:not(:has(img)) { padding-left: 16px; }
-.cont-trip-name { font-size: 14px; font-weight: 550; color: var(--ink-85); }
-.cont-trip-when { font-size: 12px; color: var(--ink-40); }
-@media (max-width: 560px) {
-  .cont-row summary,
-  .cont-row.is-unvisited { grid-template-columns: 34px 1fr auto; gap: 10px; }
-  .cont-trips { padding-left: 0; }
-  .cont-trip-when { display: none; }
-}
+.place--soon .place-name { color: var(--ink-30); }
 
 .gallery-cols {
   display: grid;
@@ -2622,29 +2606,37 @@ body.home .nav.is-top .nav__burger span { background: rgba(255, 255, 255, .92); 
   max-width: 920px;
   padding: 120px 24px clamp(28px, 5vh, 46px);
 }
-/* Where the hero photo was taken — park's location pill */
+/* Hero photo meta, park's corners: the year bottom-left, where it
+   was taken bottom-right with the state flag */
+.hero-year {
+  position: absolute;
+  bottom: 26px;
+  left: clamp(20px, 3vw, 40px);
+  z-index: 2;
+  font-size: 14px;
+  font-weight: 550;
+  color: rgba(255, 255, 255, .92);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, .5);
+}
 .photo-tag {
   position: absolute;
-  top: 84px;
-  left: clamp(20px, 3vw, 40px);
+  bottom: 22px;
+  right: clamp(20px, 3vw, 40px);
   z-index: 2;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 7px 14px;
-  border: 1px solid rgba(255, 255, 255, .24);
-  border-radius: 999px;
-  background: rgba(10, 10, 10, .4);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, .85);
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 550;
+  color: rgba(255, 255, 255, .92);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, .5);
   white-space: nowrap;
 }
-.photo-tag svg { flex: none; opacity: .8; }
+.photo-tag svg { flex: none; border-radius: 2px; box-shadow: 0 1px 6px rgba(0, 0, 0, .35); }
+@media (max-width: 900px) {
+  .hero-year { display: none; }
+  .photo-tag { bottom: auto; right: auto; top: 80px; left: 20px; }
+}
 .darkhero h1 {
   font-family: var(--display);
   font-weight: 400;

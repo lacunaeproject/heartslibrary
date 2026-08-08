@@ -90,46 +90,28 @@
   }
 
   /* ----------------------------------------------------------
-     THE SEVEN CONTINENTS — the ledger on the homepage, computed
-     from each trip's `continent` field. Visited continents open
-     to their trips; the rest read "Not yet".
+     WHERE I'VE BEEN — park's places cloud, computed from TRIPS:
+     each trip is a big name with a rounded cover thumb linking
+     to its gallery; the continents still to come trail after
+     in low ink. `short:` names the place; `continent:` feeds
+     the running count.
      ---------------------------------------------------------- */
-  var board = document.getElementById("continentBoard");
-  if (board && TRIPS.length) {
+  var cloud = document.getElementById("placesCloud");
+  if (cloud && TRIPS.length) {
     var CONTINENTS = ["North America", "South America", "Europe", "Africa", "Asia", "Oceania", "Antarctica"];
-    var byCont = {};
-    TRIPS.forEach(function (t) {
-      if (!t.continent) return;
-      (byCont[t.continent] = byCont[t.continent] || []).push(t);
-    });
-    var seen = CONTINENTS.filter(function (c) { return byCont[c]; }).length;
+    var visited = {};
+    TRIPS.forEach(function (t) { if (t.continent) visited[t.continent] = true; });
+    var seen = CONTINENTS.filter(function (c) { return visited[c]; }).length;
     var countEl = document.getElementById("continentCount");
     if (countEl) countEl.textContent = seen + " of 7";
-    var firstVisited = true;
-    board.innerHTML = CONTINENTS.map(function (c, i) {
-      var trips = byCont[c] || [];
-      var num = "0" + (i + 1);
-      if (!trips.length) {
-        return '<div class="cont-row is-unvisited">' +
-          '<span class="cont-num">' + num + '</span>' +
-          '<span class="cont-name">' + esc(c) + '</span>' +
-          '<span class="cont-meta">Not yet</span></div>';
-      }
-      var open = firstVisited ? " open" : "";
-      firstVisited = false;
-      return '<details class="cont-row"' + open + '>' +
-        '<summary><span class="cont-num">' + num + '</span>' +
-        '<span class="cont-name">' + esc(c) + '</span>' +
-        '<span class="cont-meta">' + trips.length + (trips.length === 1 ? " trip" : " trips") +
-          ' · latest ' + esc(trips[0].when) +
-          '<span class="cont-chev" aria-hidden="true">+</span></span></summary>' +
-        '<div class="cont-trips">' + trips.map(function (t) {
-          var cv = cover(t);
-          return '<a class="cont-trip press-scale" href="gallery.html?trip=' + esc(t.slug) + '">' +
-            (cv ? '<img src="' + esc(cv.src) + '" alt="" loading="lazy">' : "") +
-            '<span class="cont-trip-name">' + esc(t.place) + '</span>' +
-            '<span class="cont-trip-when">' + esc(t.when) + "</span></a>";
-        }).join("") + "</div></details>";
+    cloud.innerHTML = TRIPS.map(function (t) {
+      var cv = cover(t);
+      return '<a class="place press-scale" href="gallery.html?trip=' + esc(t.slug) + '">' +
+        (cv ? '<img class="place-thumb" src="' + esc(cv.src) + '" alt="" loading="lazy">' : "") +
+        '<span class="place-name">' + esc(t.short || t.place) + "</span></a>";
+    }).join("") +
+    CONTINENTS.filter(function (c) { return !visited[c]; }).map(function (c) {
+      return '<span class="place place--soon"><span class="place-name">' + esc(c) + "</span></span>";
     }).join("");
   }
 

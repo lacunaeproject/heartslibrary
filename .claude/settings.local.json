@@ -72,7 +72,8 @@
       "Bash(sed -i 's/v=20260809a/v=20260809b/g' *.html)",
       "Bash(sed -i 's/v=20260809c/v=20260809d/g' *.html)",
       "Bash(sed -i 's/v=20260809i/v=20260809j/g' *.html)",
-      "Bash(sed -i 's/v=20260809j/v=20260809k/g' *.html)"
+      "Bash(sed -i 's/v=20260809j/v=20260809k/g' *.html)",
+      "Bash(SHOT=\"C:\\\\Users\\\\codyj\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-codyj-Documents-heartslibrary\\\\2182bf28-ef2b-407f-abec-47455c78f861\\\\scratchpad\" && powershell -Command \"Add-Type -AssemblyName System.Drawing; \\\\$i=[System.Drawing.Image]::FromFile\\('$SHOT\\\\park-full.png'\\); Write-Host \\\\$i.Width 'x' \\\\$i.Height; for \\(\\\\$y=0; \\\\$y -lt \\\\$i.Height; \\\\$y+=3166\\) { \\\\$h=[Math]::Min\\(3166, \\\\$i.Height-\\\\$y\\); \\\\$r=New-Object System.Drawing.Rectangle\\(0,\\\\$y,\\\\$i.Width,\\\\$h\\); \\\\$b=\\\\$i.Clone\\(\\\\$r, \\\\$i.PixelFormat\\); \\\\$b.Save\\(\\\\\"$SHOT\\\\park-slice-\\\\$y.png\\\\\"\\); \\\\$b.Dispose\\(\\) }; \\\\$i.Dispose\\(\\); Get-ChildItem '$SHOT' -Filter 'park-slice-*' | Select-Object Name\")"
     ]
   }
 }
