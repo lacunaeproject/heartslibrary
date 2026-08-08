@@ -12,6 +12,7 @@ window.GAMES = [
   {
     title: "Baldur's Gate 3",
     posted: "2026-06-10",
+    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1086940/header.jpg",
     platform: "PC",
     status: "playing",
     when: "Since June 2026",
@@ -20,6 +21,7 @@ window.GAMES = [
   {
     title: "Balatro",
     posted: "2026-07-19",
+    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/2379780/header.jpg",
     platform: "Switch",
     status: "playing",
     when: "Ongoing",
@@ -28,6 +30,7 @@ window.GAMES = [
   {
     title: "Outer Wilds",
     posted: "2026-05-24",
+    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/753640/header.jpg",
     platform: "PC",
     status: "finished",
     when: "May 2026",
@@ -36,6 +39,7 @@ window.GAMES = [
   {
     title: "Hades II",
     posted: "2026-03-15",
+    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1145350/header.jpg",
     platform: "PC",
     status: "finished",
     when: "March 2026",
@@ -44,6 +48,7 @@ window.GAMES = [
   {
     title: "The Legend of Zelda: Tears of the Kingdom",
     posted: "2025-11-08",
+    image: "images/games/totk.svg",
     platform: "Switch",
     status: "finished",
     when: "2025",
@@ -52,6 +57,7 @@ window.GAMES = [
   {
     title: "Starfield",
     posted: "2025-09-30",
+    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1716740/header.jpg",
     platform: "PC",
     status: "shelved",
     when: "2025",

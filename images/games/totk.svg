@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430">
+<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#DCE8C8"/><stop offset=".55" stop-color="#9DBA7F"/><stop offset="1" stop-color="#5C7A4A"/></linearGradient></defs>
+<rect width="920" height="430" fill="url(#g)"/>
+<circle cx="740" cy="100" r="64" fill="#FDF6DC" opacity=".85"/>
+<path d="M-40 320 Q 180 220 400 300 T 960 280 V430 H-40 Z" fill="#3E5A34" opacity=".8"/>
+<path d="M-40 360 Q 240 280 520 350 T 960 340 V430 H-40 Z" fill="#2C4426" opacity=".9"/>
+<g font-family="Geist, system-ui, sans-serif">
+<text x="70" y="120" font-size="26" letter-spacing="8" fill="#2C4426" opacity=".85">THE LEGEND OF ZELDA</text>
+<text x="66" y="188" font-size="58" font-weight="700" fill="#243A1E">Tears of the Kingdom</text>
+<text x="70" y="232" font-size="24" letter-spacing="4" fill="#2C4426" opacity=".75">PLACEHOLDER ART &#183; SWAP IN js/games.js</text>
+</g>
+</svg>

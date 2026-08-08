@@ -19,6 +19,15 @@ automatically from the Goodreads log; photos, pins, games, and writing
 appear when their entry has a `posted: "YYYY-MM-DD"` date. No date, no
 feed bubble — so you control what surfaces.
 
+Feed imagery: book jackets are captured automatically by the sync (the
+`cover` field in js/log.js). Pins and games take an optional `image:` —
+paste the article's social/OG image URL (or any local path) for pins, and
+for games a Steam header works great
+(`https://cdn.cloudflare.steamstatic.com/steam/apps/<appid>/header.jpg`).
+The five sample pins use generated plates in `images/articles/`. Entries
+without an `image` fall back to a plain text bubble; broken image URLs
+remove themselves quietly.
+
 ## Post photos
 
 1. Export images ~1600px on the long side into `photos/<trip-slug>/`.

@@ -189,10 +189,15 @@
     var items = [];
     (window.LOG || []).slice(0, 36).forEach(function (b) {
       var five = b.rating === 5;
+      var jacket = b.cover
+        ? '<img class="msg-book-cover" src="' + esc(b.cover) + '" alt="" loading="lazy" onerror="this.remove()">'
+        : "";
       items.push({ d: b.date, html: bubble(
-        'Finished <a href="' + (five ? "books.html" : "log.html") + '"><em>' + esc(b.title) + "</em></a> — " +
-        esc(b.author) + "<br>" + stars(b.rating || 0) +
-        (five ? '<span class="react" aria-hidden="true">♥</span>' : ""), five ? "has-react" : "") });
+        jacket +
+        '<span class="msg-book-body">Finished <a href="' + (five ? "books.html" : "log.html") + '"><em>' +
+        esc(b.title) + "</em></a> — " + esc(b.author) + "<br>" + stars(b.rating || 0) + "</span>" +
+        (five ? '<span class="react" aria-hidden="true">♥</span>' : ""),
+        "msg--book" + (five ? " has-react" : "")) });
     });
     TRIPS.forEach(function (t) {
       if (!t.posted) return;
@@ -209,17 +214,39 @@
     });
     PINS.forEach(function (p) {
       if (!p.posted) return;
-      items.push({ d: p.posted, html: bubble(
-        'Pinned <a href="' + esc(p.url) + '" target="_blank" rel="noopener">“' + esc(p.title) + '”</a> from ' +
-        esc(p.source) + (p.year ? ", " + esc(p.year) : "") + "." +
-        (p.note ? '<span class="msg-meta">' + esc(p.note) + "</span>" : "")) });
+      if (p.image) {
+        /* Rich article card — the link-preview look */
+        items.push({ d: p.posted, html:
+          '<a class="msg msg-card msg-card--article" href="' + esc(p.url) + '" target="_blank" rel="noopener">' +
+            '<img class="msg-card-img" src="' + esc(p.image) + '" alt="" loading="lazy" onerror="this.remove()">' +
+            '<span class="msg-card-body">' +
+              '<span class="msg-card-kicker">Pinned · ' + esc(p.source) + (p.year ? " · " + esc(p.year) : "") + "</span>" +
+              '<span class="msg-card-headline">' + esc(p.title) + "</span>" +
+              (p.note ? '<span class="msg-card-sub">' + esc(p.note) + "</span>" : "") +
+            "</span></a>" });
+      } else {
+        items.push({ d: p.posted, html: bubble(
+          'Pinned <a href="' + esc(p.url) + '" target="_blank" rel="noopener">“' + esc(p.title) + '”</a> from ' +
+          esc(p.source) + (p.year ? ", " + esc(p.year) : "") + "." +
+          (p.note ? '<span class="msg-meta">' + esc(p.note) + "</span>" : "")) });
+      }
     });
     GAMES.forEach(function (g) {
       if (!g.posted) return;
       var verb = g.status === "playing" ? "Started" : g.status === "finished" ? "Finished" : "Shelved";
-      items.push({ d: g.posted, html: bubble(
-        verb + ' <a href="games.html"><em>' + esc(g.title) + "</em></a> on " + esc(g.platform) + "." +
-        (g.note ? '<span class="msg-meta">' + esc(g.note) + "</span>" : "")) });
+      if (g.image) {
+        items.push({ d: g.posted, html:
+          '<a class="msg msg-card msg-card--game" href="games.html">' +
+            '<img class="msg-card-img" src="' + esc(g.image) + '" alt="" loading="lazy" onerror="this.remove()">' +
+            '<span class="msg-card-body">' +
+              '<span class="msg-card-title">' + verb + " <em>" + esc(g.title) + "</em> on " + esc(g.platform) + "</span>" +
+              (g.note ? '<span class="msg-card-sub">' + esc(g.note) + "</span>" : "") +
+            "</span></a>" });
+      } else {
+        items.push({ d: g.posted, html: bubble(
+          verb + ' <a href="games.html"><em>' + esc(g.title) + "</em></a> on " + esc(g.platform) + "." +
+          (g.note ? '<span class="msg-meta">' + esc(g.note) + "</span>" : "")) });
+      }
     });
     WRITING.forEach(function (w) {
       if (!w.posted) return;

@@ -2127,6 +2127,18 @@ main { display: block; }
 .msg-stars .off { color: var(--ink-30); opacity: .5; }
 .msg-stars.is-five .on { color: var(--heart); }
 
+/* Book bubbles: the jacket rides along, iOS-rounded */
+.msg--book { display: flex; align-items: center; gap: clamp(14px, 2.6vw, 20px); }
+.msg-book-cover {
+  flex-shrink: 0;
+  width: clamp(64px, 12vw, 92px);
+  border-radius: clamp(10px, 1.6vw, 13px);
+  box-shadow: var(--shadow-raised);
+  background: var(--surface-hover);
+}
+.msg-book-body { display: block; min-width: 0; }
+.msg--book .msg-stars { display: inline-block; margin-top: 6px; }
+
 /* Five-star finishes wear a small ♥ badge */
 .msg.has-react { overflow: visible; }
 .react {
@@ -2171,6 +2183,37 @@ main { display: block; }
   line-height: 1.45;
   color: var(--ink-45);
 }
+
+/* Article cards: the rich link-preview look — art on top, a mono
+   kicker, an editorial serif headline, then the note */
+.msg-card--article .msg-card-img { max-height: 300px; }
+.msg-card-kicker {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+  margin-bottom: 6px;
+}
+.msg-card-headline {
+  display: block;
+  font-family: var(--serif);
+  font-size: clamp(20px, 3.4vw, 27px);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  color: var(--ink-85);
+}
+.msg-card--article .msg-card-sub { margin-top: 7px; }
+@media (hover: hover) and (pointer: fine) {
+  .msg-card--article:hover .msg-card-headline { color: var(--accent); transition: color .15s ease; }
+}
+
+/* Game cards: box art up top, the record below */
+.msg-card--game .msg-card-img { aspect-ratio: 460 / 215; object-fit: cover; }
+.msg-card--game .msg-card-title em { font-style: normal; font-weight: 550; color: var(--ink-85); }
 a.msg-card { text-decoration: none; transition: transform .3s var(--ease-out-quart), background-color .15s ease; }
 @media (hover: hover) and (pointer: fine) {
   a.msg-card:hover { transform: translateY(-2px); background: var(--surface-hover); }

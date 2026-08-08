@@ -232,16 +232,23 @@ def sync_log():
             "author": (item.findtext("author_name") or "").strip(),
             "rating": int((item.findtext("user_rating") or "0").strip() or 0),
             "date": when.strftime("%Y-%m-%d") if when else "",
+            # The homepage feed shows jackets; large first for retina thumbs.
+            "cover": (
+                (item.findtext("book_large_image_url") or "").strip()
+                or (item.findtext("book_medium_image_url") or "").strip()
+                or (item.findtext("book_image_url") or "").strip()
+            ),
         })
     entries.sort(key=lambda e: e["date"], reverse=True)
 
     lines = ",\n".join(
-        "  { \"title\": %s, \"author\": %s, \"rating\": %d, \"date\": %s }"
+        "  { \"title\": %s, \"author\": %s, \"rating\": %d, \"date\": %s, \"cover\": %s }"
         % (
             json.dumps(e["title"], ensure_ascii=False),
             json.dumps(e["author"], ensure_ascii=False),
             e["rating"],
             json.dumps(e["date"]),
+            json.dumps(e["cover"]),
         )
         for e in entries
     )
