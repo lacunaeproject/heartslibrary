@@ -2427,11 +2427,49 @@ html.dark .page-head h1 {
   line-height: 1.05;
 }
 
-/* --- The dark hero: display type, centered, kept compact so
-   the photographs land above the fold --- */
+/* --- The dark hero: the lead photograph full-bleed in a rounded
+   frame, the site voice bottom-anchored over a scrim that keeps
+   the type readable without burying the animal --- */
 .darkhero {
   text-align: center;
-  padding: clamp(32px, 6vh, 56px) 24px 0;
+  padding-top: clamp(12px, 2.5vh, 24px);
+}
+.darkhero-frame {
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  min-height: clamp(460px, 66vh, 700px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: var(--surface);
+}
+.darkhero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 32%;
+}
+.darkhero-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to top,
+    rgba(10, 10, 10, .82),
+    rgba(10, 10, 10, .34) 46%,
+    rgba(10, 10, 10, .1) 70%,
+    rgba(10, 10, 10, .22));
+  pointer-events: none;
+}
+.darkhero-inner {
+  position: relative;
+  z-index: 2;
+  margin: 0 auto;
+  max-width: 760px;
+  padding: 120px 24px clamp(28px, 5vh, 46px);
 }
 .darkhero h1 {
   font-family: var(--display);
@@ -2444,6 +2482,7 @@ html.dark .page-head h1 {
   text-wrap: balance;
   margin: 0 auto;
   max-width: 780px;
+  text-shadow: 0 2px 28px rgba(0, 0, 0, .55);
 }
 .darkhero h1 em { font-style: italic; }
 .darkhero .h1-heart svg { width: .3em; height: .29em; margin-left: .08em; }
@@ -2452,19 +2491,20 @@ html.dark .page-head h1 {
   max-width: 520px;
   font-size: 15px;
   line-height: 1.65;
-  color: var(--ink-55);
+  color: rgba(255, 255, 255, .88);
   text-wrap: pretty;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, .55);
 }
 .darkhero-sub a {
-  color: var(--ink-65);
+  color: rgba(255, 255, 255, .95);
   font-weight: 500;
   text-decoration: underline;
-  text-decoration-color: rgba(255, 255, 255, .3);
+  text-decoration-color: rgba(255, 255, 255, .4);
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
   transition: color .15s ease;
 }
-.darkhero-sub a:hover { color: var(--ink-85); }
+.darkhero-sub a:hover { color: #fff; }
 .darkhero-cta {
   display: inline-flex;
   align-items: center;
@@ -2498,18 +2538,20 @@ html.dark .page-head h1 {
   align-items: center;
   gap: 5px;
   padding: 5px 12px;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, .22);
   border-radius: 999px;
+  background: rgba(10, 10, 10, .38);
+  backdrop-filter: blur(4px);
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: .04em;
   text-transform: uppercase;
-  color: var(--ink-40);
+  color: rgba(255, 255, 255, .62);
   white-space: nowrap;
 }
 .continent.is-visited {
-  color: var(--ink-85);
-  border-color: rgba(255, 255, 255, .28);
+  color: rgba(255, 255, 255, .95);
+  border-color: rgba(255, 255, 255, .42);
 }
 .continent-tick { color: #E5484D; font-weight: 700; }
 .continent-count {
@@ -2518,8 +2560,9 @@ html.dark .page-head h1 {
   font-size: 11px;
   letter-spacing: .04em;
   text-transform: uppercase;
-  color: var(--ink-55);
+  color: rgba(255, 255, 255, .8);
   white-space: nowrap;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, .6);
 }
 
 /* ============================================================
