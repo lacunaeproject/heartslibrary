@@ -167,3 +167,17 @@ window.TRIPS = [
     ]
   }
 ];
+
+/* ============================================================
+   MOMENTS — the rest of the record: shows seen, tickets held,
+   trips planned. These join the trips in the "Where I've been"
+   cloud on the homepage.
+   - type: "event" (a show) or "trip"
+   - planned: true puts it under "Up next"
+   - date: YYYY-MM, drives calendar ordering
+   ============================================================ */
+window.MOMENTS = [
+  { name: "Tame Impala", type: "event", when: "April 2026", date: "2026-04" },
+  { name: "Chicago, the move", type: "trip", when: "September 2026", date: "2026-09", planned: true },
+  { name: "Buddy Guy", type: "event", when: "October 2026", date: "2026-10", planned: true }
+];

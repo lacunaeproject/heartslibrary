@@ -2104,22 +2104,43 @@ html:not(.dark) .theme-knob .icon-sun { display: block; }
 html:not(.dark) .theme-knob .icon-moon { display: none; }
 
 /* ============================================================
-   WHERE I'VE BEEN — park's places cloud: big bold names flowing
-   inline with small rounded photo thumbs, each linking to its
-   gallery. The continents still to come trail in low ink.
+   WHERE I'VE BEEN — the filterable cloud: trips, shows, and
+   what's next, set big in the display serif with rounded photo
+   thumbs; shows carry a ♪ badge, plans an →, and the four
+   filter pills swap the view.
    ============================================================ */
 .places-sec { padding-top: 0; }
-.places-label {
-  margin-top: clamp(72px, 10vw, 130px);
-  text-align: center;
+.sec-head--center { text-align: center; }
+.sec-head--center .sec-sub { margin-left: auto; margin-right: auto; }
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+.filter-pill {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
   font-family: var(--mono);
   font-size: 11px;
-  letter-spacing: .06em;
+  letter-spacing: .05em;
   text-transform: uppercase;
-  color: var(--ink-40);
+  color: var(--ink-55);
+  cursor: pointer;
+  transition: color .15s ease, border-color .15s ease, background-color .15s ease;
 }
+.filter-pill:hover { color: var(--ink-85); }
+.filter-pill.is-active {
+  background: #17170F;
+  border-color: transparent;
+  color: #FBF9F0;
+}
+html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 .places-cloud {
-  margin-top: clamp(28px, 4vw, 48px);
+  margin-top: clamp(30px, 4vw, 52px);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -2140,19 +2161,58 @@ html:not(.dark) .theme-knob .icon-moon { display: none; }
   display: block;
   transition: transform .3s var(--ease-out-quart);
 }
+.place-badge {
+  flex: none;
+  width: clamp(56px, 6vw, 88px);
+  height: clamp(56px, 6vw, 88px);
+  border-radius: clamp(16px, 1.8vw, 24px);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  font-size: clamp(24px, 2.6vw, 38px);
+  color: var(--ink-55);
+  transition: transform .3s var(--ease-out-quart);
+}
 .place-name {
-  font-size: clamp(34px, 4.6vw, 64px);
-  font-weight: 600;
-  letter-spacing: -.02em;
-  line-height: 1.1;
+  font-family: var(--display);
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: clamp(38px, 5.2vw, 70px);
+  letter-spacing: 0;
+  line-height: 1.05;
   color: var(--ink-85);
   transition: color .15s ease;
 }
+.place-tag {
+  align-self: flex-start;
+  margin-top: clamp(4px, .8vw, 12px);
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+  white-space: nowrap;
+}
 @media (hover: hover) and (pointer: fine) {
-  .place:hover .place-thumb { transform: scale(1.08) rotate(-2deg); }
-  .place:hover .place-name { color: #E5484D; }
+  .place:hover .place-thumb,
+  .place:hover .place-badge { transform: scale(1.08) rotate(-2deg); }
+  a.place:hover .place-name { color: #E5484D; }
 }
 .place--soon .place-name { color: var(--ink-30); }
+@keyframes place-pop {
+  from { opacity: 0; transform: translateY(12px) scale(.97); }
+  to { opacity: 1; transform: none; }
+}
+.place-in { animation: place-pop .45s var(--ease-out-quart) both; }
+@media (prefers-reduced-motion: reduce) {
+  .place-in { animation: none; }
+}
 
 .gallery-cols {
   display: grid;

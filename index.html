@@ -6,11 +6,11 @@
 <title>Heart’s Library — Photography from the road</title>
 <meta name="description" content="Cody Heart’s photography: a running record of the road, trip by trip, on the way to all seven continents. Free to download for personal use.">
 <script>try{if(localStorage.getItem("hl-theme")==="light")document.documentElement.classList.remove("dark")}catch(e){}</script>
-<link rel="stylesheet" href="css/review.css?v=20260809q">
+<link rel="stylesheet" href="css/review.css?v=20260809r">
 <script>window.coverFallback=window.coverFallback||function(i){(window.__fellCovers=window.__fellCovers||[]).push(i)}</script>
-<script defer src="js/review.js?v=20260809q"></script>
-<script defer src="js/photos.js?v=20260809q"></script>
-<script defer src="js/hobby.js?v=20260809q"></script>
+<script defer src="js/review.js?v=20260809r"></script>
+<script defer src="js/photos.js?v=20260809r"></script>
+<script defer src="js/hobby.js?v=20260809r"></script>
 </head>
 <body class="home">
 
@@ -71,21 +71,23 @@
 </section>
 <main id="main">
 <section class="places-sec wrap wall" id="continents" aria-label="Where I’ve been">
-  <p class="places-label">Where I’ve been · <span id="continentCount">2 of 7</span> continents</p>
+  <div class="sec-head sec-head--center">
+    <h2>Where I’ve been</h2>
+    <p class="sec-sub">Trips, shows, and what’s next — documenting my way to
+    all seven continents, <span id="continentCount">2 of 7</span> so far.</p>
+  </div>
+  <div class="filter-row" id="placesFilters">
+    <button class="filter-pill is-active" type="button" data-view="year" aria-pressed="true">This year</button>
+    <button class="filter-pill" type="button" data-view="past" aria-pressed="false">Past trips</button>
+    <button class="filter-pill" type="button" data-view="next" aria-pressed="false">Up next</button>
+    <button class="filter-pill" type="button" data-view="seven" aria-pressed="false">Seven continents</button>
+  </div>
   <div class="places-cloud" id="placesCloud">
-    <a class="place press-scale" href="gallery.html?trip=san-diego"><img class="place-thumb" src="photos/sandiego-zoo/web/grizzly-2.jpg" alt=""><span class="place-name">San Diego</span></a>
     <a class="place press-scale" href="gallery.html?trip=chicago-february"><img class="place-thumb" src="photos/placeholders/chi-1.svg" alt=""><span class="place-name">Chicago</span></a>
-    <a class="place press-scale" href="gallery.html?trip=london-paris"><img class="place-thumb" src="photos/london-paris/web/monet-pond.jpg" alt=""><span class="place-name">London &amp; Paris</span></a>
-    <a class="place press-scale" href="gallery.html?trip=nashville"><img class="place-thumb" src="photos/placeholders/nash-1.svg" alt=""><span class="place-name">Nashville</span></a>
-    <a class="place press-scale" href="gallery.html?trip=big-sur"><img class="place-thumb" src="photos/placeholders/bigsur-1.svg" alt=""><span class="place-name">Big Sur</span></a>
-    <a class="place press-scale" href="gallery.html?trip=new-york"><img class="place-thumb" src="photos/placeholders/nyc-1.svg" alt=""><span class="place-name">New York</span></a>
-    <a class="place press-scale" href="gallery.html?trip=joshua-tree"><img class="place-thumb" src="photos/placeholders/jtree-1.svg" alt=""><span class="place-name">Joshua Tree</span></a>
-    <a class="place press-scale" href="gallery.html?trip=the-bay"><img class="place-thumb" src="photos/placeholders/bay-1.svg" alt=""><span class="place-name">The Bay</span></a>
-    <span class="place place--soon"><span class="place-name">South America</span></span>
-    <span class="place place--soon"><span class="place-name">Africa</span></span>
-    <span class="place place--soon"><span class="place-name">Asia</span></span>
-    <span class="place place--soon"><span class="place-name">Oceania</span></span>
-    <span class="place place--soon"><span class="place-name">Antarctica</span></span>
+    <span class="place"><span class="place-badge" aria-hidden="true">♪</span><span class="place-name">Tame Impala</span><span class="place-tag">show</span></span>
+    <a class="place press-scale" href="gallery.html?trip=san-diego"><img class="place-thumb" src="photos/sandiego-zoo/web/grizzly-2.jpg" alt=""><span class="place-name">San Diego</span></a>
+    <span class="place"><span class="place-badge" aria-hidden="true">→</span><span class="place-name">Chicago, the move</span><span class="place-tag">up next</span></span>
+    <span class="place"><span class="place-badge" aria-hidden="true">♪</span><span class="place-name">Buddy Guy</span><span class="place-tag">up next</span></span>
   </div>
 </section>
 

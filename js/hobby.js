@@ -90,29 +90,86 @@
   }
 
   /* ----------------------------------------------------------
-     WHERE I'VE BEEN — park's places cloud, computed from TRIPS:
-     each trip is a big name with a rounded cover thumb linking
-     to its gallery; the continents still to come trail after
-     in low ink. `short:` names the place; `continent:` feeds
-     the running count.
+     WHERE I'VE BEEN — the filterable cloud: trips, shows, and
+     what's next, set in the display serif. Views: this year /
+     past trips / up next / seven continents. Deep-linkable via
+     ?view=year|past|next|seven.
      ---------------------------------------------------------- */
   var cloud = document.getElementById("placesCloud");
+  var filters = document.getElementById("placesFilters");
   if (cloud && TRIPS.length) {
+    var MOMENTS = window.MOMENTS || [];
     var CONTINENTS = ["North America", "South America", "Europe", "Africa", "Asia", "Oceania", "Antarctica"];
-    var visited = {};
-    TRIPS.forEach(function (t) { if (t.continent) visited[t.continent] = true; });
-    var seen = CONTINENTS.filter(function (c) { return visited[c]; }).length;
+    var byCont = {};
+    TRIPS.forEach(function (t) {
+      if (!t.continent) return;
+      (byCont[t.continent] = byCont[t.continent] || []).push(t);
+    });
+    var seen = CONTINENTS.filter(function (c) { return byCont[c]; }).length;
     var countEl = document.getElementById("continentCount");
     if (countEl) countEl.textContent = seen + " of 7";
-    cloud.innerHTML = TRIPS.map(function (t) {
-      var cv = cover(t);
-      return '<a class="place press-scale" href="gallery.html?trip=' + esc(t.slug) + '">' +
-        (cv ? '<img class="place-thumb" src="' + esc(cv.src) + '" alt="" loading="lazy">' : "") +
-        '<span class="place-name">' + esc(t.short || t.place) + "</span></a>";
-    }).join("") +
-    CONTINENTS.filter(function (c) { return !visited[c]; }).map(function (c) {
-      return '<span class="place place--soon"><span class="place-name">' + esc(c) + "</span></span>";
-    }).join("");
+
+    function tripItem(t) {
+      return { name: t.short || t.place, date: t.posted || "",
+               href: "gallery.html?trip=" + t.slug, thumb: (cover(t) || {}).src };
+    }
+    function momentItem(m) {
+      return { name: m.name, date: m.date || "",
+               badge: m.type === "trip" ? "→" : "♪",
+               tag: m.planned ? "up next" : (m.type === "event" ? "show" : "") };
+    }
+    function byDate(a, b) { return (a.date || "").localeCompare(b.date || ""); }
+    function view(name) {
+      if (name === "past") return TRIPS.map(tripItem);
+      if (name === "next")
+        return MOMENTS.filter(function (m) { return m.planned; }).map(momentItem).sort(byDate);
+      if (name === "seven")
+        return CONTINENTS.map(function (c) {
+          var trips = byCont[c] || [];
+          if (!trips.length) return { name: c, tag: "not yet", dim: true };
+          return { name: c, thumb: (cover(trips[0]) || {}).src,
+                   href: "gallery.html?trip=" + trips[0].slug,
+                   tag: trips.length + (trips.length === 1 ? " trip" : " trips") };
+        });
+      /* default "year": places and shows, in calendar order */
+      var yr = String(new Date().getFullYear());
+      return TRIPS.filter(function (t) { return (t.posted || "").slice(0, 4) === yr; }).map(tripItem)
+        .concat(MOMENTS.filter(function (m) { return (m.date || "").slice(0, 4) === yr; }).map(momentItem))
+        .sort(byDate);
+    }
+    function itemHtml(it) {
+      var inner =
+        (it.thumb ? '<img class="place-thumb" src="' + esc(it.thumb) + '" alt="" loading="lazy">'
+          : (it.badge ? '<span class="place-badge" aria-hidden="true">' + esc(it.badge) + "</span>" : "")) +
+        '<span class="place-name">' + esc(it.name) + "</span>" +
+        (it.tag ? '<span class="place-tag">' + esc(it.tag) + "</span>" : "");
+      var cls = "place place-in" + (it.dim ? " place--soon" : "");
+      if (it.href) return '<a class="' + cls + ' press-scale" href="' + esc(it.href) + '">' + inner + "</a>";
+      return '<span class="' + cls + '">' + inner + "</span>";
+    }
+    function render(name) {
+      cloud.innerHTML = view(name).map(itemHtml).join("");
+      Array.prototype.forEach.call(cloud.children, function (el, i) {
+        el.style.animationDelay = (i * 45) + "ms";
+      });
+      if (filters) {
+        Array.prototype.forEach.call(filters.querySelectorAll("[data-view]"), function (b) {
+          var on = b.getAttribute("data-view") === name;
+          b.classList.toggle("is-active", on);
+          b.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+      }
+    }
+    var initial = "";
+    try { initial = new URLSearchParams(location.search).get("view") || ""; } catch (e) {}
+    if (["year", "past", "next", "seven"].indexOf(initial) < 0) initial = "year";
+    render(initial);
+    if (filters) {
+      filters.addEventListener("click", function (e) {
+        var b = e.target.closest("[data-view]");
+        if (b) render(b.getAttribute("data-view"));
+      });
+    }
   }
 
   /* ----------------------------------------------------------
