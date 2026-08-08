@@ -46,7 +46,9 @@
       "Bash(taskkill //PID 18932 //F)",
       "Bash(taskkill //PID 18892 //F)",
       "Bash(curl -sL \"https://goodthing.studio/_astro/404.355b11a3.css\" -o gt.css)",
-      "Bash(git commit -m 'The Circulation Desk: a goodthing-style feed of recent postings on the hub *)"
+      "Bash(git commit -m 'The Circulation Desk: a goodthing-style feed of recent postings on the hub *)",
+      "Bash(curl -s \"https://heartslibrary.com/js/hobby.js?v=20260808e\")",
+      "Bash(git commit -m 'Give the Circulation Desk goodthing'\\\\''s scale: centered 40rem thread, bigger type *)"
     ]
   }
 }
