@@ -2593,12 +2593,12 @@ body.home .nav.is-top .nav__burger span { background: rgba(255, 255, 255, .92); 
   inset: 0;
   z-index: 1;
   background:
-    radial-gradient(54% 44% at 50% 52%, rgba(10, 10, 10, .48), rgba(10, 10, 10, 0) 78%),
+    radial-gradient(58% 50% at 50% 48%, rgba(10, 10, 10, .6), rgba(10, 10, 10, 0) 82%),
     linear-gradient(to top,
-      rgba(10, 10, 10, .5),
-      rgba(10, 10, 10, 0) 24%,
-      rgba(10, 10, 10, 0) 78%,
-      rgba(10, 10, 10, .34));
+      rgba(10, 10, 10, .52),
+      rgba(10, 10, 10, .18) 24%,
+      rgba(10, 10, 10, .18) 78%,
+      rgba(10, 10, 10, .38));
   pointer-events: none;
 }
 .darkhero-inner {
@@ -2650,7 +2650,7 @@ body.home .nav.is-top .nav__burger span { background: rgba(255, 255, 255, .92); 
   text-wrap: balance;
   margin: 0 auto;
   max-width: 900px;
-  text-shadow: 0 2px 28px rgba(0, 0, 0, .55);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, .65), 0 2px 48px rgba(0, 0, 0, .55);
 }
 .darkhero .h1-heart svg { width: .3em; height: .29em; margin-left: .08em; }
 .darkhero-sub {
@@ -2658,9 +2658,9 @@ body.home .nav.is-top .nav__burger span { background: rgba(255, 255, 255, .92); 
   max-width: 520px;
   font-size: 15px;
   line-height: 1.65;
-  color: rgba(255, 255, 255, .88);
+  color: rgba(255, 255, 255, .92);
   text-wrap: pretty;
-  text-shadow: 0 1px 14px rgba(0, 0, 0, .55);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, .7), 0 1px 28px rgba(0, 0, 0, .5);
 }
 .darkhero-sub a {
   color: rgba(255, 255, 255, .95);
