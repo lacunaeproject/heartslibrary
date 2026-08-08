@@ -270,14 +270,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   text-overflow: ellipsis;
 }
 .nav__scrolltitle.is-visible { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
-@media (min-width: 640px) { .nav__scrolltitle { display: block; } }
+@media (min-width: 768px) { .nav__scrolltitle { display: block; } }
 
 .nav__links {
   display: none;
   align-items: center;
   gap: 16px;
 }
-@media (min-width: 640px) { .nav__links { display: flex; } }
+/* Seven links now — the burger holds on a little longer. */
+@media (min-width: 768px) { .nav__links { display: flex; } }
 
 .nav__link {
   font-size: 12px;
@@ -401,7 +402,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 
 /* Hamburger */
 .nav__burger-wrap { display: block; }
-@media (min-width: 640px) { .nav__burger-wrap { display: none; } }
+@media (min-width: 768px) { .nav__burger-wrap { display: none; } }
 .nav__burger {
   position: relative;
   display: flex;
@@ -1814,6 +1815,12 @@ main { display: block; }
 .folder--orange { --f-back: #FFC28A; --f-front: #FFD5AC; --f-deep: #9E4A0C; }
 .folder--purple { --f-back: #C9A8F0; --f-front: #D9C0F6; --f-deep: #6A2FA8; }
 .folder--pink   { --f-back: #F2ABD6; --f-front: #F7C6E3; --f-deep: #A81D6E; }
+.folder--teal   { --f-back: #83CFC2; --f-front: #A8DED4; --f-deep: #0B6B5D; }
+.folder--green  { --f-back: #9CD9B3; --f-front: #BEE7CD; --f-deep: #1C7A4B; }
+/* The hub's six drawers sit three across when there's room. */
+@media (min-width: 900px) {
+  .catalog-grid--six { grid-template-columns: repeat(3, 1fr); }
+}
 @media (hover: hover) and (pointer: fine) {
   .folder:hover { transform: translateY(-3px); }
 }
@@ -2000,6 +2007,236 @@ main { display: block; }
   white-space: nowrap;
   min-width: 52px;
   text-align: right;
+}
+
+/* ============================================================
+   FRAMES — the hub's latest-photos strip: fixed-height cards
+   in a horizontal scroll, the reference's carousel register.
+   ============================================================ */
+.frames-sec { padding-top: 64px; }
+.frames {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+  scroll-snap-type: x proximity;
+}
+.frames::-webkit-scrollbar { display: none; }
+.frame {
+  position: relative;
+  flex-shrink: 0;
+  height: 224px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface);
+  scroll-snap-align: start;
+  transition: transform .3s var(--ease-out-quart);
+}
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  box-shadow: var(--shadow-flush);
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .frame:hover { transform: translateY(-3px); }
+}
+.frame img { height: 100%; width: auto; display: block; }
+.frame-cap {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  max-width: calc(100% - 20px);
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .88);
+  color: var(--ink-65);
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .2s ease, transform .25s var(--ease-out-quart);
+}
+@media (hover: hover) and (pointer: fine) {
+  .frame:hover .frame-cap { opacity: 1; transform: none; }
+}
+@media (hover: none) {
+  .frame-cap { opacity: 1; transform: none; }
+}
+.frames-more { margin-top: 16px; }
+
+/* ============================================================
+   PHOTOS PAGE — trips with photo grids, and a lightbox
+   ============================================================ */
+.trip { padding-top: 48px; }
+.trip-note {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-65);
+  margin: -12px 0 16px;
+  max-width: 560px;
+}
+.photo-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 560px) { .photo-grid { grid-template-columns: repeat(2, 1fr); } }
+.shot { margin: 0; }
+.shot-btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  cursor: zoom-in;
+  background: var(--surface);
+  transition: transform .3s var(--ease-out-quart);
+}
+.shot-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  box-shadow: var(--shadow-flush);
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .shot-btn:hover { transform: translateY(-3px); }
+}
+.shot-btn img { width: 100%; height: auto; display: block; }
+.shot-cap { margin-top: 8px; font-size: 12px; line-height: 1.5; color: var(--ink-40); }
+.photo-stats {
+  padding: 20px 0 8px;
+  margin-top: 40px;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+}
+
+.lightbox {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  max-width: min(92vw, 1100px);
+  cursor: zoom-out;
+}
+.lightbox::backdrop { background: rgba(23, 23, 23, .72); backdrop-filter: blur(6px); }
+.lightbox figure { margin: 0; }
+.lightbox img {
+  width: 100%;
+  max-height: 82vh;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+}
+.lightbox-cap { margin-top: 10px; text-align: center; font-size: 13px; color: #fff; opacity: .85; }
+
+/* ============================================================
+   PINS — the pinboard rows (the bookstore-row register)
+   ============================================================ */
+.pins { padding-top: 8px; margin-top: 24px; }
+.pin { padding: 18px 0; border-top: 1px solid var(--border); }
+.pin-title {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -.005em;
+  color: var(--ink-85);
+  transition: color .15s ease;
+}
+.pin-title:hover { color: var(--accent); }
+.pin-title .arrow {
+  font-size: .7em;
+  color: var(--ink-30);
+  display: inline-block;
+  transition: transform .2s var(--ease-out-quart), color .15s ease;
+}
+.pin-title:hover .arrow { transform: translate(2px, -2px); color: var(--accent); }
+.pin-meta {
+  margin-left: 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+  white-space: nowrap;
+}
+.pin-note { margin-top: 6px; font-size: 14px; line-height: 1.5; color: var(--ink-65); max-width: 620px; }
+
+/* ============================================================
+   GAMES — now playing / finished / shelved
+   ============================================================ */
+.game-group { padding-top: 40px; }
+.game { padding: 16px 0; border-top: 1px solid var(--border); }
+.game-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.game-title {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -.005em;
+  color: var(--ink-85);
+}
+.platpill {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  background: var(--surface);
+  color: var(--ink-55);
+  box-shadow: var(--shadow-flush);
+}
+.game-when {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-30);
+  white-space: nowrap;
+}
+.game-note { margin-top: 6px; font-size: 14px; line-height: 1.5; color: var(--ink-65); max-width: 620px; }
+.game-group .rubric-label .live-pill { vertical-align: 1px; margin-left: 8px; }
+
+/* ============================================================
+   WRITING — pieces on one page
+   ============================================================ */
+.pieces { padding-top: 8px; }
+.piece { padding: 40px 0 8px; }
+.piece + .piece { border-top: 1px solid var(--border); }
+.piece .kicker { margin-bottom: 6px; }
+.piece h2 {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -.01em;
+  color: var(--ink-85);
+  margin-bottom: 8px;
+}
+.piece-deck { font-size: 14px; line-height: 1.5; color: var(--ink-55); margin-bottom: 14px; max-width: 620px; }
+.piece-body {
+  font-size: 14px;
+  font-weight: 450;
+  line-height: 1.45rem;
+  letter-spacing: -.005em;
+  color: var(--ink-80);
+  max-width: 620px;
+  margin-bottom: 14px;
 }
 
 /* ============================================================

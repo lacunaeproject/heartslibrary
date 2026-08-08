@@ -1,7 +1,35 @@
 # Updating Heart's Library
 
-Everything on the shelf lives in **one file: `js/books.js`**. You never touch
-HTML or CSS to add, remove, or edit a book.
+Since the Aug 2026 pivot this is a hobbies site: the homepage is a hub
+(latest photos + the card catalog of drawers), and each collection lives in
+**one plain data file** you edit to post. You never touch HTML or CSS:
+
+| Collection | Page | Edit this file |
+|---|---|---|
+| Photos | `photos.html` | `js/photos.js` (+ drop images in `photos/<trip>/`) |
+| Books (the shelf) | `books.html` | `js/books.js` |
+| Pins (articles) | `pins.html` | `js/pins.js` |
+| Writing | `writing.html` | `js/writing.js` |
+| Games | `games.html` | `js/games.js` |
+
+Each file's header comment shows the exact fields. The hub's drawers and
+counts fill themselves from the same files.
+
+## Post photos
+
+1. Export images ~1600px on the long side into `photos/<trip-slug>/`.
+2. Add (or extend) a trip block at the top of `js/photos.js` — `w`/`h` are
+   just the aspect numbers (4/3, 3/4, 1/1…).
+3. That's it. The Photos page, the hub's Latest Frames strip, and the
+   Photos drawer all update. Clicking a photo opens the lightbox.
+
+**The current frames are generated placeholder art**
+(`photos/placeholders/*.svg`) so the layout is visible — replace the
+sample trips in `js/photos.js` with your own and delete the folder when
+you're done with it. The pins, games, and writing files ship with clearly
+marked sample entries too.
+
+## Add a book
 
 ## Add a book
 
@@ -51,7 +79,7 @@ Action (`.github/workflows/sync-goodreads.yml`, which runs
 **Currently not displayed** — the card was retired from the Shelf's hero.
 The data keeps syncing and the renderer in `js/shelf.js` is intact; to
 bring it back, add `<div id="currentlyReading" class="current-read">
-</div>` to `index.html`.
+</div>` to `books.html`.
 
 - Don't hand-edit `CURRENT` — the next sync overwrites it. To change what
   shows, change the shelf on Goodreads.

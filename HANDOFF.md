@@ -7,17 +7,33 @@ step, hosts anywhere (GitHub Pages, Netlify, any web server), or open
 
 ## What it is
 
-- **index.html — The Shelf.** All 48 five-star reads rendered from
-  `js/books.js`: Fiction and Nonfiction groups, one-line filter chips with
-  overflow behind a "More" dropdown (bottom sheet on mobile), short takes with
-  the full review behind a toggle, a Currently Reading note card, and an
-  Up Next strip.
+**Since Aug 2026 a hobbies site** — photography first, books as a wing,
+plus pins, writing, and games. Every collection reads from one plain data
+file (see HOW-TO-UPDATE.md).
+
+- **index.html — the hub.** Hero, a Latest Frames photo strip, and the
+  six-drawer card catalog (Photos, Books, Pins, Writing, Games, Write
+  back); drawers fill their papers/counts live from the data files via
+  `js/hobby.js`.
+- **photos.html** — trips with photo grids and a `<dialog>` lightbox, from
+  `js/photos.js`. Ships with generated placeholder art in
+  `photos/placeholders/` until real rolls land.
+- **books.html — The Shelf** (the old homepage). All 50 five-star reads
+  rendered from `js/books.js`: Fiction and Nonfiction groups, one-line
+  filter chips with overflow behind a "More" dropdown (bottom sheet on
+  mobile), short takes, and the books-wing card catalog (Log, Bookstores,
+  Dashboards, Write back).
+- **pins.html / writing.html / games.html** — pinboard of articles, own
+  essays, and the games shelf, from `js/pins.js` / `js/writing.js` /
+  `js/games.js` (sample starter content, clearly marked).
 - **bookstores.html + 5 city pages** — indie bookstores by city, with region
   filters on city pages.
-- **dashboards.html, about.html** — static content pages.
+- **log.html, dashboards.html, about.html** — the Goodreads-synced log and
+  static content pages.
 - Shell: the codyheart.design top nav — sticky, backdrop-blurred, hides on
-  scroll down; Bookstores + Elsewhere dropdowns with duotone icon tiles;
-  full-screen overlay menu on phones.
+  scroll down; Books + Elsewhere dropdowns with duotone icon tiles (burger
+  below 768px now that there are seven links); full-screen overlay menu on
+  phones.
 
 ## Design system (css/review.css)
 
