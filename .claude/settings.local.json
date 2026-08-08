@@ -33,7 +33,11 @@
       "WebFetch(domain:www.andreavollendorf.com)",
       "Bash(curl -sL \"https://www.andreavollendorf.com/\" -o av-home.html)",
       "Bash(curl -sL \"https://www.andreavollendorf.com/_next/static/chunks/c7bac35da4368ea8.css\" -o av-styles.css)",
-      "Bash(git commit -m 'Refine toward the andreavollendorf.com register: exact type scale, quiet hero, CSS-only motion *)"
+      "Bash(git commit -m 'Refine toward the andreavollendorf.com register: exact type scale, quiet hero, CSS-only motion *)",
+      "Bash(curl -s \"https://heartslibrary.com/index.html\")",
+      "Bash(curl -s \"https://heartslibrary.com/css/review.css?v=20260808a\")",
+      "Bash(git commit -m 'Bigger, iOS-rounded book covers on the shelf *)",
+      "Bash(curl -sL \"https://assets.onepagelove.com/cdn-cgi/image/width=2560,fit=scale-down,format=jpg,quality=85/wp-content/uploads/2025/08/opl-master-28.jpg\" -o inspiration.jpg)"
     ]
   }
 }

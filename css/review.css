@@ -1786,90 +1786,158 @@ main { display: block; }
 .footer__links a:hover { color: rgba(0, 0, 0, .85); }
 
 /* ============================================================
-   LOG BANNER — the "look at everything I've read" card on the
-   Shelf: a surface case-plate in the reference's card language,
-   with the four stars as a quiet red watermark.
+   CARD CATALOG — the fun drawer: four candy folders in the
+   duotone palette's hues, each with white papers peeking out
+   of a die-cut pocket (they slide up on hover). The Log
+   folder's papers are the three most recent finishes, filled
+   from the live Goodreads data by shelf.js.
    ============================================================ */
-.log-banner { padding-top: 64px; }
-.log-card {
-  display: block;
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
-  padding: 28px 24px;
-  background: var(--surface);
-  transition: transform .3s var(--ease-out-quart), background-color .15s ease;
+.catalog { padding-top: 64px; }
+.catalog-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
 }
-.log-card::after {
-  content: "";
+@media (min-width: 560px) {
+  .catalog-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+}
+.folder {
+  position: relative;
+  display: block;
+  height: 232px;
+  border-radius: 20px;
+  background: var(--f-back);
+  overflow: hidden;
+  transition: transform .3s var(--ease-out-quart);
+}
+.folder--blue   { --f-back: #8CC6F2; --f-front: #A9D6F6; --f-deep: #0F5C9C; }
+.folder--orange { --f-back: #FFC28A; --f-front: #FFD5AC; --f-deep: #9E4A0C; }
+.folder--purple { --f-back: #C9A8F0; --f-front: #D9C0F6; --f-deep: #6A2FA8; }
+.folder--pink   { --f-back: #F2ABD6; --f-front: #F7C6E3; --f-deep: #A81D6E; }
+@media (hover: hover) and (pointer: fine) {
+  .folder:hover { transform: translateY(-3px); }
+}
+.folder:active { transform: scale(.985); }
+
+.folder-papers {
   position: absolute;
-  inset: 0;
-  border-radius: 8px;
-  pointer-events: none;
-  box-shadow: var(--shadow-flush);
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform .35s var(--ease-out-quart);
 }
 @media (hover: hover) and (pointer: fine) {
-  .log-card:hover { transform: translateY(-3px); background: var(--surface-hover); }
+  .folder:hover .folder-papers { transform: translateY(-10px); }
 }
-.log-card__stars {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 80px;
-  letter-spacing: 8px;
-  color: rgba(229, 72, 77, .09);
+.folder-paper {
+  display: block;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .97);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-85);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.folder-paper:nth-child(1) { background: rgba(255, 255, 255, .55); }
+.folder-paper:nth-child(2) { background: rgba(255, 255, 255, .8); }
+
+/* The contact folder holds one note card instead of a stack */
+.folder-note {
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .97);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+  font-size: 13px;
+  font-weight: 450;
+  line-height: 1.5;
+  color: var(--ink-80);
+  white-space: normal;
+}
+.folder-note strong { font-weight: 550; color: var(--ink-85); }
+.folder-note-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-weight: 550;
+  color: var(--f-deep);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* The pocket: an SVG flap with the die-cut step, stretched */
+.folder-front {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 56%;
+  z-index: 2;
+  display: block;
   pointer-events: none;
 }
-.log-card__kicker {
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  color: var(--ink-40);
+.folder-front path { fill: var(--f-front); }
+
+.folder-meta {
+  position: absolute;
+  left: 20px;
+  bottom: 16px;
+  z-index: 3;
 }
-.log-card__title {
+.folder-label {
+  display: block;
   font-family: var(--serif);
-  font-size: 24px;
+  font-size: 19px;
   font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: -.01em;
-  color: var(--ink-85);
-  margin-top: 8px;
-  max-width: 560px;
+  letter-spacing: -.005em;
+  color: var(--f-deep);
 }
-.log-card__title em { font-style: italic; }
-.log-card__stats {
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--ink-55);
-  margin-top: 8px;
+.folder-sub {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 450;
+  color: var(--f-deep);
+  opacity: .68;
 }
-.log-card__cta {
+
+/* "Live" pill — the dashboards really are live apps */
+.live-pill {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  margin-top: 20px;
-  background: rgba(0, 0, 0, .85);
-  color: #fff;
+  gap: 5px;
+  height: 22px;
+  padding: 0 9px;
   border-radius: 999px;
-  padding: 0 14px;
-  height: 32px;
-  font-size: 13px;
-  font-weight: 500;
-  transition: background-color .15s ease;
+  background: #EBF9F0;
+  box-shadow: inset 0 0 0 1px rgba(48, 164, 108, .18);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 550;
+  font-style: normal;
+  letter-spacing: 0;
+  color: #1F7A4D;
+  vertical-align: 4px;
+  margin-left: 10px;
 }
-.log-card:hover .log-card__cta { background: rgba(0, 0, 0, .75); }
-.log-card__cta span { transition: transform .2s var(--ease-out-quart); }
-.log-card:hover .log-card__cta span { transform: translateX(2px); }
-@media (min-width: 640px) {
-  .log-card { padding: 36px 32px; }
-  .log-card__title { font-size: 28px; }
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #30A46C;
+  animation: live-pulse 2.4s ease-in-out infinite;
 }
-@media (max-width: 560px) {
-  .log-card__stars { font-size: 48px; right: 12px; }
+@keyframes live-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(48, 164, 108, .35); }
+  50%      { box-shadow: 0 0 0 4px rgba(48, 164, 108, 0); }
 }
 
 /* ============================================================

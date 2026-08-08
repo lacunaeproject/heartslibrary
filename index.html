@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Heart&#x27;s Library — My reading life, shelved</title>
 <meta name="description" content="Cody Heart&#x27;s reading life, catalogued: the five-star shelf with short takes, a log of everything finished, and the bookstores along the way.">
-<link rel="stylesheet" href="css/review.css?v=20260808b">
+<link rel="stylesheet" href="css/review.css?v=20260808c">
 <script>window.coverFallback=window.coverFallback||function(i){(window.__fellCovers=window.__fellCovers||[]).push(i)}</script>
 <script defer src="js/review.js?v=20260808a"></script>
 <script defer src="js/books.js?v=20260808a"></script>
 <script defer src="js/log.js?v=20260808a"></script>
-<script defer src="js/shelf.js?v=20260808a"></script>
+<script defer src="js/shelf.js?v=20260808c"></script>
 </head>
 <body>
 
@@ -118,14 +118,57 @@
   <noscript><p class="noscript-note">The shelf needs JavaScript to render — it reads from <code>js/books.js</code>.</p></noscript>
 </section>
 
-<section class="log-banner wrap" id="log">
-  <a class="log-card" href="log.html">
-    <span class="log-card__stars" aria-hidden="true">✶✶✶✶</span>
-    <span class="log-card__kicker">The Log</span>
-    <h2 class="log-card__title">Look at <em>everything</em> I’ve read.</h2>
-    <p class="log-card__stats" id="logBannerStats">The complete record, straight from Goodreads.</p>
-    <span class="log-card__cta">Open the Log <span aria-hidden="true">→</span></span>
-  </a>
+<section class="catalog wrap" id="log" aria-label="The card catalog">
+  <div class="rubric" role="presentation"><span class="rubric-label">The Card Catalog · Pull a drawer</span></div>
+  <div class="catalog-grid">
+    <a class="folder folder--blue" href="log.html">
+      <span class="folder-papers" id="folderLogPapers" aria-hidden="true">
+        <span class="folder-paper">If Beale Street Could Talk</span>
+        <span class="folder-paper">Letter to My Father</span>
+        <span class="folder-paper">Every Moment Is a Life</span>
+      </span>
+      <svg class="folder-front" viewBox="0 0 320 150" preserveAspectRatio="none" aria-hidden="true"><path d="M14 16 H186 C196 16 200 19 204 25 L212 37 C216 43 222 46 230 46 H306 C314 46 320 52 320 60 V150 H0 V30 C0 22 6 16 14 16 Z"/></svg>
+      <span class="folder-meta">
+        <span class="folder-label">The Log</span>
+        <span class="folder-sub" id="folderLogSub">Every book, straight from Goodreads</span>
+      </span>
+    </a>
+    <a class="folder folder--orange" href="bookstores.html">
+      <span class="folder-papers" aria-hidden="true">
+        <span class="folder-paper">Chicago</span>
+        <span class="folder-paper">New York</span>
+        <span class="folder-paper">Bay Area</span>
+      </span>
+      <svg class="folder-front" viewBox="0 0 320 150" preserveAspectRatio="none" aria-hidden="true"><path d="M14 16 H186 C196 16 200 19 204 25 L212 37 C216 43 222 46 230 46 H306 C314 46 320 52 320 60 V150 H0 V30 C0 22 6 16 14 16 Z"/></svg>
+      <span class="folder-meta">
+        <span class="folder-label">Bookstores</span>
+        <span class="folder-sub">Five cities, one timeline</span>
+      </span>
+    </a>
+    <a class="folder folder--purple" href="dashboards.html">
+      <span class="folder-papers" aria-hidden="true">
+        <span class="folder-paper">Conflict Casualties</span>
+        <span class="folder-paper">Lacunae</span>
+      </span>
+      <svg class="folder-front" viewBox="0 0 320 150" preserveAspectRatio="none" aria-hidden="true"><path d="M14 16 H186 C196 16 200 19 204 25 L212 37 C216 43 222 46 230 46 H306 C314 46 320 52 320 60 V150 H0 V30 C0 22 6 16 14 16 Z"/></svg>
+      <span class="folder-meta">
+        <span class="folder-label">Dashboards</span>
+        <span class="folder-sub">Two, both live</span>
+      </span>
+    </a>
+    <a class="folder folder--pink" href="mailto:hello@heartslibrary.com">
+      <span class="folder-papers" aria-hidden="true">
+        <span class="folder-note"><strong>Did a book change your mind?</strong><br>
+        Tell me which one, and what it moved.
+        <span class="folder-note-link">hello@heartslibrary.com</span></span>
+      </span>
+      <svg class="folder-front" viewBox="0 0 320 150" preserveAspectRatio="none" aria-hidden="true"><path d="M14 16 H186 C196 16 200 19 204 25 L212 37 C216 43 222 46 230 46 H306 C314 46 320 52 320 60 V150 H0 V30 C0 22 6 16 14 16 Z"/></svg>
+      <span class="folder-meta">
+        <span class="folder-label">Write back</span>
+        <span class="folder-sub">Letters welcome</span>
+      </span>
+    </a>
+  </div>
 </section>
 
 <section class="colophon-note wrap">
@@ -134,12 +177,6 @@
   shelf keeps the five-stars; <a href="log.html">the log</a> keeps the complete
   record — every book, rated, straight from Goodreads. The dashboards page
   tracks what’s currently open and where I am.</p>
-  <div class="follow">
-    <a href="log.html">The Log</a>
-    <a href="https://substack.com/@codyheart" target="_blank" rel="noopener">Substack ↗</a>
-    <a href="https://www.goodreads.com/user/show/164877363-cody-heart" target="_blank" rel="noopener">Goodreads ↗</a>
-    <a href="mailto:hello@heartslibrary.com">Email →</a>
-  </div>
 </section>
 </main>
 <footer class="footer">

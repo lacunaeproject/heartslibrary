@@ -246,17 +246,16 @@
   /* Up-next strip retired — the UPNEXT data in books.js is kept
      but no longer rendered (its markup is gone from index.html). */
 
-  /* ---------- log banner stats (reads js/log.js) ---------- */
-  var lb = document.getElementById("logBannerStats");
-  if (lb && window.LOG && window.LOG.length) {
-    var lbFive = 0, lbSince = null;
-    window.LOG.forEach(function (b) {
-      if (b.rating === 5) lbFive++;
-      if (b.date) lbSince = b.date.slice(0, 4);
-    });
-    lb.textContent = window.LOG.length + " books · " + lbFive +
-      " five-stars" + (lbSince ? " · logging since " + lbSince : "") +
-      " — straight from Goodreads.";
+  /* ---------- card catalog: the Log folder (reads js/log.js) ----------
+     The folder's papers are the three most recent finishes; the static
+     papers in index.html are only a no-JS fallback. */
+  var lp = document.getElementById("folderLogPapers");
+  if (lp && window.LOG && window.LOG.length) {
+    lp.innerHTML = window.LOG.slice(0, 3).map(function (b) {
+      return '<span class="folder-paper">' + esc(b.title) + "</span>";
+    }).join("");
+    var ls = document.getElementById("folderLogSub");
+    if (ls) ls.textContent = window.LOG.length + " books, counting";
   }
 
   apply();
