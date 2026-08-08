@@ -29,7 +29,7 @@ window.TRIPS = [
     place: "My trip to San Diego",
     when: "June 2026",
     continent: "North America",
-    cover: "photos/sandiego-zoo/web/grizzly.jpg",
+    cover: "photos/sandiego-zoo/web/grizzly-2.jpg",
     note: "Mostly the zoo, honestly — the cheetah alone was worth the flight.",
     photos: [
       { src: "photos/sandiego-zoo/web/cheetah-2.jpg", w: 1600, h: 1067, alt: "A cheetah in profile, close up", caption: "The ambassador cheetah, in profile" },
