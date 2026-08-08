@@ -169,6 +169,135 @@
   }
 
   /* ----------------------------------------------------------
+     HUB — the Circulation Desk: a messages-style feed of recent
+     postings merged from every collection, loaded in batches as
+     you scroll (capped, then it points at the Log). Incoming
+     bubbles are the library's records; the blue "sent" bubbles
+     are Cody's one-line takes from the data files.
+     ---------------------------------------------------------- */
+  var deskFeed = document.getElementById("deskFeed");
+  if (deskFeed) {
+    var BATCH = 12, CAP = 48;
+    var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    function dayLabel(iso) {
+      var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || "");
+      if (!m) return "";
+      var label = MONTHS[Number(m[2]) - 1] + " " + Number(m[3]);
+      var newest = (items[0] && items[0].d || "").slice(0, 4);
+      if (m[1] !== newest) label += ", " + m[1];
+      return label;
+    }
+    function stars(rating) {
+      var out = '<span class="msg-stars' + (rating === 5 ? " is-five" : "") + '" aria-label="' + rating + ' of 5 stars">';
+      for (var i = 1; i <= 5; i++) out += '<span class="' + (i <= rating ? "on" : "off") + '">✶</span>';
+      return out + "</span>";
+    }
+    function bubble(html, cls) { return '<div class="msg' + (cls ? " " + cls : "") + '">' + html + "</div>"; }
+
+    var items = [];
+    (window.LOG || []).slice(0, 36).forEach(function (b) {
+      var five = b.rating === 5;
+      items.push({ d: b.date, html: bubble(
+        'Finished <a href="' + (five ? "books.html" : "log.html") + '"><em>' + esc(b.title) + "</em></a> — " +
+        esc(b.author) + "<br>" + stars(b.rating || 0) +
+        (five ? '<span class="react" aria-hidden="true">♥</span>' : ""), five ? "has-react" : "") });
+    });
+    TRIPS.forEach(function (t) {
+      if (!t.posted) return;
+      var lead = (t.photos || [])[0];
+      items.push({ d: t.posted, html:
+        '<a class="msg msg-card" href="photos.html#' + esc(t.slug) + '">' +
+          (lead ? '<img class="msg-card-img" src="' + esc(lead.src) + '" alt="' + esc(lead.alt || "") + '" loading="lazy"' +
+            (lead.w && lead.h ? ' style="aspect-ratio:' + Number(lead.w) + "/" + Number(lead.h) + '"' : "") + ">" : "") +
+          '<span class="msg-card-body">' +
+            '<span class="msg-card-title">New roll: ' + esc(t.place) + "</span>" +
+            '<span class="msg-card-sub">' + (t.photos || []).length + " frames · " + esc(t.when) +
+            (t.note ? " — " + esc(t.note) : "") + "</span>" +
+          "</span></a>" });
+    });
+    PINS.forEach(function (p) {
+      if (!p.posted) return;
+      items.push({ d: p.posted, html: bubble(
+        'Pinned <a href="' + esc(p.url) + '" target="_blank" rel="noopener">“' + esc(p.title) + '”</a> from ' +
+        esc(p.source) + (p.year ? ", " + esc(p.year) : "") + "." +
+        (p.note ? '<span class="msg-meta">' + esc(p.note) + "</span>" : "")) });
+    });
+    GAMES.forEach(function (g) {
+      if (!g.posted) return;
+      var verb = g.status === "playing" ? "Started" : g.status === "finished" ? "Finished" : "Shelved";
+      items.push({ d: g.posted, html: bubble(
+        verb + ' <a href="games.html"><em>' + esc(g.title) + "</em></a> on " + esc(g.platform) + "." +
+        (g.note ? '<span class="msg-meta">' + esc(g.note) + "</span>" : "")) });
+    });
+    WRITING.forEach(function (w) {
+      if (!w.posted) return;
+      items.push({ d: w.posted, html: bubble(
+        'Wrote <a href="writing.html#' + esc(w.slug) + '">“' + esc(w.title) + '”</a>' +
+        (w.deck ? '<span class="msg-meta">' + esc(w.deck) + "</span>" : "")) });
+    });
+
+    items.sort(function (a, b) { return a.d < b.d ? 1 : a.d > b.d ? -1 : 0; });
+    items = items.slice(0, CAP);
+
+    var rendered = 0, lastDay = "";
+    var sentinel = document.getElementById("deskMore");
+
+    function renderBatch() {
+      var frag = document.createDocumentFragment();
+      var end = Math.min(rendered + BATCH, items.length);
+      for (; rendered < end; rendered++) {
+        var it = items[rendered];
+        var day = dayLabel(it.d);
+        var chunk = "";
+        if (day && day !== lastDay) {
+          chunk += '<div class="day">' + day + "</div>";
+          lastDay = day;
+        }
+        chunk += it.html;
+        var holder = document.createElement("div");
+        holder.innerHTML = chunk;
+        while (holder.firstChild) frag.appendChild(holder.firstChild);
+      }
+      deskFeed.appendChild(frag);
+      if (rendered >= items.length) {
+        var fin = document.createElement("div");
+        fin.className = "day day--end";
+        fin.innerHTML = 'That’s the recent stack — <a href="log.html">the Log keeps the rest</a>';
+        deskFeed.appendChild(fin);
+        if (sentinel) sentinel.remove();
+        if (io) io.disconnect();
+      }
+    }
+
+    /* Keep rendering while the sentinel sits near the viewport —
+       an observer alone never re-fires when appends leave the
+       sentinel still visible. */
+    function nearSentinel() {
+      if (!sentinel || !sentinel.isConnected) return false;
+      return sentinel.getBoundingClientRect().top < (window.innerHeight || 0) + 480;
+    }
+    function fill() {
+      var guard = 0;
+      while (rendered < items.length && guard < 12 && nearSentinel()) {
+        renderBatch();
+        guard++;
+      }
+    }
+    var io = null;
+    if (sentinel && "IntersectionObserver" in window) {
+      io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) { if (entry.isIntersecting) fill(); });
+      }, { rootMargin: "0px 0px 480px 0px" });
+      renderBatch();
+      fill();
+      io.observe(sentinel);
+    } else {
+      while (rendered < items.length) renderBatch();
+    }
+  }
+
+  /* ----------------------------------------------------------
      WRITING page
      ---------------------------------------------------------- */
   var writingList = document.getElementById("writingList");

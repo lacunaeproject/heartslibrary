@@ -2073,6 +2073,121 @@ main { display: block; }
 .frames-more { margin-top: 16px; }
 
 /* ============================================================
+   THE CIRCULATION DESK — a messages-style feed of recent
+   postings, in goodthing.studio's register: one voice, one
+   column of soft bubbles and media cards, radius 20, with
+   quiet day markers. Bubbles rise in on scroll via CSS
+   view-timelines where supported — no JS motion.
+   ============================================================ */
+.desk { padding-top: 64px; }
+.chat { display: flex; flex-direction: column; align-items: flex-start; }
+.chat > * + * { margin-top: 14px; }
+
+.msg {
+  position: relative;
+  width: fit-content;
+  max-width: min(560px, 100%);
+  background: var(--surface);
+  box-shadow: var(--shadow-flush);
+  border-radius: 20px;
+  padding: 14px 18px;
+  font-size: 15px;
+  font-weight: 450;
+  line-height: 1.55;
+  letter-spacing: -.005em;
+  color: var(--ink-80);
+}
+.msg em { font-style: normal; font-weight: 550; color: var(--ink-85); }
+.msg a {
+  text-decoration: underline;
+  text-decoration-color: rgba(0, 0, 0, .22);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color .15s ease;
+}
+.msg a:hover { color: var(--ink-85); text-decoration-color: rgba(0, 0, 0, .45); }
+.msg-meta { display: block; margin-top: 3px; font-size: 13px; line-height: 1.5; color: var(--ink-45); }
+
+/* Book ratings inside bubbles — the log's stars, small */
+.msg-stars { font-size: 10px; letter-spacing: 3px; color: var(--ink-85); }
+.msg-stars .off { color: var(--ink-30); opacity: .5; }
+.msg-stars.is-five .on { color: var(--heart); }
+
+/* Five-star finishes wear a small ♥ badge */
+.msg.has-react { overflow: visible; }
+.react {
+  position: absolute;
+  top: -11px;
+  right: -8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: var(--shadow-raised);
+  font-size: 11px;
+  line-height: 1;
+  color: var(--heart);
+}
+
+/* Photo-roll cards — the reference's media card: image on top
+   with rounded top corners, caption block below */
+.msg-card { display: block; padding: 0; overflow: hidden; width: min(440px, 100%); }
+.msg-card-img {
+  display: block;
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 20px 20px 0 0;
+  background: var(--surface-hover);
+}
+.msg-card-body { display: block; padding: 13px 18px 14px; }
+.msg-card-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 550;
+  color: var(--ink-85);
+}
+.msg-card .msg-card-sub { display: block; margin-top: 2px; font-size: 13px; line-height: 1.5; color: var(--ink-45); }
+a.msg-card { text-decoration: none; transition: transform .3s var(--ease-out-quart), background-color .15s ease; }
+@media (hover: hover) and (pointer: fine) {
+  a.msg-card:hover { transform: translateY(-2px); background: var(--surface-hover); }
+}
+
+/* Day markers — quiet mono labels along the left edge */
+.day {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+  margin-top: 26px;
+  padding-left: 4px;
+}
+.chat > .day:first-child { margin-top: 4px; }
+.day--end { align-self: center; margin: 30px 0 4px; padding-left: 0; }
+.day--end a { color: var(--ink-55); text-decoration: underline; text-underline-offset: 3px; }
+.day--end a:hover { color: var(--ink-85); }
+
+.desk-sentinel { height: 1px; }
+
+/* goodthing's move: bubbles rise in as they enter the viewport,
+   driven by the CSS scroll timeline — nothing to stall, and
+   browsers without support just show the thread. */
+@supports (animation-timeline: view()) {
+  .chat > * {
+    animation: msg-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 38%;
+  }
+}
+@keyframes msg-in {
+  from { opacity: 0; transform: translateY(46px) scale(.95); }
+}
+
+/* ============================================================
    PHOTOS PAGE — trips with photo grids, and a lightbox
    ============================================================ */
 .trip { padding-top: 48px; }

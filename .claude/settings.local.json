@@ -39,7 +39,14 @@
       "Bash(git commit -m 'Bigger, iOS-rounded book covers on the shelf *)",
       "Bash(curl -sL \"https://assets.onepagelove.com/cdn-cgi/image/width=2560,fit=scale-down,format=jpg,quality=85/wp-content/uploads/2025/08/opl-master-28.jpg\" -o inspiration.jpg)",
       "Bash(git commit -m 'Add the card catalog: candy folder drawers, and Live pills on the dashboards *)",
-      "Bash(xargs grep -l \" & \")"
+      "Bash(xargs grep -l \" & \")",
+      "Bash(netstat -ano)",
+      "Bash(powershell -Command 'Get-Process python -ErrorAction SilentlyContinue | Where-Object {\\($_.CommandLine -like '\\\\''*8137*'\\\\''\\)} | Stop-Process -Force')",
+      "Bash(taskkill //F //IM python.exe //FI \"WINDOWTITLE eq *\")",
+      "Bash(taskkill //PID 18932 //F)",
+      "Bash(taskkill //PID 18892 //F)",
+      "Bash(curl -sL \"https://goodthing.studio/_astro/404.355b11a3.css\" -o gt.css)",
+      "Bash(git commit -m 'The Circulation Desk: a goodthing-style feed of recent postings on the hub *)"
     ]
   }
 }

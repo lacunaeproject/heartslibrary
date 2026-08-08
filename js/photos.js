@@ -18,6 +18,7 @@
 window.TRIPS = [
   {
     slug: "chicago-scouting",
+    posted: "2026-07-12",
     place: "Chicago, first look",
     when: "July 2026",
     note: "Apartment-scouting weekend. Mostly walked, mostly looked up.",
@@ -30,6 +31,7 @@ window.TRIPS = [
   },
   {
     slug: "big-sur",
+    posted: "2026-05-17",
     place: "Big Sur, California",
     when: "May 2026",
     note: "Highway 1 with the windows down. The camera barely kept up.",
@@ -42,6 +44,7 @@ window.TRIPS = [
   },
   {
     slug: "franklin",
+    posted: "2026-04-05",
     place: "Franklin, Tennessee",
     when: "April 2026",
     note: "Home, for now. Learning to see the familiar again.",

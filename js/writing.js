@@ -12,6 +12,7 @@
 window.WRITING = [
   {
     slug: "how-this-site-works",
+    posted: "2026-08-08",
     title: "How this site works",
     when: "August 2026",
     deck: "A colophon, for the curious: no build step, no database, one folder of files.",
@@ -24,6 +25,7 @@ window.WRITING = [
   },
   {
     slug: "placeholder",
+    posted: "2026-08-01",
     title: "Your first essay goes here",
     when: "Someday soon",
     deck: "This is a placeholder entry — open js/writing.js and replace it.",

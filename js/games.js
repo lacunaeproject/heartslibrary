@@ -11,6 +11,7 @@
 window.GAMES = [
   {
     title: "Baldur's Gate 3",
+    posted: "2026-06-10",
     platform: "PC",
     status: "playing",
     when: "Since June 2026",
@@ -18,6 +19,7 @@ window.GAMES = [
   },
   {
     title: "Balatro",
+    posted: "2026-07-19",
     platform: "Switch",
     status: "playing",
     when: "Ongoing",
@@ -25,6 +27,7 @@ window.GAMES = [
   },
   {
     title: "Outer Wilds",
+    posted: "2026-05-24",
     platform: "PC",
     status: "finished",
     when: "May 2026",
@@ -32,6 +35,7 @@ window.GAMES = [
   },
   {
     title: "Hades II",
+    posted: "2026-03-15",
     platform: "PC",
     status: "finished",
     when: "March 2026",
@@ -39,6 +43,7 @@ window.GAMES = [
   },
   {
     title: "The Legend of Zelda: Tears of the Kingdom",
+    posted: "2025-11-08",
     platform: "Switch",
     status: "finished",
     when: "2025",
@@ -46,6 +51,7 @@ window.GAMES = [
   },
   {
     title: "Starfield",
+    posted: "2025-09-30",
     platform: "PC",
     status: "shelved",
     when: "2025",

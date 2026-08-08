@@ -13,7 +13,11 @@ Since the Aug 2026 pivot this is a hobbies site: the homepage is a hub
 | Games | `games.html` | `js/games.js` |
 
 Each file's header comment shows the exact fields. The hub's drawers and
-counts fill themselves from the same files.
+counts fill themselves from the same files, and the homepage's
+**Circulation Desk feed** merges everything into one thread: books come in
+automatically from the Goodreads log; photos, pins, games, and writing
+appear when their entry has a `posted: "YYYY-MM-DD"` date. No date, no
+feed bubble — so you control what surfaces.
 
 ## Post photos
 
