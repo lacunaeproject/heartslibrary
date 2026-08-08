@@ -61,6 +61,16 @@
       }
     }
 
+    /* Light/dark switch for the photography wing. The <head> of
+       each photo page re-applies the stored choice before paint. */
+    var themeToggle = document.getElementById("themeToggle");
+    if (themeToggle) {
+      themeToggle.addEventListener("click", function () {
+        var dark = document.documentElement.classList.toggle("dark");
+        try { localStorage.setItem("hl-theme", dark ? "dark" : "light"); } catch (e) {}
+      });
+    }
+
     /* Dropdowns (Bookstores, Elsewhere) */
     Array.prototype.forEach.call(document.querySelectorAll(".nav__drop"), function (drop) {
       var btn = drop.querySelector("button");

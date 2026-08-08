@@ -2036,11 +2036,145 @@ main { display: block; }
    through to its gallery.
    ============================================================ */
 .galleries-sec { padding-top: 0; }
+
+/* Section heads in park's display voice, shared by the continents
+   ledger and the trips wall */
+.sec-head { margin-top: clamp(64px, 9vw, 110px); }
+.sec-head h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: clamp(36px, 4.6vw, 56px);
+  line-height: 1.05;
+  letter-spacing: 0;
+  color: var(--ink-85);
+}
+.sec-sub {
+  margin-top: 10px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-55);
+  max-width: 520px;
+}
+.sec-head--row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* The light/dark switch, sitting beside the pictures */
+.theme-toggle {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink-65);
+  cursor: pointer;
+  transition: color .15s ease, transform .2s var(--ease-out-quart);
+}
+.theme-toggle:hover { color: var(--ink-85); transform: translateY(-1px); }
+.theme-toggle svg { width: 17px; height: 17px; display: block; }
+.theme-toggle .icon-sun { display: none; }
+html.dark .theme-toggle .icon-sun { display: block; }
+html.dark .theme-toggle .icon-moon { display: none; }
+
+/* ============================================================
+   THE SEVEN CONTINENTS — the ledger: seven numbered rows,
+   visited ones opening to their trips, the rest waiting.
+   ============================================================ */
+.continents-sec { padding-top: 0; }
+.cont-board { margin-top: 28px; border-bottom: 1px solid var(--border); }
+.cont-row { border-top: 1px solid var(--border); }
+.cont-row summary,
+.cont-row.is-unvisited {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  align-items: baseline;
+  gap: 16px;
+  padding: 18px 0;
+}
+.cont-row summary { list-style: none; cursor: pointer; }
+.cont-row summary::-webkit-details-marker { display: none; }
+.cont-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  color: var(--ink-40);
+}
+.cont-name {
+  font-family: var(--display);
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.1;
+  color: var(--ink-85);
+  transition: color .15s ease;
+}
+.cont-row.is-unvisited .cont-name { color: var(--ink-40); }
+@media (hover: hover) and (pointer: fine) {
+  .cont-row summary:hover .cont-name { color: #E5484D; }
+}
+.cont-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+  white-space: nowrap;
+}
+.cont-chev {
+  font-size: 15px;
+  color: var(--ink-55);
+  transition: transform .25s var(--ease-out-quart);
+}
+.cont-row[open] .cont-chev { transform: rotate(45deg); }
+.cont-trips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 2px 0 24px 64px;
+}
+.cont-trip {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px 8px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+}
+.cont-trip img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+.cont-trip:not(:has(img)) { padding-left: 16px; }
+.cont-trip-name { font-size: 14px; font-weight: 550; color: var(--ink-85); }
+.cont-trip-when { font-size: 12px; color: var(--ink-40); }
+@media (max-width: 560px) {
+  .cont-row summary,
+  .cont-row.is-unvisited { grid-template-columns: 34px 1fr auto; gap: 10px; }
+  .cont-trips { padding-left: 0; }
+  .cont-trip-when { display: none; }
+}
+
 .gallery-cols {
   display: grid;
   grid-template-columns: 1fr;
   gap: clamp(16px, 1.5vw, 24px);
-  margin-top: clamp(28px, 4vw, 44px);
+  margin-top: 28px;
 }
 @media (min-width: 560px) {
   .gallery-cols { grid-template-columns: repeat(2, 1fr); }
@@ -2438,12 +2572,16 @@ body.home .nav {
   right: 0;
   transition: transform .3s var(--ease-out-quart), background-color .25s ease;
 }
-/* At the top of the page the nav floats clear over the hero photo */
+/* At the top of the page the nav floats clear over the hero photo,
+   in light ink whichever theme is active */
 body.home .nav.is-top {
   background-color: transparent;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
+body.home .nav.is-top .nav__link,
+body.home .nav.is-top .nav__wordmark { color: rgba(255, 255, 255, .92); }
+body.home .nav.is-top .nav__burger span { background: rgba(255, 255, 255, .92); }
 .darkhero {
   text-align: center;
 }
@@ -2481,20 +2619,43 @@ body.home .nav.is-top {
   position: relative;
   z-index: 2;
   margin: 0 auto;
-  max-width: 760px;
+  max-width: 920px;
   padding: 120px 24px clamp(28px, 5vh, 46px);
 }
+/* Where the hero photo was taken — park's location pill */
+.photo-tag {
+  position: absolute;
+  top: 84px;
+  left: clamp(20px, 3vw, 40px);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 999px;
+  background: rgba(10, 10, 10, .4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .85);
+  white-space: nowrap;
+}
+.photo-tag svg { flex: none; opacity: .8; }
 .darkhero h1 {
   font-family: var(--display);
   font-weight: 400;
   font-synthesis: none;
-  font-size: clamp(38px, 5.5vw, 56px);
-  line-height: 1;
+  font-size: clamp(46px, 7vw, 84px);
+  line-height: 1.02;
   letter-spacing: 0;
   color: #FBF9F0;
   text-wrap: balance;
   margin: 0 auto;
-  max-width: 780px;
+  max-width: 900px;
   text-shadow: 0 2px 28px rgba(0, 0, 0, .55);
 }
 .darkhero .h1-heart svg { width: .3em; height: .29em; margin-left: .08em; }

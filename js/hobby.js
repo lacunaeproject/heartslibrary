@@ -90,6 +90,50 @@
   }
 
   /* ----------------------------------------------------------
+     THE SEVEN CONTINENTS — the ledger on the homepage, computed
+     from each trip's `continent` field. Visited continents open
+     to their trips; the rest read "Not yet".
+     ---------------------------------------------------------- */
+  var board = document.getElementById("continentBoard");
+  if (board && TRIPS.length) {
+    var CONTINENTS = ["North America", "South America", "Europe", "Africa", "Asia", "Oceania", "Antarctica"];
+    var byCont = {};
+    TRIPS.forEach(function (t) {
+      if (!t.continent) return;
+      (byCont[t.continent] = byCont[t.continent] || []).push(t);
+    });
+    var seen = CONTINENTS.filter(function (c) { return byCont[c]; }).length;
+    var countEl = document.getElementById("continentCount");
+    if (countEl) countEl.textContent = seen + " of 7";
+    var firstVisited = true;
+    board.innerHTML = CONTINENTS.map(function (c, i) {
+      var trips = byCont[c] || [];
+      var num = "0" + (i + 1);
+      if (!trips.length) {
+        return '<div class="cont-row is-unvisited">' +
+          '<span class="cont-num">' + num + '</span>' +
+          '<span class="cont-name">' + esc(c) + '</span>' +
+          '<span class="cont-meta">Not yet</span></div>';
+      }
+      var open = firstVisited ? " open" : "";
+      firstVisited = false;
+      return '<details class="cont-row"' + open + '>' +
+        '<summary><span class="cont-num">' + num + '</span>' +
+        '<span class="cont-name">' + esc(c) + '</span>' +
+        '<span class="cont-meta">' + trips.length + (trips.length === 1 ? " trip" : " trips") +
+          ' · latest ' + esc(trips[0].when) +
+          '<span class="cont-chev" aria-hidden="true">+</span></span></summary>' +
+        '<div class="cont-trips">' + trips.map(function (t) {
+          var cv = cover(t);
+          return '<a class="cont-trip press-scale" href="gallery.html?trip=' + esc(t.slug) + '">' +
+            (cv ? '<img src="' + esc(cv.src) + '" alt="" loading="lazy">' : "") +
+            '<span class="cont-trip-name">' + esc(t.place) + '</span>' +
+            '<span class="cont-trip-when">' + esc(t.when) + "</span></a>";
+        }).join("") + "</div></details>";
+    }).join("");
+  }
+
+  /* ----------------------------------------------------------
      GALLERY page — one trip, from ?trip=<slug>
      ---------------------------------------------------------- */
   var galleryShots = document.getElementById("galleryShots");
