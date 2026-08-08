@@ -2374,7 +2374,7 @@ html.dark body::after {
   inset: -100%;
   z-index: 9999;
   pointer-events: none;
-  opacity: .18;
+  opacity: .11;
   /* Not a gray wash: white specks on transparency (feColorMatrix
      maps luminance to a steep alpha ramp), so the static reads at
      low opacity instead of veiling the page */
