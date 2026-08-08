@@ -2374,7 +2374,11 @@ html.dark body::after {
   inset: -100%;
   z-index: 9999;
   pointer-events: none;
-  opacity: .11;
+  opacity: .12;
+  /* Overlay blend, like park's: near-zero on the black ground, so
+     the static lives in the photos and mid-tones instead of
+     dusting the whole page */
+  mix-blend-mode: overlay;
   /* Not a gray wash: white specks on transparency (feColorMatrix
      maps luminance to a steep alpha ramp), so the static reads at
      low opacity instead of veiling the page */
