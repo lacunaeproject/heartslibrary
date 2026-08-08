@@ -54,43 +54,50 @@
       dlg.querySelector("img").alt = p.alt || "";
       dlg.querySelector(".lightbox-cap").textContent =
         (p.caption ? p.caption + " — " : "") + trip.place + ", " + trip.when;
+      var dl = dlg.querySelector(".lightbox-dl");
+      if (dl) dl.href = p.src;
       dlg.showModal();
     });
-    dlg.addEventListener("click", function () { dlg.close(); });
+    dlg.addEventListener("click", function (e) {
+      if (e.target.closest(".lightbox-dl")) return;
+      dlg.close();
+    });
   }
   bindLightbox();
 
   /* ----------------------------------------------------------
-     HOMEPAGE — the gallery grid: one big rounded cover per
-     trip, title on hover, clicking through to the gallery.
-     Static tiles in index.html are only a no-JS fallback.
+     HOMEPAGE — the gallery wall: a uniform 3-across grid of
+     square covers, title on hover, clicking through to the
+     gallery. Static tiles in index.html are only a no-JS
+     fallback.
      ---------------------------------------------------------- */
   var grid = document.getElementById("galleryGrid");
   if (grid && TRIPS.length) {
-    var tileAspects = ["4/3", "3/4", "3/4", "4/3", "4/3", "3/4", "3/4", "4/3"];
-    function tileHtml(t, i) {
+    grid.innerHTML = TRIPS.map(function (t, i) {
       var c = cover(t);
       if (!c) return "";
-      return '<a class="gcard" style="aspect-ratio:' + tileAspects[i % tileAspects.length] + '" href="gallery.html?trip=' + esc(t.slug) + '">' +
-        '<img src="' + esc(c.src) + '" alt="' + esc(t.place) + '"' + (i < 2 ? "" : ' loading="lazy"') + ">" +
+      return '<a class="gcard" href="gallery.html?trip=' + esc(t.slug) + '">' +
+        '<img src="' + esc(c.src) + '" alt="' + esc(t.place) + '"' + (i < 3 ? "" : ' loading="lazy"') + ">" +
         '<span class="gcard-label">' + esc(t.place) +
           '<span class="gcard-meta">' + esc(t.when) + " · " + (t.photos || []).length + " frames</span></span>" +
         '<span class="gcard-go" aria-hidden="true">→</span></a>';
-    }
-    var twoCol = window.matchMedia("(min-width: 640px)");
-    function renderGrid() {
-      if (twoCol.matches) {
-        var a = [], b = [];
-        TRIPS.forEach(function (t, i) { (i % 2 ? b : a).push(tileHtml(t, i)); });
-        grid.innerHTML = '<div class="gallery-col">' + a.join("") + '</div>' +
-                         '<div class="gallery-col">' + b.join("") + "</div>";
-      } else {
-        grid.innerHTML = '<div class="gallery-col">' +
-          TRIPS.map(function (t, i) { return tileHtml(t, i); }).join("") + "</div>";
-      }
-    }
-    renderGrid();
-    if (twoCol.addEventListener) twoCol.addEventListener("change", renderGrid);
+    }).join("");
+  }
+
+  /* ----------------------------------------------------------
+     SEVEN CONTINENTS — the running tally, computed from each
+     trip's `continent` field in js/photos.js.
+     ---------------------------------------------------------- */
+  var ticker = document.getElementById("continentTicker");
+  if (ticker && TRIPS.length) {
+    var CONTINENTS = ["North America", "South America", "Europe", "Africa", "Asia", "Oceania", "Antarctica"];
+    var visited = {};
+    TRIPS.forEach(function (t) { if (t.continent) visited[t.continent] = true; });
+    var seen = CONTINENTS.filter(function (c) { return visited[c]; }).length;
+    ticker.innerHTML = CONTINENTS.map(function (c) {
+      return '<span class="continent' + (visited[c] ? " is-visited" : "") + '">' +
+        (visited[c] ? '<span class="continent-tick" aria-hidden="true">✓</span>' : "") + esc(c) + "</span>";
+    }).join("") + '<span class="continent-count">' + seen + " of 7</span>";
   }
 
   /* ----------------------------------------------------------

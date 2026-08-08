@@ -10,8 +10,11 @@
    1. Drop your image files into photos/<trip-slug>/
       (JPGs are fine; export around 1600px on the long side).
    2. Add a trip below — slug, place (the title), when, note,
-      posted (YYYY-MM-DD, controls order), and the photos list.
-      w/h are each image's aspect numbers (4/3, 3/4, 1/1 …).
+      continent (feeds the seven-continents tracker; one of:
+      North America, South America, Europe, Africa, Asia,
+      Oceania, Antarctica), posted (YYYY-MM-DD, controls order),
+      and the photos list. w/h are each image's aspect numbers
+      (4/3, 3/4, 1/1 …).
    3. Bump the ?v= on js/photos.js in the HTML pages if you
       want caches to pick it up immediately.
 
@@ -25,6 +28,7 @@ window.TRIPS = [
     posted: "2026-06-20",
     place: "My trip to San Diego",
     when: "June 2026",
+    continent: "North America",
     note: "Mostly the zoo, honestly — the cheetah alone was worth the flight.",
     photos: [
       { src: "photos/sandiego-zoo/web/cheetah-2.jpg", w: 1600, h: 1067, alt: "A cheetah in profile, close up", caption: "The ambassador cheetah, in profile" },
@@ -44,6 +48,7 @@ window.TRIPS = [
     posted: "2026-02-14",
     place: "Chicago in February",
     when: "February 2026",
+    continent: "North America",
     note: "Scouting the future neighborhood at its most honest — lake-effect gray and radiator warmth.",
     photos: [
       { src: "photos/placeholders/chi-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "The lakefront, frozen over" },
@@ -59,6 +64,7 @@ window.TRIPS = [
     posted: "2025-10-12",
     place: "London and Paris",
     when: "October 2025",
+    continent: "Europe",
     note: "Two cities, one carry-on. Fog on the Thames, gold hour on the Seine.",
     photos: [
       { src: "photos/placeholders/ldnpar-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Thames fog, morning" },
@@ -74,6 +80,7 @@ window.TRIPS = [
     posted: "2025-08-16",
     place: "Nashville, before the move",
     when: "August 2025",
+    continent: "North America",
     note: "One last slow lap of the city that held the Franklin years.",
     photos: [
       { src: "photos/placeholders/nash-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Lower Broadway from the bridge" },
@@ -89,6 +96,7 @@ window.TRIPS = [
     posted: "2025-05-18",
     place: "Big Sur, Highway 1",
     when: "May 2025",
+    continent: "North America",
     note: "Windows down, fog in, fog out. The camera barely kept up.",
     photos: [
       { src: "photos/placeholders/bigsur-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Bixby at golden hour" },
@@ -104,6 +112,7 @@ window.TRIPS = [
     posted: "2024-12-08",
     place: "New York, back for a week",
     when: "December 2024",
+    continent: "North America",
     note: "Two years after leaving — the old commute, in the snow this time.",
     photos: [
       { src: "photos/placeholders/nyc-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Sixth Avenue steam" },
@@ -119,6 +128,7 @@ window.TRIPS = [
     posted: "2024-03-22",
     place: "Joshua Tree, dusk to dark",
     when: "March 2024",
+    continent: "North America",
     note: "Out for the boulders, stayed for the stars.",
     photos: [
       { src: "photos/placeholders/jtree-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Golden hour boulders" },
@@ -134,6 +144,7 @@ window.TRIPS = [
     posted: "2023-09-10",
     place: "The Bay, revisited",
     when: "September 2023",
+    continent: "North America",
     note: "School streets and fog lines, a decade on.",
     photos: [
       { src: "photos/placeholders/bay-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Fog over the gate" },

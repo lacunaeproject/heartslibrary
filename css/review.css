@@ -2022,33 +2022,30 @@ main { display: block; }
 }
 
 /* ============================================================
-   GALLERIES — the park.photos register: big rounded-rectangle
-   covers in a grid, the trip title rising in over a soft scrim
-   on hover (always visible on touch), a small circular arrow
-   chip, and the whole tile clicking through to its gallery.
+   GALLERIES — the park.photos register: big rounded square
+   covers on a uniform 3-across wall, the trip title rising in
+   over a soft scrim on hover (always visible on touch), a
+   small circular arrow chip, and the whole tile clicking
+   through to its gallery.
    ============================================================ */
 .galleries-sec { padding-top: 0; }
-/* Two independent columns → park's staggered masonry rhythm */
 .gallery-cols {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
-  margin-top: clamp(36px, 5vw, 56px);
+  gap: 20px;
+  margin-top: clamp(28px, 4vw, 44px);
 }
-.gallery-col {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  min-width: 0;
-}
-@media (min-width: 640px) {
+@media (min-width: 560px) {
   .gallery-cols { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 880px) {
+  .gallery-cols { grid-template-columns: repeat(3, 1fr); }
 }
 .gcard {
   position: relative;
   display: block;
-  aspect-ratio: 4 / 3;
-  border-radius: 24px;
+  aspect-ratio: 1 / 1;
+  border-radius: 20px;
   overflow: hidden;
   background: var(--surface);
 }
@@ -2158,6 +2155,7 @@ main { display: block; }
   gap: 14px;
 }
 @media (min-width: 560px) { .photo-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 880px) { .photo-grid { grid-template-columns: repeat(3, 1fr); } }
 .shot { margin: 0; }
 .shot-btn {
   display: block;
@@ -2211,6 +2209,34 @@ main { display: block; }
   display: block;
 }
 .lightbox-cap { margin-top: 10px; text-align: center; font-size: 13px; color: #fff; opacity: .85; }
+.lightbox-bar { margin-top: 12px; text-align: center; }
+.lightbox-dl {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, .12);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 550;
+  cursor: pointer;
+  transition: background-color .15s ease;
+}
+.lightbox-dl:hover { background: rgba(255, 255, 255, .2); }
+.lightbox-dl small { font-weight: 450; opacity: .7; font-size: 12px; }
+
+/* The house rule, stated wherever photos can be downloaded */
+.dl-note {
+  margin-top: 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-40);
+  max-width: 560px;
+}
+.dl-note a { color: var(--ink-55); text-decoration: underline; text-underline-offset: 3px; }
+.dl-note a:hover { color: var(--ink-85); }
 
 /* ============================================================
    PINS — the pinboard rows (the bookstore-row register)
@@ -2371,17 +2397,18 @@ html.dark .page-head h1 {
   line-height: 1.05;
 }
 
-/* --- The dark hero: display type, centered, park-sized --- */
+/* --- The dark hero: display type, centered, kept compact so
+   the photographs land above the fold --- */
 .darkhero {
   text-align: center;
-  padding: clamp(48px, 9vh, 96px) 24px 0;
+  padding: clamp(32px, 6vh, 56px) 24px 0;
 }
 .darkhero h1 {
   font-family: var(--display);
   font-weight: 400;
   font-synthesis: none;
-  font-size: clamp(52px, 8.5vw, 88px);
-  line-height: .98;
+  font-size: clamp(38px, 5.5vw, 56px);
+  line-height: 1;
   letter-spacing: 0;
   color: #FBF9F0;
   text-wrap: balance;
@@ -2391,8 +2418,8 @@ html.dark .page-head h1 {
 .darkhero h1 em { font-style: italic; }
 .darkhero .h1-heart svg { width: .3em; height: .29em; margin-left: .08em; }
 .darkhero-sub {
-  margin: 24px auto 0;
-  max-width: 480px;
+  margin: 16px auto 0;
+  max-width: 520px;
   font-size: 15px;
   line-height: 1.65;
   color: var(--ink-55);
@@ -2424,32 +2451,45 @@ html.dark .page-head h1 {
 }
 .darkhero-cta:hover { background: #fff; transform: translateY(-1px); }
 .darkhero-cta:active { transform: scale(.97); }
-.darkhero .hero-byline { justify-content: center; margin-top: 28px; }
+.darkhero .hero-byline { justify-content: center; margin-top: 22px; }
 
-
-
-/* --- Section moment before the grid, park's display voice --- */
-.darkhead {
-  text-align: center;
-  padding: clamp(72px, 10vw, 120px) 24px 0;
+/* --- Seven continents: the running tally under the hero --- */
+.continents {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 22px auto 0;
+  max-width: 640px;
 }
-.darkhead h2 {
-  font-family: var(--display);
-  font-weight: 400;
-  font-synthesis: none;
-  font-size: clamp(40px, 6vw, 64px);
-  line-height: 1.02;
-  letter-spacing: 0;
-  color: #FBF9F0;
-  text-wrap: balance;
+.continent {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+  white-space: nowrap;
 }
-.darkhead p {
-  margin: 18px auto 0;
-  max-width: 440px;
-  font-size: 15px;
-  line-height: 1.65;
+.continent.is-visited {
+  color: var(--ink-85);
+  border-color: rgba(255, 255, 255, .28);
+}
+.continent-tick { color: #E5484D; font-weight: 700; }
+.continent-count {
+  padding: 5px 4px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
   color: var(--ink-55);
-  text-wrap: pretty;
+  white-space: nowrap;
 }
 
 /* ============================================================

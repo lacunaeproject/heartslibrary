@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Heart’s Library — Photography from the road</title>
-<meta name="description" content="Cody Heart’s photography: trips and the frames worth keeping — with a library of books, pins, writing, and games one floor down.">
-<link rel="stylesheet" href="css/review.css?v=20260808q">
+<meta name="description" content="Cody Heart’s photography: a running record of the road, trip by trip, on the way to all seven continents. Free to download for personal use.">
+<link rel="stylesheet" href="css/review.css?v=20260808r">
 <script>window.coverFallback=window.coverFallback||function(i){(window.__fellCovers=window.__fellCovers||[]).push(i)}</script>
-<script defer src="js/review.js?v=20260808q"></script>
-<script defer src="js/photos.js?v=20260808q"></script>
-<script defer src="js/hobby.js?v=20260808q"></script>
+<script defer src="js/review.js?v=20260808r"></script>
+<script defer src="js/photos.js?v=20260808r"></script>
+<script defer src="js/hobby.js?v=20260808r"></script>
 </head>
 <body>
 
@@ -54,11 +54,20 @@
 <section class="darkhero wrap" aria-label="Introduction">
   <h1>The light I <em>kept</em><span
     class="h1-heart" aria-hidden="true"><svg viewBox="2.462 4.062 19.133 17.838"><path fill="#E5484D" d="M12.1 7.6C13.7 5 15.8 3.7 18 4.15 20.9 4.6 22.1 7.1 21.4 9.9 20.8 12.5 18 15.4 11.7 21.9 5.6 15.4 3.1 12.4 2.6 9.7 2 6.9 3.4 4.6 6 4.2 8.1 3.85 10.5 5 12.1 7.6Z"/></svg></span></h1>
-  <p class="darkhero-sub">Photographs from the road — San Diego light,
+  <p class="darkhero-sub">A record of the road, trip by trip — San Diego light,
   <span class="chi-w">Chicago<svg class="w-pop" viewBox="0 0 140 92" aria-hidden="true"><rect x="1" y="1" width="138" height="90" rx="4" fill="#fff" stroke="rgba(0,0,0,.14)"/><text x="70" y="72" text-anchor="middle" font-family="Geist, system-ui, sans-serif" font-size="78" font-weight="800" fill="#0E3386">W</text></svg></span> in the cold,
-  a carry-on through London and Paris. The books, pins, and games are still
-  here too, <a href="#backstacks">one floor down</a>.</p>
-  <a class="darkhero-cta press-scale" href="#galleries">See the galleries <span aria-hidden="true">↓</span></a>
+  a carry-on through London and Paris. Every frame is free to download for
+  personal use, and the long game is all seven continents.</p>
+  <p class="continents" id="continentTicker">
+    <span class="continent is-visited"><span class="continent-tick" aria-hidden="true">✓</span>North America</span>
+    <span class="continent">South America</span>
+    <span class="continent is-visited"><span class="continent-tick" aria-hidden="true">✓</span>Europe</span>
+    <span class="continent">Africa</span>
+    <span class="continent">Asia</span>
+    <span class="continent">Oceania</span>
+    <span class="continent">Antarctica</span>
+    <span class="continent-count">2 of 7</span>
+  </p>
   <div class="hero-byline">
     <span class="avatar-zoom">
       <img class="byline-avatar" src="images/cody-portrait.jpg" alt="Cody Heart"
@@ -72,58 +81,49 @@
   </div>
 </section>
 <main id="main">
-<section class="darkhead wrap" id="galleries" aria-label="The galleries">
-  <h2>Where the camera’s been</h2>
-  <p>Eight trips and counting — click any cover to step inside the gallery.
-  Placeholder frames hold the walls until the real rolls land.</p>
-</section>
-
-<section class="galleries-sec wrap" aria-label="Gallery grid">
+<section class="galleries-sec wrap" id="galleries" aria-label="Gallery grid">
+  <div class="rubric" role="presentation"><span class="rubric-label">The galleries · Newest trip first</span></div>
   <div class="gallery-cols" id="galleryGrid">
-    <div class="gallery-col">
-    <a class="gcard" style="aspect-ratio:4/3" href="gallery.html?trip=san-diego">
+    <a class="gcard" href="gallery.html?trip=san-diego">
       <img src="photos/sandiego-zoo/web/cheetah-2.jpg" alt="My trip to San Diego">
       <span class="gcard-label">My trip to San Diego<span class="gcard-meta">June 2026 · 10 frames</span></span>
       <span class="gcard-go" aria-hidden="true">→</span>
     </a>
-    <a class="gcard" style="aspect-ratio:3/4" href="gallery.html?trip=london-paris">
-      <img src="photos/placeholders/ldnpar-1.svg" alt="London and Paris" loading="lazy">
-      <span class="gcard-label">London and Paris<span class="gcard-meta">October 2025 · 6 frames</span></span>
-      <span class="gcard-go" aria-hidden="true">→</span>
-    </a>
-    <a class="gcard" style="aspect-ratio:4/3" href="gallery.html?trip=big-sur">
-      <img src="photos/placeholders/bigsur-1.svg" alt="Big Sur, Highway 1" loading="lazy">
-      <span class="gcard-label">Big Sur, Highway 1<span class="gcard-meta">May 2025 · 6 frames</span></span>
-      <span class="gcard-go" aria-hidden="true">→</span>
-    </a>
-    <a class="gcard" style="aspect-ratio:3/4" href="gallery.html?trip=joshua-tree">
-      <img src="photos/placeholders/jtree-1.svg" alt="Joshua Tree, dusk to dark" loading="lazy">
-      <span class="gcard-label">Joshua Tree, dusk to dark<span class="gcard-meta">March 2024 · 6 frames</span></span>
-      <span class="gcard-go" aria-hidden="true">→</span>
-    </a>
-    </div>
-    <div class="gallery-col">
-    <a class="gcard" style="aspect-ratio:3/4" href="gallery.html?trip=chicago-february">
+    <a class="gcard" href="gallery.html?trip=chicago-february">
       <img src="photos/placeholders/chi-1.svg" alt="Chicago in February">
       <span class="gcard-label">Chicago in February<span class="gcard-meta">February 2026 · 6 frames</span></span>
       <span class="gcard-go" aria-hidden="true">→</span>
     </a>
-    <a class="gcard" style="aspect-ratio:4/3" href="gallery.html?trip=nashville">
+    <a class="gcard" href="gallery.html?trip=london-paris">
+      <img src="photos/placeholders/ldnpar-1.svg" alt="London and Paris">
+      <span class="gcard-label">London and Paris<span class="gcard-meta">October 2025 · 6 frames</span></span>
+      <span class="gcard-go" aria-hidden="true">→</span>
+    </a>
+    <a class="gcard" href="gallery.html?trip=nashville">
       <img src="photos/placeholders/nash-1.svg" alt="Nashville, before the move" loading="lazy">
       <span class="gcard-label">Nashville, before the move<span class="gcard-meta">August 2025 · 6 frames</span></span>
       <span class="gcard-go" aria-hidden="true">→</span>
     </a>
-    <a class="gcard" style="aspect-ratio:3/4" href="gallery.html?trip=new-york">
+    <a class="gcard" href="gallery.html?trip=big-sur">
+      <img src="photos/placeholders/bigsur-1.svg" alt="Big Sur, Highway 1" loading="lazy">
+      <span class="gcard-label">Big Sur, Highway 1<span class="gcard-meta">May 2025 · 6 frames</span></span>
+      <span class="gcard-go" aria-hidden="true">→</span>
+    </a>
+    <a class="gcard" href="gallery.html?trip=new-york">
       <img src="photos/placeholders/nyc-1.svg" alt="New York, back for a week" loading="lazy">
       <span class="gcard-label">New York, back for a week<span class="gcard-meta">December 2024 · 6 frames</span></span>
       <span class="gcard-go" aria-hidden="true">→</span>
     </a>
-    <a class="gcard" style="aspect-ratio:4/3" href="gallery.html?trip=the-bay">
+    <a class="gcard" href="gallery.html?trip=joshua-tree">
+      <img src="photos/placeholders/jtree-1.svg" alt="Joshua Tree, dusk to dark" loading="lazy">
+      <span class="gcard-label">Joshua Tree, dusk to dark<span class="gcard-meta">March 2024 · 6 frames</span></span>
+      <span class="gcard-go" aria-hidden="true">→</span>
+    </a>
+    <a class="gcard" href="gallery.html?trip=the-bay">
       <img src="photos/placeholders/bay-1.svg" alt="The Bay, revisited" loading="lazy">
       <span class="gcard-label">The Bay, revisited<span class="gcard-meta">September 2023 · 6 frames</span></span>
       <span class="gcard-go" aria-hidden="true">→</span>
     </a>
-    </div>
   </div>
   <nav class="link-row frames-more" aria-label="The archive">
     <a class="press-scale" href="photos.html">The archive, every frame <span class="arrow" aria-hidden="true">→</span></a>
@@ -145,9 +145,10 @@
 
 <section class="colophon-note wrap">
   <h2>A library of one.</h2>
-  <p>The camera leads now, but it’s all still one library — the photos are
-  mine, the reviews are mine, and the shelves downstairs keep growing on
-  their own. If a frame or a book moved you, <a href="mailto:hello@heartslibrary.com">write back</a>.</p>
+  <p>The camera leads now — this site is the travel log, two continents
+  down, five to go. Every photo is free to download for personal use;
+  for anything commercial, <a href="mailto:hello@heartslibrary.com">ask
+  first</a>. The books, pins, and games keep growing one floor down.</p>
 </section>
 </main>
 <footer class="footer">
