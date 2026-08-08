@@ -37,7 +37,8 @@
       "Bash(curl -s \"https://heartslibrary.com/index.html\")",
       "Bash(curl -s \"https://heartslibrary.com/css/review.css?v=20260808a\")",
       "Bash(git commit -m 'Bigger, iOS-rounded book covers on the shelf *)",
-      "Bash(curl -sL \"https://assets.onepagelove.com/cdn-cgi/image/width=2560,fit=scale-down,format=jpg,quality=85/wp-content/uploads/2025/08/opl-master-28.jpg\" -o inspiration.jpg)"
+      "Bash(curl -sL \"https://assets.onepagelove.com/cdn-cgi/image/width=2560,fit=scale-down,format=jpg,quality=85/wp-content/uploads/2025/08/opl-master-28.jpg\" -o inspiration.jpg)",
+      "Bash(git commit -m 'Add the card catalog: candy folder drawers, and Live pills on the dashboards *)"
     ]
   }
 }
