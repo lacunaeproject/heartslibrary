@@ -71,7 +71,8 @@
       "Bash(powershell -Command 'Add-Type -AssemblyName System.Drawing; $i=[System.Drawing.Image]::FromFile\\('\\\\''C:\\\\Users\\\\codyj\\\\Documents\\\\heartslibrary\\\\photos\\\\sandiego-zoo\\\\web\\\\grizzly-2.jpg'\\\\''\\); $i.Width; $i.Height; $i.Dispose\\(\\)')",
       "Bash(sed -i 's/v=20260809a/v=20260809b/g' *.html)",
       "Bash(sed -i 's/v=20260809c/v=20260809d/g' *.html)",
-      "Bash(sed -i 's/v=20260809i/v=20260809j/g' *.html)"
+      "Bash(sed -i 's/v=20260809i/v=20260809j/g' *.html)",
+      "Bash(sed -i 's/v=20260809j/v=20260809k/g' *.html)"
     ]
   }
 }
