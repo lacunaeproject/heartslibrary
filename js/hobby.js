@@ -28,15 +28,23 @@
   }
 
   /* ----------------------------------------------------------
-     HUB — latest frames strip
+     HUB — the showcase carousel: one big slide per trip, built
+     from each trip's lead photo. The static slides in
+     index.html are only a no-JS fallback.
      ---------------------------------------------------------- */
-  var strip = document.getElementById("framesStrip");
-  if (strip && TRIPS.length) {
-    strip.innerHTML = allPhotos().slice(0, 6).map(function (x) {
-      return '<a class="frame" href="photos.html#' + esc(x.trip.slug) + '">' +
-        '<img src="' + esc(x.photo.src) + '" alt="' + esc(x.photo.alt || "") + '" loading="lazy"' +
-        (x.photo.w && x.photo.h ? ' style="aspect-ratio:' + Number(x.photo.w) + '/' + Number(x.photo.h) + '"' : "") + ">" +
-        '<span class="frame-cap">' + esc(x.photo.caption || x.trip.place) + "</span></a>";
+  var showcase = document.getElementById("showcase");
+  if (showcase && TRIPS.length) {
+    showcase.innerHTML = TRIPS.map(function (t, i) {
+      var lead = (t.photos || [])[0];
+      if (!lead) return "";
+      return '<div class="slide">' +
+        '<a class="slide-media" href="photos.html#' + esc(t.slug) + '" aria-label="' + esc(t.place) + '">' +
+          '<img src="' + esc(lead.src) + '" alt="' + esc(lead.alt || "") + '"' +
+          (i === 0 ? "" : ' loading="lazy"') + "></a>" +
+        '<div class="slide-cap"><p class="slide-name">' + esc(t.place) + "</p>" +
+        '<p class="slide-desc">' + (t.note ? esc(t.note) + " " : "") +
+          (t.photos || []).length + " frames · " + esc(t.when) +
+          ' → <a href="photos.html#' + esc(t.slug) + '">see the roll</a></p></div></div>';
     }).join("");
   }
 
