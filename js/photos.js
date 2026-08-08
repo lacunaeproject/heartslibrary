@@ -25,14 +25,18 @@ window.TRIPS = [
     posted: "2026-06-20",
     place: "My trip to San Diego",
     when: "June 2026",
-    note: "Three days of marine layer, fish tacos, and the light finally breaking over Sunset Cliffs.",
+    note: "Mostly the zoo, honestly — the cheetah alone was worth the flight.",
     photos: [
-      { src: "photos/placeholders/sd-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Sunset Cliffs, golden hour" },
-      { src: "photos/placeholders/sd-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Ocean Beach pier" },
-      { src: "photos/placeholders/sd-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "La Jolla tide pools" },
-      { src: "photos/placeholders/sd-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Balboa Park colonnade" },
-      { src: "photos/placeholders/sd-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Coronado bridge, dusk" },
-      { src: "photos/placeholders/sd-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Marine layer burning off" }
+      { src: "photos/sandiego-zoo/web/cheetah-2.jpg", w: 1600, h: 1067, alt: "A cheetah in profile, close up", caption: "The ambassador cheetah, in profile" },
+      { src: "photos/sandiego-zoo/web/panda.jpg", w: 1139, h: 1600, alt: "A giant panda eating bamboo", caption: "Lunch, taken seriously" },
+      { src: "photos/sandiego-zoo/web/grizzly.jpg", w: 1059, h: 1600, alt: "A grizzly bear against dark wet rock", caption: "Grizzly against the wet rock" },
+      { src: "photos/sandiego-zoo/web/orang-2.jpg", w: 1173, h: 1600, alt: "An orangutan looking into the camera", caption: "The old man of the canopy" },
+      { src: "photos/sandiego-zoo/web/bear_looking.jpg", w: 1600, h: 1067, alt: "A bear glancing over its shoulder", caption: "Caught looking" },
+      { src: "photos/sandiego-zoo/web/camels.jpg", w: 1600, h: 1067, alt: "Camels standing in bright sun", caption: "Camels in the noon sun" },
+      { src: "photos/sandiego-zoo/web/cheetah-1.jpg", w: 1165, h: 1600, alt: "A cheetah at rest", caption: "Spots at rest" },
+      { src: "photos/sandiego-zoo/web/orang-1.jpg", w: 1087, h: 1600, alt: "An orangutan behind glass", caption: "Watching us watching him" },
+      { src: "photos/sandiego-zoo/web/orang-3.jpg", w: 1172, h: 1600, alt: "An orangutan in profile", caption: "Deep in thought" },
+      { src: "photos/sandiego-zoo/web/snake.jpg", w: 968, h: 1600, alt: "A snake in the reptile house", caption: "The reptile house regular" }
     ]
   },
   {
