@@ -56,7 +56,9 @@
       "Bash(curl -s \"https://heartslibrary.com/js/log.js?v=20260808h\")",
       "Bash(git commit -m 'Scrap the Circulation Desk feed *)",
       "Bash(curl -sL \"https://www.baptistebriel.com/\" -o bb.html)",
-      "Bash(git commit -m 'Showcase carousel in baptistebriel.com'\\\\''s register replaces the frames strip *)"
+      "Bash(git commit -m 'Showcase carousel in baptistebriel.com'\\\\''s register replaces the frames strip *)",
+      "Bash(curl -s \"https://heartslibrary.com/css/review.css?v=20260808j\")",
+      "Bash(git commit -m 'Showcase restyled to baptistebriel'\\\\''s Recent Talks anatomy *)"
     ]
   }
 }

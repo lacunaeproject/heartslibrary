@@ -41,10 +41,11 @@
         '<a class="slide-media" href="photos.html#' + esc(t.slug) + '" aria-label="' + esc(t.place) + '">' +
           '<img src="' + esc(lead.src) + '" alt="' + esc(lead.alt || "") + '"' +
           (i === 0 ? "" : ' loading="lazy"') + "></a>" +
-        '<div class="slide-cap"><p class="slide-name">' + esc(t.place) + "</p>" +
+        '<div class="slide-cap">' +
+        '<p class="slide-name">' + esc(t.place) + '<br><span class="slide-meta">' +
+          esc(t.when) + " · " + (t.photos || []).length + " frames</span></p>" +
         '<p class="slide-desc">' + (t.note ? esc(t.note) + " " : "") +
-          (t.photos || []).length + " frames · " + esc(t.when) +
-          ' → <a href="photos.html#' + esc(t.slug) + '">see the roll</a></p></div></div>';
+          '→ <a href="photos.html#' + esc(t.slug) + '">see the roll</a></p></div></div>';
     }).join("");
   }
 
