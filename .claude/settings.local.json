@@ -52,7 +52,9 @@
       "Bash(curl -s \"https://heartslibrary.com/css/review.css?v=20260808f\")",
       "Bash(git commit -m 'Circulation Desk, final goodthing form: no timestamps, full-scale type *)",
       "Bash(curl -s \"https://heartslibrary.com/css/review.css?v=20260808g\")",
-      "Bash(git commit -m 'Rich media in the Circulation Desk: jackets, article cards, game art *)"
+      "Bash(git commit -m 'Rich media in the Circulation Desk: jackets, article cards, game art *)",
+      "Bash(curl -s \"https://heartslibrary.com/js/log.js?v=20260808h\")",
+      "Bash(git commit -m 'Scrap the Circulation Desk feed *)"
     ]
   }
 }
