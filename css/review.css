@@ -2497,7 +2497,6 @@ body.home .nav.is-top {
   max-width: 780px;
   text-shadow: 0 2px 28px rgba(0, 0, 0, .55);
 }
-.darkhero h1 em { font-style: italic; }
 .darkhero .h1-heart svg { width: .3em; height: .29em; margin-left: .08em; }
 .darkhero-sub {
   margin: 16px auto 0;
