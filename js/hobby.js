@@ -79,6 +79,36 @@
   }
 
   /* ----------------------------------------------------------
+     HOMEPAGE — the marquee rows: trip names and frame captions
+     on the move. Content is doubled so the CSS -50% loop lands
+     seamlessly; static markup in index.html is the fallback.
+     ---------------------------------------------------------- */
+  function mqItems(pairs) {
+    var one = pairs.map(function (x) {
+      return '<span class="mq-item"><span class="mq-name">' + esc(x[0]) +
+        '</span><img class="mq-thumb" src="' + esc(x[1]) + '" alt=""></span>';
+    }).join("");
+    return one + one;
+  }
+  var mqa = document.getElementById("marqueeA");
+  if (mqa && TRIPS.length) {
+    mqa.innerHTML = mqItems(TRIPS.map(function (t) {
+      var p = (t.photos && (t.photos[1] || t.photos[0])) || {};
+      return [t.place, p.src || ""];
+    }));
+    var mqb = document.getElementById("marqueeB");
+    if (mqb) {
+      var caps = [];
+      TRIPS.forEach(function (t) {
+        (t.photos || []).slice(0, 2).forEach(function (p) {
+          if (p.caption && p.src) caps.push([p.caption, p.src]);
+        });
+      });
+      if (caps.length) mqb.innerHTML = mqItems(caps.slice(0, 5));
+    }
+  }
+
+  /* ----------------------------------------------------------
      GALLERY page — one trip, from ?trip=<slug>
      ---------------------------------------------------------- */
   var galleryShots = document.getElementById("galleryShots");

@@ -7,8 +7,12 @@ step, hosts anywhere (GitHub Pages, Netlify, any web server), or open
 
 ## What it is
 
-**Since Aug 2026 a photography-first site** — the homepage is a
-park.photos-style gallery grid: big rounded trip covers (newest trip gets
+**Since Aug 2026 a photography-first site** — the photography wing
+(home, gallery pages, archive) runs DARK in park.photos' full register:
+near-black ground under a fixed film-grain wash (html.dark flips the
+token scale; grain is an SVG-noise overlay), Instrument Serif display
+type (self-hosted in fonts/), a two-row marquee of trip names and
+thumbs, and the gallery grid: big rounded trip covers (newest trip gets
 the wide tile), the title rising in on hover, each tile clicking through
 to that trip's gallery. The hobby wings survive one floor down, out of
 the global nav (which slims to Galleries · About · Elsewhere), reachable
