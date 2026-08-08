@@ -2427,18 +2427,31 @@ html.dark .page-head h1 {
   line-height: 1.05;
 }
 
-/* --- The dark hero: the lead photograph full-bleed in a rounded
-   frame, the site voice bottom-anchored over a scrim that keeps
-   the type readable without burying the animal --- */
+/* --- The dark hero: the lead photograph edge to edge, a full
+   viewport tall, the site voice bottom-anchored over a scrim that
+   keeps the type readable without burying the animal. The nav
+   floats over it (body.home unsticks it from the flow). --- */
+body.home .nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  transition: transform .3s var(--ease-out-quart), background-color .25s ease;
+}
+/* At the top of the page the nav floats clear over the hero photo */
+body.home .nav.is-top {
+  background-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
 .darkhero {
   text-align: center;
-  padding-top: clamp(12px, 2.5vh, 24px);
 }
 .darkhero-frame {
   position: relative;
-  border-radius: 28px;
   overflow: hidden;
-  min-height: clamp(460px, 66vh, 700px);
+  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -2461,7 +2474,7 @@ html.dark .page-head h1 {
     rgba(10, 10, 10, .82),
     rgba(10, 10, 10, .34) 46%,
     rgba(10, 10, 10, .1) 70%,
-    rgba(10, 10, 10, .22));
+    rgba(10, 10, 10, .38));
   pointer-events: none;
 }
 .darkhero-inner {

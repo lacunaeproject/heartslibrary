@@ -45,10 +45,12 @@
     if (nav) {
       var title = nav.querySelector(".nav__scrolltitle");
       var last = 0;
+      nav.classList.toggle("is-top", window.scrollY < 60);
       window.addEventListener("scroll", function () {
         var y = window.scrollY;
         if (y < 60 || y < last) nav.classList.remove("is-hidden");
         else if (y > last + 5) nav.classList.add("is-hidden");
+        nav.classList.toggle("is-top", y < 60);
         last = y;
         if (title) title.classList.toggle("is-visible", y > 200);
       }, { passive: true });
