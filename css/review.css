@@ -2149,9 +2149,102 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   row-gap: clamp(18px, 2.5vw, 34px);
 }
 .place {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: clamp(12px, 1.5vw, 22px);
+}
+/* Hover pops, the vollendorf register: trips lift a polaroid of
+   the roll, shows lift a ticket stub */
+.place-pop {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-50%) translateY(10px) rotate(-7deg) scale(.88);
+  transition: opacity .18s ease, transform .3s var(--ease-out-quart);
+}
+@media (hover: hover) and (pointer: fine) {
+  .place:hover .place-pop--photo { opacity: 1; transform: translateX(-50%) rotate(-4deg); }
+  .place:hover .place-pop--ticket { opacity: 1; transform: translateX(-50%) rotate(3deg); }
+}
+@media (hover: none) {
+  .place-pop { display: none; }
+}
+.place-pop--photo {
+  width: 188px;
+  padding: 8px 8px 9px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, .38);
+}
+.place-pop--photo img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  border-radius: 2px;
+}
+.pop-cap {
+  display: block;
+  padding-top: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #4A4A44;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.place-pop--ticket {
+  width: max-content;
+  max-width: 240px;
+  padding: 11px 18px 12px 28px;
+  background: #FBF5E2;
+  border-radius: 8px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, .38);
+  text-align: left;
+  transform: translateX(-50%) translateY(10px) rotate(8deg) scale(.88);
+}
+.place-pop--ticket::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 8px;
+  bottom: 8px;
+  border-left: 1.5px dashed rgba(23, 23, 15, .35);
+}
+.tick-head {
+  display: block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(23, 23, 15, .55);
+}
+.tick-name {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: 21px;
+  line-height: 1.05;
+  color: #17170F;
+  white-space: nowrap;
+}
+.tick-when {
+  display: block;
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: rgba(23, 23, 15, .65);
 }
 .place-thumb {
   width: clamp(56px, 6vw, 88px);
@@ -2198,7 +2291,14 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   text-transform: uppercase;
   color: var(--ink-40);
   white-space: nowrap;
+  transform: rotate(-4deg);
 }
+.place:nth-child(even) .place-tag { transform: rotate(3deg); }
+.place-tag--next {
+  border-color: rgba(229, 72, 77, .55);
+  color: #E5484D;
+}
+.pill-count { opacity: .55; margin-left: 2px; }
 @media (hover: hover) and (pointer: fine) {
   .place:hover .place-thumb,
   .place:hover .place-badge { transform: scale(1.08) rotate(-2deg); }

@@ -110,13 +110,18 @@
     if (countEl) countEl.textContent = seen + " of 7";
 
     function tripItem(t) {
+      var cv = (cover(t) || {}).src;
       return { name: t.short || t.place, date: t.posted || "",
-               href: "gallery.html?trip=" + t.slug, thumb: (cover(t) || {}).src };
+               href: "gallery.html?trip=" + t.slug, thumb: cv,
+               popImg: cv, popCap: t.when + " · " + (t.photos || []).length + " frames" };
     }
     function momentItem(m) {
       return { name: m.name, date: m.date || "",
                badge: m.type === "trip" ? "→" : "♪",
-               tag: m.planned ? "up next" : (m.type === "event" ? "show" : "") };
+               tag: m.planned ? "up next" : (m.type === "event" ? "show" : ""),
+               tagNext: !!m.planned,
+               ticket: { head: m.planned ? (m.type === "trip" ? "One way" : "Hold the date") : "Admit one",
+                         when: m.when } };
     }
     function byDate(a, b) { return (a.date || "").localeCompare(b.date || ""); }
     function view(name) {
@@ -127,7 +132,9 @@
         return CONTINENTS.map(function (c) {
           var trips = byCont[c] || [];
           if (!trips.length) return { name: c, tag: "not yet", dim: true };
-          return { name: c, thumb: (cover(trips[0]) || {}).src,
+          var cv = (cover(trips[0]) || {}).src;
+          return { name: c, thumb: cv, popImg: cv,
+                   popCap: (trips.length === 1 ? "1 trip · " : trips.length + " trips · latest ") + trips[0].when,
                    href: "gallery.html?trip=" + trips[0].slug,
                    tag: trips.length + (trips.length === 1 ? " trip" : " trips") };
         });
@@ -137,12 +144,25 @@
         .concat(MOMENTS.filter(function (m) { return (m.date || "").slice(0, 4) === yr; }).map(momentItem))
         .sort(byDate);
     }
+    function popHtml(it) {
+      if (it.popImg)
+        return '<span class="place-pop place-pop--photo" aria-hidden="true">' +
+          '<img src="' + esc(it.popImg) + '" alt="" loading="lazy">' +
+          '<span class="pop-cap">' + esc(it.popCap || "") + "</span></span>";
+      if (it.ticket)
+        return '<span class="place-pop place-pop--ticket" aria-hidden="true">' +
+          '<span class="tick-head">' + esc(it.ticket.head) + "</span>" +
+          '<span class="tick-name">' + esc(it.name) + "</span>" +
+          '<span class="tick-when">' + esc(it.ticket.when) + "</span></span>";
+      return "";
+    }
     function itemHtml(it) {
       var inner =
         (it.thumb ? '<img class="place-thumb" src="' + esc(it.thumb) + '" alt="" loading="lazy">'
           : (it.badge ? '<span class="place-badge" aria-hidden="true">' + esc(it.badge) + "</span>" : "")) +
         '<span class="place-name">' + esc(it.name) + "</span>" +
-        (it.tag ? '<span class="place-tag">' + esc(it.tag) + "</span>" : "");
+        (it.tag ? '<span class="place-tag' + (it.tagNext ? " place-tag--next" : "") + '">' + esc(it.tag) + "</span>" : "") +
+        popHtml(it);
       var cls = "place place-in" + (it.dim ? " place--soon" : "");
       if (it.href) return '<a class="' + cls + ' press-scale" href="' + esc(it.href) + '">' + inner + "</a>";
       return '<span class="' + cls + '">' + inner + "</span>";
@@ -159,6 +179,15 @@
           b.setAttribute("aria-pressed", on ? "true" : "false");
         });
       }
+    }
+    /* Little live counts inside the filter pills */
+    if (filters) {
+      Array.prototype.forEach.call(filters.querySelectorAll("[data-view]"), function (b) {
+        var c = b.querySelector(".pill-count");
+        if (!c) return;
+        var v = b.getAttribute("data-view");
+        c.textContent = v === "seven" ? seen + "/7" : String(view(v).length);
+      });
     }
     var initial = "";
     try { initial = new URLSearchParams(location.search).get("view") || ""; } catch (e) {}
