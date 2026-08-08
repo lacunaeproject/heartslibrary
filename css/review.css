@@ -2536,47 +2536,6 @@ body.home .nav.is-top {
 .darkhero-cta:active { transform: scale(.97); }
 .darkhero .hero-byline { justify-content: center; margin-top: 22px; }
 
-/* --- Seven continents: the running tally under the hero --- */
-.continents {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  margin: 22px auto 0;
-  max-width: 640px;
-}
-.continent {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 12px;
-  border: 1px solid rgba(255, 255, 255, .22);
-  border-radius: 999px;
-  background: rgba(10, 10, 10, .38);
-  backdrop-filter: blur(4px);
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, .62);
-  white-space: nowrap;
-}
-.continent.is-visited {
-  color: rgba(255, 255, 255, .95);
-  border-color: rgba(255, 255, 255, .42);
-}
-.continent-tick { color: #E5484D; font-weight: 700; }
-.continent-count {
-  padding: 5px 4px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, .8);
-  white-space: nowrap;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, .6);
-}
 
 /* ============================================================
    MOTION HELPERS — CSS-only. The page head rises once on

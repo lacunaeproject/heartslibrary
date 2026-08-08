@@ -90,22 +90,6 @@
   }
 
   /* ----------------------------------------------------------
-     SEVEN CONTINENTS — the running tally, computed from each
-     trip's `continent` field in js/photos.js.
-     ---------------------------------------------------------- */
-  var ticker = document.getElementById("continentTicker");
-  if (ticker && TRIPS.length) {
-    var CONTINENTS = ["North America", "South America", "Europe", "Africa", "Asia", "Oceania", "Antarctica"];
-    var visited = {};
-    TRIPS.forEach(function (t) { if (t.continent) visited[t.continent] = true; });
-    var seen = CONTINENTS.filter(function (c) { return visited[c]; }).length;
-    ticker.innerHTML = CONTINENTS.map(function (c) {
-      return '<span class="continent' + (visited[c] ? " is-visited" : "") + '">' +
-        (visited[c] ? '<span class="continent-tick" aria-hidden="true">✓</span>' : "") + esc(c) + "</span>";
-    }).join("") + '<span class="continent-count">' + seen + " of 7</span>";
-  }
-
-  /* ----------------------------------------------------------
      GALLERY page — one trip, from ?trip=<slug>
      ---------------------------------------------------------- */
   var galleryShots = document.getElementById("galleryShots");
