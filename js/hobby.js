@@ -225,8 +225,46 @@
         "</div></section>";
     }).join("");
 
-    var stats = document.getElementById("photoStats");
-    if (stats) stats.textContent = allPhotos().length + " frames · " + TRIPS.length + " trips · newest first";
+    var statsText = allPhotos().length + " frames · " + TRIPS.length + " trips · newest first";
+    Array.prototype.forEach.call(document.querySelectorAll(".photo-stats"), function (el) {
+      el.textContent = statsText;
+    });
+  }
+
+  /* ----------------------------------------------------------
+     THE LEDGER — the vincelo-style trip index in the homepage
+     sidebar (date · count · name), scroll-synced to the stream,
+     mirrored into the burger menu on small screens.
+     ---------------------------------------------------------- */
+  var sideTrips = document.getElementById("sideTrips");
+  if (sideTrips && TRIPS.length) {
+    sideTrips.innerHTML = TRIPS.map(function (t) {
+      var ym = (t.posted || "").slice(0, 7).replace("-", "/");
+      return '<a class="side-trip" data-slug="' + esc(t.slug) + '" href="#' + esc(t.slug) + '">' +
+        '<span class="side-date">' + esc(ym) + '</span>' +
+        '<span class="side-count">' + (t.photos || []).length + '</span>' +
+        '<span class="side-name">' + esc(t.short || t.place) + "</span></a>";
+    }).join("");
+    if ("IntersectionObserver" in window) {
+      var spy = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          var slug = en.target.id;
+          Array.prototype.forEach.call(sideTrips.querySelectorAll(".side-trip"), function (a) {
+            a.classList.toggle("is-active", a.getAttribute("data-slug") === slug);
+          });
+        });
+      }, { rootMargin: "-25% 0px -65% 0px" });
+      Array.prototype.forEach.call(document.querySelectorAll(".roll"), function (s) { spy.observe(s); });
+    }
+  }
+  var menuTrips = document.getElementById("menuTrips");
+  if (menuTrips && TRIPS.length) {
+    menuTrips.innerHTML = TRIPS.map(function (t) {
+      return '<a class="mobile-menu__trip" href="#' + esc(t.slug) + '">' +
+        '<span>' + esc(t.short || t.place) + '</span>' +
+        '<span class="mobile-menu__trip-meta">' + esc(t.when) + " · " + (t.photos || []).length + "</span></a>";
+    }).join("");
   }
 
   /* ----------------------------------------------------------

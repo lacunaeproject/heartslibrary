@@ -6,11 +6,11 @@
 <title>Cody Heart Photography</title>
 <meta name="description" content="Cody Heart’s photography: a running record of the road, trip by trip, on the way to all seven continents. Free to download for personal use.">
 <script>try{if(localStorage.getItem("hl-theme")==="light")document.documentElement.classList.remove("dark")}catch(e){}</script>
-<link rel="stylesheet" href="css/review.css?v=20260809w">
+<link rel="stylesheet" href="css/review.css?v=20260809x">
 <script>window.coverFallback=window.coverFallback||function(i){(window.__fellCovers=window.__fellCovers||[]).push(i)}</script>
-<script defer src="js/review.js?v=20260809w"></script>
-<script defer src="js/photos.js?v=20260809w"></script>
-<script defer src="js/hobby.js?v=20260809w"></script>
+<script defer src="js/review.js?v=20260809x"></script>
+<script defer src="js/photos.js?v=20260809x"></script>
+<script defer src="js/hobby.js?v=20260809x"></script>
 </head>
 <body class="home">
 
@@ -42,6 +42,10 @@
     <a class="mobile-menu__link" href="index.html">Galleries</a>
     <a class="mobile-menu__link" href="about.html">About</a>
     <div class="mobile-menu__section">
+      <p class="mobile-menu__label">Trips</p>
+      <div class="mobile-menu__triplist" id="menuTrips"></div>
+    </div>
+    <div class="mobile-menu__section">
       <p class="mobile-menu__label">Elsewhere</p>
       <div class="mobile-menu__list">
         <a class="mobile-menu__item" target="_blank" rel="noopener noreferrer" href="https://substack.com/@codyheart"><div class="menu-item__tile"><svg class="icon-duo is-colored c-orange" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect class="duo-a" x="2" y="2" width="20" height="20" rx="3"/><rect class="duo-b" x="6" y="6.5" width="12" height="2.4" rx="1.2"/><rect class="duo-b" x="6" y="11" width="12" height="2.4" rx="1.2"/><path class="duo-b" d="M6 15.5h12v2a1 1 0 0 1-1.4.92L12 16.6l-4.6 1.82A1 1 0 0 1 6 17.5v-2Z"/></svg></div><div><span class="menu-item__title">Substack</span><span class="menu-item__desc">The newsletter</span></div></a>
@@ -52,37 +56,55 @@
   </div>
 </div>
 
-<section class="darkhero" aria-label="Introduction">
-  <div class="darkhero-frame">
-    <img class="darkhero-bg" src="photos/london-paris/web/monet-pond-hero.jpg"
-         alt="Water lilies on Monet's pond at Giverny, clouds reflected in the water"
-         fetchpriority="high">
-    <span class="hero-year">2025</span>
-    <span class="photo-tag">Giverny<svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true"><rect width="18" height="12" rx="2" fill="#fff"/><rect width="6" height="12" fill="#0055A4"/><rect x="12" width="6" height="12" fill="#EF4135"/></svg></span>
-    <div class="darkhero-inner">
-      <h1>Documenting the world, one trip at a time.</h1>
-      <p class="darkhero-sub">San Diego light,
-      <span class="chi-w">Chicago<svg class="w-pop" viewBox="0 0 140 92" aria-hidden="true"><rect x="1" y="1" width="138" height="90" rx="4" fill="#fff" stroke="rgba(0,0,0,.14)"/><text x="70" y="72" text-anchor="middle" font-family="Geist, system-ui, sans-serif" font-size="78" font-weight="800" fill="#0E3386">W</text></svg></span> in the cold,
-      a carry-on through London and Paris. Every frame is free to download
-      for personal use. Two continents down, five to go.</p>
-      <a class="darkhero-cta press-scale" href="#photos">See all photos</a>
-    </div>
-  </div>
-</section>
 <main id="main">
-<section class="stream-sec wrap wall" id="photos" aria-label="The photographs">
-  <div class="stream-head">
-    <p class="photo-stats" id="photoStats">54 frames · 8 trips · newest first</p>
-    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch between light and dark mode">
-      <span class="theme-knob" aria-hidden="true">
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.6 14.2A8.8 8.8 0 0 1 9.8 3.4a8.8 8.8 0 1 0 10.8 10.8Z"/></svg>
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M19.1 4.9l-1.6 1.6M6.5 17.5l-1.6 1.6"/></svg>
-      </span>
-    </button>
-  </div>
-  <div id="tripList"></div>
-  <noscript><p class="noscript-note">The photographs need JavaScript to render — they read from <code>js/photos.js</code>.</p></noscript>
-</section>
+<div class="studio">
+  <aside class="studio-side" aria-label="The trip ledger">
+    <a class="nav__wordmark side-mark" href="index.html"><svg width="13" height="12" viewBox="2.462 4.062 19.133 17.838" aria-hidden="true"><path fill="#E5484D" d="M12.1 7.6C13.7 5 15.8 3.7 18 4.15 20.9 4.6 22.1 7.1 21.4 9.9 20.8 12.5 18 15.4 11.7 21.9 5.6 15.4 3.1 12.4 2.6 9.7 2 6.9 3.4 4.6 6 4.2 8.1 3.85 10.5 5 12.1 7.6Z"/></svg><span>Cody Heart Photography</span></a>
+    <p class="side-tag">Documenting the world, one trip at a time. Every frame
+    free to download for personal use.</p>
+    <p class="side-links">
+      <a class="link-hover" href="about.html">About</a> <span class="sep">/</span>
+      <a class="link-hover" href="books.html">The Library</a> <span class="sep">/</span>
+      <a class="link-hover" target="_blank" rel="noopener noreferrer" href="https://substack.com/@codyheart">Substack</a> <span class="sep">/</span>
+      <a class="link-hover" href="mailto:hello@heartslibrary.com">Email</a>
+    </p>
+    <nav class="side-trips" id="sideTrips" aria-label="Trips">
+      <a class="side-trip" data-slug="san-diego" href="#san-diego"><span class="side-date">2026/06</span><span class="side-count">11</span><span class="side-name">San Diego</span></a>
+      <a class="side-trip" data-slug="chicago-february" href="#chicago-february"><span class="side-date">2026/02</span><span class="side-count">6</span><span class="side-name">Chicago</span></a>
+      <a class="side-trip" data-slug="london-paris" href="#london-paris"><span class="side-date">2025/10</span><span class="side-count">7</span><span class="side-name">London &amp; Paris</span></a>
+      <a class="side-trip" data-slug="nashville" href="#nashville"><span class="side-date">2025/08</span><span class="side-count">6</span><span class="side-name">Nashville</span></a>
+      <a class="side-trip" data-slug="big-sur" href="#big-sur"><span class="side-date">2025/05</span><span class="side-count">6</span><span class="side-name">Big Sur</span></a>
+      <a class="side-trip" data-slug="new-york" href="#new-york"><span class="side-date">2024/12</span><span class="side-count">6</span><span class="side-name">New York</span></a>
+      <a class="side-trip" data-slug="joshua-tree" href="#joshua-tree"><span class="side-date">2024/03</span><span class="side-count">6</span><span class="side-name">Joshua Tree</span></a>
+      <a class="side-trip" data-slug="the-bay" href="#the-bay"><span class="side-date">2023/09</span><span class="side-count">6</span><span class="side-name">The Bay</span></a>
+    </nav>
+    <div class="side-foot">
+      <p class="photo-stats">54 frames · 8 trips · newest first</p>
+      <div class="side-foot-row">
+        <span class="side-copy">© 2026 · Franklin → Chicago</span>
+        <button class="theme-toggle" type="button" aria-label="Switch between light and dark mode">
+          <span class="theme-knob" aria-hidden="true">
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.6 14.2A8.8 8.8 0 0 1 9.8 3.4a8.8 8.8 0 1 0 10.8 10.8Z"/></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M19.1 4.9l-1.6 1.6M6.5 17.5l-1.6 1.6"/></svg>
+          </span>
+        </button>
+      </div>
+    </div>
+  </aside>
+  <div class="studio-main">
+    <section class="stream-sec" id="photos" aria-label="The photographs">
+      <div class="stream-head">
+        <p class="photo-stats">54 frames · 8 trips · newest first</p>
+        <button class="theme-toggle" type="button" aria-label="Switch between light and dark mode">
+          <span class="theme-knob" aria-hidden="true">
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.6 14.2A8.8 8.8 0 0 1 9.8 3.4a8.8 8.8 0 1 0 10.8 10.8Z"/></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M19.1 4.9l-1.6 1.6M6.5 17.5l-1.6 1.6"/></svg>
+          </span>
+        </button>
+      </div>
+      <div id="tripList"></div>
+      <noscript><p class="noscript-note">The photographs need JavaScript to render — they read from <code>js/photos.js</code>.</p></noscript>
+    </section>
 
 <section class="places-sec wrap wall" id="continents" aria-label="Where I’ve been">
   <div class="sec-head sec-head--center">
@@ -125,6 +147,8 @@
   for anything commercial, <a href="mailto:hello@heartslibrary.com">ask
   first</a>. The books, pins, and games keep growing one floor down.</p>
 </section>
+  </div>
+</div>
 <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
   <figure>
     <img src="" alt="">

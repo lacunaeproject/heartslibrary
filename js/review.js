@@ -61,15 +61,15 @@
       }
     }
 
-    /* Light/dark switch for the photography wing. The <head> of
-       each photo page re-applies the stored choice before paint. */
-    var themeToggle = document.getElementById("themeToggle");
-    if (themeToggle) {
-      themeToggle.addEventListener("click", function () {
+    /* Light/dark switches for the photography wing (a page can
+       hold more than one). The <head> of each photo page
+       re-applies the stored choice before paint. */
+    Array.prototype.forEach.call(document.querySelectorAll(".theme-toggle"), function (btn) {
+      btn.addEventListener("click", function () {
         var dark = document.documentElement.classList.toggle("dark");
         try { localStorage.setItem("hl-theme", dark ? "dark" : "light"); } catch (e) {}
       });
-    }
+    });
 
     /* Dropdowns (Bookstores, Elsewhere) */
     Array.prototype.forEach.call(document.querySelectorAll(".nav__drop"), function (drop) {
