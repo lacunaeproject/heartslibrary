@@ -230,6 +230,22 @@
       el.textContent = statsText;
     });
   }
+  /* The sidebar stat rows */
+  (function () {
+    var els = document.querySelectorAll("[data-stat]");
+    if (!els.length || !TRIPS.length) return;
+    var conts = {};
+    TRIPS.forEach(function (t) { if (t.continent) conts[t.continent] = true; });
+    var map = {
+      frames: String(allPhotos().length),
+      trips: String(TRIPS.length),
+      continents: Object.keys(conts).length + " of 7"
+    };
+    Array.prototype.forEach.call(els, function (el) {
+      var k = el.getAttribute("data-stat");
+      if (map[k] != null) el.textContent = map[k];
+    });
+  })();
 
   /* ----------------------------------------------------------
      EVERYTHING — the homepage: one endless masonry of every

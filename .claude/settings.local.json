@@ -87,7 +87,10 @@
       "Bash(sed -i 's|<title>Gallery — Heart’s Library</title>|<title>Gallery — Cody Heart Photography</title>|' gallery.html)",
       "Bash(sed -i 's|<title>Photos — Heart’s Library</title>|<title>Photos — Cody Heart Photography</title>|' photos.html)",
       "Bash(sed -i '/nav__wordmark/ s|<span>Heart’s Library</span>|<span>Cody Heart Photography</span>|' index.html gallery.html photos.html)",
-      "Bash(sed -i 's|<a href=\"index.html\">Heart’s Library</a>|<a href=\"index.html\">Cody Heart Photography</a>|' gallery.html photos.html)"
+      "Bash(sed -i 's|<a href=\"index.html\">Heart’s Library</a>|<a href=\"index.html\">Cody Heart Photography</a>|' gallery.html photos.html)",
+      "Bash(curl -s https://codyheart.design/css/site.css?v=36 -o 'C:\\\\Users\\\\codyj\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-codyj-Documents-heartslibrary\\\\2182bf28-ef2b-407f-abec-47455c78f861\\\\scratchpad\\\\chd.css')",
+      "Bash(sed -i 's|    <nav class=\"side-trips\" id=\"sideTrips\" aria-label=\"Trips\">|    <div class=\"side-label\"><span>Trips</span></div>\\\\n    <nav class=\"side-trips\" id=\"sideTrips\" aria-label=\"Trips\">|; s|      <p class=\"photo-stats\">54 frames · 8 trips · newest first</p>\\\\n|      |' index.html gallery.html)",
+      "Bash(perl -0pi -e 's|    <div class=\"side-foot\">\\\\n      <p class=\"photo-stats\">54 frames · 8 trips · newest first</p>|    <div class=\"side-foot\">\\\\n      <div class=\"side-stats\">\\\\n        <div class=\"side-stat\"><span>Frames</span><b data-stat=\"frames\">54</b></div>\\\\n        <div class=\"side-stat\"><span>Trips</span><b data-stat=\"trips\">8</b></div>\\\\n        <div class=\"side-stat\"><span>Continents</span><b data-stat=\"continents\">2 of 7</b></div>\\\\n      </div>|g' index.html gallery.html)"
     ]
   }
 }
