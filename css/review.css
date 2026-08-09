@@ -2425,6 +2425,16 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   }
   .studio-main .stream-head { display: none; }
 }
+/* Once there's room, an empty gutter mirrors the nav on the right, so
+   the posts land on the middle of the page instead of being pushed off
+   it by the width of the nav. Has to come after the rule above or it
+   loses on source order. */
+@media (min-width: 1240px) {
+  .studio {
+    max-width: 1420px;
+    grid-template-columns: minmax(250px, 300px) minmax(0, 1fr) minmax(0, 300px);
+  }
+}
 /* The vertical nav carries two things and nothing else: the mark
    up top, then the galleries, Everything down to the oldest. Rows
    take the menu's tile hover — a rounded rectangle sitting a step
