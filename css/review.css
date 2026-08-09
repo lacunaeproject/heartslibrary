@@ -3113,8 +3113,9 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 /* The switch rides the top bar now that the sidebar is gone */
 .nav .theme-toggle.nav__theme { flex: none; margin-left: 14px; }
 /* The photos page opens on the wall itself — no masthead, frames
-   running viewport edge to viewport edge straight under the bar. */
-.wall-bleed { padding: 0; }
+   running nearly edge to edge under the bar. The side margin equals
+   the gap between tiles, so the border reads as part of the grid. */
+.wall-bleed { padding: 0 clamp(5px, 0.55vw, 8px); }
 .wall-bleed .roll { padding-top: clamp(5px, 0.55vw, 8px); }
 .wall-bleed .stream-grid { padding-bottom: 0; }
 /* The blog reads at column width under the plain top bar */
