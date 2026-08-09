@@ -18,7 +18,7 @@
       (4/3, 3/4, 1/1 …). `nav:` is the collection's name in the
       index on the front page ("Dodgers vs. Red Sox @ Dodger
       Stadium"); `short` is used when it's missing. `loc:` is
-      the place for bylines ("Los Angeles, CA"). Flag your
+      the venue or place for bylines ("Bridgestone Arena"). Flag your
       best frames `best: true` — only those hang on the wall.
    3. Bump the ?v= on js/photos.js in the HTML pages if you
       want caches to pick it up immediately.
@@ -30,7 +30,7 @@
 window.TRIPS = [
   {
     slug: "deadbeat-tour",
-    loc: "Los Angeles, CA",
+    loc: "Bridgestone Arena",
     posted: "2026-08-05",
     place: "The Deadbeat Tour",
     short: "Deadbeat Tour",
@@ -53,7 +53,7 @@ window.TRIPS = [
   },
   {
     slug: "fenway",
-    loc: "Los Angeles, CA",
+    loc: "Dodger Stadium",
     posted: "2026-08-01",
     place: "Fenway Park",
     short: "Fenway",
@@ -91,7 +91,7 @@ window.TRIPS = [
   },
   {
     slug: "san-diego",
-    loc: "San Diego, CA",
+    loc: "San Diego Zoo",
     posted: "2026-06-20",
     place: "My trip to San Diego",
     short: "San Diego",
@@ -230,7 +230,7 @@ window.TRIPS = [
   },
   {
     slug: "joshua-tree",
-    loc: "Joshua Tree, CA",
+    loc: "Joshua Tree National Park",
     posted: "2024-03-22",
     place: "Joshua Tree, dusk to dark",
     short: "Joshua Tree",

@@ -70,6 +70,14 @@
   }
   var STAMP_MONTHS = ["Jan.", "Feb.", "March", "April", "May", "June",
                       "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
+  var LONG_MONTHS = ["January", "February", "March", "April", "May", "June",
+                     "July", "August", "September", "October", "November", "December"];
+  /* "August 5, 2026" from a posted date, for bylines */
+  function longDate(s) {
+    var m = String(s || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return "";
+    return LONG_MONTHS[Number(m[2]) - 1] + " " + Number(m[3]) + ", " + m[1];
+  }
   /* The time a post went up, written the way the reference writes it.
      Stored as local wall time with no offset on purpose — "9:47 p.m."
      on a trip means the hour it was there, not back home. */
@@ -693,10 +701,11 @@
         TRIPS.slice(0, 6).map(function (t) {
           var src = navThumb(t);
           var n = (t.photos || []).length;
-          /* the byline is when and where; frame counts only step in
-             for a collection that never said where it was */
-          var byline = esc(t.when) +
-            (t.loc ? " · " + esc(t.loc) : " · " + n + (n === 1 ? " frame" : " frames"));
+          /* the byline is the full date at the venue — "August 5,
+             2026 @ Bridgestone Arena"; the month alone and a frame
+             count step in when a collection lacks the specifics */
+          var byline = (longDate(t.posted) || esc(t.when)) +
+            (t.loc ? " @ " + esc(t.loc) : " · " + n + (n === 1 ? " frame" : " frames"));
           return '<a class="menu-item" role="menuitem" href="gallery.html?trip=' + esc(t.slug) + '">' +
             '<div class="menu-item__tile menu-item__tile--photo">' +
             (src ? '<img src="' + esc(src) + '" alt="" loading="lazy">' : "") +
