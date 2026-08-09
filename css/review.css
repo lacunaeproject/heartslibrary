@@ -2149,36 +2149,10 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   row-gap: clamp(18px, 2.5vw, 34px);
 }
 .place {
-  position: relative;
   display: inline-flex;
   align-items: center;
   gap: clamp(12px, 1.5vw, 22px);
 }
-/* The physics arena: once the section is in view the names drop
-   in, pile up on the shelf hairline, and can be thrown around */
-.places-cloud.is-physical {
-  display: block;
-  position: relative;
-  height: clamp(400px, 56vh, 560px);
-  overflow: hidden;
-  border-bottom: 1px solid var(--border);
-}
-.is-physical .place {
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 0;
-  cursor: grab;
-  touch-action: none;
-  user-select: none;
-  -webkit-user-select: none;
-  will-change: transform;
-  animation: none;
-}
-.is-physical .place.is-grabbed { cursor: grabbing; z-index: 5; }
-.is-physical .place-thumb,
-.is-physical .place-badge { pointer-events: none; }
-.place-thumb { -webkit-user-drag: none; }
 .place-thumb {
   width: clamp(56px, 6vw, 88px);
   height: clamp(56px, 6vw, 88px);
@@ -2224,14 +2198,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   text-transform: uppercase;
   color: var(--ink-40);
   white-space: nowrap;
-  transform: rotate(-4deg);
 }
-.place:nth-child(even) .place-tag { transform: rotate(3deg); }
-.place-tag--next {
-  border-color: rgba(229, 72, 77, .55);
-  color: #E5484D;
-}
-.pill-count { opacity: .55; margin-left: 2px; }
 @media (hover: hover) and (pointer: fine) {
   .place:hover .place-thumb,
   .place:hover .place-badge { transform: scale(1.08) rotate(-2deg); }
