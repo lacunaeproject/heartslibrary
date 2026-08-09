@@ -28,13 +28,64 @@ The five sample pins use generated plates in `images/articles/`. Entries
 without an `image` fall back to a plain text bubble; broken image URLs
 remove themselves quietly.
 
-## Post photos
+## Post a trip — from your phone, no laptop
 
-1. Export images ~1600px on the long side into `photos/<trip-slug>/`.
-2. Add (or extend) a trip block at the top of `js/photos.js` — `w`/`h` are
-   just the aspect numbers (4/3, 3/4, 1/1…).
-3. That's it. The Photos page, the hub's Latest Frames strip, and the
-   Photos drawer all update. Clicking a photo opens the lightbox.
+Everything below happens on github.com or in the GitHub mobile app.
+A workflow (`.github/workflows/post-trip.yml`) does the rest.
+
+1. In the repo, go to `photos/` and make a folder named for the trip —
+   `photos/big-sur/`. Lowercase, hyphens, no spaces.
+2. Upload your photos and clips straight into it. Don't bother resizing;
+   CI handles that.
+3. Add a file in the same folder called **`trip.txt`**:
+
+   ```
+   Big Sur, Highway 1 | Big Sur
+   May 2025 · North America
+
+   [Highway 1]
+   Windows down, fog in, fog out. The camera barely kept up.
+
+   bixby.jpg
+   redwoods.jpg
+
+   [McWay]
+   Stopped at every pull-off between Carmel and Lucia.
+
+   mcway.jpg  The cove, four minutes of light
+   ```
+
+   Line 1 is the title (`|` gives a short name for the nav). Line 2 is
+   when, plus optional continent and an optional `· 2025-05-18` if you
+   want the exact sort position. After that, blank lines separate
+   **posts**. A `[bracketed]` line is the dateline. Filenames are media.
+   Everything else is you talking — the first sentence becomes the
+   headline. Two spaces after a filename captions that one frame.
+4. Commit. Within a couple of minutes the site is live.
+
+The workflow resizes photos to 1600px, transcodes clips to web MP4 at
+1080p, converts HEIC to JPEG, rewrites `trip.txt` to match, regenerates
+`js/photos.js`, and bumps the `?v=` cache stamp on every page. Re-running
+is free — anything already within limits is left alone.
+
+**One thing worth knowing:** whatever you upload enters git history at
+whatever size it arrived, and stays there permanently even after CI
+shrinks it. For photos that's fine. For a long 4K video it isn't — trim
+and export smaller on the phone first, or the repo grows forever.
+
+Set iPhone to Settings → Camera → Formats → **Most Compatible** and it
+shoots JPEG/H.264 instead of HEIC/HEVC, which skips a conversion step.
+
+### From a laptop
+
+Same folder and `trip.txt`, then `node scripts/post.js <slug>` — it reads
+the dimensions out of the files itself. Add `--dry` to see the entry
+without writing it. `node scripts/prep-media.js` does the resizing, but
+needs ffmpeg installed locally; pushing and letting CI do it is easier.
+
+Older trips still carry a hand-written `photos:` array in `js/photos.js`
+and no `trip.txt`. Those keep working — the poster only rewrites the trip
+whose slug you pass.
 
 **The current frames are generated placeholder art**
 (`photos/placeholders/*.svg`) so the layout is visible — replace the

@@ -2414,34 +2414,26 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
     height: 100svh;
     display: flex;
     flex-direction: column;
-    padding: 30px 0 26px;
+    padding: 30px 8px 26px 12px;
   }
   .studio-main .stream-head { display: none; }
 }
-/* The vertical nav, laid out like the menu: big links, then the
-   trips, then elsewhere with its tiles */
-.side-nav {
-  display: flex;
-  flex-direction: column;
-  margin-top: 24px;
-}
-.side-nav__link {
-  padding: 3px 0;
-  font-size: 13px;
-  font-weight: 450;
-  letter-spacing: -.005em;
-  color: var(--ink-55);
-  transition: color .15s ease;
-}
-.side-nav__link:hover,
-.side-nav__link.is-here { color: var(--ink-85); }
+/* The vertical nav carries two things and nothing else: the mark
+   up top, then the galleries, Everything down to the oldest. Rows
+   take the menu's tile hover — a rounded rectangle sitting a step
+   outside the text, which is why the mark and the foot are inset to
+   match the names rather than the rectangles. */
 .side-trip {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 14px;
-  padding: 4px 0;
+  padding: 5px 10px;
+  border-radius: 8px;
+  transition: background-color .15s ease;
 }
+.side-trip:hover,
+.side-trip.is-active { background: var(--surface-hover); }
 .side-trip-meta {
   font-size: 11px;
   font-weight: 450;
@@ -2450,16 +2442,27 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   transition: color .15s ease;
 }
 .side-trip.is-active .side-trip-meta { color: #E5484D; }
-.side-elsewhere {
-  display: flex;
-  flex-direction: column;
-  margin-top: 8px;
+/* Everything sits above a hairline, apart from the trips it stands
+   for. The rule floats in the gap rather than riding the row, so the
+   hover rectangle keeps its shape. */
+.side-trip.is-all {
+  position: relative;
+  margin-bottom: 21px;
 }
-.side-elsewhere .menu-item { padding: 6px 0; }
+.side-trip.is-all::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -10px;
+  height: 1px;
+  background: var(--border);
+}
 .side-mark {
   flex: none;
   display: inline-flex;
   align-items: center;
+  padding-left: 10px;
   gap: .4em;
   font-family: var(--display);
   font-weight: 500;
@@ -2505,33 +2508,12 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   font-weight: 450;
   color: var(--ink-55);
 }
-/* Section furniture, the portfolio's: small strong label with a
-   hairline running to the edge */
-.side-label {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 36px;
-}
-.side-label span {
-  font-size: 13px;
-  font-weight: 550;
-  letter-spacing: -.005em;
-  color: var(--ink-85);
-  white-space: nowrap;
-}
-.side-label::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
 .side-trips {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
   margin-top: 28px;
-  padding-right: 10px;
+  padding-right: 8px;
   scrollbar-width: thin;
 }
 .side-name {
@@ -2544,47 +2526,14 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 }
 .side-trip:hover .side-name { color: var(--ink-85); }
 .side-trip.is-active .side-name { color: var(--ink-85); }
-/* The portfolio's stat rows: mono label left, value right, a
-   hairline over each */
-.side-stats { display: flex; flex-direction: column; }
-.side-stat {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 8px 0;
-  border-top: 1px solid var(--border);
-}
-.side-stat span {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: .07em;
-  text-transform: uppercase;
-  color: var(--ink-40);
-}
-.side-stat b {
-  font-size: 13px;
-  font-weight: 550;
-  color: var(--ink-85);
-}
+/* The foot holds the light/dark switch alone — on desktop the top
+   bar is gone, so this is the only place it lives */
 .side-foot {
   flex: none;
-  margin-top: 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.side-foot .photo-stats { margin: 0; padding: 14px 0 0; }
-.side-foot-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-.side-copy {
-  font-size: 12px;
-  font-weight: 450;
-  color: var(--ink-50);
+  margin-top: 22px;
+  padding-left: 10px;
 }
 .side-foot .theme-toggle { margin-bottom: 0; }
 /* The ledger inside the burger menu on small screens */
@@ -2660,40 +2609,6 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   .roll-head:hover .roll-place { color: #E5484D; }
   .roll-head:hover .roll-go { transform: translateX(4px); color: var(--ink-85); }
 }
-/* Between trips in the Everything view: the reference's section
-   furniture, kept quiet — small label, small meta, a hairline out
-   to the edge, the whole line clicking through to the gallery */
-.stream-sep {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: clamp(30px, 3.4vw, 48px) 0 16px;
-}
-.stream-group:first-child .stream-sep { margin-top: 4px; }
-.stream-sep span {
-  font-size: 13px;
-  font-weight: 550;
-  letter-spacing: -.005em;
-  color: var(--ink-85);
-  white-space: nowrap;
-  transition: color .15s ease;
-}
-.stream-sep em {
-  font-style: normal;
-  font-size: 11px;
-  font-weight: 450;
-  color: var(--ink-40);
-  white-space: nowrap;
-}
-.stream-sep::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
-@media (hover: hover) and (pointer: fine) {
-  .stream-sep:hover span { color: #E5484D; }
-}
 /* The way back, the reference's: a quiet return link where the
    page begins */
 .back-link {
@@ -2708,6 +2623,125 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 .back-link:hover { color: var(--ink-85); }
 .back-link .arrow { transition: transform .25s var(--ease-out-quart); }
 .back-link:hover .arrow { transform: translateX(-3px); }
+/* The feed: a trip as a run of posts, the live-reporting shape —
+   hairline between entries, an optional dateline, what you wrote,
+   then the media belonging to that moment sitting inside the post
+   rather than between them. That containment is what makes a clip
+   read as one moment instead of a file that happens to be here. */
+.feed { display: flex; flex-direction: column; }
+/* The reference rules the top of each entry firmly rather than
+   whispering a hairline — it's what separates one moment from the
+   next when the media inside is doing the shouting. */
+.post {
+  padding: clamp(20px, 2.2vw, 30px) 0 clamp(26px, 3vw, 40px);
+  border-top: 2px solid var(--ink-30);
+}
+.post:first-child { border-top: 0; padding-top: 4px; }
+.post-at {
+  margin: 0 0 5px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -.005em;
+  color: var(--ink-85);
+}
+/* When it went up. Earns its line because it differs post to post —
+   the trip's own date would just repeat down the page. */
+.post-when {
+  margin: 0 0 11px;
+  font-size: 12.5px;
+  font-weight: 450;
+  color: var(--ink-45);
+}
+.post-at + .post-when { margin-top: -1px; }
+/* The headline carries the post, the way it does in the reference —
+   the display face at roughly double the body, tight and bold. This
+   is the difference between a feed and a list of captions. */
+.post-head {
+  margin: 0 0 12px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-synthesis: none;
+  font-size: clamp(21px, 2.2vw, 27px);
+  line-height: 1.18;
+  letter-spacing: -.01em;
+  color: var(--ink-85);
+  max-width: 38ch;
+}
+.post-say {
+  margin: 0;
+  max-width: 46em;
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ink-78);
+}
+.post-media { margin-top: clamp(18px, 2vw, 26px); padding-bottom: 0; }
+/* specificity has to beat the .stream-grid column counts set in the
+   width media queries further down, which would otherwise win on order.
+   A post never runs three across — the frames stay big. */
+.post-media.post-media--solo { columns: 1; }
+.post-media.post-media--pair { columns: 2; }
+/* A single upright frame or clip would otherwise run taller than the
+   window — cap the height and let the width follow the aspect ratio. */
+.post-media--solo .vid { width: fit-content; }
+.post-media--solo .vid video,
+.post-media--solo .shot-btn img { max-height: 74vh; width: auto; max-width: 100%; }
+
+/* A clip holds still under a play button until it's asked for, the
+   duration burned into the corner — the reference's treatment, and
+   the reason a six-second video reads as a moment and not a file. */
+.vid {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: var(--shadow-flush);
+}
+.vid video { display: block; width: 100%; }
+.vid-play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 62px;
+  height: 62px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(20, 20, 20, .55);
+  backdrop-filter: blur(2px);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color .15s ease, transform .15s ease;
+}
+.vid-play svg { width: 30px; height: 30px; margin-left: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .vid-play:hover { background: rgba(20, 20, 20, .75); transform: scale(1.05); }
+}
+.vid-dur {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(20, 20, 20, .65);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #fff;
+}
+.vid.is-playing .vid-play,
+.vid.is-playing .vid-dur { display: none; }
+.shot-cap {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--serif);
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink-55);
+}
+.shot-credit { margin-left: 8px; font-size: 12px; color: var(--ink-40); }
 .stream-grid {
   columns: 1;
   column-gap: clamp(12px, 1.2vw, 18px);

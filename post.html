@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Post">
+<meta name="theme-color" content="#0A0A0A">
+<title>Post — Heart's Library</title>
+<!-- The events list comes straight from the live data file. -->
+<script defer src="js/photos.js"></script>
+<style>
+  :root {
+    --bg: #0A0A0A; --surface: #161615; --hover: #1F1F1D;
+    --line: rgba(255,255,255,.12); --ink: rgba(255,255,255,.92);
+    --dim: rgba(255,255,255,.55); --faint: rgba(255,255,255,.38);
+    --red: #E5484D; --green: #30A46C;
+    --sans: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--sans); font-size: 16px; line-height: 1.5;
+    padding: max(18px, env(safe-area-inset-top)) 18px calc(120px + env(safe-area-inset-bottom));
+  }
+  h1 {
+    display: flex; align-items: center; gap: .45em;
+    margin: 0 0 22px; font-size: 19px; font-weight: 550; letter-spacing: -.01em;
+  }
+  h1 svg { width: 15px; height: 14px; }
+  label { display: block; margin: 0 0 6px; font-size: 13px; font-weight: 550; color: var(--dim); }
+  .field { margin-bottom: 18px; }
+  input, select, textarea, button {
+    font-family: inherit; font-size: 16px; color: var(--ink);
+  }
+  input[type=text], input[type=month], input[type=password], select, textarea {
+    width: 100%; padding: 12px 13px; border-radius: 10px;
+    border: 1px solid var(--line); background: var(--surface);
+    appearance: none;
+  }
+  textarea { min-height: 108px; resize: vertical; line-height: 1.45; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--red); outline-offset: -1px; }
+  .hint { margin: 6px 0 0; font-size: 12.5px; color: var(--faint); line-height: 1.45; }
+  .row { display: flex; gap: 10px; }
+  .row > * { flex: 1; min-width: 0; }
+
+  .drop {
+    display: block; padding: 26px 16px; text-align: center;
+    border: 1px dashed var(--line); border-radius: 12px;
+    background: var(--surface); color: var(--dim); font-size: 14px;
+  }
+  .drop b { display: block; color: var(--ink); font-size: 15px; margin-bottom: 3px; }
+  #files { display: none; }
+  .picked { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .pick {
+    display: flex; align-items: center; gap: 11px;
+    padding: 8px; border-radius: 10px; background: var(--surface);
+  }
+  .pick img, .pick .vt {
+    width: 46px; height: 46px; border-radius: 7px; object-fit: cover;
+    flex: none; background: #000;
+  }
+  .vt { display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .pick-meta { flex: 1; min-width: 0; }
+  .pick-name {
+    font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .pick-sub { font-size: 12px; color: var(--faint); }
+  .pick input[type=text] {
+    margin-top: 5px; padding: 6px 8px; font-size: 13px; border-radius: 7px;
+  }
+  .drop-x {
+    flex: none; width: 30px; height: 30px; border: 0; border-radius: 50%;
+    background: var(--hover); color: var(--dim); font-size: 17px; line-height: 1;
+  }
+
+  .bar {
+    position: fixed; left: 0; right: 0; bottom: 0;
+    padding: 12px 18px calc(12px + env(safe-area-inset-bottom));
+    background: linear-gradient(to top, var(--bg) 62%, transparent);
+  }
+  .go {
+    width: 100%; padding: 15px; border: 0; border-radius: 12px;
+    background: var(--red); color: #fff; font-size: 16px; font-weight: 600;
+  }
+  .go:disabled { background: var(--hover); color: var(--faint); }
+  .note { margin: 0 0 9px; font-size: 13px; text-align: center; color: var(--dim); min-height: 1.2em; }
+  .note.bad { color: var(--red); }
+  .note.good { color: var(--green); }
+  .warn {
+    margin: 10px 0 0; padding: 10px 12px; border-radius: 9px;
+    background: rgba(229,72,77,.12); border: 1px solid rgba(229,72,77,.3);
+    font-size: 12.5px; color: var(--ink); line-height: 1.45;
+  }
+  details { margin-top: 26px; border-top: 1px solid var(--line); padding-top: 16px; }
+  summary { font-size: 13px; color: var(--dim); cursor: pointer; }
+  .hide { display: none !important; }
+  a { color: var(--red); }
+</style>
+</head>
+<body>
+
+<h1>
+  <svg viewBox="2.462 4.062 19.133 17.838" aria-hidden="true"><path fill="#E5484D" d="M12.1 7.6C13.7 5 15.8 3.7 18 4.15 20.9 4.6 22.1 7.1 21.4 9.9 20.8 12.5 18 15.4 11.7 21.9 5.6 15.4 3.1 12.4 2.6 9.7 2 6.9 3.4 4.6 6 4.2 8.1 3.85 10.5 5 12.1 7.6Z"/></svg>
+  Post
+</h1>
+
+<div class="field">
+  <label for="event">Event</label>
+  <select id="event"><option value="">Loading…</option></select>
+  <p class="hint" id="eventHint"></p>
+</div>
+
+<div class="field hide" id="whereField">
+  <label for="where">Add this post</label>
+  <select id="where">
+    <option value="end">At the end — the trip reads forward</option>
+    <option value="top">At the top — newest first, like a briefing</option>
+  </select>
+</div>
+
+<div id="newFields" class="hide">
+  <div class="field">
+    <label for="title">Title</label>
+    <input type="text" id="title" placeholder="The Deadbeat Tour" autocomplete="off">
+    <p class="hint">Shown as the page heading.</p>
+  </div>
+  <div class="field row">
+    <div>
+      <label for="short">Short name</label>
+      <input type="text" id="short" placeholder="Deadbeat Tour" autocomplete="off">
+    </div>
+    <div>
+      <label for="continent">Continent</label>
+      <select id="continent">
+        <option>North America</option><option>South America</option>
+        <option>Europe</option><option>Africa</option><option>Asia</option>
+        <option>Oceania</option><option>Antarctica</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="field">
+  <label for="when">Date</label>
+  <input type="month" id="when">
+</div>
+
+<div class="field">
+  <label for="at">Dateline <span style="font-weight:450;color:var(--faint)">optional</span></label>
+  <input type="text" id="at" placeholder="Bottom of the ninth" autocomplete="off">
+  <p class="hint">The small bold line above the post.</p>
+</div>
+
+<div class="field">
+  <label for="say">Comment</label>
+  <textarea id="say" placeholder="They won it at home. Everyone around me stood up at the same time…"></textarea>
+  <p class="hint">The first sentence becomes the headline. The rest runs underneath.</p>
+</div>
+
+<div class="field">
+  <label>Photos and clips</label>
+  <label class="drop" for="files">
+    <b>Choose from your library</b>
+    Photos are resized to 1600px here. Clips upload as they are and get
+    transcoded after.
+  </label>
+  <input type="file" id="files" multiple accept="image/*,video/*">
+  <div class="picked" id="picked"></div>
+  <div class="warn hide" id="bigWarn"></div>
+</div>
+
+<details id="setup">
+  <summary id="tokenSummary">Access token</summary>
+  <div class="field" style="margin-top:14px">
+    <input type="password" id="token" placeholder="github_pat_…" autocomplete="off">
+    <p class="hint">
+      Make a <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">fine-grained token</a>
+      limited to <b>lacunaeproject/heartslibrary</b> with <b>Contents: Read and write</b>.
+      It is kept in this phone's local storage only and never committed.
+      Anyone loading this page without a token can do nothing.
+    </p>
+  </div>
+</details>
+
+<div class="bar">
+  <p class="note" id="note"></p>
+  <button class="go" id="go" disabled>Post</button>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  const OWNER = "lacunaeproject", REPO = "heartslibrary", BRANCH = "main";
+  const API = "https://api.github.com/repos/" + OWNER + "/" + REPO;
+  const PHOTO_EDGE = 1600, JPEG_Q = 0.82, BIG_MB = 12;
+
+  const $ = id => document.getElementById(id);
+  const els = {
+    event: $("event"), hint: $("eventHint"), newFields: $("newFields"),
+    title: $("title"), short: $("short"), continent: $("continent"),
+    when: $("when"), at: $("at"), say: $("say"),
+    where: $("where"), whereField: $("whereField"),
+    files: $("files"), picked: $("picked"), bigWarn: $("bigWarn"),
+    token: $("token"), setup: $("setup"), tokenSummary: $("tokenSummary"),
+    note: $("note"), go: $("go")
+  };
+
+  let chosen = [];        // {file, blob, name, caption, isVideo, url}
+  let postable = null;    // slugs that already carry a trip.txt
+
+  /* ---------- small helpers ---------- */
+
+  const slugify = s => s.toLowerCase().trim()
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 48);
+
+  const MONTHS = ["January","February","March","April","May","June",
+                  "July","August","September","October","November","December"];
+
+  function say(msg, kind) {
+    els.note.textContent = msg || "";
+    els.note.className = "note" + (kind ? " " + kind : "");
+  }
+
+  function b64(buf) {
+    const bytes = new Uint8Array(buf);
+    let s = "";
+    for (let i = 0; i < bytes.length; i += 0x8000) {
+      s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+    }
+    return btoa(s);
+  }
+
+  async function gh(path, opts) {
+    const r = await fetch(path.startsWith("http") ? path : API + path, Object.assign({
+      headers: {
+        Authorization: "Bearer " + els.token.value.trim(),
+        Accept: "application/vnd.github+json"
+      }
+    }, opts));
+    if (r.status === 401 || r.status === 403) {
+      els.setup.open = true;
+      throw new Error("GitHub rejected the token — it has probably expired. Make a new one below.");
+    }
+    if (!r.ok) throw new Error(r.status + " " + (await r.text()).slice(0, 160));
+    return r.status === 204 ? null : r.json();
+  }
+
+  /* ---------- the event list ---------- */
+
+  function fillEvents() {
+    const trips = window.TRIPS || [];
+    els.event.innerHTML =
+      '<option value="__new">+ New event…</option>' +
+      trips.map(t => '<option value="' + t.slug + '">' +
+        (t.short || t.place).replace(/</g, "&lt;") + " · " + t.when + "</option>").join("");
+    els.event.value = trips.length ? trips[0].slug : "__new";
+    onEvent();
+  }
+
+  function onEvent() {
+    const v = els.event.value;
+    const isNew = v === "__new";
+    els.newFields.classList.toggle("hide", !isNew);
+    els.whereField.classList.toggle("hide", isNew);
+    if (isNew) {
+      els.hint.textContent = "";
+      els.when.value = new Date().toISOString().slice(0, 7);
+      return;
+    }
+    const t = (window.TRIPS || []).find(x => x.slug === v);
+    if (t) {
+      const m = t.when.match(/([A-Za-z]+)\s+(\d{4})/);
+      if (m) {
+        const n = MONTHS.indexOf(m[1]);
+        if (n >= 0) els.when.value = m[2] + "-" + String(n + 1).padStart(2, "0");
+      }
+      /* a trip with no trip.txt is still described by the hand-written
+         array in photos.js — posting rebuilds it from scratch */
+      if (postable && !postable.has(v)) {
+        els.hint.innerHTML = "<b style='color:var(--red)'>Heads up:</b> this event still holds " +
+          t.photos.length + " frame" + (t.photos.length > 1 ? "s" : "") +
+          " written by hand. Posting starts it over with just what you upload.";
+      } else {
+        els.hint.textContent = t.photos.length + " frame" +
+          (t.photos.length > 1 ? "s" : "") + " so far. This adds another post.";
+      }
+    }
+  }
+
+  /* ---------- picking media ---------- */
+
+  async function shrink(file) {
+    if (!/^image\//.test(file.type)) return file;   // clips go up untouched
+    const bmp = await createImageBitmap(file, { imageOrientation: "from-image" });
+    const scale = Math.min(1, PHOTO_EDGE / Math.max(bmp.width, bmp.height));
+    const w = Math.round(bmp.width * scale), h = Math.round(bmp.height * scale);
+    const c = document.createElement("canvas");
+    c.width = w; c.height = h;
+    c.getContext("2d").drawImage(bmp, 0, 0, w, h);
+    bmp.close();
+    const blob = await new Promise(r => c.toBlob(r, "image/jpeg", JPEG_Q));
+    return blob || file;
+  }
+
+  function renderPicked() {
+    els.picked.innerHTML = "";
+    chosen.forEach((it, i) => {
+      const row = document.createElement("div");
+      row.className = "pick";
+      row.innerHTML =
+        (it.isVideo
+          ? '<div class="vt">▶</div>'
+          : '<img src="' + it.url + '" alt="">') +
+        '<div class="pick-meta">' +
+          '<div class="pick-name">' + it.name.replace(/</g, "&lt;") + "</div>" +
+          '<div class="pick-sub">' + (it.blob.size / 1048576).toFixed(1) + " MB</div>" +
+          '<input type="text" placeholder="Caption (optional)">' +
+        "</div>" +
+        '<button class="drop-x" type="button" aria-label="Remove">×</button>';
+      row.querySelector("input").addEventListener("input", e => { it.caption = e.target.value; });
+      row.querySelector(".drop-x").addEventListener("click", () => {
+        if (it.url) URL.revokeObjectURL(it.url);
+        chosen.splice(i, 1); renderPicked(); refresh();
+      });
+      els.picked.appendChild(row);
+    });
+
+    const heavy = chosen.filter(c => c.blob.size / 1048576 > BIG_MB);
+    els.bigWarn.classList.toggle("hide", !heavy.length);
+    if (heavy.length) {
+      els.bigWarn.innerHTML = "<b>" + heavy.map(h => h.name).join(", ") + "</b> " +
+        (heavy.length > 1 ? "are" : "is") + " over " + BIG_MB + " MB. It uploads at this size and " +
+        "stays in the repository history at this size forever, even after the site shrinks it. " +
+        "Trim the clip first if you can.";
+    }
+  }
+
+  els.files.addEventListener("change", async () => {
+    say("Preparing…");
+    for (const file of Array.from(els.files.files)) {
+      const isVideo = /^video\//.test(file.type);
+      const blob = await shrink(file);
+      let name = file.name.replace(/[^A-Za-z0-9._-]+/g, "-").toLowerCase();
+      if (!isVideo) name = name.replace(/\.[^.]+$/, "") + ".jpg";
+      if (chosen.some(c => c.name === name)) {
+        name = name.replace(/(\.[^.]+)$/, "-" + (chosen.length + 1) + "$1");
+      }
+      chosen.push({
+        blob, name, caption: "", isVideo,
+        url: isVideo ? "" : URL.createObjectURL(blob)
+      });
+    }
+    els.files.value = "";
+    say("");
+    renderPicked(); refresh();
+  });
+
+  /* ---------- posting ---------- */
+
+  function refresh() {
+    const hasEvent = els.event.value === "__new"
+      ? els.title.value.trim().length > 1
+      : !!els.event.value;
+    els.go.disabled = !(hasEvent && els.when.value && els.token.value.trim() &&
+                        (chosen.length || els.say.value.trim()));
+  }
+
+  /* Local wall time, no timezone offset — on a trip "9:47 p.m." should
+     mean the hour where you were standing, not back home. */
+  function nowStamp() {
+    const d = new Date(), p = n => String(n).padStart(2, "0");
+    return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate()) +
+           "T" + p(d.getHours()) + ":" + p(d.getMinutes());
+  }
+
+  function tripTxtBlock() {
+    const lines = [];
+    const bracket = [els.at.value.trim(), nowStamp()].filter(Boolean).join(" · ");
+    lines.push("[" + bracket + "]");
+    const said = els.say.value.trim();
+    if (said) lines.push(said);
+    chosen.forEach(c => {
+      lines.push(c.caption.trim() ? c.name + "  " + c.caption.trim() : c.name);
+    });
+    return lines.join("\n");
+  }
+
+  function header(slug) {
+    const [y, m] = els.when.value.split("-");
+    const when = MONTHS[Number(m) - 1] + " " + y;
+    const title = els.title.value.trim() || slug;
+    const short = els.short.value.trim();
+    return (short ? title + " | " + short : title) + "\n" +
+           when + " · " + els.continent.value + " · " + els.when.value + "-01";
+  }
+
+  async function post() {
+    els.go.disabled = true;
+    try {
+      const isNew = els.event.value === "__new";
+      const slug = isNew ? slugify(els.short.value || els.title.value) : els.event.value;
+      if (!slug) throw new Error("that title doesn't make a usable folder name");
+      const dir = "photos/" + slug;
+
+      say("Reading the branch…");
+      const ref = await gh("/git/ref/heads/" + BRANCH);
+      const head = await gh("/git/commits/" + ref.object.sha);
+
+      /* keep whatever trip.txt is already there and add to it */
+      say("Checking for an existing note…");
+      let existing = "";
+      try {
+        const cur = await gh("/contents/" + dir + "/trip.txt?ref=" + BRANCH);
+        existing = decodeURIComponent(escape(atob(cur.content.replace(/\n/g, ""))));
+      } catch (e) { /* first post to this event */ }
+
+      /* Every post is one blank-line block. Adding another is how an
+         event accumulates over days — the briefing shape. */
+      let note;
+      if (existing.trim()) {
+        const parts = existing.replace(/\s+$/, "").split(/\n\s*\n/);
+        const head = parts.shift();                 // title line + date line
+        if (els.where.value === "top") parts.unshift(tripTxtBlock());
+        else parts.push(tripTxtBlock());
+        note = [head].concat(parts).join("\n\n") + "\n";
+      } else {
+        note = header(slug) + "\n\n" + tripTxtBlock() + "\n";
+      }
+
+      const tree = [];
+      let n = 0;
+      for (const it of chosen) {
+        say("Uploading " + (++n) + " of " + chosen.length + "…");
+        const blob = await gh("/git/blobs", {
+          method: "POST",
+          body: JSON.stringify({
+            content: b64(await it.blob.arrayBuffer()), encoding: "base64"
+          })
+        });
+        tree.push({ path: dir + "/" + it.name, mode: "100644", type: "blob", sha: blob.sha });
+      }
+
+      say("Writing the note…");
+      const noteBlob = await gh("/git/blobs", {
+        method: "POST",
+        body: JSON.stringify({ content: unescape(encodeURIComponent(note)), encoding: "utf-8" })
+      });
+      tree.push({ path: dir + "/trip.txt", mode: "100644", type: "blob", sha: noteBlob.sha });
+
+      say("Committing…");
+      const newTree = await gh("/git/trees", {
+        method: "POST",
+        body: JSON.stringify({ base_tree: head.tree.sha, tree: tree })
+      });
+      const commit = await gh("/git/commits", {
+        method: "POST",
+        body: JSON.stringify({
+          message: "Post to " + slug + " from the phone",
+          tree: newTree.sha, parents: [ref.object.sha]
+        })
+      });
+      await gh("/git/refs/heads/" + BRANCH, {
+        method: "PATCH", body: JSON.stringify({ sha: commit.sha })
+      });
+
+      chosen.forEach(c => c.url && URL.revokeObjectURL(c.url));
+      chosen = []; renderPicked();
+      els.say.value = ""; els.at.value = "";
+      say("Posted. The site rebuilds in a minute or two.", "good");
+    } catch (err) {
+      say(String(err.message || err), "bad");
+    }
+    refresh();
+  }
+
+  /* ---------- wiring ---------- */
+
+  els.event.addEventListener("change", () => { onEvent(); refresh(); });
+  ["title", "short", "when", "say"].forEach(k =>
+    els[k].addEventListener("input", refresh));
+  els.go.addEventListener("click", post);
+
+  /* Saved on this device once. You only come back here if the token
+     expires, the browser data is cleared, or you switch phones. */
+  function markToken() {
+    const has = !!els.token.value.trim();
+    els.tokenSummary.textContent = has ? "Access token · saved on this device"
+                                       : "Access token · needed once";
+  }
+  els.token.value = localStorage.getItem("hl-gh-token") || "";
+  els.token.addEventListener("input", () => {
+    localStorage.setItem("hl-gh-token", els.token.value.trim());
+    markToken(); refresh();
+    if (els.token.value.trim()) loadPostable();
+  });
+  markToken();
+  if (!els.token.value) els.setup.open = true;
+
+  /* which events already have a trip.txt, so we can warn about the rest */
+  async function loadPostable() {
+    try {
+      const ref = await gh("/git/ref/heads/" + BRANCH);
+      const t = await gh("/git/trees/" + ref.object.sha + "?recursive=1");
+      postable = new Set(t.tree
+        .filter(x => /^photos\/[^/]+\/trip\.txt$/.test(x.path))
+        .map(x => x.path.split("/")[1]));
+      onEvent();
+    } catch (e) { /* the warning is a nicety, not a blocker */ }
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    fillEvents();
+    refresh();
+    if (els.token.value.trim()) loadPostable();
+  });
+})();
+</script>
+</body>
+</html>

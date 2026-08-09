@@ -1,0 +1,76 @@
+name: Post a trip
+
+# Drop photos and a trip.txt into photos/<slug>/ from anywhere — the
+# GitHub mobile app, the web editor, a Shortcut — and this rebuilds the
+# galleries. Nothing needs to happen on a laptop.
+
+on:
+  push:
+    paths:
+      - "photos/**"
+      - "scripts/post.js"
+      - "scripts/prep-media.js"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# never let two posts rebuild photos.js at the same time
+concurrency:
+  group: post-trip
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # the transcode that can't run on a Windows laptop without a
+      # separate ffmpeg install; runners get it in about 20 seconds
+      - name: Install ffmpeg and HEIC support
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg libheif-examples
+
+      - name: Normalise photos and clips
+        run: node scripts/prep-media.js
+
+      - name: Rebuild the galleries
+        run: |
+          failed=""
+          for note in photos/*/trip.txt; do
+            [ -e "$note" ] || continue
+            slug=$(basename "$(dirname "$note")")
+            echo "::group::$slug"
+            node scripts/post.js "$slug" || failed="$failed $slug"
+            echo "::endgroup::"
+          done
+          if [ -n "$failed" ]; then
+            echo "::error::could not post:$failed"
+            exit 1
+          fi
+
+      # photos.js is pinned by ?v= in every page, so without a fresh
+      # stamp a returning visitor keeps the cached galleries
+      - name: Stamp the asset version
+        run: |
+          stamp="$(date -u +%Y%m%d)-${GITHUB_RUN_NUMBER}"
+          sed -i -E "s/\?v=[A-Za-z0-9._-]+/?v=${stamp}/g" ./*.html
+          echo "stamped ?v=${stamp}"
+
+      - name: Commit and push if changed
+        run: |
+          git add -A photos js/photos.js ./*.html
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Post from photos/"
+            git push
+          else
+            echo "No changes"
+          fi

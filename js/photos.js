@@ -24,6 +24,62 @@
    ============================================================ */
 window.TRIPS = [
   {
+    slug: "deadbeat-tour",
+    posted: "2026-08-05",
+    place: "The Deadbeat Tour",
+    short: "Deadbeat Tour",
+    when: "August 2026",
+    continent: "North America",
+    photos: [
+      { src: "photos/placeholders/dead-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Doors, and the room filling in" },
+      { src: "photos/placeholders/dead-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "First song, front of the pit" },
+      { src: "photos/placeholders/dead-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "The room from the back rail" },
+      { src: "photos/placeholders/dead-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Amber wash, second set" },
+      { src: "photos/placeholders/dead-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Hands up for the encore" },
+      { src: "photos/placeholders/dead-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "House lights, everyone blinking" }
+    ],
+    beats: [
+      { at: "Doors", say: "Got there early enough to watch the room fill up. Best part of any show is the twenty minutes before it starts.", shots: [0, 1] },
+      { at: "Second set", say: "The light did all the work tonight. Amber wash off the back rail, nothing to do with me.", shots: [2, 3] },
+      { at: "Encore", say: "Every hand in the room went up at once. Then house lights, and four hundred people blinking at each other.", shots: [4, 5] }
+    ]
+  },
+  {
+    slug: "fenway",
+    posted: "2026-08-01",
+    place: "Fenway Park",
+    short: "Fenway",
+    when: "August 2026",
+    continent: "North America",
+    photos: [
+      { src: "photos/fenway/redsox-win.MOV", w: 2160, h: 3840, video: true, seconds: 5.9, alt: "The moment it landed", caption: "The moment it landed" }
+    ],
+    beats: [
+      { at: "Bottom of the ninth", say: "They won it at home. Everyone around me stood up at the same time and I got about six seconds of it before my hands were shaking too much to hold the phone still.", shots: [0] }
+    ]
+  },
+  {
+    slug: "los-angeles",
+    posted: "2026-07-11",
+    place: "Los Angeles in July",
+    short: "Los Angeles",
+    when: "July 2026",
+    continent: "North America",
+    photos: [
+      { src: "photos/placeholders/la-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Marine layer over the basin" },
+      { src: "photos/placeholders/la-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Palms on Rossmore" },
+      { src: "photos/placeholders/la-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "The 110 at gold hour" },
+      { src: "photos/placeholders/la-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Stucco and shadow, Echo Park" },
+      { src: "photos/placeholders/la-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Haze off the Pacific" },
+      { src: "photos/placeholders/la-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Griffith, waiting for dark" }
+    ],
+    beats: [
+      { at: "Mid-Wilshire", say: "The marine layer never really burned off. Grey until noon, gold by five, grey again for the drive home.", shots: [0, 1] },
+      { at: "Echo Park", say: "Spent most of a week photographing stucco. It's the shadows here. They land harder than anywhere else I've shot.", shots: [2, 3] },
+      { at: "Griffith", say: "Waited two hours for dark. Got about ninety seconds out of it.", shots: [4, 5] }
+    ]
+  },
+  {
     slug: "san-diego",
     posted: "2026-06-20",
     place: "My trip to San Diego",
@@ -31,7 +87,6 @@ window.TRIPS = [
     when: "June 2026",
     continent: "North America",
     cover: "photos/sandiego-zoo/web/grizzly-2.jpg",
-    note: "Mostly the zoo, honestly — the cheetah alone was worth the flight.",
     photos: [
       { src: "photos/sandiego-zoo/web/cheetah-2.jpg", w: 1600, h: 1067, alt: "A cheetah in profile, close up", caption: "The ambassador cheetah, in profile" },
       { src: "photos/sandiego-zoo/web/panda.jpg", w: 1139, h: 1600, alt: "A giant panda eating bamboo", caption: "Lunch, taken seriously" },
@@ -44,6 +99,11 @@ window.TRIPS = [
       { src: "photos/sandiego-zoo/web/orang-1.jpg", w: 1087, h: 1600, alt: "An orangutan behind glass", caption: "Watching us watching him" },
       { src: "photos/sandiego-zoo/web/orang-3.jpg", w: 1172, h: 1600, alt: "An orangutan in profile", caption: "Deep in thought" },
       { src: "photos/sandiego-zoo/web/snake.jpg", w: 968, h: 1600, alt: "A snake in the reptile house", caption: "The reptile house regular" }
+    ],
+    beats: [
+      { at: "Balboa Park", say: "Went for the zoo and basically never left it.", shots: [0, 1, 2] },
+      { at: "The big cats", say: "The cheetah came right up to the glass. Four or five seconds, then gone.", shots: [3, 4, 5] },
+      { at: "Orangutan canyon", say: "Spent way too long here. Worth it.", shots: [6, 7, 8, 9, 10] }
     ]
   },
   {
@@ -53,7 +113,6 @@ window.TRIPS = [
     short: "Chicago",
     when: "February 2026",
     continent: "North America",
-    note: "Scouting the future neighborhood at its most honest — lake-effect gray and radiator warmth.",
     photos: [
       { src: "photos/placeholders/chi-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "The lakefront, frozen over" },
       { src: "photos/placeholders/chi-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Steam over the Loop" },
@@ -61,6 +120,11 @@ window.TRIPS = [
       { src: "photos/placeholders/chi-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Radiator light, Logan Square" },
       { src: "photos/placeholders/chi-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "The El in a whiteout" },
       { src: "photos/placeholders/chi-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Lake Michigan, minus nine" }
+    ],
+    beats: [
+      { at: "The lakefront", say: "Came in February on purpose. If I'm moving here I wanted to see it at its worst first.", shots: [0, 1] },
+      { at: "Logan Square", say: "Minus nine outside and the radiators were winning. Best light of the trip came through a window I had no business standing near.", shots: [2, 3] },
+      { at: "The Blue Line", say: "Shot the El in a whiteout. Couldn't feel my hands for an hour after.", shots: [4, 5] }
     ]
   },
   {
@@ -70,7 +134,6 @@ window.TRIPS = [
     short: "London & Paris",
     when: "October 2025",
     continent: "Europe",
-    note: "Two cities, one carry-on. Fog on the Thames, gold hour on the Seine.",
     photos: [
       { src: "photos/london-paris/web/monet-pond.jpg", w: 1200, h: 1600, alt: "Water lilies on Monet's pond at Giverny, clouds reflected in the water", caption: "Monet's pond, Giverny" },
       { src: "photos/placeholders/ldnpar-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Thames fog, morning" },
@@ -79,6 +142,11 @@ window.TRIPS = [
       { src: "photos/placeholders/ldnpar-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Café tabac, 7th arrondissement" },
       { src: "photos/placeholders/ldnpar-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "St Paul's from the bridge" },
       { src: "photos/placeholders/ldnpar-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Montmartre stairs" }
+    ],
+    beats: [
+      { at: "Giverny", say: "Went to Monet's pond expecting to be underwhelmed. Wasn't.", shots: [0] },
+      { at: "London", say: "Fog on the Thames every single morning, which felt like a cliché right up until I was standing in it. The Barbican in rain is the best building I've ever pointed a camera at.", shots: [1, 3, 5] },
+      { at: "Paris", say: "Two cities, one carry-on. Gold hour on the Seine, then a tabac in the 7th where nobody minded the camera at all.", shots: [2, 4, 6] }
     ]
   },
   {
@@ -88,7 +156,6 @@ window.TRIPS = [
     short: "Nashville",
     when: "August 2025",
     continent: "North America",
-    note: "One last slow lap of the city that held the Franklin years.",
     photos: [
       { src: "photos/placeholders/nash-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Lower Broadway from the bridge" },
       { src: "photos/placeholders/nash-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Radnor Lake, first light" },
@@ -96,6 +163,11 @@ window.TRIPS = [
       { src: "photos/placeholders/nash-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "The Ryman’s alley" },
       { src: "photos/placeholders/nash-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Harpeth bends" },
       { src: "photos/placeholders/nash-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Neon spill, Printer’s Alley" }
+    ],
+    beats: [
+      { at: "Franklin", say: "One last slow lap before the move. Sat out a storm on the porch and didn't take a frame for an hour.", shots: [2, 4] },
+      { at: "Lower Broadway", say: "Easier to photograph than to stand in. Went at first light, when it was still just a street.", shots: [0, 3] },
+      { at: "Radnor Lake", say: "First light, nobody else out. Printer's Alley later on, neon doing what neon does.", shots: [1, 5] }
     ]
   },
   {
@@ -105,7 +177,6 @@ window.TRIPS = [
     short: "Big Sur",
     when: "May 2025",
     continent: "North America",
-    note: "Windows down, fog in, fog out. The camera barely kept up.",
     photos: [
       { src: "photos/placeholders/bigsur-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Bixby at golden hour" },
       { src: "photos/placeholders/bigsur-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Redwood understory" },
@@ -113,6 +184,11 @@ window.TRIPS = [
       { src: "photos/placeholders/bigsur-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Fog over Point Sur" },
       { src: "photos/placeholders/bigsur-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Pfeiffer surf" },
       { src: "photos/placeholders/bigsur-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Highway pull-off, dusk" }
+    ],
+    beats: [
+      { at: "Highway 1", say: "Windows down, fog in, fog out. The camera barely kept up.", shots: [0, 1] },
+      { at: "McWay", say: "Stopped at every pull-off between Carmel and Lucia. Regretted none of them.", shots: [2, 3] },
+      { at: "Pfeiffer", say: "The surf here sounds bigger than it photographs. Stayed until dusk trying to fix that and never did.", shots: [4, 5] }
     ]
   },
   {
@@ -122,7 +198,6 @@ window.TRIPS = [
     short: "New York",
     when: "December 2024",
     continent: "North America",
-    note: "Two years after leaving — the old commute, in the snow this time.",
     photos: [
       { src: "photos/placeholders/nyc-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Sixth Avenue steam" },
       { src: "photos/placeholders/nyc-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Snow on the High Line" },
@@ -130,6 +205,11 @@ window.TRIPS = [
       { src: "photos/placeholders/nyc-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Roosevelt Island tram" },
       { src: "photos/placeholders/nyc-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Chinatown dusk" },
       { src: "photos/placeholders/nyc-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "The park after the storm" }
+    ],
+    beats: [
+      { at: "Midtown", say: "Back for a week, two years after leaving. Walked the old commute, in snow this time.", shots: [0, 2] },
+      { at: "The High Line", say: "Snow makes this city legible. Everything loud goes quiet for about six hours.", shots: [1, 5] },
+      { at: "Chinatown", say: "Tram at dusk, then downtown. Ate standing up and shot one-handed.", shots: [3, 4] }
     ]
   },
   {
@@ -139,7 +219,6 @@ window.TRIPS = [
     short: "Joshua Tree",
     when: "March 2024",
     continent: "North America",
-    note: "Out for the boulders, stayed for the stars.",
     photos: [
       { src: "photos/placeholders/jtree-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Golden hour boulders" },
       { src: "photos/placeholders/jtree-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "First stars, Cap Rock" },
@@ -147,6 +226,11 @@ window.TRIPS = [
       { src: "photos/placeholders/jtree-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Skull Rock silhouette" },
       { src: "photos/placeholders/jtree-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Dusk on the ridge" },
       { src: "photos/placeholders/jtree-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "The Milky Way, faint" }
+    ],
+    beats: [
+      { at: "Hidden Valley", say: "Came out for the boulders. Stayed for what happened after the sun went.", shots: [0, 2] },
+      { at: "Cap Rock", say: "First stars around eight. The cholla garden at dusk is the only hour that place isn't hostile.", shots: [1, 3] },
+      { at: "The ridge", say: "Milky Way came in faint. Cold enough by then that I stopped caring whether the tripod was level.", shots: [4, 5] }
     ]
   },
   {
@@ -156,7 +240,6 @@ window.TRIPS = [
     short: "The Bay",
     when: "September 2023",
     continent: "North America",
-    note: "School streets and fog lines, a decade on.",
     photos: [
       { src: "photos/placeholders/bay-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Fog over the gate" },
       { src: "photos/placeholders/bay-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Berkeley hills, dry gold" },
@@ -164,6 +247,11 @@ window.TRIPS = [
       { src: "photos/placeholders/bay-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Sutro through the mist" },
       { src: "photos/placeholders/bay-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Ferry wake" },
       { src: "photos/placeholders/bay-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Twin Peaks, blue hour" }
+    ],
+    beats: [
+      { at: "Berkeley", say: "School streets, a decade on. The hills go gold in September and I had completely forgotten that.", shots: [1, 4] },
+      { at: "Ocean Beach", say: "Wind off the water all afternoon. Sutro came and went through the mist about six times.", shots: [2, 3] },
+      { at: "Twin Peaks", say: "Blue hour over the gate. Same view as always, which was the whole point.", shots: [0, 5] }
     ]
   }
 ];

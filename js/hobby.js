@@ -27,6 +27,14 @@
     });
     return out;
   }
+  /* Highlights: the lead frames of every trip, so each one stays
+     represented on the homepage. Raise this to show more per trip;
+     the full set always lives on the trip's own gallery page. */
+  var HIGHLIGHTS_PER_TRIP = 3;
+  function highlights(t) { return (t.photos || []).slice(0, HIGHLIGHTS_PER_TRIP); }
+  function highlightCount() {
+    return TRIPS.reduce(function (n, t) { return n + highlights(t).length; }, 0);
+  }
   function cover(t) {
     var ps = t.photos || [];
     if (t.cover) {
@@ -35,11 +43,67 @@
     }
     return ps[0] || null;
   }
+  var STAMP_MONTHS = ["Jan.", "Feb.", "March", "April", "May", "June",
+                      "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
+  /* The time a post went up, written the way the reference writes it.
+     Stored as local wall time with no offset on purpose — "9:47 p.m."
+     on a trip means the hour it was there, not back home. */
+  function stampText(s) {
+    var m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2}))?$/);
+    if (!m) return s;
+    var out = STAMP_MONTHS[Number(m[2]) - 1] + " " + Number(m[3]);
+    if (m[4]) {
+      var h = Number(m[4]);
+      var suffix = h < 12 ? "a.m." : "p.m.";
+      h = h % 12 || 12;
+      out += ", " + h + ":" + m[5] + " " + suffix;
+    }
+    return out;
+  }
+  function clock(s) {
+    var n = Math.round(s);
+    return Math.floor(n / 60) + ":" + String(n % 60).padStart(2, "0");
+  }
+  /* The clip stays a still with a play button over it until asked —
+     the reference's treatment, and it keeps a heavy file off the wire
+     until someone actually wants it. */
+  function bindVideos() {
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest(".vid-play");
+      if (!btn) return;
+      var wrap = btn.closest(".vid");
+      var v = wrap && wrap.querySelector("video");
+      if (!v) return;
+      wrap.classList.add("is-playing");
+      v.controls = true;
+      v.play();
+    });
+  }
   function shotHtml(t, p, i) {
+    var ratio = p.w && p.h ? ' style="aspect-ratio:' + Number(p.w) + "/" + Number(p.h) + '"' : "";
+    /* A clip plays where it sits — no lightbox button wrapping it, or
+       the click to play would fight the click to enlarge. */
+    if (p.video) {
+      return '<figure class="shot shot--video">' +
+        '<div class="vid">' +
+          /* #t=0.1 makes the browser seek a tenth of a second in and
+             paint that frame, which stands in for a poster image */
+          '<video src="' + esc(p.src) + '#t=0.1" playsinline preload="metadata"' +
+          (p.poster ? ' poster="' + esc(p.poster) + '"' : "") + ratio + "></video>" +
+          '<button class="vid-play" type="button" aria-label="Play the clip">' +
+            '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 6.5v11a1 1 0 0 0 1.5.87l9-5.5a1 1 0 0 0 0-1.74l-9-5.5A1 1 0 0 0 9 6.5Z"/></svg>' +
+          "</button>" +
+          (p.seconds ? '<span class="vid-dur">' + clock(p.seconds) + "</span>" : "") +
+        "</div>" +
+        (p.caption
+          ? '<figcaption class="shot-cap">' + esc(p.caption) +
+            '<span class="shot-credit">Cody Heart</span></figcaption>'
+          : "") +
+        "</figure>";
+    }
     return '<figure class="shot">' +
       '<button class="shot-btn" type="button" data-trip="' + esc(t.slug) + '" data-i="' + i + '" aria-label="View larger: ' + esc(p.caption || t.place) + '">' +
-      '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '" loading="lazy"' +
-      (p.w && p.h ? ' style="aspect-ratio:' + Number(p.w) + '/' + Number(p.h) + '"' : "") + ">" +
+      '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '" loading="lazy"' + ratio + ">" +
       (p.caption ? '<span class="shot-pill">' + esc(p.caption) + "</span>" : "") +
       "</button></figure>";
   }
@@ -68,6 +132,7 @@
     });
   }
   bindLightbox();
+  bindVideos();
 
   /* ----------------------------------------------------------
      HOMEPAGE — the gallery wall: big rounded-rectangle covers,
@@ -186,14 +251,57 @@
     var crumbEl = document.getElementById("crumbTrip");
     if (crumbEl) crumbEl.textContent = trip.place;
     var noteEl = document.getElementById("galleryNote");
-    if (noteEl) noteEl.textContent = trip.note || "";
+    if (noteEl) {
+      /* hidden when absent, or the empty paragraph still holds its margin */
+      noteEl.textContent = trip.note || "";
+      noteEl.hidden = !trip.note;
+    }
     var metaEl = document.getElementById("galleryMeta");
-    if (metaEl) metaEl.textContent =
-      (trip.photos || []).length + " frames · " + trip.when;
+    if (metaEl) {
+      var n = (trip.photos || []).length;
+      metaEl.textContent = n + (n === 1 ? " frame · " : " frames · ") + trip.when;
+    }
 
-    galleryShots.innerHTML = (trip.photos || []).map(function (p, i) {
-      return shotHtml(trip, p, i);
-    }).join("");
+    /* A trip authored as a thread carries `beats`: an ordered run of
+       things said and groups of frames, the shots holding indices
+       into trip.photos so the lightbox still resolves them. Without
+       beats — the older trips — it stays one flat grid. */
+    if (trip.beats && trip.beats.length) {
+      galleryShots.className = "feed";
+      galleryShots.innerHTML = trip.beats.map(function (b) {
+        /* The reference leads each post with a headline and follows it
+           with the detail. Splitting at the first full stop gives that
+           for free — write a punchy opening line, let the rest run on —
+           and an explicit `head` overrides it when the split is wrong. */
+        var head = b.head || "", body = b.say || "";
+        if (!head && body) {
+          var cut = body.match(/^([^.!?]+[.!?])\s+(.+)$/);
+          if (cut) { head = cut[1]; body = cut[2]; }
+          else { head = body; body = ""; }
+        }
+        var out = '<article class="post">';
+        if (b.at) out += '<p class="post-at">' + esc(b.at) + "</p>";
+        if (b.time) out += '<p class="post-when">' + esc(stampText(b.time)) + "</p>";
+        if (head) out += '<h2 class="post-head">' + esc(head) + "</h2>";
+        if (body) out += '<p class="post-say">' + esc(body) + "</p>";
+        if (b.shots && b.shots.length) {
+          /* a moment carried by one frame gets the full column, the way
+             the reference runs a single image or clip */
+          out += '<div class="stream-grid post-media post-media--' +
+            (b.shots.length === 1 ? "solo" : "pair") + '">' +
+            b.shots.map(function (n) {
+              var p = trip.photos[n];
+              return p ? shotHtml(trip, p, n) : "";
+            }).join("") +
+            "</div>";
+        }
+        return out + "</article>";
+      }).join("");
+    } else {
+      galleryShots.innerHTML = (trip.photos || []).map(function (p, i) {
+        return shotHtml(trip, p, i);
+      }).join("");
+    }
 
     /* Trail: every other gallery, in order */
     var trail = document.getElementById("galleryTrail");
@@ -203,7 +311,7 @@
           return '<a class="press-scale" href="gallery.html?trip=' + esc(t.slug) + '">' +
             esc(t.place) + ' <span class="arrow" aria-hidden="true">→</span></a>';
         }).join("") +
-        '<a class="press-scale" href="index.html#photos">All photos <span class="arrow" aria-hidden="true">→</span></a>';
+        '<a class="press-scale" href="index.html#photos">Highlights <span class="arrow" aria-hidden="true">→</span></a>';
     }
   }
 
@@ -248,24 +356,28 @@
   })();
 
   /* ----------------------------------------------------------
-     EVERYTHING — the homepage: one endless masonry of every
-     frame, newest trip first, no separators.
+     HIGHLIGHTS — the homepage: the lead frames of every trip in
+     one endless masonry, newest first, no separators. The trip a
+     frame belongs to shows up in its caption and its lightbox.
      ---------------------------------------------------------- */
   var photoStream = document.getElementById("photoStream");
   if (photoStream && TRIPS.length) {
-    photoStream.innerHTML = TRIPS.map(function (t) {
-      return '<section class="stream-group" id="' + esc(t.slug) + '">' +
-        '<a class="stream-sep" href="gallery.html?trip=' + esc(t.slug) + '">' +
-          '<span>' + esc(t.short || t.place) + '</span>' +
-          '<em>' + esc(t.when) + " · " + (t.photos || []).length + " frames</em></a>" +
-        '<div class="stream-grid">' +
-        (t.photos || []).map(function (p, i) { return shotHtml(t, p, i); }).join("") +
-        "</div></section>";
-    }).join("");
+    var reel = [];
+    TRIPS.forEach(function (t) {
+      /* i is the index into t.photos, which is what the lightbox
+         resolves — highlights are the leading slice, so it lines up */
+      highlights(t).forEach(function (p, i) { reel.push(shotHtml(t, p, i)); });
+    });
+    photoStream.innerHTML = '<div class="stream-grid">' + reel.join("") + "</div>";
+
+    var homeStats = highlightCount() + " highlights · " + TRIPS.length + " trips · newest first";
+    Array.prototype.forEach.call(document.querySelectorAll(".photo-stats"), function (el) {
+      el.textContent = homeStats;
+    });
   }
 
   /* ----------------------------------------------------------
-     THE LEDGER — the notion-style sidebar index: Everything on
+     THE LEDGER — the notion-style sidebar index: Highlights on
      top, then every trip (date · count · name), each row a page
      of its own. The current page's row is marked. Mirrored into
      the burger menu on small screens.
@@ -279,13 +391,13 @@
     }
     if (sideTrips) {
       sideTrips.innerHTML =
-        '<a class="side-trip' + (activeSlug === "all" ? " is-active" : "") + '" href="index.html">' +
-          '<span class="side-name">Everything</span>' +
-          '<span class="side-trip-meta">' + allPhotos().length + " frames</span></a>" +
+        '<a class="side-trip is-all' + (activeSlug === "all" ? " is-active" : "") + '" href="index.html">' +
+          '<span class="side-name">Highlights</span>' +
+          '<span class="side-trip-meta">' + highlightCount() + " frames</span></a>" +
         TRIPS.map(function (t) {
           return '<a class="side-trip' + (t.slug === activeSlug ? " is-active" : "") + '" href="gallery.html?trip=' + esc(t.slug) + '">' +
             '<span class="side-name">' + esc(t.short || t.place) + "</span>" +
-            '<span class="side-trip-meta">' + esc(t.when) + " · " + (t.photos || []).length + "</span></a>";
+            '<span class="side-trip-meta">' + esc(t.when) + "</span></a>";
         }).join("");
     }
     if (menuTrips) {
@@ -300,8 +412,8 @@
     if (navTrips) {
       navTrips.innerHTML =
         '<a class="menu-item" role="menuitem" href="index.html"><div>' +
-          '<span class="menu-item__title">Everything</span>' +
-          '<span class="menu-item__desc">' + allPhotos().length + " frames</span></div></a>" +
+          '<span class="menu-item__title">Highlights</span>' +
+          '<span class="menu-item__desc">' + highlightCount() + " frames</span></div></a>" +
         TRIPS.map(function (t) {
           return '<a class="menu-item" role="menuitem" href="gallery.html?trip=' + esc(t.slug) + '"><div>' +
             '<span class="menu-item__title">' + esc(t.short || t.place) + "</span>" +
