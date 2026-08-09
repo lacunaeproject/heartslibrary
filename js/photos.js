@@ -34,7 +34,7 @@ window.TRIPS = [
     posted: "2026-08-05",
     place: "The Deadbeat Tour",
     short: "Deadbeat Tour",
-    nav: "Djo — The Deadbeat Tour",
+    nav: "Tame Impala: Deadbeat Tour with Djo",
     when: "August 2026",
     continent: "North America",
     photos: [
