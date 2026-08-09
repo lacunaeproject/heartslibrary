@@ -2846,13 +2846,46 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 @media (hover: hover) and (pointer: fine) {
   .card:hover { border-color: var(--ink-30); }
 }
+/* Headline and date on one baseline; the date holds the right
+   edge even when a post has no headline */
 .card-top {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
   gap: 12px;
   margin-bottom: 10px;
 }
+.card-top .card-head { margin: 0; }
+.card-top .card-when { margin-left: auto; }
+/* The journal speaks in bubbles — one voice, iMessage's shape:
+   a small centered date, a rounded bubble of words, the photos
+   attached beneath at the same width. */
+.msg { margin: 0 0 clamp(20px, 2.4vw, 28px); }
+.msg-when {
+  margin: 14px 0 8px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+}
+/* The post card: white and floating in the light, an elevated
+   surface in the dark; words and photos ride inside together */
+.msg-card {
+  --card: #fff;
+  border-radius: 20px;
+  background: var(--card);
+  box-shadow: var(--shadow-floating);
+  padding: 14px 16px;
+}
+html.dark .msg-card { --card: #1B1B1A; }
+.msg-say {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink-85);
+}
+.msg .tiles { margin-top: 10px; }
 .card-where {
   font-size: 13px;
   font-weight: 600;
@@ -2878,18 +2911,21 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   line-height: 1.55;
   color: var(--ink-78);
 }
-/* The tiles: one full width, two abreast, three as a tall beside a
-   stacked pair, four square. Fixed ratios so a card never stretches to
-   whatever shape the photographs happen to be. */
+/* The tiles: one full width in its own orientation, two abreast as
+   an upright pair, three as a tall beside a stacked pair, four
+   square. Fixed ratios so a card never stretches to whatever shape
+   the photographs happen to be; the wall's gaps and corners. */
 .tiles {
   display: grid;
-  gap: 3px;
-  margin-top: 13px;
-  border-radius: 14px;
+  gap: clamp(4px, 0.4vw, 5px);
+  margin-top: 10px;
+  border-radius: 20px;
   overflow: hidden;
 }
 .tiles--1 { grid-template-columns: 1fr; aspect-ratio: 3 / 2; }
-.tiles--2 { grid-template-columns: 1fr 1fr; aspect-ratio: 2 / 1; }
+.tiles--1.tiles--tall { aspect-ratio: 4 / 5; }
+.tiles--1.tiles--square { aspect-ratio: 1 / 1; }
+.tiles--2 { grid-template-columns: 1fr 1fr; aspect-ratio: 3 / 2; }
 .tiles--3 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; aspect-ratio: 2 / 1.4; }
 .tiles--3 .tile:first-child { grid-row: span 2; }
 .tiles--4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; aspect-ratio: 1 / 1; }
@@ -2924,27 +2960,51 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   position: absolute;
   inset: 0;
   margin: auto;
-  width: 46px;
-  height: 46px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
-  background: rgba(20, 20, 20, .58);
+  background: rgba(20, 20, 20, .6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   color: #fff;
-  font-size: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
 }
+.tile-play svg { width: 22px; height: 22px; margin-left: 2px; }
+.tile--video { cursor: pointer; }
+.tile--video.is-playing .tile-play,
+.tile--video.is-playing .tile-dur { display: none; }
+/* the clip's length, burned quietly into the corner */
+.tile-dur {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  padding: 4px 9px;
+  border-radius: 6px;
+  background: rgba(10, 10, 10, .6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #fff;
+  pointer-events: none;
+}
+/* the rest of the set as a quiet pill, not a veil over the frame */
 .tile-more {
   position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(10, 10, 10, .52);
+  right: 10px;
+  bottom: 10px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(10, 10, 10, .6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   color: #fff;
-  font-size: 21px;
-  font-weight: 600;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
   pointer-events: none;
 }
 
@@ -3133,8 +3193,46 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 .wall-bleed { padding: 0 clamp(5px, 0.55vw, 8px); }
 .wall-bleed .roll { padding-top: clamp(5px, 0.55vw, 8px); }
 .wall-bleed .stream-grid { padding-bottom: 0; }
-/* The blog reads at column width under the plain top bar */
-.feed-page .feed-list { max-width: 720px; }
+/* The journal is one centered column at social-feed width — the
+   head and the cards share the same rail, nothing runs page-wide. */
+.feed-page .wrap { max-width: 640px; }
+/* The masthead wears the face behind the thread */
+.journal-head { display: flex; align-items: center; gap: 16px; }
+.journal-head h1 { margin: 0; }
+.journal-avatar {
+  flex: none;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 0 0 1px var(--border);
+}
+.feed-page .feed-list { max-width: none; }
+/* Month marks keep a long journal navigable — a quiet mono label
+   trailing a hairline, between the cards where a month turns */
+.feed-month {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: clamp(26px, 3vw, 38px) 0 10px;
+}
+.feed-month:first-child { margin-top: 0; }
+.feed-month span {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+  white-space: nowrap;
+}
+.feed-month::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.feed-sentinel { height: 1px; }
 /* The sidebar's quiet rows sit a breath below the main four */
 .side-gap { height: 18px; }
 /* Home: the summary column — posts read at feed width, the shelf

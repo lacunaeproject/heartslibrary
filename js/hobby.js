@@ -78,20 +78,12 @@
     if (!m) return "";
     return LONG_MONTHS[Number(m[2]) - 1] + " " + Number(m[3]) + ", " + m[1];
   }
-  /* The time a post went up, written the way the reference writes it.
-     Stored as local wall time with no offset on purpose — "9:47 p.m."
-     on a trip means the hour it was there, not back home. */
+  /* The date a post went up. The hour still lives in the data —
+     it keeps the sort honest — but the card shows only the day. */
   function stampText(s) {
     var m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2}))?$/);
     if (!m) return s;
-    var out = STAMP_MONTHS[Number(m[2]) - 1] + " " + Number(m[3]);
-    if (m[4]) {
-      var h = Number(m[4]);
-      var suffix = h < 12 ? "a.m." : "p.m.";
-      h = h % 12 || 12;
-      out += ", " + h + ":" + m[5] + " " + suffix;
-    }
-    return out;
+    return STAMP_MONTHS[Number(m[2]) - 1] + " " + Number(m[3]);
   }
   function clock(s) {
     var n = Math.round(s);
@@ -102,14 +94,26 @@
      until someone actually wants it. */
   function bindVideos() {
     document.addEventListener("click", function (e) {
+      /* the strip's clips play via their button */
       var btn = e.target.closest(".vid-play");
-      if (!btn) return;
-      var wrap = btn.closest(".vid");
-      var v = wrap && wrap.querySelector("video");
-      if (!v) return;
-      wrap.classList.add("is-playing");
-      v.controls = true;
-      v.play();
+      if (btn) {
+        var wrap = btn.closest(".vid");
+        var v = wrap && wrap.querySelector("video");
+        if (!v) return;
+        wrap.classList.add("is-playing");
+        v.controls = true;
+        v.play();
+        return;
+      }
+      /* a journal tile plays on a tap anywhere on the frame */
+      var tile = e.target.closest(".tile--video");
+      if (tile) {
+        var tv = tile.querySelector("video");
+        if (!tv) return;
+        tile.classList.add("is-playing");
+        tv.controls = true;
+        tv.play();
+      }
     });
   }
   function shotHtml(t, p, i) {
@@ -557,9 +561,19 @@
   function tileHtml(trip, shots) {
     var n = Math.min(shots.length, 4);
     var extra = shots.length - n;
-    /* the tiles show at most four; data-all carries the whole post so
-       the lightbox pages through every frame, not just the visible ones */
-    return '<div class="tiles tiles--' + n + '" data-all="' + shots.join(",") + '">' +
+    /* a lone frame takes its shape from its own orientation; groups
+       keep fixed ratios so a post never goes shapeless. The tiles
+       show at most four; data-all carries the whole post so the
+       lightbox pages through every frame, not just the visible ones */
+    var shape = "";
+    if (n === 1) {
+      var solo = trip.photos[shots[0]];
+      if (solo && solo.w && solo.h) {
+        shape = Number(solo.h) > Number(solo.w) ? " tiles--tall"
+          : Number(solo.h) === Number(solo.w) ? " tiles--square" : "";
+      }
+    }
+    return '<div class="tiles tiles--' + n + shape + '" data-all="' + shots.join(",") + '">' +
       shots.slice(0, n).map(function (idx, k) {
         var p = trip.photos[idx];
         if (!p) return "";
@@ -568,7 +582,10 @@
         if (p.video) {
           return '<figure class="tile tile--video">' +
             '<video src="' + esc(p.src) + '#t=0.1" playsinline preload="metadata" muted></video>' +
-            '<span class="tile-play" aria-hidden="true">▶</span>' + more + "</figure>";
+            '<span class="tile-play" aria-hidden="true">' +
+              '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 6.5v11a1 1 0 0 0 1.5.87l9-5.5a1 1 0 0 0 0-1.74l-9-5.5A1 1 0 0 0 9 6.5Z"/></svg></span>' +
+            (p.seconds ? '<span class="tile-dur">' + clock(p.seconds) + "</span>" : "") +
+            more + "</figure>";
         }
         return '<figure class="tile">' +
           '<button class="shot-btn tile-btn" type="button" data-trip="' + esc(trip.slug) +
@@ -578,28 +595,21 @@
       }).join("") + "</div>";
   }
 
-  function cardHtml(trip, b) {
-    var head = b.head || "", body = b.say || "";
-    if (!head && body) {
-      var cut = body.match(/^([^.!?]+[.!?])\s+(.+)$/);
-      if (cut) { head = cut[1]; body = cut[2]; }
-      else { head = body; body = ""; }
-    }
-    /* a trip's post names its gallery; a standalone one is just the
-       journal talking */
-    var out = '<article class="card">' +
-      '<div class="card-top">' +
-        (trip.gallery === false
-          ? '<span class="card-where">Journal</span>'
-          : '<a class="card-where" href="gallery.html?trip=' + esc(trip.slug) + '">' +
-            esc(trip.short || trip.place) + "</a>") +
-        '<span class="card-when">' + esc(b.time ? stampText(b.time) : trip.when) + "</span>" +
-      "</div>";
-    if (b.at) out += '<p class="card-at">' + esc(b.at) + "</p>";
-    if (head) out += '<h2 class="card-head">' + esc(head) + "</h2>";
-    if (body) out += '<p class="card-say">' + esc(body) + "</p>";
+  /* A post is one floating card — a tiny date above, then the words
+     and the photos together inside. No headline, no tags; `head`/
+     `at`/the experience all stay in the data only. */
+  function cardHtml(trip, b, hideWhen) {
+    var stamp = b.time ? stampText(b.time) : trip.when;
+    var out = '<article class="msg">';
+    if (!hideWhen && stamp) out += '<p class="msg-when">' + esc(stamp) + "</p>";
+    /* the card carries only the words; the photos hang beneath it
+       on the bare ground, the way the wall shows them */
+    if (b.say) out += '<div class="msg-card"><p class="msg-say">' + esc(b.say) + "</p></div>";
     if (b.shots && b.shots.length) out += tileHtml(trip, b.shots);
     return out + "</article>";
+  }
+  function cardStamp(c) {
+    return c.beat.time ? stampText(c.beat.time) : c.trip.when;
   }
 
   /* Everything postable lands in one pile: trip posts and the
@@ -622,9 +632,72 @@
   var feedList = document.getElementById("feedList");
   if (feedList && (TRIPS.length || POSTS.length)) {
     var cards = allCards();
-    feedList.innerHTML = cards.length
-      ? cards.map(function (c) { return cardHtml(c.trip, c.beat); }).join("")
-      : '<p class="noscript-note">Nothing posted yet.</p>';
+    if (!cards.length) {
+      feedList.innerHTML = '<p class="noscript-note">Nothing posted yet.</p>';
+    } else if (!window.IntersectionObserver) {
+      /* ancient browser: render everything at once */
+      var prevStamp = "";
+      feedList.innerHTML = cards.map(function (c) {
+        var s = cardStamp(c);
+        var html = cardHtml(c.trip, c.beat, s === prevStamp);
+        prevStamp = s;
+        return html;
+      }).join("");
+    } else {
+      /* Batches keep a journal years deep light: fifteen cards at a
+         time, more as the bottom nears, with a month mark whenever
+         the stream crosses into an earlier month. The while-loop
+         matters — after a batch the sentinel can still be in view,
+         and the observer alone won't re-fire for it. */
+      var BATCH = 15;
+      var at = 0;
+      var lastMonth = "";
+      var monthOf = function (c) {
+        var m = String(c.beat.time || c.trip.posted || "").match(/^(\d{4})-(\d{2})/);
+        if (!m) return c.trip.when || "";
+        return LONG_MONTHS[Number(m[2]) - 1] + " " + m[1];
+      };
+      var sentinel = document.createElement("div");
+      sentinel.className = "feed-sentinel";
+      feedList.appendChild(sentinel);
+      var lastStamp = "";
+      var renderBatch = function () {
+        var out = "";
+        var stop = Math.min(at + BATCH, cards.length);
+        for (; at < stop; at++) {
+          var mo = monthOf(cards[at]);
+          if (mo && mo !== lastMonth) {
+            out += '<div class="feed-month"><span>' + esc(mo) + "</span></div>";
+            lastMonth = mo;
+            /* a month-only post right under the month rule would
+               just repeat it — treat the rule as its date */
+            lastStamp = mo;
+          }
+          /* consecutive same-day posts share one date mark, the way
+             a run of texts shares a timestamp */
+          var stamp = cardStamp(cards[at]);
+          out += cardHtml(cards[at].trip, cards[at].beat, stamp === lastStamp);
+          lastStamp = stamp;
+        }
+        sentinel.insertAdjacentHTML("beforebegin", out);
+      };
+      var watcher = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) fill(); });
+      }, { rootMargin: "1200px 0px" });
+      var fill = function () {
+        var guard = 0;
+        while (at < cards.length && guard++ < 40 &&
+               sentinel.getBoundingClientRect().top < window.innerHeight + 1200) {
+          renderBatch();
+        }
+        if (at >= cards.length) {
+          watcher.disconnect();
+          sentinel.remove();
+        }
+      };
+      fill();
+      if (at < cards.length) watcher.observe(sentinel);
+    }
 
     var feedStat = document.getElementById("feedStat");
     if (feedStat) {
@@ -674,7 +747,7 @@
       });
       sideTrips.innerHTML =
         row("index.html", "Photos", keepers + " keepers", !onBlog) +
-        row("feed.html", "Blog", postCount() + " posts", onBlog) +
+        row("feed.html", "Journal", postCount() + " posts", onBlog) +
         '<div class="side-gap" aria-hidden="true"></div>' +
         row("about.html", "About", "", false) +
         row("mailto:hello@heartslibrary.com", "Contact", "email", false);
