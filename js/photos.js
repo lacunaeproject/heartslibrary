@@ -17,7 +17,8 @@
       and the photos list. w/h are each image's aspect numbers
       (4/3, 3/4, 1/1 …). `nav:` is the collection's name in the
       index on the front page ("Dodgers vs. Red Sox @ Dodger
-      Stadium"); `short` is used when it's missing. Flag your
+      Stadium"); `short` is used when it's missing. `loc:` is
+      the place for bylines ("Los Angeles, CA"). Flag your
       best frames `best: true` — only those hang on the wall.
    3. Bump the ?v= on js/photos.js in the HTML pages if you
       want caches to pick it up immediately.
@@ -29,6 +30,7 @@
 window.TRIPS = [
   {
     slug: "deadbeat-tour",
+    loc: "Los Angeles, CA",
     posted: "2026-08-05",
     place: "The Deadbeat Tour",
     short: "Deadbeat Tour",
@@ -51,6 +53,7 @@ window.TRIPS = [
   },
   {
     slug: "fenway",
+    loc: "Los Angeles, CA",
     posted: "2026-08-01",
     place: "Fenway Park",
     short: "Fenway",
@@ -66,6 +69,7 @@ window.TRIPS = [
   },
   {
     slug: "los-angeles",
+    loc: "Los Angeles, CA",
     posted: "2026-07-11",
     place: "Los Angeles in July",
     short: "Los Angeles",
@@ -87,6 +91,7 @@ window.TRIPS = [
   },
   {
     slug: "san-diego",
+    loc: "San Diego, CA",
     posted: "2026-06-20",
     place: "My trip to San Diego",
     short: "San Diego",
@@ -114,6 +119,7 @@ window.TRIPS = [
   },
   {
     slug: "chicago-february",
+    loc: "Chicago, IL",
     posted: "2026-02-14",
     place: "Chicago in February",
     short: "Chicago",
@@ -135,6 +141,7 @@ window.TRIPS = [
   },
   {
     slug: "london-paris",
+    loc: "London & Paris",
     posted: "2025-10-12",
     place: "London and Paris",
     short: "London & Paris",
@@ -157,6 +164,7 @@ window.TRIPS = [
   },
   {
     slug: "nashville",
+    loc: "Nashville, TN",
     posted: "2025-08-16",
     place: "Nashville, before the move",
     short: "Nashville",
@@ -178,6 +186,7 @@ window.TRIPS = [
   },
   {
     slug: "big-sur",
+    loc: "Big Sur, CA",
     posted: "2025-05-18",
     place: "Big Sur, Highway 1",
     short: "Big Sur",
@@ -199,6 +208,7 @@ window.TRIPS = [
   },
   {
     slug: "new-york",
+    loc: "New York, NY",
     posted: "2024-12-08",
     place: "New York, back for a week",
     short: "New York",
@@ -220,6 +230,7 @@ window.TRIPS = [
   },
   {
     slug: "joshua-tree",
+    loc: "Joshua Tree, CA",
     posted: "2024-03-22",
     place: "Joshua Tree, dusk to dark",
     short: "Joshua Tree",
@@ -241,6 +252,7 @@ window.TRIPS = [
   },
   {
     slug: "the-bay",
+    loc: "Bay Area, CA",
     posted: "2023-09-10",
     place: "The Bay, revisited",
     short: "The Bay",

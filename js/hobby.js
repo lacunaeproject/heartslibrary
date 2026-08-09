@@ -693,12 +693,16 @@
         TRIPS.slice(0, 6).map(function (t) {
           var src = navThumb(t);
           var n = (t.photos || []).length;
+          /* the byline is when and where; frame counts only step in
+             for a collection that never said where it was */
+          var byline = esc(t.when) +
+            (t.loc ? " · " + esc(t.loc) : " · " + n + (n === 1 ? " frame" : " frames"));
           return '<a class="menu-item" role="menuitem" href="gallery.html?trip=' + esc(t.slug) + '">' +
             '<div class="menu-item__tile menu-item__tile--photo">' +
             (src ? '<img src="' + esc(src) + '" alt="" loading="lazy">' : "") +
             "</div><div>" +
             '<span class="menu-item__title">' + esc(t.nav || t.short || t.place) + "</span>" +
-            '<span class="menu-item__desc">' + esc(t.when) + " · " + n + (n === 1 ? " frame" : " frames") + "</span></div></a>";
+            '<span class="menu-item__desc">' + byline + "</span></div></a>";
         }).join("") +
         '<a class="menu-item menu-item--all" role="menuitem" href="index.html#collections">' +
           'See all collections <span class="arrow" aria-hidden="true">→</span></a>';
