@@ -2341,9 +2341,9 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 @media (min-width: 900px) {
   .studio {
     display: grid;
-    grid-template-columns: minmax(290px, 360px) 1fr;
-    column-gap: clamp(36px, 4vw, 80px);
-    padding: 0 var(--gutter);
+    grid-template-columns: minmax(240px, 280px) 1fr;
+    column-gap: clamp(32px, 3vw, 56px);
+    padding: 0 clamp(20px, 2vw, 36px) 0 var(--gutter);
     align-items: start;
   }
   .studio-side {
