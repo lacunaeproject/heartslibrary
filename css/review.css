@@ -2667,12 +2667,14 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   color: var(--ink-85);
   max-width: 38ch;
 }
+/* Serif headline, sans body — the sans runs a shade smaller because
+   Geist carries a taller x-height than the serif it replaced. */
 .post-say {
   margin: 0;
   max-width: 46em;
-  font-family: var(--serif);
-  font-size: 18px;
-  line-height: 1.6;
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.62;
   color: var(--ink-78);
 }
 .post-media { margin-top: clamp(18px, 2vw, 26px); padding-bottom: 0; }
