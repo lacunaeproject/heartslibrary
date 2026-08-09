@@ -110,18 +110,14 @@
     if (countEl) countEl.textContent = seen + " of 7";
 
     function tripItem(t) {
-      var cv = (cover(t) || {}).src;
       return { name: t.short || t.place, date: t.posted || "",
-               href: "gallery.html?trip=" + t.slug, thumb: cv,
-               popImg: cv, popCap: t.when + " · " + (t.photos || []).length + " frames" };
+               href: "gallery.html?trip=" + t.slug, thumb: (cover(t) || {}).src };
     }
     function momentItem(m) {
       return { name: m.name, date: m.date || "",
                badge: m.type === "trip" ? "→" : "♪",
                tag: m.planned ? "up next" : (m.type === "event" ? "show" : ""),
-               tagNext: !!m.planned,
-               ticket: { head: m.planned ? (m.type === "trip" ? "One way" : "Hold the date") : "Admit one",
-                         when: m.when } };
+               tagNext: !!m.planned };
     }
     function byDate(a, b) { return (a.date || "").localeCompare(b.date || ""); }
     function view(name) {
@@ -132,9 +128,7 @@
         return CONTINENTS.map(function (c) {
           var trips = byCont[c] || [];
           if (!trips.length) return { name: c, tag: "not yet", dim: true };
-          var cv = (cover(trips[0]) || {}).src;
-          return { name: c, thumb: cv, popImg: cv,
-                   popCap: (trips.length === 1 ? "1 trip · " : trips.length + " trips · latest ") + trips[0].when,
+          return { name: c, thumb: (cover(trips[0]) || {}).src,
                    href: "gallery.html?trip=" + trips[0].slug,
                    tag: trips.length + (trips.length === 1 ? " trip" : " trips") };
         });
@@ -144,29 +138,152 @@
         .concat(MOMENTS.filter(function (m) { return (m.date || "").slice(0, 4) === yr; }).map(momentItem))
         .sort(byDate);
     }
-    function popHtml(it) {
-      if (it.popImg)
-        return '<span class="place-pop place-pop--photo" aria-hidden="true">' +
-          '<img src="' + esc(it.popImg) + '" alt="" loading="lazy">' +
-          '<span class="pop-cap">' + esc(it.popCap || "") + "</span></span>";
-      if (it.ticket)
-        return '<span class="place-pop place-pop--ticket" aria-hidden="true">' +
-          '<span class="tick-head">' + esc(it.ticket.head) + "</span>" +
-          '<span class="tick-name">' + esc(it.name) + "</span>" +
-          '<span class="tick-when">' + esc(it.ticket.when) + "</span></span>";
-      return "";
-    }
     function itemHtml(it) {
       var inner =
-        (it.thumb ? '<img class="place-thumb" src="' + esc(it.thumb) + '" alt="" loading="lazy">'
+        (it.thumb ? '<img class="place-thumb" src="' + esc(it.thumb) + '" alt="" draggable="false" loading="lazy">'
           : (it.badge ? '<span class="place-badge" aria-hidden="true">' + esc(it.badge) + "</span>" : "")) +
         '<span class="place-name">' + esc(it.name) + "</span>" +
-        (it.tag ? '<span class="place-tag' + (it.tagNext ? " place-tag--next" : "") + '">' + esc(it.tag) + "</span>" : "") +
-        popHtml(it);
+        (it.tag ? '<span class="place-tag' + (it.tagNext ? " place-tag--next" : "") + '">' + esc(it.tag) + "</span>" : "");
       var cls = "place place-in" + (it.dim ? " place--soon" : "");
       if (it.href) return '<a class="' + cls + ' press-scale" href="' + esc(it.href) + '">' + inner + "</a>";
       return '<span class="' + cls + '">' + inner + "</span>";
     }
+
+    /* --------- the physics: names as objects. They drop in when
+       the section scrolls into view, tumble into a pile on the
+       shelf line, and can be grabbed and thrown. Hand-rolled —
+       gravity, wall/floor bounces, pairwise separation — because
+       thirteen rectangles don't need a library. --------- */
+    var reduced = false;
+    try { reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+    var bodies = [], rafId = 0, lastTs = 0, dropped = false, drag = null;
+
+    function paint(b) {
+      b.el.style.transform = "translate(" + b.x + "px," + b.y + "px) rotate(" + b.rot + "deg)";
+    }
+    function stopSim() { if (rafId) cancelAnimationFrame(rafId); rafId = 0; lastTs = 0; }
+    function startSim() { if (!rafId && bodies.length) rafId = requestAnimationFrame(frame); }
+
+    function frame(ts) {
+      var dt = lastTs ? Math.min(32, ts - lastTs) / 1000 : 1 / 60;
+      lastTs = ts;
+      var W = cloud.clientWidth, H = cloud.clientHeight, G = 2600;
+      bodies.forEach(function (b) {
+        if (b.grab) return;
+        b.vy += G * dt;
+        b.x += b.vx * dt;
+        b.y += b.vy * dt;
+        if (b.y + b.h > H) {
+          b.y = H - b.h;
+          if (b.vy > 0) b.vy = Math.abs(b.vy) > 140 ? -b.vy * .3 : 0;
+          b.vx *= .95;
+        }
+        if (b.x < 0) { b.x = 0; b.vx = -b.vx * .5; }
+        if (b.x + b.w > W) { b.x = W - b.w; b.vx = -b.vx * .5; }
+      });
+      for (var pass = 0; pass < 2; pass++) {
+        for (var i = 0; i < bodies.length; i++) {
+          for (var j = i + 1; j < bodies.length; j++) {
+            var a = bodies[i], c = bodies[j];
+            var ox = Math.min(a.x + a.w, c.x + c.w) - Math.max(a.x, c.x);
+            var oy = Math.min(a.y + a.h, c.y + c.h) - Math.max(a.y, c.y);
+            if (ox <= 0 || oy <= 0) continue;
+            if (ox < oy) {
+              var dx = (a.x + a.w / 2) < (c.x + c.w / 2) ? -1 : 1;
+              if (!a.grab) a.x += dx * ox / 2;
+              if (!c.grab) c.x -= dx * ox / 2;
+              if (!a.grab && !c.grab) { var t = a.vx; a.vx = c.vx * .85; c.vx = t * .85; }
+            } else {
+              var up = (a.y + a.h / 2) < (c.y + c.h / 2) ? a : c;
+              var dn = up === a ? c : a;
+              if (!up.grab) up.y -= oy / (dn.grab ? 1 : 2);
+              if (!dn.grab) dn.y += oy / (up.grab ? 1 : 2);
+              if (!up.grab && up.vy > 0) up.vy = up.vy > 140 ? -up.vy * .25 : 0;
+              if (!dn.grab && dn.vy < 0) dn.vy = 0;
+            }
+          }
+        }
+      }
+      bodies.forEach(paint);
+      rafId = requestAnimationFrame(frame);
+    }
+
+    function dropIn() {
+      var els = Array.prototype.slice.call(cloud.children);
+      if (!els.length) return;
+      cloud.classList.add("is-physical");
+      var W = cloud.clientWidth;
+      bodies = els.map(function (el, i) {
+        var w = el.offsetWidth, h = el.offsetHeight;
+        return { el: el, w: w, h: h,
+                 x: Math.random() * Math.max(1, W - w),
+                 y: -h - 90 * i - Math.random() * 200,
+                 vx: (Math.random() - .5) * 160, vy: 0,
+                 rot: (Math.random() - .5) * 8, grab: null };
+      });
+      bodies.forEach(paint);
+      stopSim();
+      startSim();
+    }
+    function dropWhenReady() {
+      if (document.fonts && document.fonts.status !== "loaded") {
+        document.fonts.ready.then(function () { dropIn(); });
+      } else { dropIn(); }
+    }
+
+    function localPoint(e) {
+      var r = cloud.getBoundingClientRect();
+      return { x: e.clientX - r.left, y: e.clientY - r.top };
+    }
+    cloud.addEventListener("pointerdown", function (e) {
+      if (!cloud.classList.contains("is-physical")) return;
+      var el = e.target.closest(".place");
+      if (!el) return;
+      var b = null;
+      bodies.forEach(function (x) { if (x.el === el) b = x; });
+      if (!b) return;
+      e.preventDefault();
+      try { el.setPointerCapture(e.pointerId); } catch (err) {}
+      var p = localPoint(e);
+      drag = { b: b, id: e.pointerId, dx: p.x - b.x, dy: p.y - b.y,
+               lx: e.clientX, ly: e.clientY, lt: performance.now(),
+               vx: 0, vy: 0, moved: 0 };
+      b.grab = drag;
+      el.classList.add("is-grabbed");
+      startSim();
+    });
+    cloud.addEventListener("pointermove", function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var p = localPoint(e);
+      var now = performance.now(), ms = Math.max(8, now - drag.lt);
+      drag.vx = drag.vx * .55 + ((e.clientX - drag.lx) / ms * 1000) * .45;
+      drag.vy = drag.vy * .55 + ((e.clientY - drag.ly) / ms * 1000) * .45;
+      drag.moved += Math.abs(e.clientX - drag.lx) + Math.abs(e.clientY - drag.ly);
+      drag.lx = e.clientX; drag.ly = e.clientY; drag.lt = now;
+      drag.b.x = p.x - drag.dx;
+      drag.b.y = p.y - drag.dy;
+      paint(drag.b);
+    });
+    function endDrag(e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var b = drag.b;
+      b.vx = Math.max(-1500, Math.min(1500, drag.vx));
+      b.vy = Math.max(-1500, Math.min(1500, drag.vy));
+      b.grab = null;
+      b.el.classList.remove("is-grabbed");
+      if (drag.moved > 6) b.el.setAttribute("data-dragged", "1");
+      drag = null;
+    }
+    cloud.addEventListener("pointerup", endDrag);
+    cloud.addEventListener("pointercancel", endDrag);
+    cloud.addEventListener("click", function (e) {
+      var el = e.target.closest(".place");
+      if (el && el.hasAttribute("data-dragged")) {
+        el.removeAttribute("data-dragged");
+        e.preventDefault();
+      }
+    }, true);
+
     function render(name) {
       cloud.innerHTML = view(name).map(itemHtml).join("");
       Array.prototype.forEach.call(cloud.children, function (el, i) {
@@ -179,6 +296,7 @@
           b.setAttribute("aria-pressed", on ? "true" : "false");
         });
       }
+      if (dropped && !reduced) dropWhenReady();
     }
     /* Little live counts inside the filter pills */
     if (filters) {
@@ -199,6 +317,26 @@
         if (b) render(b.getAttribute("data-view"));
       });
     }
+    if (!reduced && "IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) {
+            if (!dropped) { dropped = true; dropWhenReady(); }
+            else startSim();
+          } else stopSim();
+        });
+      }, { threshold: .1 });
+      io.observe(cloud);
+    } else if (!reduced) {
+      dropped = true;
+      dropWhenReady();
+    }
+    var resizeTimer = 0;
+    window.addEventListener("resize", function () {
+      if (!dropped || reduced) return;
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(dropWhenReady, 300);
+    });
   }
 
   /* ----------------------------------------------------------
