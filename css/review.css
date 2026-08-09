@@ -2698,6 +2698,38 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
    stacked down a post is a scroll to get past; sideways they stay one
    moment, and the height never depends on how many there are. */
 .reel { margin-top: clamp(18px, 2vw, 26px); }
+.reel-window { position: relative; }
+/* Arrows for anything with a pointer — a wheel scrolls one axis and it
+   isn't this one. Touch swipes instead and never sees them. */
+.reel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(20, 20, 20, .62);
+  color: #fff;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity .15s ease, background-color .15s ease;
+}
+.reel-arrow svg { width: 19px; height: 19px; }
+.reel-prev { left: 8px; }
+.reel-next { right: 8px; }
+.reel-arrow:disabled { opacity: 0 !important; pointer-events: none; }
+@media (hover: hover) and (pointer: fine) {
+  .reel:not(.is-whole) .reel-arrow { display: flex; }
+  .reel:hover .reel-arrow,
+  .reel-arrow:focus-visible { opacity: 1; }
+  .reel-arrow:hover { background: rgba(20, 20, 20, .85); }
+}
 .reel-track {
   display: flex;
   gap: 10px;
@@ -2708,6 +2740,10 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   scrollbar-width: none;
 }
 .reel-track::-webkit-scrollbar { display: none; }
+/* the arrows set scrollLeft; this is what eases it */
+@media (prefers-reduced-motion: no-preference) {
+  .reel-track { scroll-behavior: smooth; }
+}
 /* The image carries the height and its aspect ratio resolves the width;
    everything above it shrink-wraps. A block with width:auto fills its
    parent instead of measuring its content, so fit-content is doing the

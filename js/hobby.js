@@ -207,14 +207,49 @@
      nearest the middle of the track is the one you're looking at.
      Listens on the way down rather than binding to each strip, because
      scroll doesn't bubble and the feed is built long after this runs. */
+  function reelEnds(track) {
+    var reel = track.closest(".reel");
+    if (!reel) return;
+    var prev = reel.querySelector(".reel-prev"), next = reel.querySelector(".reel-next");
+    if (prev) prev.disabled = track.scrollLeft <= 2;
+    if (next) next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+  }
+
   function bindReels() {
     var tick;
+    /* a wheel only goes up and down, so a pointer needs something to
+       press; touch just swipes and never sees these */
+    document.addEventListener("click", function (e) {
+      var arrow = e.target.closest && e.target.closest(".reel-arrow");
+      if (!arrow) return;
+      var track = arrow.closest(".reel-window").querySelector(".reel-track");
+      var kids = track.children;
+      if (!kids.length) return;
+
+      /* Assigning scrollLeft rather than scrollBy — the easing belongs to
+         the track's own scroll-behavior, so a press still lands on the
+         right frame even where animation can't run. One frame a press. */
+      var box = track.getBoundingClientRect();
+      var mid = box.left + box.width / 2;
+      var at = 0, gap = Infinity;
+      Array.prototype.forEach.call(kids, function (kid, i) {
+        var r = kid.getBoundingClientRect();
+        var d = Math.abs(r.left + r.width / 2 - mid);
+        if (d < gap) { gap = d; at = i; }
+      });
+      var want = at + (arrow.classList.contains("reel-next") ? 1 : -1);
+      want = Math.max(0, Math.min(kids.length - 1, want));
+      var target = kids[want].getBoundingClientRect();
+      track.scrollLeft += (target.left + target.width / 2) - mid;
+    });
+
     document.addEventListener("scroll", function (e) {
       var track = e.target && e.target.closest && e.target.closest(".reel-track");
       if (!track) return;
+      reelEnds(track);
       clearTimeout(tick);
       tick = setTimeout(function () {
-        var out = track.parentNode.querySelector(".reel-count b");
+        var out = track.closest(".reel").querySelector(".reel-count b");
         if (!out) return;
         /* both sides measured against the viewport — offsetLeft is
            relative to the nearest positioned ancestor, which isn't the
@@ -236,6 +271,16 @@
         out.textContent = best + 1;
       }, 60);
     }, true);
+  }
+
+  /* a strip narrow enough to hold everything needs no arrows at all */
+  function settleReels() {
+    Array.prototype.forEach.call(document.querySelectorAll(".reel-track"), function (track) {
+      var reel = track.closest(".reel");
+      var roomy = track.scrollWidth <= track.clientWidth + 2;
+      reel.classList.toggle("is-whole", roomy);
+      if (!roomy) reelEnds(track);
+    });
   }
 
   bindLightbox();
@@ -403,8 +448,15 @@
               frames + "</div>";
           } else {
             /* Anything more rides a strip you swipe. A stack of eight
-               down the page is a scroll; sideways it stays one moment. */
-            out += '<div class="reel"><div class="reel-track">' + frames + "</div>" +
+               down the page is a scroll; sideways it stays one moment.
+               Arrows because a mouse wheel only goes one way. */
+            out += '<div class="reel"><div class="reel-window">' +
+              '<div class="reel-track">' + frames + "</div>" +
+              '<button class="reel-arrow reel-prev" type="button" aria-label="Previous frames" disabled>' +
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>' +
+              '<button class="reel-arrow reel-next" type="button" aria-label="More frames">' +
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>' +
+              "</div>" +
               '<p class="reel-count"><b>1</b> / ' + b.shots.length + "</p></div>";
           }
         }
@@ -415,6 +467,12 @@
         return shotHtml(trip, p, i);
       }).join("");
     }
+    settleReels();
+    var reflow;
+    window.addEventListener("resize", function () {
+      clearTimeout(reflow);
+      reflow = setTimeout(settleReels, 150);
+    });
 
     /* Trail: every other gallery, in order */
     var trail = document.getElementById("galleryTrail");
