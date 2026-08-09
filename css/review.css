@@ -2321,47 +2321,120 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 }
 
 /* ============================================================
-   PHOTOS PAGE — trips with photo grids, and a lightbox
+   THE STREAM — the wall of every frame: masonry columns per
+   trip, thin roll lines between trips, captions as pills on
+   the photos, and a lightbox
    ============================================================ */
-.trip { padding-top: 48px; }
-.trip-note {
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--ink-65);
-  margin: -12px 0 16px;
-  max-width: 560px;
+.stream-sec { padding-top: clamp(40px, 6vw, 72px); }
+.stream-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 6px;
 }
-.photo-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(14px, 1.5vw, 24px);
+.stream-head .photo-stats {
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
-@media (min-width: 560px) { .photo-grid { grid-template-columns: repeat(2, 1fr); } }
-.shot { margin: 0; }
+.roll { padding-top: 10px; }
+.roll-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 18px 0;
+  border-top: 1px solid var(--border);
+}
+.roll-place {
+  font-family: var(--display);
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: clamp(24px, 2.8vw, 38px);
+  line-height: 1.05;
+  color: var(--ink-85);
+  transition: color .15s ease;
+}
+.roll-meta {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+  white-space: nowrap;
+}
+.roll-go {
+  margin-left: auto;
+  color: var(--ink-55);
+  transition: transform .25s var(--ease-out-quart), color .15s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .roll-head:hover .roll-place { color: #E5484D; }
+  .roll-head:hover .roll-go { transform: translateX(4px); color: var(--ink-85); }
+}
+.stream-grid {
+  columns: 1;
+  column-gap: clamp(14px, 1.4vw, 22px);
+  padding-bottom: clamp(28px, 4vw, 48px);
+}
+@media (min-width: 600px) { .stream-grid { columns: 2; } }
+@media (min-width: 1024px) { .stream-grid { columns: 3; } }
+.shot { margin: 0 0 clamp(14px, 1.4vw, 22px); break-inside: avoid; }
 .shot-btn {
   display: block;
   width: 100%;
   padding: 0;
-  border-radius: 14px;
+  border-radius: 22px;
   overflow: hidden;
   position: relative;
   cursor: zoom-in;
   background: var(--surface);
-  transition: transform .3s var(--ease-out-quart);
 }
 .shot-btn::after {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 14px;
+  border-radius: 22px;
   box-shadow: var(--shadow-flush);
   pointer-events: none;
 }
-@media (hover: hover) and (pointer: fine) {
-  .shot-btn:hover { transform: translateY(-3px); }
+.shot-btn img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform .6s var(--ease-out-quart);
 }
-.shot-btn img { width: 100%; height: auto; display: block; }
-.shot-cap { margin-top: 8px; font-size: 12px; line-height: 1.5; color: var(--ink-40); }
+@media (hover: hover) and (pointer: fine) {
+  .shot-btn:hover img { transform: scale(1.03); }
+}
+.shot-pill {
+  position: absolute;
+  left: 13px;
+  bottom: 13px;
+  max-width: calc(100% - 26px);
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(10, 10, 10, .52);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .2s ease, transform .3s var(--ease-out-quart);
+}
+@media (hover: hover) and (pointer: fine) {
+  .shot-btn:hover .shot-pill { opacity: 1; transform: none; }
+}
+@media (hover: none) {
+  .shot-pill { opacity: 1; transform: none; }
+}
 .photo-stats {
   padding: 20px 0 8px;
   margin-top: 40px;

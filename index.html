@@ -6,11 +6,11 @@
 <title>Cody Heart Photography</title>
 <meta name="description" content="Cody Heart’s photography: a running record of the road, trip by trip, on the way to all seven continents. Free to download for personal use.">
 <script>try{if(localStorage.getItem("hl-theme")==="light")document.documentElement.classList.remove("dark")}catch(e){}</script>
-<link rel="stylesheet" href="css/review.css?v=20260809v">
+<link rel="stylesheet" href="css/review.css?v=20260809w">
 <script>window.coverFallback=window.coverFallback||function(i){(window.__fellCovers=window.__fellCovers||[]).push(i)}</script>
-<script defer src="js/review.js?v=20260809v"></script>
-<script defer src="js/photos.js?v=20260809v"></script>
-<script defer src="js/hobby.js?v=20260809v"></script>
+<script defer src="js/review.js?v=20260809w"></script>
+<script defer src="js/photos.js?v=20260809w"></script>
+<script defer src="js/hobby.js?v=20260809w"></script>
 </head>
 <body class="home">
 
@@ -65,11 +65,25 @@
       <span class="chi-w">Chicago<svg class="w-pop" viewBox="0 0 140 92" aria-hidden="true"><rect x="1" y="1" width="138" height="90" rx="4" fill="#fff" stroke="rgba(0,0,0,.14)"/><text x="70" y="72" text-anchor="middle" font-family="Geist, system-ui, sans-serif" font-size="78" font-weight="800" fill="#0E3386">W</text></svg></span> in the cold,
       a carry-on through London and Paris. Every frame is free to download
       for personal use. Two continents down, five to go.</p>
-      <a class="darkhero-cta press-scale" href="photos.html">See all photos</a>
+      <a class="darkhero-cta press-scale" href="#photos">See all photos</a>
     </div>
   </div>
 </section>
 <main id="main">
+<section class="stream-sec wrap wall" id="photos" aria-label="The photographs">
+  <div class="stream-head">
+    <p class="photo-stats" id="photoStats">54 frames · 8 trips · newest first</p>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch between light and dark mode">
+      <span class="theme-knob" aria-hidden="true">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.6 14.2A8.8 8.8 0 0 1 9.8 3.4a8.8 8.8 0 1 0 10.8 10.8Z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M19.1 4.9l-1.6 1.6M6.5 17.5l-1.6 1.6"/></svg>
+      </span>
+    </button>
+  </div>
+  <div id="tripList"></div>
+  <noscript><p class="noscript-note">The photographs need JavaScript to render — they read from <code>js/photos.js</code>.</p></noscript>
+</section>
+
 <section class="places-sec wrap wall" id="continents" aria-label="Where I’ve been">
   <div class="sec-head sec-head--center">
     <h2>Where I’ve been</h2>
@@ -89,63 +103,6 @@
     <span class="place"><span class="place-badge" aria-hidden="true">→</span><span class="place-name">Chicago, the move</span><span class="place-tag">up next</span></span>
     <span class="place"><span class="place-badge" aria-hidden="true">♪</span><span class="place-name">Buddy Guy</span><span class="place-tag">up next</span></span>
   </div>
-</section>
-
-<section class="galleries-sec wrap wall" id="galleries" aria-label="Recent trips">
-  <div class="sec-head sec-head--row">
-    <h2>Recent trips</h2>
-    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch between light and dark mode">
-      <span class="theme-knob" aria-hidden="true">
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.6 14.2A8.8 8.8 0 0 1 9.8 3.4a8.8 8.8 0 1 0 10.8 10.8Z"/></svg>
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M19.1 4.9l-1.6 1.6M6.5 17.5l-1.6 1.6"/></svg>
-      </span>
-    </button>
-  </div>
-  <div class="gallery-cols" id="galleryGrid">
-    <a class="gcard" href="gallery.html?trip=san-diego">
-      <img src="photos/sandiego-zoo/web/grizzly-2.jpg" alt="My trip to San Diego">
-      <span class="gcard-label">My trip to San Diego<span class="gcard-meta">June 2026 · 11 frames</span></span>
-      <span class="gcard-go" aria-hidden="true">→</span>
-    </a>
-    <a class="gcard" href="gallery.html?trip=chicago-february">
-      <img src="photos/placeholders/chi-1.svg" alt="Chicago in February">
-      <span class="gcard-label">Chicago in February<span class="gcard-meta">February 2026 · 6 frames</span></span>
-      <span class="gcard-go" aria-hidden="true">→</span>
-    </a>
-    <a class="gcard" href="gallery.html?trip=london-paris">
-      <img src="photos/london-paris/web/monet-pond.jpg" alt="London and Paris">
-      <span class="gcard-label">London and Paris<span class="gcard-meta">October 2025 · 7 frames</span></span>
-      <span class="gcard-go" aria-hidden="true">→</span>
-    </a>
-    <a class="gcard" href="gallery.html?trip=nashville">
-      <img src="photos/placeholders/nash-1.svg" alt="Nashville, before the move" loading="lazy">
-      <span class="gcard-label">Nashville, before the move<span class="gcard-meta">August 2025 · 6 frames</span></span>
-      <span class="gcard-go" aria-hidden="true">→</span>
-    </a>
-    <a class="gcard" href="gallery.html?trip=big-sur">
-      <img src="photos/placeholders/bigsur-1.svg" alt="Big Sur, Highway 1" loading="lazy">
-      <span class="gcard-label">Big Sur, Highway 1<span class="gcard-meta">May 2025 · 6 frames</span></span>
-      <span class="gcard-go" aria-hidden="true">→</span>
-    </a>
-    <a class="gcard" href="gallery.html?trip=new-york">
-      <img src="photos/placeholders/nyc-1.svg" alt="New York, back for a week" loading="lazy">
-      <span class="gcard-label">New York, back for a week<span class="gcard-meta">December 2024 · 6 frames</span></span>
-      <span class="gcard-go" aria-hidden="true">→</span>
-    </a>
-    <a class="gcard" href="gallery.html?trip=joshua-tree">
-      <img src="photos/placeholders/jtree-1.svg" alt="Joshua Tree, dusk to dark" loading="lazy">
-      <span class="gcard-label">Joshua Tree, dusk to dark<span class="gcard-meta">March 2024 · 6 frames</span></span>
-      <span class="gcard-go" aria-hidden="true">→</span>
-    </a>
-    <a class="gcard" href="gallery.html?trip=the-bay">
-      <img src="photos/placeholders/bay-1.svg" alt="The Bay, revisited" loading="lazy">
-      <span class="gcard-label">The Bay, revisited<span class="gcard-meta">September 2023 · 6 frames</span></span>
-      <span class="gcard-go" aria-hidden="true">→</span>
-    </a>
-  </div>
-  <nav class="link-row frames-more" aria-label="The archive">
-    <a class="press-scale" href="photos.html">The archive, every frame <span class="arrow" aria-hidden="true">→</span></a>
-  </nav>
 </section>
 
 <section class="backstacks wrap" id="backstacks" aria-label="The rest of the library">
@@ -168,6 +125,15 @@
   for anything commercial, <a href="mailto:hello@heartslibrary.com">ask
   first</a>. The books, pins, and games keep growing one floor down.</p>
 </section>
+<dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+  <figure>
+    <img src="" alt="">
+    <figcaption class="lightbox-cap"></figcaption>
+  </figure>
+  <div class="lightbox-bar">
+    <a class="lightbox-dl press-scale" href="" download>Download <small>· personal use only</small></a>
+  </div>
+</dialog>
 </main>
 <footer class="footer">
   <div class="footer__inner">

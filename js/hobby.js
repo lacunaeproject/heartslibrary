@@ -40,9 +40,8 @@
       '<button class="shot-btn" type="button" data-trip="' + esc(t.slug) + '" data-i="' + i + '" aria-label="View larger: ' + esc(p.caption || t.place) + '">' +
       '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '" loading="lazy"' +
       (p.w && p.h ? ' style="aspect-ratio:' + Number(p.w) + '/' + Number(p.h) + '"' : "") + ">" +
-      "</button>" +
-      (p.caption ? '<figcaption class="shot-cap">' + esc(p.caption) + "</figcaption>" : "") +
-      "</figure>";
+      (p.caption ? '<span class="shot-pill">' + esc(p.caption) + "</span>" : "") +
+      "</button></figure>";
   }
 
   /* Lightbox: one <dialog>, shared by any page that renders shots. */
@@ -204,21 +203,24 @@
           return '<a class="press-scale" href="gallery.html?trip=' + esc(t.slug) + '">' +
             esc(t.place) + ' <span class="arrow" aria-hidden="true">→</span></a>';
         }).join("") +
-        '<a class="press-scale" href="index.html#galleries">All galleries <span class="arrow" aria-hidden="true">→</span></a>';
+        '<a class="press-scale" href="index.html#photos">All photos <span class="arrow" aria-hidden="true">→</span></a>';
     }
   }
 
   /* ----------------------------------------------------------
-     PHOTOS page — the archive: every trip on one page
+     THE STREAM — every frame on one page (homepage + archive):
+     a masonry wall per trip, split only by a thin roll line
+     that clicks through to that trip's gallery.
      ---------------------------------------------------------- */
   var tripList = document.getElementById("tripList");
   if (tripList && TRIPS.length) {
     tripList.innerHTML = TRIPS.map(function (t) {
-      return '<section class="trip" id="' + esc(t.slug) + '">' +
-        '<div class="rubric" role="presentation"><span class="rubric-label">' +
-          esc(t.place) + ' · ' + esc(t.when) + "</span></div>" +
-        (t.note ? '<p class="trip-note">' + esc(t.note) + "</p>" : "") +
-        '<div class="photo-grid">' +
+      return '<section class="roll" id="' + esc(t.slug) + '">' +
+        '<a class="roll-head" href="gallery.html?trip=' + esc(t.slug) + '">' +
+          '<span class="roll-place">' + esc(t.short || t.place) + '</span>' +
+          '<span class="roll-meta">' + esc(t.when) + " · " + (t.photos || []).length + " frames</span>" +
+          '<span class="roll-go" aria-hidden="true">→</span></a>' +
+        '<div class="stream-grid">' +
         (t.photos || []).map(function (p, i) { return shotHtml(t, p, i); }).join("") +
         "</div></section>";
     }).join("");
