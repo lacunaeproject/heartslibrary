@@ -274,6 +274,24 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 .link-hover:hover { color: rgba(0, 0, 0, .85); }
 .press-scale { transition: transform .1s; }
 .press-scale:active { transform: scale(.97); }
+/* A frame gives a little under the press, the way the reference's
+   photos do — the give is on the frame, not the picture inside it,
+   so the crop never shifts. */
+.shot-btn,
+.msg-one .vid,
+.reel-track .vid,
+.tile--video {
+  transition: transform .16s var(--ease-out-quart);
+}
+.shot-btn:active,
+.msg-one .vid:active,
+.reel-track .vid:active,
+.tile--video:active { transform: scale(.97); }
+@media (prefers-reduced-motion: reduce) {
+  .shot-btn, .msg-one .vid, .reel-track .vid, .tile--video { transition: none; }
+  .shot-btn:active, .msg-one .vid:active,
+  .reel-track .vid:active, .tile--video:active { transform: none; }
+}
 .img-hover { transition: opacity .15s ease; }
 .img-hover:hover { opacity: .9; }
 
@@ -2901,33 +2919,90 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 /* The journal speaks in bubbles — one voice, iMessage's shape:
    a small centered date, a rounded bubble of words, the photos
    attached beneath at the same width. */
-.msg { margin: 0 0 clamp(20px, 2.4vw, 28px); }
-.msg-when {
-  margin: 14px 0 8px;
-  text-align: center;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  color: var(--ink-40);
-}
-/* The post card: white and floating in the light, an elevated
-   surface in the dark; words and photos ride inside together */
-.msg-card {
-  --card: #fff;
+/* THE THREAD — the shape Threads uses: every post shares one
+   rounded container and the rows are told apart by a hairline, not
+   by gaps. No avatar, no name; the site is one voice already. */
+/* The reference's light mode is a grey ground with white posts, so
+   the thread is the lighter thing on the page — the page gives way
+   to it, not the other way round. Dark keeps the same relationship
+   with the ground already near-black. */
+.thread {
+  --row-pad: clamp(15px, 1.7vw, 20px);
+  --thread-bg: #fff;
+  border: 1px solid var(--border);
   border-radius: 20px;
-  background: var(--card);
-  box-shadow: var(--shadow-floating);
-  padding: 14px 16px;
+  background: var(--thread-bg);
+  overflow: hidden;
 }
-html.dark .msg-card { --card: #1B1B1A; }
+html.dark .thread { --thread-bg: var(--surface); }
+/* the journal is nothing but thread, so the whole page takes the
+   ground; elsewhere a thread is one section and keeps its border */
+body.feed-page { background: var(--surface); }
+html.dark body.feed-page { background: var(--background); }
+.thread .msg {
+  margin: 0;
+  padding: var(--row-pad);
+  border-top: 1px solid var(--border);
+}
+.thread .msg:first-child { border-top: 0; }
+/* Where the reference shows a name and a time, a post shows which
+   experience it came from — and clicks through to it */
+.msg-when {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 0 0 6px;
+  /* the meta line reads at the post's own size — only its colour
+     sets it back from the words */
+  font-size: 15.5px;
+  color: var(--ink-45);
+}
+.msg-from {
+  font-weight: 600;
+  color: var(--ink-85);
+  transition: color .15s ease;
+}
+.msg-from:hover { color: #E5484D; }
+.msg-dot { color: var(--ink-30); }
 .msg-say {
   margin: 0;
-  font-size: 16px;
+  font-size: 15.5px;
   line-height: 1.55;
   color: var(--ink-85);
 }
-.msg .tiles { margin-top: 10px; }
+/* A lone frame keeps its own shape, inset with the words */
+.msg-one { margin-top: 11px; }
+.msg-one .shot { margin: 0; }
+.msg-one .shot-btn,
+.msg-one .vid { border-radius: 10px; max-width: 340px; }
+.msg-one .shot-btn::after { border-radius: 10px; }
+/* Several run off the right edge of the container into a swipe —
+   the strip starts at the words' left edge and is cut by the
+   container, exactly as the reference does it. */
+.msg-reel {
+  margin: 11px calc(-1 * var(--row-pad)) 0 0;
+}
+.msg-reel .reel-track { gap: 6px; padding-right: var(--row-pad); }
+.msg-reel .reel-track .shot-btn,
+.msg-reel .reel-track .vid { border-radius: 10px; }
+.msg-reel .reel-track .shot-btn::after { border-radius: 10px; }
+.msg-reel .reel-track .shot-btn img,
+.msg-reel .reel-track .vid video {
+  height: clamp(200px, 26vw, 290px);
+}
+/* On a phone the thread is the page: edge to edge, corners off.
+   The gutter it has to escape differs by page — 24px inside the
+   journal's wrap, the section's own gutter on an experience. */
+@media (max-width: 640px) {
+  .thread {
+    margin-inline: calc(-1 * var(--escape, 24px));
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+  .live-sec { --escape: var(--gutter); padding-left: var(--gutter); padding-right: var(--gutter); }
+}
 .card-where {
   font-size: 13px;
   font-weight: 600;
@@ -3073,41 +3148,64 @@ html.dark .msg-card { --card: #1B1B1A; }
   box-shadow: var(--shadow-flush);
 }
 .vid video { display: block; width: 100%; }
-.vid-play {
+/* A clip's whole surface opens the viewer; the speaker sits above
+   it so a press for sound never enlarges the frame. */
+.vid-open {
   position: absolute;
   inset: 0;
-  margin: auto;
-  width: 62px;
-  height: 62px;
+  z-index: 1;
   padding: 0;
   border: 0;
-  border-radius: 50%;
-  background: rgba(20, 20, 20, .55);
-  backdrop-filter: blur(2px);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color .15s ease, transform .15s ease;
+  background: none;
+  cursor: zoom-in;
 }
-.vid-play svg { width: 30px; height: 30px; margin-left: 2px; }
-@media (hover: hover) and (pointer: fine) {
-  .vid-play:hover { background: rgba(20, 20, 20, .75); transform: scale(1.05); }
-}
-.vid-dur {
+.vid-mute {
   position: absolute;
   right: 10px;
   bottom: 10px;
-  padding: 2px 7px;
-  border-radius: 4px;
-  background: rgba(20, 20, 20, .65);
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(10, 10, 10, .55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color .15s ease;
+}
+.vid-mute:hover { background: rgba(10, 10, 10, .78); }
+/* the clip's length, in the corner opposite the speaker. It has to
+   be taken out of flow or its line box props the container open
+   below the video and shows a band of the black backing. */
+.vid-dur {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 2;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(10, 10, 10, .55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   font-family: var(--mono);
   font-size: 11px;
+  line-height: 1.4;
   color: #fff;
+  pointer-events: none;
 }
-.vid.is-playing .vid-play,
-.vid.is-playing .vid-dur { display: none; }
+.vid-mute svg { width: 16px; height: 16px; display: block; }
+.vid-mute .icon-on { display: none; }
+.vid.is-muted .vid-mute .icon-off { display: block; }
+.vid.is-muted .vid-mute .icon-on { display: none; }
+.vid:not(.is-muted) .vid-mute .icon-off { display: none; }
+.vid:not(.is-muted) .vid-mute .icon-on { display: block; }
+/* the clip is always running now, so the duration just sits there */
 .shot-cap {
   display: block;
   margin-top: 8px;
@@ -3242,10 +3340,21 @@ html.dark .msg-card { --card: #1B1B1A; }
 /* The wall runs wide; the live journal draws into a narrow column
    down the middle — a change of voice, not a continuation. Its
    heading answers the page title in the same thick italic. */
+/* The live journal gets the same ground the journal page has: a
+   grey band the full width of the page, its column down the middle
+   and the white thread sitting on it. Dark needs no band — the
+   thread already lifts off the black. */
 .live-sec {
+  max-width: none;
+  margin: clamp(46px, 6vw, 78px) 0 0;
+  padding: clamp(30px, 4vw, 52px) var(--gutter) clamp(32px, 4vw, 56px);
+  background: var(--surface);
+}
+html.dark .live-sec { background: transparent; }
+.live-sec > * {
   max-width: 640px;
-  margin: clamp(46px, 6vw, 78px) auto 0;
-  padding-bottom: clamp(20px, 3vw, 32px);
+  margin-left: auto;
+  margin-right: auto;
 }
 .live-head {
   font-family: 'Gooper', Georgia, serif;
@@ -3259,7 +3368,8 @@ html.dark .msg-card { --card: #1B1B1A; }
   text-align: center;
 }
 .live-sub {
-  margin: 9px 0 clamp(20px, 2.4vw, 30px);
+  /* auto sides, or this shorthand would undo the column centring */
+  margin: 9px auto clamp(20px, 2.4vw, 30px);
   text-align: center;
   font-size: 13.5px;
   line-height: 1.5;
@@ -3372,29 +3482,6 @@ html.dark .msg-card { --card: #1B1B1A; }
   box-shadow: 0 0 0 1px var(--border);
 }
 .feed-page .feed-list { max-width: none; }
-/* Month marks keep a long journal navigable — a quiet mono label
-   trailing a hairline, between the cards where a month turns */
-.feed-month {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: clamp(26px, 3vw, 38px) 0 10px;
-}
-.feed-month:first-child { margin-top: 0; }
-.feed-month span {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  color: var(--ink-40);
-  white-space: nowrap;
-}
-.feed-month::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
 .feed-sentinel { height: 1px; }
 /* The sidebar's quiet rows sit a breath below the main four */
 .side-gap { height: 18px; }
@@ -3444,76 +3531,115 @@ html.dark .msg-card { --card: #1B1B1A; }
   color: var(--ink-40);
 }
 
+/* THE VIEWER — the reference's shape: a solid black field, the
+   photograph filling the height of it edge to edge with no frame
+   of its own, a close in the top-left corner and an arrow centred
+   on each side. The caption and the download stay, quietly, since
+   the frames here are meant to be taken. */
 .lightbox {
-  /* the global reset zeroes every margin, which silently killed the
-     UA's `margin: auto` that centres a modal dialog — restore it */
-  margin: auto;
-  border: 0;
+  margin: 0;
   padding: 0;
-  background: transparent;
-  max-width: min(92vw, 1100px);
+  border: 0;
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  height: 100dvh;
+  max-height: none;
+  background: #000;
   cursor: zoom-out;
+  overflow: hidden;
 }
-.lightbox::backdrop { background: rgba(23, 23, 23, .72); backdrop-filter: blur(6px); }
-.lightbox figure { margin: 0; }
-/* Moving through a set: arrows on a pointer, a thumb flick on touch,
-   arrow keys on a desk. Hidden entirely when there's only one frame. */
-.lb-arrow {
+.lightbox::backdrop { background: #000; }
+.lightbox figure {
+  margin: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* the photograph — or the clip — takes the whole height and keeps
+   its own shape */
+.lb-video {
+  display: block;
+  width: auto;
+  height: 100%;
+  max-width: 100vw;
+  object-fit: contain;
+  background: #000;
+}
+.lb-video[hidden] { display: none; }
+.lightbox img {
+  display: block;
+  width: auto;
+  height: 100%;
+  max-width: 100vw;
+  object-fit: contain;
+  border-radius: 0;
+}
+.lb-round {
   position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 46px;
-  height: 46px;
+  width: 42px;
+  height: 42px;
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: rgba(20, 20, 20, .6);
+  background: rgba(255, 255, 255, .12);
   color: #fff;
   cursor: pointer;
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color .15s ease, opacity .15s ease;
 }
-.lightbox.has-set .lb-arrow { display: flex; }
-.lb-arrow svg { width: 22px; height: 22px; }
-.lb-arrow:disabled { opacity: .28; cursor: default; }
-.lb-prev { left: clamp(8px, 2vw, 26px); }
-.lb-next { right: clamp(8px, 2vw, 26px); }
 @media (hover: hover) and (pointer: fine) {
-  .lb-arrow:not(:disabled):hover { background: rgba(20, 20, 20, .85); }
+  .lb-round:not(:disabled):hover { background: rgba(255, 255, 255, .24); }
 }
+.lb-close { top: 20px; left: 20px; z-index: 3; }
+.lb-close svg { width: 18px; height: 18px; }
+/* Moving through a set: arrows on a pointer, a thumb flick on touch,
+   arrow keys on a desk. Hidden entirely when there's only one frame. */
+.lb-arrow {
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+}
+.lightbox.has-set .lb-arrow { display: flex; }
+.lb-arrow svg { width: 20px; height: 20px; }
+.lb-arrow:disabled { opacity: .25; cursor: default; }
+.lb-prev { left: 20px; }
+.lb-next { right: 20px; }
 .lightbox-tally {
   position: fixed;
-  top: clamp(10px, 2.4vh, 24px);
+  top: 26px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 4px 11px;
-  border-radius: 999px;
-  background: rgba(20, 20, 20, .6);
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: .06em;
-  color: #fff;
+  color: rgba(255, 255, 255, .65);
   display: none;
 }
 .lightbox.has-set .lightbox-tally { display: block; }
-/* thumbs need room to swipe without the arrows under them */
 @media (max-width: 620px) {
-  .lb-arrow { width: 40px; height: 40px; }
+  .lb-round { width: 38px; height: 38px; }
+  .lb-close, .lightbox-tally { top: 14px; }
+  .lb-close { left: 14px; }
+  .lb-prev { left: 10px; }
+  .lb-next { right: 10px; }
 }
-/* The frame shrinkwraps the photograph — no letterboxing, so the
-   rounded corners sit on the image's own edges whatever its shape */
-.lightbox img {
-  display: block;
-  margin-inline: auto;
-  width: auto;
-  max-width: 100%;
-  max-height: 78vh;
-  border-radius: 12px;
+.lightbox-cap {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 22px;
+  padding: 0 76px;
+  text-align: center;
+  font-size: 13px;
+  color: rgba(255, 255, 255, .8);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, .7);
+  pointer-events: none;
 }
-.lightbox-cap { margin-top: 10px; text-align: center; font-size: 13px; color: #fff; opacity: .85; }
-.lightbox-bar { margin-top: 12px; text-align: center; }
+.lightbox-bar { position: fixed; top: 20px; right: 20px; z-index: 3; }
 .lightbox-dl {
   display: inline-flex;
   align-items: center;
@@ -3530,6 +3656,13 @@ html.dark .msg-card { --card: #1B1B1A; }
 }
 .lightbox-dl:hover { background: rgba(255, 255, 255, .2); }
 .lightbox-dl small { font-weight: 450; opacity: .7; font-size: 12px; }
+/* on a phone the terms would run into the counter — the rule is
+   stated on the pages themselves too */
+@media (max-width: 620px) {
+  .lightbox-dl { height: 32px; padding: 0 13px; font-size: 12.5px; }
+  .lightbox-dl small { display: none; }
+  .lightbox-cap { padding: 0 18px; bottom: 16px; font-size: 12.5px; }
+}
 
 /* The house rule, stated wherever photos can be downloaded */
 .dl-note {

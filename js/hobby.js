@@ -124,48 +124,67 @@
     var n = Math.round(s);
     return Math.floor(n / 60) + ":" + String(n % 60).padStart(2, "0");
   }
-  /* The clip stays a still with a play button over it until asked —
-     the reference's treatment, and it keeps a heavy file off the wire
-     until someone actually wants it. */
+  /* Clips play themselves, muted and looping, whenever they're on
+     screen; a press on the speaker is what gives them sound. */
+  function playSafely(v) {
+    var p = v.play();
+    /* a browser that refuses autoplay rejects rather than throwing */
+    if (p && p.catch) p.catch(function () {});
+  }
   function bindVideos() {
     document.addEventListener("click", function (e) {
-      /* the strip's clips play via their button */
-      var btn = e.target.closest(".vid-play");
-      if (btn) {
-        var wrap = btn.closest(".vid");
-        var v = wrap && wrap.querySelector("video");
-        if (!v) return;
-        wrap.classList.add("is-playing");
-        v.controls = true;
-        v.play();
-        return;
-      }
-      /* a journal tile plays on a tap anywhere on the frame */
-      var tile = e.target.closest(".tile--video");
-      if (tile) {
-        var tv = tile.querySelector("video");
-        if (!tv) return;
-        tile.classList.add("is-playing");
-        tv.controls = true;
-        tv.play();
-      }
+      var btn = e.target.closest && e.target.closest(".vid-mute");
+      if (!btn) return;
+      e.stopPropagation();
+      var wrap = btn.closest(".vid");
+      var v = wrap && wrap.querySelector("video");
+      if (!v) return;
+      v.muted = !v.muted;
+      if (!v.muted) playSafely(v);
+      wrap.classList.toggle("is-muted", v.muted);
+      btn.setAttribute("aria-label", v.muted ? "Unmute the clip" : "Mute the clip");
+    });
+  }
+  /* Only the clips actually on screen run — a page of them would
+     otherwise all decode at once. */
+  var vidWatcher = null;
+  function settleVideos() {
+    if (!window.IntersectionObserver) return;
+    if (!vidWatcher) {
+      vidWatcher = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          var v = en.target.querySelector("video");
+          if (!v) return;
+          if (en.isIntersecting) playSafely(v);
+          else v.pause();
+        });
+      }, { threshold: 0.2 });
+    }
+    Array.prototype.forEach.call(document.querySelectorAll(".vid"), function (el) {
+      if (el.dataset.watched) return;
+      el.dataset.watched = "1";
+      vidWatcher.observe(el);
     });
   }
   function shotHtml(t, p, i) {
     var ratio = p.w && p.h ? ' style="aspect-ratio:' + Number(p.w) + "/" + Number(p.h) + '"' : "";
     /* A landscape frame lies across two portrait cells on the wall */
     var wide = Number(p.w) > Number(p.h) ? " shot--wide" : "";
-    /* A clip plays where it sits — no lightbox button wrapping it, or
-       the click to play would fight the click to enlarge. */
+    /* A clip's own surface opens the viewer; only the speaker
+       button swallows the press. */
     if (p.video) {
+      /* A clip runs itself, silently, on a loop — sound is a
+         deliberate press. Muted is what makes autoplay allowed at
+         all, so the speaker is the only control it needs. */
       return '<figure class="shot shot--video' + wide + '">' +
-        '<div class="vid">' +
-          /* #t=0.1 makes the browser seek a tenth of a second in and
-             paint that frame, which stands in for a poster image */
-          '<video src="' + esc(p.src) + '#t=0.1" playsinline preload="metadata"' +
+        '<div class="vid is-muted">' +
+          '<video src="' + esc(p.src) + '" playsinline preload="metadata" muted loop' +
           (p.poster ? ' poster="' + esc(p.poster) + '"' : "") + ratio + "></video>" +
-          '<button class="vid-play" type="button" aria-label="Play the clip">' +
-            '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 6.5v11a1 1 0 0 0 1.5.87l9-5.5a1 1 0 0 0 0-1.74l-9-5.5A1 1 0 0 0 9 6.5Z"/></svg>' +
+          '<button class="vid-open" type="button" aria-label="View larger: ' +
+            esc(p.caption || t.place) + '" data-trip="' + esc(t.slug) + '" data-i="' + i + '"></button>' +
+          '<button class="vid-mute" type="button" aria-label="Unmute the clip">' +
+            '<svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M17 9.5 22 15M22 9.5 17 15"/></svg>' +
+            '<svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M16 9a4 4 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11"/></svg>' +
           "</button>" +
           (p.seconds ? '<span class="vid-dur">' + clock(p.seconds) + "</span>" : "") +
         "</div>" +
@@ -196,7 +215,22 @@
     var p = lb.trip.photos[lb.list[k].i];
     if (!p) return;
     var img = dlg.querySelector("img");
-    img.src = p.src;
+    var vid = dlg.querySelector(".lb-video");
+    /* a clip opens full screen and plays itself, like the stills do */
+    if (p.video) {
+      img.hidden = true;
+      img.removeAttribute("src");
+      if (vid) {
+        vid.hidden = false;
+        if (vid.getAttribute("src") !== p.src) vid.src = p.src;
+        vid.muted = true;
+        playSafely(vid);
+      }
+    } else {
+      if (vid) { vid.pause(); vid.hidden = true; vid.removeAttribute("src"); }
+      img.hidden = false;
+      img.src = p.src;
+    }
     img.alt = p.alt || "";
     /* a standalone post has no place or date to add */
     var where = [xpName(lb.trip), lb.trip.when].filter(Boolean).join(", ");
@@ -217,22 +251,30 @@
     var dlg = document.getElementById("lightbox");
     if (!dlg || typeof dlg.showModal !== "function") return;
 
-    /* the arrows and tally live here rather than in every page's markup */
+    /* the close, arrows and tally live here rather than in every
+       page's markup */
     if (!dlg.querySelector(".lb-prev")) {
-      var arrow = function (cls, label, d) {
-        return '<button class="lb-arrow ' + cls + '" type="button" aria-label="' + label + '">' +
+      var round = function (cls, label, d) {
+        return '<button class="lb-round ' + cls + '" type="button" aria-label="' + label + '">' +
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
           'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + d +
           '"/></svg></button>';
       };
+      var fig = dlg.querySelector("figure");
+      if (fig && !fig.querySelector(".lb-video")) {
+        fig.insertAdjacentHTML("afterbegin",
+          '<video class="lb-video" playsinline loop controls hidden></video>');
+      }
       dlg.insertAdjacentHTML("beforeend",
-        arrow("lb-prev", "Previous frame", "M15 5l-7 7 7 7") +
-        arrow("lb-next", "Next frame", "M9 5l7 7-7 7") +
+        round("lb-close", "Close", "M6 6l12 12M18 6L6 18") +
+        round("lb-arrow lb-prev", "Previous frame", "M15 5l-7 7 7 7") +
+        round("lb-arrow lb-next", "Next frame", "M9 5l7 7-7 7") +
         '<span class="lightbox-tally"></span>');
     }
 
     document.addEventListener("click", function (e) {
-      var btn = e.target.closest(".shot-btn");
+      if (e.target.closest(".vid-mute")) return;
+      var btn = e.target.closest(".shot-btn, .vid-open");
       if (!btn) return;
       var trip = tripBySlug(btn.getAttribute("data-trip"));
       if (!trip) return;
@@ -241,13 +283,13 @@
          open onto all of it; elsewhere the set is whatever shares the
          strip or the grid */
       var tiles = btn.closest(".tiles");
-      var box = btn.closest(".reel-track, .post-media, .stream-grid");
+      var box = btn.closest(".reel-track, .stream-grid, .msg-one");
       if (tiles && tiles.getAttribute("data-all")) {
         lb.list = tiles.getAttribute("data-all").split(",").map(function (n) {
           return { t: trip, i: Number(n) };
         });
       } else if (box) {
-        lb.list = Array.prototype.map.call(box.querySelectorAll(".shot-btn"), function (b) {
+        lb.list = Array.prototype.map.call(box.querySelectorAll("[data-trip][data-i]"), function (b) {
           return { t: tripBySlug(b.getAttribute("data-trip")), i: Number(b.getAttribute("data-i")) };
         }).filter(function (en) { return en.t; });
       } else {
@@ -271,6 +313,10 @@
         return;
       }
       dlg.close();
+    });
+    dlg.addEventListener("close", function () {
+      var v = dlg.querySelector(".lb-video");
+      if (v) v.pause();
     });
 
     document.addEventListener("keydown", function (e) {
@@ -376,6 +422,18 @@
   bindLightbox();
   bindVideos();
   bindReels();
+  /* strips are built by several blocks below; settle them all once
+     the page has finished rendering, and again when it reflows */
+  function settleLater() {
+    if (typeof settleReels === "function") settleReels();
+    settleVideos();
+  }
+  window.addEventListener("load", settleLater);
+  var settleTick;
+  window.addEventListener("resize", function () {
+    clearTimeout(settleTick);
+    settleTick = setTimeout(settleLater, 150);
+  });
 
   /* ----------------------------------------------------------
      HOMEPAGE — the gallery wall: big rounded-rectangle covers,
@@ -542,12 +600,8 @@
     var liveEl = document.getElementById("asItHappened");
     var liveSec = document.getElementById("asItHappenedSec");
     if (liveEl && beats.length) {
-      var seenStamp = "";
       liveEl.innerHTML = beats.map(function (b, bi) {
-        var stamp = b.time ? stampText(b.time) : trip.when;
-        var html = cardHtml(trip, b, stamp === seenStamp, bi);
-        seenStamp = stamp;
-        return html;
+        return cardHtml(trip, b, bi);
       }).join("");
       var liveSub = document.getElementById("liveSub");
       if (liveSub) {
@@ -671,45 +725,6 @@
      photographs; this is the place words live.
      ---------------------------------------------------------- */
 
-  /* The tiled gallery, x's arrangement: one frame runs full width, two
-     sit side by side, three put a tall one beside a stacked pair, four
-     make a square. Past four the fourth tile carries the remainder. */
-  function tileHtml(trip, shots) {
-    var n = Math.min(shots.length, 4);
-    var extra = shots.length - n;
-    /* a lone frame takes its shape from its own orientation; groups
-       keep fixed ratios so a post never goes shapeless. The tiles
-       show at most four; data-all carries the whole post so the
-       lightbox pages through every frame, not just the visible ones */
-    var shape = "";
-    if (n === 1) {
-      var solo = trip.photos[shots[0]];
-      if (solo && solo.w && solo.h) {
-        shape = Number(solo.h) > Number(solo.w) ? " tiles--tall"
-          : Number(solo.h) === Number(solo.w) ? " tiles--square" : "";
-      }
-    }
-    return '<div class="tiles tiles--' + n + shape + '" data-all="' + shots.join(",") + '">' +
-      shots.slice(0, n).map(function (idx, k) {
-        var p = trip.photos[idx];
-        if (!p) return "";
-        var more = (extra && k === n - 1)
-          ? '<span class="tile-more">+' + extra + "</span>" : "";
-        if (p.video) {
-          return '<figure class="tile tile--video">' +
-            '<video src="' + esc(p.src) + '#t=0.1" playsinline preload="metadata" muted></video>' +
-            '<span class="tile-play" aria-hidden="true">' +
-              '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 6.5v11a1 1 0 0 0 1.5.87l9-5.5a1 1 0 0 0 0-1.74l-9-5.5A1 1 0 0 0 9 6.5Z"/></svg></span>' +
-            (p.seconds ? '<span class="tile-dur">' + clock(p.seconds) + "</span>" : "") +
-            more + "</figure>";
-        }
-        return '<figure class="tile">' +
-          '<button class="shot-btn tile-btn" type="button" data-trip="' + esc(trip.slug) +
-          '" data-i="' + idx + '" aria-label="View larger: ' + esc(p.caption || trip.place) + '">' +
-          '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '" loading="lazy">' +
-          more + "</button></figure>";
-      }).join("") + "</div>";
-  }
 
   /* A post is one floating card — a tiny date above, then the words
      and the photos together inside. No headline, no tags; `head`/
@@ -745,17 +760,27 @@
   /* A post is a row in the thread: its date, what was written, then
      the frames. The rows share one rounded container and are split
      by hairlines — no avatar, no name, the site is one voice. */
-  function cardHtml(trip, b, key) {
+  function cardHtml(trip, b, key, fromLink) {
     var stamp = b.time ? stampText(b.time) : trip.when;
     var set = beatSet(trip, b, key || 0);
     var out = '<article class="msg">';
-    if (stamp) out += '<p class="msg-when">' + esc(stamp) + "</p>";
+    /* Where the reference puts a name, a post says which experience
+       it belongs to and clicks through to it. On the experience's
+       own page that would only point back at itself, so it's the
+       journal that asks for the link. */
+    var meta = "";
+    if (fromLink && trip.gallery !== false && trip.slug) {
+      meta += '<a class="msg-from" href="gallery.html?trip=' + esc(trip.slug) + '">' +
+        esc(xpName(trip)) + "</a>";
+    }
+    if (stamp) {
+      meta += (meta ? '<span class="msg-dot" aria-hidden="true">·</span>' : "") +
+        "<span>" + esc(stamp) + "</span>";
+    }
+    if (meta) out += '<p class="msg-when">' + meta + "</p>";
     if (b.say) out += '<p class="msg-say">' + esc(b.say) + "</p>";
     if (set.shots.length) out += mediaHtml(set.trip, set.shots);
     return out + "</article>";
-  }
-  function cardStamp(c) {
-    return c.beat.time ? stampText(c.beat.time) : c.trip.when;
   }
 
   /* Everything postable lands in one pile: trip posts and the
@@ -782,12 +807,8 @@
       feedList.innerHTML = '<p class="noscript-note">Nothing posted yet.</p>';
     } else if (!window.IntersectionObserver) {
       /* ancient browser: render everything at once */
-      var prevStamp = "";
       feedList.innerHTML = cards.map(function (c) {
-        var s = cardStamp(c);
-        var html = cardHtml(c.trip, c.beat, s === prevStamp, c.at);
-        prevStamp = s;
-        return html;
+        return cardHtml(c.trip, c.beat, c.at, true);
       }).join("");
     } else {
       /* Batches keep a journal years deep light: fifteen cards at a
@@ -797,33 +818,14 @@
          and the observer alone won't re-fire for it. */
       var BATCH = 15;
       var at = 0;
-      var lastMonth = "";
-      var monthOf = function (c) {
-        var m = String(c.beat.time || c.trip.posted || "").match(/^(\d{4})-(\d{2})/);
-        if (!m) return c.trip.when || "";
-        return LONG_MONTHS[Number(m[2]) - 1] + " " + m[1];
-      };
       var sentinel = document.createElement("div");
       sentinel.className = "feed-sentinel";
       feedList.appendChild(sentinel);
-      var lastStamp = "";
       var renderBatch = function () {
         var out = "";
         var stop = Math.min(at + BATCH, cards.length);
         for (; at < stop; at++) {
-          var mo = monthOf(cards[at]);
-          if (mo && mo !== lastMonth) {
-            out += '<div class="feed-month"><span>' + esc(mo) + "</span></div>";
-            lastMonth = mo;
-            /* a month-only post right under the month rule would
-               just repeat it — treat the rule as its date */
-            lastStamp = mo;
-          }
-          /* consecutive same-day posts share one date mark, the way
-             a run of texts shares a timestamp */
-          var stamp = cardStamp(cards[at]);
-          out += cardHtml(cards[at].trip, cards[at].beat, stamp === lastStamp, cards[at].at);
-          lastStamp = stamp;
+          out += cardHtml(cards[at].trip, cards[at].beat, cards[at].at, true);
         }
         sentinel.insertAdjacentHTML("beforebegin", out);
       };

@@ -29,6 +29,21 @@
    up on the trip page as a message bubble. Two spaces after a
    filename gives that one frame a caption. Most won't need one.
 
+   Two blocks are special, and they're what the trip page's two
+   halves are made of:
+
+     [about]
+     The line that sits under the title.
+
+     [highlights]
+     bixby.jpg
+     mcway.jpg
+
+   [about] is the description. [highlights] are the frames you
+   edited later — they belong to the trip and hang on the wall,
+   but to no post, so they never repeat what you put up from your
+   phone at the time.
+
    Pass --dry to print the entry instead of writing it.
    ============================================================ */
 "use strict";
@@ -200,18 +215,24 @@ function parseTrip(text, slug) {
     .map(b => b.trim()).filter(Boolean);
 
   const photos = [], beats = [];
-  let post = null;
+  let post = null, note = "";
   const open = () => { post = {}; beats.push(post); return post; };
 
   for (const block of blocks) {
     const rows = block.split("\n").map(r => r.trim()).filter(Boolean);
     const shots = [], words = [];
-    let stamp = "", time = "";
+    let stamp = "", time = "", directive = "";
     for (const row of rows) {
       const bracket = row.match(/^\[(.+)\]$/);
       if (bracket && !stamp && !time && !words.length && !shots.length) {
+        const bits = bracket[1].split("·").map(s => s.trim()).filter(Boolean);
+        /* [about] is the line that sits under the title; [highlights]
+           are the frames edited afterwards — they belong to the trip
+           but to no post, which is the split the pages now make. */
+        const only = bits.length === 1 ? bits[0].toLowerCase() : "";
+        if (only === "about" || only === "highlights") { directive = only; continue; }
         /* [Encore], [2026-08-08T21:47], or [Encore · 2026-08-08T21:47] */
-        for (const bit of bracket[1].split("·").map(s => s.trim()).filter(Boolean)) {
+        for (const bit of bits) {
           if (/^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2})?$/.test(bit)) time = bit.replace(" ", "T");
           else if (!stamp) stamp = bit;
         }
@@ -220,12 +241,16 @@ function parseTrip(text, slug) {
       const head = row.split(/\s{2,}/)[0];
       if (MEDIA_RE.test(head)) {
         const [file, ...rest] = row.split(/\s{2,}/);
-        shots.push(photos.length);
-        photos.push({ file, caption: rest.join(" ").trim() });
+        const frame = { file, caption: rest.join(" ").trim() };
+        if (directive === "highlights") frame.best = true;
+        else shots.push(photos.length);
+        photos.push(frame);
       } else {
         words.push(row);
       }
     }
+    if (directive === "about") { note = words.join(" "); continue; }
+    if (directive === "highlights") continue;
     if (!shots.length && !words.length && !stamp && !time) continue;
 
     /* A dateline always opens a post. Otherwise a block of files joins
@@ -238,7 +263,7 @@ function parseTrip(text, slug) {
     if (words.length) post.say = post.say ? post.say + " " + words.join(" ") : words.join(" ");
     if (shots.length) post.shots = (post.shots || []).concat(shots);
   }
-  return { slug, place, short, when, continent, posted, photos, beats };
+  return { slug, place, short, when, continent, posted, note, photos, beats };
 }
 
 /* ---------- serialising back into photos.js, in the house style ---------- */
