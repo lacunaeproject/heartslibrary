@@ -3112,6 +3112,11 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 }
 /* The switch rides the top bar now that the sidebar is gone */
 .nav .theme-toggle.nav__theme { flex: none; margin-left: 14px; }
+/* The photos page opens on the wall itself — no masthead, frames
+   running viewport edge to viewport edge straight under the bar. */
+.wall-bleed { padding: 0; }
+.wall-bleed .roll { padding-top: clamp(5px, 0.55vw, 8px); }
+.wall-bleed .stream-grid { padding-bottom: 0; }
 /* The blog reads at column width under the plain top bar */
 .feed-page .feed-list { max-width: 720px; }
 /* The sidebar's quiet rows sit a breath below the main four */
