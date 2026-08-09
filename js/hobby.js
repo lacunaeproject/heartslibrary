@@ -510,12 +510,12 @@
     var picks = bestPhotos();
     bestWall.innerHTML = '<div class="stream-grid">' +
       picks.map(function (en) { return shotHtml(en.t, en.p, en.i); }).join("") + "</div>";
-    var statsText = picks.length + " keepers · " + TRIPS.length + " collections · newest first";
+    var statsText = picks.length + " keepers · " + TRIPS.length + " experiences · newest first";
     Array.prototype.forEach.call(document.querySelectorAll(".photo-stats"), function (el) {
       el.textContent = statsText;
     });
   }
-  /* The collections: every specific thing — a show, a game, a
+  /* The experiences: every specific thing — a show, a game, a
      trip — as one ruled row into its own page, where any frame
      goes. (The data still calls them TRIPS.) */
   var eventList = document.getElementById("eventList");
@@ -713,8 +713,8 @@
             '<span class="menu-item__title">' + esc(t.nav || t.short || t.place) + "</span>" +
             '<span class="menu-item__desc">' + byline + "</span></div></a>";
         }).join("") +
-        '<a class="menu-item menu-item--all" role="menuitem" href="index.html#collections">' +
-          'See all collections <span class="arrow" aria-hidden="true">→</span></a>';
+        '<a class="menu-item menu-item--all" role="menuitem" href="index.html#experiences">' +
+          'See all experiences <span class="arrow" aria-hidden="true">→</span></a>';
     }
   }
 

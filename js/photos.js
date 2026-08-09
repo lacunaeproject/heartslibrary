@@ -57,7 +57,7 @@ window.TRIPS = [
     posted: "2026-08-01",
     place: "Fenway Park",
     short: "Fenway",
-    nav: "Dodgers vs. Red Sox @ Dodger Stadium",
+    nav: "Dodgers vs. Redsox",
     when: "August 2026",
     continent: "North America",
     photos: [
@@ -69,10 +69,11 @@ window.TRIPS = [
   },
   {
     slug: "los-angeles",
-    loc: "Los Angeles, CA",
+    loc: "LACMA",
     posted: "2026-07-11",
     place: "Los Angeles in July",
     short: "Los Angeles",
+    nav: "David Geffen Galleries",
     when: "July 2026",
     continent: "North America",
     photos: [
@@ -91,7 +92,8 @@ window.TRIPS = [
   },
   {
     slug: "san-diego",
-    loc: "San Diego Zoo",
+    loc: "San Diego, CA",
+    nav: "San Diego Zoo",
     posted: "2026-06-20",
     place: "My trip to San Diego",
     short: "San Diego",
@@ -119,8 +121,9 @@ window.TRIPS = [
   },
   {
     slug: "chicago-february",
-    loc: "Chicago, IL",
-    posted: "2026-02-14",
+    loc: "United Center",
+    nav: "Bulls vs. Pistons",
+    posted: "2026-02-21",
     place: "Chicago in February",
     short: "Chicago",
     when: "February 2026",
@@ -141,7 +144,8 @@ window.TRIPS = [
   },
   {
     slug: "london-paris",
-    loc: "London & Paris",
+    loc: "Giverny, France",
+    nav: "Claude Monet’s House and Gardens",
     posted: "2025-10-12",
     place: "London and Paris",
     short: "London & Paris",
