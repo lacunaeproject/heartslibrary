@@ -681,12 +681,27 @@
     /* The Trips dropdown in the top nav */
     var navTrips = document.getElementById("navTrips");
     if (navTrips) {
+      /* the six newest, each wearing its cover frame; the rest live
+         behind "See all collections" on the front page */
+      var navThumb = function (t) {
+        if (t.cover) return t.cover;
+        var ps = t.photos || [];
+        for (var k = 0; k < ps.length; k++) if (!ps[k].video) return ps[k].src;
+        return "";
+      };
       navTrips.innerHTML =
-        TRIPS.map(function (t) {
-          return '<a class="menu-item" role="menuitem" href="gallery.html?trip=' + esc(t.slug) + '"><div>' +
+        TRIPS.slice(0, 6).map(function (t) {
+          var src = navThumb(t);
+          var n = (t.photos || []).length;
+          return '<a class="menu-item" role="menuitem" href="gallery.html?trip=' + esc(t.slug) + '">' +
+            '<div class="menu-item__tile menu-item__tile--photo">' +
+            (src ? '<img src="' + esc(src) + '" alt="" loading="lazy">' : "") +
+            "</div><div>" +
             '<span class="menu-item__title">' + esc(t.nav || t.short || t.place) + "</span>" +
-            '<span class="menu-item__desc">' + esc(t.when) + " · " + (t.photos || []).length + " frames</span></div></a>";
-        }).join("");
+            '<span class="menu-item__desc">' + esc(t.when) + " · " + n + (n === 1 ? " frame" : " frames") + "</span></div></a>";
+        }).join("") +
+        '<a class="menu-item menu-item--all" role="menuitem" href="index.html#collections">' +
+          'See all collections <span class="arrow" aria-hidden="true">→</span></a>';
     }
   }
 

@@ -426,6 +426,21 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   box-shadow: var(--shadow-flush);
 }
 .menu-item__tile svg { width: 28px; height: 28px; display: block; }
+/* Collections in the dropdown wear a cover frame — a mini wall
+   tile, same continuous-corner language at menu scale — and their
+   menu runs wider so the long event names keep to one line. */
+#menu-collections { width: 360px; }
+.menu-item__tile--photo {
+  overflow: hidden;
+  border-radius: 14px;
+  corner-shape: squircle;
+}
+.menu-item__tile--photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .menu-item__title {
   display: block;
   font-size: 13px;
