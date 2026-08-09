@@ -456,6 +456,9 @@
     document.title = trip.place + " — Cody Heart Photography";
     var tEl = document.getElementById("galleryTitle");
     if (tEl) tEl.textContent = trip.place;
+    /* the bar's scroll-title carries the experience's full billing */
+    var navTitle = document.querySelector(".nav__scrolltitle");
+    if (navTitle) navTitle.textContent = trip.nav || trip.short || trip.place;
     var crumbEl = document.getElementById("crumbTrip");
     if (crumbEl) crumbEl.textContent = trip.place;
     var noteEl = document.getElementById("galleryNote");

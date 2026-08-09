@@ -332,6 +332,17 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   top: -.5px;
 }
 
+/* Interior pages trade the wordmark for the portfolio's back link —
+   a curved arrow and the name of where it leads */
+.nav__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-55);
+}
+.nav__back:hover { color: var(--ink-85); }
+.nav__back svg { display: block; }
 .nav__scrolltitle {
   display: none;
   position: absolute;
@@ -355,6 +366,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   display: none;
   align-items: center;
   gap: 16px;
+  /* the links live on the right; the wordmark holds the left alone */
+  margin-left: auto;
 }
 /* Seven links now — the burger holds on a little longer. */
 @media (min-width: 768px) { .nav__links { display: flex; } }
@@ -3186,7 +3199,8 @@ html.dark .msg-card { --card: #1B1B1A; }
   .shot-pill { opacity: 1; transform: none; }
 }
 /* The switch rides the top bar now that the sidebar is gone */
-.nav .theme-toggle.nav__theme { flex: none; margin-left: 14px; }
+/* The theme switch is gone — the photo pages follow the sun via an
+   inline head script (light by day, dark after sunset). */
 /* The photos page opens on the wall itself — no masthead, frames
    running nearly edge to edge under the bar. The side margin equals
    the gap between tiles, so the border reads as part of the grid. */
@@ -3282,6 +3296,9 @@ html.dark .msg-card { --card: #1B1B1A; }
 }
 
 .lightbox {
+  /* the global reset zeroes every margin, which silently killed the
+     UA's `margin: auto` that centres a modal dialog — restore it */
+  margin: auto;
   border: 0;
   padding: 0;
   background: transparent;
@@ -3336,12 +3353,15 @@ html.dark .msg-card { --card: #1B1B1A; }
 @media (max-width: 620px) {
   .lb-arrow { width: 40px; height: 40px; }
 }
+/* The frame shrinkwraps the photograph — no letterboxing, so the
+   rounded corners sit on the image's own edges whatever its shape */
 .lightbox img {
-  width: 100%;
-  max-height: 82vh;
-  object-fit: contain;
-  border-radius: 12px;
   display: block;
+  margin-inline: auto;
+  width: auto;
+  max-width: 100%;
+  max-height: 78vh;
+  border-radius: 12px;
 }
 .lightbox-cap { margin-top: 10px; text-align: center; font-size: 13px; color: #fff; opacity: .85; }
 .lightbox-bar { margin-top: 12px; text-align: center; }

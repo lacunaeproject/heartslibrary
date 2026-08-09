@@ -40,19 +40,29 @@
      click / scroll, and the full-screen mobile menu.
      ---------------------------------------------------------- */
   function setupNav() {
-    /* Hide on scroll down, show on scroll up */
+    /* Hide on scroll down, show on scroll up — with hysteresis.
+       A single stray pixel upward used to resurrect the bar mid-
+       scroll (trackpad momentum, rubber-banding, phone URL bars),
+       so it flickered. Now it takes a deliberate 16px of upward
+       travel to bring it back, 6px down to hide it, and sub-2px
+       jitter is ignored entirely. */
     var nav = document.querySelector(".nav");
     if (nav) {
       var title = nav.querySelector(".nav__scrolltitle");
-      var last = 0;
+      var last = window.scrollY;
+      var run = 0; /* accumulated travel in the current direction */
       nav.classList.toggle("is-top", window.scrollY < 60);
       window.addEventListener("scroll", function () {
         var y = window.scrollY;
-        if (y < 60 || y < last) nav.classList.remove("is-hidden");
-        else if (y > last + 5) nav.classList.add("is-hidden");
-        nav.classList.toggle("is-top", y < 60);
+        var d = y - last;
         last = y;
+        nav.classList.toggle("is-top", y < 60);
         if (title) title.classList.toggle("is-visible", y > 200);
+        if (Math.abs(d) < 2) return;
+        run = (run < 0) === (d < 0) ? run + d : d;
+        if (y < 120) nav.classList.remove("is-hidden");
+        else if (run > 6) nav.classList.add("is-hidden");
+        else if (run < -16) nav.classList.remove("is-hidden");
       }, { passive: true });
       if (title) {
         title.addEventListener("click", function () {
@@ -61,15 +71,9 @@
       }
     }
 
-    /* Light/dark switches for the photography wing (a page can
-       hold more than one). The <head> of each photo page
-       re-applies the stored choice before paint. */
-    Array.prototype.forEach.call(document.querySelectorAll(".theme-toggle"), function (btn) {
-      btn.addEventListener("click", function () {
-        var dark = document.documentElement.classList.toggle("dark");
-        try { localStorage.setItem("hl-theme", dark ? "dark" : "light"); } catch (e) {}
-      });
-    });
+    /* No switch anymore — the photo pages follow the sun. An inline
+       script in each page's <head> computes today's daylight window
+       on the visitor's clock and sets html.dark before first paint. */
 
     /* Dropdowns (Bookstores, Elsewhere) */
     Array.prototype.forEach.call(document.querySelectorAll(".nav__drop"), function (drop) {
