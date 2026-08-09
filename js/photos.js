@@ -48,12 +48,11 @@
 window.TRIPS = [
   {
     slug: "deadbeat-tour",
-    note: "Bought the tickets for Djo months ago and found out that night he was opening for Tame Impala. Shot both sets from the floor.",
-    loc: "Bridgestone Arena",
     posted: "2026-08-05",
     place: "The Deadbeat Tour",
     short: "Deadbeat Tour",
     nav: "Tame Impala: Deadbeat Tour with Djo",
+    loc: "Bridgestone Arena",
     when: "August 2026",
     continent: "North America",
     photos: [
@@ -67,17 +66,16 @@ window.TRIPS = [
       { src: "photos/deadbeat-tour/dsc03789.jpg", best: true, w: 882, h: 1124, alt: "The Deadbeat Tour" }
     ],
     beats: [
-      { at: "Djo", time: "2026-08-09T00:07", say: "Got these tickets months ago and only found out tonight he was opening for Tame Impala. Shooting from the floor, hands shaking. Will edit the good ones later.", shots: [1, 3, 4, 6] }
+      { at: "Djo", time: "2026-08-09T00:07", say: "I acquired these tickets a while ago. On the concert date, I was surprised to learn he was opening for Tame Impala. Below are several of the strongest images I captured during his set. On the day of the concert, I was surprised to discover he was opening for Tame Impala! Below are several of the strongest images I took during his set.", shots: [0, 1, 2, 3, 4, 5, 6, 7] }
     ]
   },
   {
     slug: "fenway",
-    note: "They won it at home in the bottom of the ninth. Everyone stood up at once and I got about six seconds of it.",
-    loc: "Dodger Stadium",
     posted: "2026-08-01",
     place: "Dodgers vs. Redsox",
     short: "Dodgers",
     nav: "Dodgers vs. Redsox",
+    loc: "Dodger Stadium",
     when: "August 2026",
     continent: "North America",
     photos: [
@@ -89,14 +87,14 @@ window.TRIPS = [
   },
   {
     slug: "los-angeles",
-    note: "The new building's first summer. Went for the architecture and stayed for the light coming through it.",
-    loc: "LACMA",
     posted: "2026-07-11",
     place: "Los Angeles in July",
     short: "Los Angeles",
     nav: "David Geffen Galleries",
+    loc: "LACMA",
     when: "July 2026",
     continent: "North America",
+    note: "The new building's first summer. Went for the architecture and stayed for the light coming through it.",
     photos: [
       { src: "photos/placeholders/la-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Marine layer over the basin" },
       { src: "photos/placeholders/la-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Palms on Rossmore" },
@@ -117,15 +115,15 @@ window.TRIPS = [
   },
   {
     slug: "san-diego",
-    note: "Went for the zoo and basically never left it — most of a day with the big cats and the orangutans.",
-    loc: "San Diego, CA",
-    nav: "San Diego Zoo",
     posted: "2026-06-20",
     place: "My trip to San Diego",
     short: "San Diego",
+    nav: "San Diego Zoo",
+    loc: "San Diego, CA",
     when: "June 2026",
     continent: "North America",
     cover: "photos/sandiego-zoo/web/grizzly-2.jpg",
+    note: "Went for the zoo and basically never left it — most of a day with the big cats and the orangutans.",
     photos: [
       { src: "photos/sandiego-zoo/web/cheetah-2.jpg", best: true, w: 1600, h: 1067, alt: "A cheetah in profile, close up", caption: "The ambassador cheetah, in profile" },
       { src: "photos/sandiego-zoo/web/panda.jpg", best: true, w: 1139, h: 1600, alt: "A giant panda eating bamboo", caption: "Lunch, taken seriously" },
@@ -147,14 +145,14 @@ window.TRIPS = [
   },
   {
     slug: "chicago-february",
-    note: "February in Chicago on purpose, the year before the move. First game at the United Center.",
-    loc: "United Center",
-    nav: "Bulls vs. Pistons",
     posted: "2026-02-21",
     place: "Chicago in February",
     short: "Chicago",
+    nav: "Bulls vs. Pistons",
+    loc: "United Center",
     when: "February 2026",
     continent: "North America",
+    note: "February in Chicago on purpose, the year before the move. First game at the United Center.",
     photos: [
       { src: "photos/placeholders/chi-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "The lakefront, frozen over" },
       { src: "photos/placeholders/chi-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Steam over the Loop" },
@@ -175,14 +173,14 @@ window.TRIPS = [
   },
   {
     slug: "london-paris",
-    note: "Took the train out from Paris to see the pond. Expected to be underwhelmed and wasn't.",
-    loc: "Giverny, France",
-    nav: "Claude Monet’s House and Gardens",
     posted: "2025-10-12",
     place: "London and Paris",
     short: "London & Paris",
+    nav: "Claude Monet’s House and Gardens",
+    loc: "Giverny, France",
     when: "October 2025",
     continent: "Europe",
+    note: "Took the train out from Paris to see the pond. Expected to be underwhelmed and wasn't.",
     photos: [
       { src: "photos/london-paris/web/monet-pond.jpg", best: true, w: 1200, h: 1600, alt: "Water lilies on Monet's pond at Giverny, clouds reflected in the water", caption: "Monet's pond, Giverny" },
       { src: "photos/placeholders/ldnpar-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Thames fog, morning" },
@@ -204,13 +202,13 @@ window.TRIPS = [
   },
   {
     slug: "nashville",
-    note: "One last slow lap before the move — Franklin, Radnor Lake, and Lower Broadway at first light.",
-    loc: "Nashville, TN",
     posted: "2025-08-16",
     place: "Nashville, before the move",
     short: "Nashville",
+    loc: "Nashville, TN",
     when: "August 2025",
     continent: "North America",
+    note: "One last slow lap before the move — Franklin, Radnor Lake, and Lower Broadway at first light.",
     photos: [
       { src: "photos/placeholders/nash-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Lower Broadway from the bridge" },
       { src: "photos/placeholders/nash-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Radnor Lake, first light" },
@@ -231,13 +229,13 @@ window.TRIPS = [
   },
   {
     slug: "big-sur",
-    note: "Highway 1 from Carmel down to Lucia, stopping at every pull-off. Fog in, fog out, all afternoon.",
-    loc: "Big Sur, CA",
     posted: "2025-05-18",
     place: "Big Sur, Highway 1",
     short: "Big Sur",
+    loc: "Big Sur, CA",
     when: "May 2025",
     continent: "North America",
+    note: "Highway 1 from Carmel down to Lucia, stopping at every pull-off. Fog in, fog out, all afternoon.",
     photos: [
       { src: "photos/placeholders/bigsur-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Bixby at golden hour" },
       { src: "photos/placeholders/bigsur-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Redwood understory" },
@@ -258,13 +256,13 @@ window.TRIPS = [
   },
   {
     slug: "new-york",
-    note: "Back for a week, two years after leaving. Walked the old commute, in snow this time.",
-    loc: "New York, NY",
     posted: "2024-12-08",
     place: "New York, back for a week",
     short: "New York",
+    loc: "New York, NY",
     when: "December 2024",
     continent: "North America",
+    note: "Back for a week, two years after leaving. Walked the old commute, in snow this time.",
     photos: [
       { src: "photos/placeholders/nyc-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Sixth Avenue steam" },
       { src: "photos/placeholders/nyc-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Snow on the High Line" },
@@ -285,13 +283,13 @@ window.TRIPS = [
   },
   {
     slug: "joshua-tree",
-    note: "Came out for the boulders and stayed for what happened after the sun went down.",
-    loc: "Joshua Tree National Park",
     posted: "2024-03-22",
     place: "Joshua Tree, dusk to dark",
     short: "Joshua Tree",
+    loc: "Joshua Tree National Park",
     when: "March 2024",
     continent: "North America",
+    note: "Came out for the boulders and stayed for what happened after the sun went down.",
     photos: [
       { src: "photos/placeholders/jtree-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Golden hour boulders" },
       { src: "photos/placeholders/jtree-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "First stars, Cap Rock" },
@@ -312,13 +310,13 @@ window.TRIPS = [
   },
   {
     slug: "the-bay",
-    note: "School streets a decade on. The hills go gold in September and I had completely forgotten that.",
-    loc: "Bay Area, CA",
     posted: "2023-09-10",
     place: "The Bay, revisited",
     short: "The Bay",
+    loc: "Bay Area, CA",
     when: "September 2023",
     continent: "North America",
+    note: "School streets a decade on. The hills go gold in September and I had completely forgotten that.",
     photos: [
       { src: "photos/placeholders/bay-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Fog over the gate" },
       { src: "photos/placeholders/bay-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Berkeley hills, dry gold" },
