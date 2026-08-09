@@ -444,7 +444,7 @@
           return '<a class="press-scale" href="gallery.html?trip=' + esc(t.slug) + '">' +
             esc(t.place) + ' <span class="arrow" aria-hidden="true">→</span></a>';
         }).join("") +
-        '<a class="press-scale" href="index.html#photos">Highlights <span class="arrow" aria-hidden="true">→</span></a>';
+        '<a class="press-scale" href="index.html#photos">Photography <span class="arrow" aria-hidden="true">→</span></a>';
     }
   }
 
@@ -606,7 +606,7 @@
             TRIPS.reduce(function (n, t) { return n + (t.beats || []).length; }, 0) +
           " posts</span></a>" +
         '<a class="side-trip is-all' + (activeSlug === "all" && !onFeed ? " is-active" : "") + '" href="index.html">' +
-          '<span class="side-name">Highlights</span>' +
+          '<span class="side-name">Photography</span>' +
           '<span class="side-trip-meta">' + highlightCount() + " frames</span></a>" +
         TRIPS.map(function (t) {
           return '<a class="side-trip' + (t.slug === activeSlug ? " is-active" : "") + '" href="gallery.html?trip=' + esc(t.slug) + '">' +
@@ -626,7 +626,7 @@
     if (navTrips) {
       navTrips.innerHTML =
         '<a class="menu-item" role="menuitem" href="index.html"><div>' +
-          '<span class="menu-item__title">Highlights</span>' +
+          '<span class="menu-item__title">Photography</span>' +
           '<span class="menu-item__desc">' + highlightCount() + " frames</span></div></a>" +
         TRIPS.map(function (t) {
           return '<a class="menu-item" role="menuitem" href="gallery.html?trip=' + esc(t.slug) + '"><div>' +
