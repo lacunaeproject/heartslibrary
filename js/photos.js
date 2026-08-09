@@ -52,7 +52,7 @@ window.TRIPS = [
     when: "August 2026",
     continent: "North America",
     photos: [
-      { src: "photos/fenway/redsox-win.MOV", w: 2160, h: 3840, video: true, seconds: 5.9, alt: "The moment it landed", caption: "The moment it landed" }
+      { src: "photos/fenway/redsox-win.mp4", w: 1080, h: 1920, video: true, seconds: 5.9, alt: "The moment it landed", caption: "The moment it landed" }
     ],
     beats: [
       { at: "Bottom of the ninth", say: "They won it at home. Everyone around me stood up at the same time and I got about six seconds of it before my hands were shaking too much to hold the phone still.", shots: [0] }
