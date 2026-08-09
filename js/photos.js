@@ -25,22 +25,23 @@
 window.TRIPS = [
   {
     slug: "deadbeat-tour",
-    posted: "2026-08-01",
-    place: "deadbeat-tour",
-    short: "deadbeat-tour",
-    when: "August 2026 Â",
+    posted: "2026-08-05",
+    place: "The Deadbeat Tour",
+    short: "Deadbeat Tour",
+    when: "August 2026",
+    continent: "North America",
     photos: [
-      { src: "photos/deadbeat-tour/dsc03638.jpg", w: 1600, h: 1200, alt: "deadbeat-tour" },
-      { src: "photos/deadbeat-tour/dsc03659.jpg", w: 1200, h: 1600, alt: "deadbeat-tour" },
-      { src: "photos/deadbeat-tour/dsc03660.jpg", w: 1200, h: 1600, alt: "deadbeat-tour" },
-      { src: "photos/deadbeat-tour/dsc03676.jpg", w: 1200, h: 1600, alt: "deadbeat-tour" },
-      { src: "photos/deadbeat-tour/dsc03707.jpg", w: 1200, h: 1600, alt: "deadbeat-tour" },
-      { src: "photos/deadbeat-tour/dsc03684.jpg", w: 1200, h: 1600, alt: "deadbeat-tour" },
-      { src: "photos/deadbeat-tour/dsc03683.jpg", w: 1200, h: 1600, alt: "deadbeat-tour" },
-      { src: "photos/deadbeat-tour/dsc03789.jpg", w: 882, h: 1124, alt: "deadbeat-tour" }
+      { src: "photos/deadbeat-tour/dsc03638.jpg", w: 1600, h: 1200, alt: "The Deadbeat Tour" },
+      { src: "photos/deadbeat-tour/dsc03659.jpg", w: 1200, h: 1600, alt: "The Deadbeat Tour" },
+      { src: "photos/deadbeat-tour/dsc03660.jpg", w: 1200, h: 1600, alt: "The Deadbeat Tour" },
+      { src: "photos/deadbeat-tour/dsc03676.jpg", w: 1200, h: 1600, alt: "The Deadbeat Tour" },
+      { src: "photos/deadbeat-tour/dsc03707.jpg", w: 1200, h: 1600, alt: "The Deadbeat Tour" },
+      { src: "photos/deadbeat-tour/dsc03684.jpg", w: 1200, h: 1600, alt: "The Deadbeat Tour" },
+      { src: "photos/deadbeat-tour/dsc03683.jpg", w: 1200, h: 1600, alt: "The Deadbeat Tour" },
+      { src: "photos/deadbeat-tour/dsc03789.jpg", w: 882, h: 1124, alt: "The Deadbeat Tour" }
     ],
     beats: [
-      { at: "Djo Â", time: "2026-08-09T00:07", say: "I acquired these tickets a while ago. On the concert date, I was surprised to learn he was opening for Tame Impala. Below are several of the strongest images I captured during his set. On the day of the concert, I was surprised to discover he was opening for Tame Impala! Below are several of the strongest images I took during his set.", shots: [0, 1, 2, 3, 4, 5, 6, 7] }
+      { at: "Djo", time: "2026-08-09T00:07", say: "I acquired these tickets a while ago. On the concert date, I was surprised to learn he was opening for Tame Impala. Below are several of the strongest images I captured during his set. On the day of the concert, I was surprised to discover he was opening for Tame Impala! Below are several of the strongest images I took during his set.", shots: [0, 1, 2, 3, 4, 5, 6, 7] }
     ]
   },
   {

@@ -125,7 +125,19 @@
       "Bash(cp photos/sandiego-zoo/web/camels.jpg photos/_probe/c.jpg)",
       "Bash(sed -n '/beats/,$p')",
       "Bash(sed -i 's/v=20260811b/v=20260811c/g' *.html)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(git rebase *)",
+      "Bash(git stash *)",
+      "Bash(gh run *)",
+      "Bash(curl -s \"https://api.github.com/users/lacunaeproject\")",
+      "Bash(curl -s \"https://api.github.com/repos/lacunaeproject/heartslibrary\")",
+      "Bash(git pull *)",
+      "Bash(curl -s -o /dev/null -w \"post.html  HTTP %{http_code}\\\\n\" https://heartslibrary.com/post.html)",
+      "Bash(curl -s https://heartslibrary.com/post.html)",
+      "Bash(curl -s -o /dev/null -w \"redsox-win.mp4  HTTP %{http_code}  %{size_download} bytes  %{content_type}\\\\n\" https://heartslibrary.com/photos/fenway/redsox-win.mp4)",
+      "Bash(curl -s -H \"Accept: application/vnd.github+json\" \"https://api.github.com/repos/lacunaeproject/heartslibrary\")",
+      "Bash(curl -s https://heartslibrary.com/js/photos.js?nocache=__TRACKED_VAR__)",
+      "Bash(curl -s -o /dev/null -w \"one photo: HTTP %{http_code}  %{size_download} bytes\\\\n\" \"https://heartslibrary.com/photos/deadbeat-tour/dsc03638.jpg\")"
     ]
   }
 }

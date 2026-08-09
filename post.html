@@ -403,13 +403,24 @@
     return lines.join("\n");
   }
 
+  /* The first post to an older event writes its trip.txt from scratch.
+     The title fields are hidden in that case, so take the name, the
+     continent and the sort date off the event that already exists —
+     otherwise the trip gets renamed to its own slug. */
   function header(slug) {
     const [y, m] = els.when.value.split("-");
     const when = MONTHS[Number(m) - 1] + " " + y;
-    const title = els.title.value.trim() || slug;
-    const short = els.short.value.trim();
-    return (short ? title + " | " + short : title) + "\n" +
-           when + " · " + els.continent.value + " · " + els.when.value + "-01";
+    const isNew = els.event.value === "__new";
+    const prior = isNew ? null : (window.TRIPS || []).find(t => t.slug === slug);
+
+    const title = isNew ? els.title.value.trim() : (prior ? prior.place : slug);
+    const short = isNew ? els.short.value.trim() : (prior ? prior.short : "");
+    const cont = (isNew || !prior || !prior.continent)
+      ? els.continent.value : prior.continent;
+    const posted = (!isNew && prior && prior.posted) ? prior.posted : els.when.value + "-01";
+
+    return (short && short !== title ? title + " | " + short : title) + "\n" +
+           when + " · " + cont + " · " + posted;
   }
 
   async function post() {
@@ -429,7 +440,9 @@
       let existing = "";
       try {
         const cur = await gh("/contents/" + dir + "/trip.txt?ref=" + BRANCH);
-        existing = decodeURIComponent(escape(atob(cur.content.replace(/\n/g, ""))));
+        const raw = atob(cur.content.replace(/\n/g, ""));
+        existing = new TextDecoder().decode(
+          Uint8Array.from(raw, ch => ch.charCodeAt(0)));
       } catch (e) { /* first post to this event */ }
 
       /* Every post is one blank-line block. Adding another is how an
@@ -459,9 +472,13 @@
       }
 
       say("Writing the note…");
+      /* Send the string as it is. Pre-converting to latin1 bytes is what
+         btoa() wants, but with encoding:"utf-8" GitHub encodes it again
+         and every · — every curly quote, accent, em dash — comes back
+         doubled. */
       const noteBlob = await gh("/git/blobs", {
         method: "POST",
-        body: JSON.stringify({ content: unescape(encodeURIComponent(note)), encoding: "utf-8" })
+        body: JSON.stringify({ content: note, encoding: "utf-8" })
       });
       tree.push({ path: dir + "/trip.txt", mode: "100644", type: "blob", sha: noteBlob.sha });
 
