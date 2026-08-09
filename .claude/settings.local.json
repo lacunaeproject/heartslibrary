@@ -146,7 +146,19 @@
       "Bash(curl -s -o /dev/null -w \"server:%{http_code}\\\\n\" http://localhost:8765/gallery.html)",
       "Bash(sed -i 's/?v=[A-Za-z0-9._-]*/?v=20260809-feed/g' ./*.html)",
       "Bash(curl -s -o /dev/null -w \"feed:%{http_code} gallery:\" http://localhost:8765/feed.html)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:8765/gallery.html?trip=deadbeat-tour\")"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:8765/gallery.html?trip=deadbeat-tour\")",
+      "WebSearch",
+      "PowerShell(Add-Type -AssemblyName System.Drawing; $bmp = [System.Drawing.Bitmap]::FromFile\\(\"C:\\\\Users\\\\codyj\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-codyj-Documents-heartslibrary\\\\e4b77e06-6f53-4b0a-86ba-09d68ec61fb7\\\\scratchpad\\\\tight-500.png\"\\); $y = 600; $dark = @\\(\\); for \\($x = 150; $x -lt 350; $x++\\) { $c = $bmp.GetPixel\\($x, $y\\); if \\(\\($c.R + $c.G + $c.B\\) -lt 60\\) { $dark += $x } }; Write-Output \\(\"dark run at y=600: \" + \\($dark -join \",\"\\)\\); $y2 = 1050; $dark2 = @\\(\\); for \\($x = 30; $x -lt 470; $x++\\) { $c = $bmp.GetPixel\\($x, $y2\\); if \\(\\($c.R + $c.G + $c.B\\) -lt 60\\) { $dark2 += $x } }; Write-Output \\(\"dark run at y=1050 \\(row gap zone\\): \" + \\($dark2.Count\\)\\); $bmp.Dispose\\(\\))",
+      "PowerShell(git *)",
+      "Bash(sed -i 's|<span class=\"side-name\">Highlights</span>|<span class=\"side-name\">Photography</span>|' index.html gallery.html feed.html)",
+      "Bash(sed -i 's|<span class=\"arrow\" aria-hidden=\"true\">↩</span> Highlights|<span class=\"arrow\" aria-hidden=\"true\">↩</span> Photography|; s|>Highlights <span class=\"arrow\" aria-hidden=\"true\">→</span>|>Photography <span class=\"arrow\" aria-hidden=\"true\">→</span>|' gallery.html)",
+      "Bash(sed -i 's|aria-controls=\"menu-collections\">Collections<svg|aria-controls=\"menu-collections\">Experiences<svg|; s|<p class=\"mobile-menu__label\">Collections</p>|<p class=\"mobile-menu__label\">Experiences</p>|' index.html gallery.html feed.html)",
+      "Bash(sed -i 's|<section class=\"home-sec\" id=\"collections\" aria-label=\"The collections\">|<section class=\"home-sec\" id=\"experiences\" aria-label=\"The experiences\">|; s|<div class=\"sec-label\"><span>The collections</span></div>|<div class=\"sec-label\"><span>The experiences</span></div>|' index.html)",
+      "Bash(sed -i 's|href=\"feed.html\">Blog</a>|href=\"feed.html\">Journal</a>|g' *.html)",
+      "Bash(sed -i 's|<title>Blog — Cody Heart</title>|<title>Journal — Cody Heart</title>|; s|<h1>The blog.</h1>|<h1>The journal.</h1>|; s|content=\"Cody Heart’s blog — a live journal of posts and pictures, newest first.\"|content=\"Cody Heart’s journal — posts and pictures as they happen, newest first.\"|' feed.html)",
+      "Bash(curl -s \"https://codyheart.design/css/site.css?v=36\")",
+      "Bash(curl -s https://heartslibrary.com/index.html?z=__TRACKED_VAR__)",
+      "Bash(curl -s \"https://heartslibrary.com/experiences.html\")"
     ]
   }
 }

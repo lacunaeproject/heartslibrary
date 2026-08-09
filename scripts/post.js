@@ -252,13 +252,21 @@ function serializeTrip(t) {
   out.push(`    posted: ${q(t.posted)},`);
   out.push(`    place: ${q(t.place)},`);
   out.push(`    short: ${q(t.short)},`);
+  /* Curation the site adds by hand — the experience's full billing,
+     its venue, and which frames are highlights. This writer replaces
+     the whole TRIPS array, so anything it forgets to print is lost
+     from every trip, not just the one being posted. */
+  if (t.nav) out.push(`    nav: ${q(t.nav)},`);
+  if (t.loc) out.push(`    loc: ${q(t.loc)},`);
   out.push(`    when: ${q(t.when)},`);
   if (t.continent) out.push(`    continent: ${q(t.continent)},`);
   if (t.cover) out.push(`    cover: ${q(t.cover)},`);
   if (t.note) out.push(`    note: ${q(t.note)},`);
   out.push("    photos: [");
   out.push(t.photos.map(p => {
-    let row = `      { src: ${q(p.src)}, w: ${p.w}, h: ${p.h}`;
+    let row = `      { src: ${q(p.src)}`;
+    if (p.best) row += ", best: true";
+    row += `, w: ${p.w}, h: ${p.h}`;
     if (p.video) row += ", video: true";
     if (p.seconds) row += `, seconds: ${p.seconds}`;
     row += `, alt: ${q(p.alt || "")}`;
@@ -362,12 +370,26 @@ function main() {
     delete p.file;
   }
 
+  /* Re-posting a trip rebuilds it from trip.txt, which knows nothing
+     about the curation added on the site — carry it across so a
+     re-post never silently un-highlights a wall. Merged before the
+     dry run prints, so --dry shows what would actually be written. */
+  const existing = loadTrips();
+  const prior = existing.filter(t => t.slug === slug)[0];
+  if (prior) {
+    if (prior.nav && !trip.nav) trip.nav = prior.nav;
+    if (prior.loc && !trip.loc) trip.loc = prior.loc;
+    const wasBest = {};
+    (prior.photos || []).forEach(p => { if (p.best) wasBest[p.src] = true; });
+    trip.photos.forEach(p => { if (wasBest[p.src]) p.best = true; });
+  }
+
   if (dry) {
     console.log(serializeTrip(trip));
     return;
   }
 
-  const trips = loadTrips().filter(t => t.slug !== slug);
+  const trips = existing.filter(t => t.slug !== slug);
   trips.push(trip);
   trips.sort((a, b) => (a.posted < b.posted ? 1 : a.posted > b.posted ? -1 : 0));
   writeTrips(trips);

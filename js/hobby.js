@@ -714,15 +714,44 @@
   /* A post is one floating card — a tiny date above, then the words
      and the photos together inside. No headline, no tags; `head`/
      `at`/the experience all stay in the data only. */
-  function cardHtml(trip, b, hideWhen, key) {
+  /* A post's frames. One sits inline at its own shape; several ride
+     a strip that runs off the right edge of the column — swipe on a
+     thumb, arrows on a pointer — and any of them opens the lightbox,
+     which pages through the whole set. */
+  function mediaHtml(trip, shots) {
+    if (shots.length === 1) {
+      var only = trip.photos[shots[0]];
+      return only
+        ? '<div class="msg-one">' + shotHtml(trip, only, shots[0]) + "</div>"
+        : "";
+    }
+    var arrow = function (cls, label, d) {
+      return '<button class="reel-arrow ' + cls + '" type="button" aria-label="' + label + '">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+        'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + d +
+        '"/></svg></button>';
+    };
+    return '<div class="reel msg-reel"><div class="reel-window">' +
+      arrow("reel-prev", "Previous frame", "M15 5l-7 7 7 7") +
+      arrow("reel-next", "Next frame", "M9 5l7 7-7 7") +
+      '<div class="reel-track">' +
+      shots.map(function (i) {
+        var p = trip.photos[i];
+        return p ? shotHtml(trip, p, i) : "";
+      }).join("") +
+      "</div></div></div>";
+  }
+
+  /* A post is a row in the thread: its date, what was written, then
+     the frames. The rows share one rounded container and are split
+     by hairlines — no avatar, no name, the site is one voice. */
+  function cardHtml(trip, b, key) {
     var stamp = b.time ? stampText(b.time) : trip.when;
     var set = beatSet(trip, b, key || 0);
     var out = '<article class="msg">';
-    if (!hideWhen && stamp) out += '<p class="msg-when">' + esc(stamp) + "</p>";
-    /* the card carries only the words; the photos hang beneath it
-       on the bare ground, the way the wall shows them */
-    if (b.say) out += '<div class="msg-card"><p class="msg-say">' + esc(b.say) + "</p></div>";
-    if (set.shots.length) out += tileHtml(set.trip, set.shots);
+    if (stamp) out += '<p class="msg-when">' + esc(stamp) + "</p>";
+    if (b.say) out += '<p class="msg-say">' + esc(b.say) + "</p>";
+    if (set.shots.length) out += mediaHtml(set.trip, set.shots);
     return out + "</article>";
   }
   function cardStamp(c) {
