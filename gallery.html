@@ -6,11 +6,11 @@
 <title>Gallery — Cody Heart Photography</title>
 <meta name="description" content="A photo gallery from Cody Heart’s travels.">
 <script>(function(){var d=new Date(),r=Math.PI/180,y=Math.floor((d-new Date(d.getFullYear(),0,0))/864e5),q=23.45*Math.sin(r*(360/365)*(284+y)),c=(Math.cos(90.833*r)-Math.sin(39*r)*Math.sin(q*r))/(Math.cos(39*r)*Math.cos(q*r)),H=Math.acos(Math.max(-1,Math.min(1,c)))/r/15,j=new Date(d.getFullYear(),0,1).getTimezoneOffset(),n=d.getTimezoneOffset()<j?13:12,h=d.getHours()+d.getMinutes()/60;document.documentElement.classList.toggle("dark",h<n-H||h>n+H)})();</script>
-<link rel="stylesheet" href="css/review.css?v=20260809-crumb1">
+<link rel="stylesheet" href="css/review.css?v=20260809-art1">
 <script>window.coverFallback=window.coverFallback||function(i){(window.__fellCovers=window.__fellCovers||[]).push(i)}</script>
-<script defer src="js/review.js?v=20260809-crumb1"></script>
-<script defer src="js/photos.js?v=20260809-crumb1"></script>
-<script defer src="js/hobby.js?v=20260809-crumb1"></script>
+<script defer src="js/review.js?v=20260809-art1"></script>
+<script defer src="js/photos.js?v=20260809-art1"></script>
+<script defer src="js/hobby.js?v=20260809-art1"></script>
 </head>
 <body>
 
@@ -67,14 +67,27 @@
 </div>
 
 <main id="main">
-<section class="page-head wrap">
+<section class="page-head wrap wall">
       <h1 id="galleryTitle">The gallery</h1>
-      <p class="deck" id="galleryNote"></p>
+      <p class="xp-byline" id="galleryNote"></p>
       <p class="log-stats" id="galleryMeta"></p>
     </section>
 <div class="wrap wall">
-    <div class="roll"><div class="stream-grid" id="galleryShots"></div></div>
+    <section id="highlightsSec" aria-label="Highlights" hidden>
+      <div class="sec-label"><span>Highlights</span></div>
+      <div class="roll"><div class="stream-grid" id="galleryShots"></div></div>
+    </section>
     <noscript><p class="noscript-note">This gallery needs JavaScript to render — it reads from <code>js/photos.js</code>.</p></noscript>
+</div>
+<section class="wrap live-sec" id="asItHappenedSec" aria-label="As it happened" hidden>
+  <h2 class="live-head">As it happened</h2>
+  <p class="live-sub" id="liveSub"></p>
+  <div class="feed-list" id="asItHappened"></div>
+  <nav class="link-row link-row--more" aria-label="To the journal">
+    <a class="press-scale" href="feed.html">The whole journal <span class="arrow" aria-hidden="true">→</span></a>
+  </nav>
+</section>
+<div class="wrap wall">
     <nav class="link-row gallery-trail" id="galleryTrail" aria-label="More galleries">
       <a class="press-scale" href="index.html">Photography <span class="arrow" aria-hidden="true">→</span></a>
     </nav>

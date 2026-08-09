@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#54708C"/><stop offset=".72" stop-color="#93AAC0"/><stop offset="1" stop-color="#D6DEE6"/></linearGradient>
+<radialGradient id="glow"><stop offset="0" stop-color="#EAF0F6" stop-opacity=".9"/><stop offset="1" stop-color="#EAF0F6" stop-opacity="0"/></radialGradient>
+<radialGradient id="vig" cx=".5" cy=".46" r=".75"><stop offset=".62" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></radialGradient>
+<filter id="gr"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0"/></filter>
+</defs>
+<rect width="1000" height="1000" fill="url(#sky)"/>
+<circle cx="463" cy="283" r="205" fill="url(#glow)"/>
+<circle cx="463" cy="283" r="41" fill="#EAF0F6" opacity=".95"/>
+<path d="M747 104 q 3 -6 6 0 q 3 -6 6 0" stroke="#1F3A47" stroke-width="2.2" fill="none" opacity=".5" stroke-linecap="round"/>
+<path d="M407 199 q 2 -5 5 0 q 2 -5 5 0" stroke="#1F3A47" stroke-width="2.2" fill="none" opacity=".5" stroke-linecap="round"/>
+<path d="M87 249 q 3 -6 6 0 q 3 -6 6 0" stroke="#1F3A47" stroke-width="2.2" fill="none" opacity=".5" stroke-linecap="round"/>
+<path d="M359 122 q 3 -6 6 0 q 3 -6 6 0" stroke="#1F3A47" stroke-width="2.2" fill="none" opacity=".5" stroke-linecap="round"/>
+<path d="M-60 486 Q126 486 313 509 Q500 507 686 494 Q873 499 1060 483 V1010 H-60 Z" fill="#B9C6D2" opacity="0.50"/>
+<path d="M-60 588 Q80 567 220 610 Q360 579 500 582 Q640 629 780 563 Q920 605 1060 590 V1010 H-60 Z" fill="#8496A8" opacity="0.67"/>
+<path d="M-60 765 Q52 761 164 770 Q276 766 388 747 Q500 744 612 789 Q724 800 836 761 Q948 779 1060 742 V1010 H-60 Z" fill="#4F6070" opacity="0.83"/>
+<path d="M-60 801 Q126 770 313 810 Q500 766 686 793 Q873 825 1060 819 V1010 H-60 Z" fill="#22303C" opacity="1.00"/>
+<rect width="1000" height="1000" fill="url(#vig)"/>
+<rect width="1000" height="1000" filter="url(#gr)"/>
+</svg>

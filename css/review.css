@@ -60,6 +60,27 @@
   src: url('../fonts/Gooper7-BoldItalic-Trial.otf') format('opentype');
   font-weight: 700; font-style: italic; font-display: swap;
 }
+/* The expressive end of the family — page titles wear these */
+@font-face {
+  font-family: 'Gooper';
+  src: url('../fonts/Gooper7-Black-Trial.otf') format('opentype');
+  font-weight: 800; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Gooper';
+  src: url('../fonts/Gooper7-BlackItalic-Trial.otf') format('opentype');
+  font-weight: 800; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Gooper';
+  src: url('../fonts/Gooper7-Super-Trial.otf') format('opentype');
+  font-weight: 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Gooper';
+  src: url('../fonts/Gooper7-SuperItalic-Trial.otf') format('opentype');
+  font-weight: 900; font-style: italic; font-display: swap;
+}
 /* The photography wing's display face — park.photos' serif. */
 @font-face {
   font-family: 'Instrument Serif';
@@ -294,17 +315,20 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 /* ============================================================
    NAV — sticky, blurred, hides on scroll down (portfolio port)
    ============================================================ */
+/* The bar holds still. It used to hide on scroll down and ride on
+   `will-change: transform`, which promoted a layer the blur then
+   had to re-sample every frame — over the full-bleed wall that
+   flickered badly. No transform, no promotion, and a background
+   solid enough that the blur is a grace note rather than the thing
+   keeping the type legible over photographs. */
 .nav {
   position: sticky;
   top: 0;
   z-index: var(--z-nav);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  background-color: rgba(255, 255, 255, .8);
-  transition: transform .3s var(--ease-out-quart);
-  will-change: transform;
+  background-color: rgba(255, 255, 255, .92);
 }
-.nav.is-hidden { transform: translateY(-100%); }
 
 .nav__inner {
   display: flex;
@@ -640,15 +664,20 @@ main { display: block; }
 .crumb a { transition: color .15s ease; }
 .crumb a:hover { color: var(--ink-65); }
 
+/* Page titles are the one place the site raises its voice: Gooper
+   at its heaviest, in italic. Same size and face in both themes —
+   the dark override that used to resize them is gone. */
 .page-head h1 {
-  font-size: 28px;
-  font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: -.01em;
+  font-family: 'Gooper', Georgia, serif;
+  font-style: italic;
+  font-weight: 800;
+  font-synthesis: none;
+  font-size: clamp(30px, 3.6vw, 44px);
+  line-height: 1.06;
+  letter-spacing: -.015em;
   color: var(--ink-85);
   margin-bottom: 16px;
 }
-@media (min-width: 640px) { .page-head h1 { font-size: 32px; } }
 
 .deck {
   font-size: 14px;
@@ -3202,11 +3231,131 @@ html.dark .msg-card { --card: #1B1B1A; }
 /* The theme switch is gone — the photo pages follow the sun via an
    inline head script (light by day, dark after sunset). */
 /* The photos page opens on the wall itself — no masthead, frames
-   running nearly edge to edge under the bar. The side margin equals
-   the gap between tiles, so the border reads as part of the grid. */
-.wall-bleed { padding: 0 clamp(5px, 0.55vw, 8px); }
+   straight under the bar. It keeps the same gutter as an
+   experience's wall so the two pages line up edge for edge. */
+.wall-bleed { padding: 0 var(--gutter); }
 .wall-bleed .roll { padding-top: clamp(5px, 0.55vw, 8px); }
 .wall-bleed .stream-grid { padding-bottom: 0; }
+/* An experience page runs highlights first, then the live journal
+   from inside the moment — the posts at reading width, centred
+   under the full-bleed wall above them. */
+/* The wall runs wide; the live journal draws into a narrow column
+   down the middle — a change of voice, not a continuation. Its
+   heading answers the page title in the same thick italic. */
+.live-sec {
+  max-width: 640px;
+  margin: clamp(46px, 6vw, 78px) auto 0;
+  padding-bottom: clamp(20px, 3vw, 32px);
+}
+.live-head {
+  font-family: 'Gooper', Georgia, serif;
+  font-style: italic;
+  font-weight: 800;
+  font-synthesis: none;
+  font-size: clamp(23px, 2.5vw, 30px);
+  line-height: 1.1;
+  letter-spacing: -.015em;
+  color: var(--ink-85);
+  text-align: center;
+}
+.live-sub {
+  margin: 9px 0 clamp(20px, 2.4vw, 30px);
+  text-align: center;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-45);
+}
+.live-sec .link-row { justify-content: center; }
+/* On a phone the column is the whole page, so centring buys
+   nothing — the heading falls in line with everything else. */
+@media (max-width: 640px) {
+  .live-head, .live-sub { text-align: left; }
+  .live-sec .link-row { justify-content: flex-start; }
+}
+/* the wall above needs air before the label */
+/* The masthead is a column down the middle of the page with its
+   type ragged right — a headline measure, not a full page width.
+   The wall below it still runs edge to edge. */
+.page-head.wall {
+  max-width: 640px;
+  padding-left: 24px;
+  padding-right: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+/* When and where, under the title — the same line the nav menu
+   shows, set in Gooper upright so the slab answers the italic. */
+.xp-byline {
+  font-family: 'Gooper', Georgia, serif;
+  font-style: normal;
+  font-weight: 500;
+  font-synthesis: none;
+  font-size: clamp(15px, 1.5vw, 18px);
+  line-height: 1.35;
+  letter-spacing: -.005em;
+  color: var(--ink-55);
+  margin: -6px 0 14px;
+}
+/* the section labels elsewhere separate whole chapters; here the
+   label belongs to the title right above it */
+#highlightsSec .sec-label {
+  margin-top: clamp(18px, 2vw, 26px);
+  margin-bottom: 14px;
+}
+/* THE EXPERIENCES INDEX — the log's list register, with a face:
+   thumb, name over when-and-where, frame count on the right */
+.xp-rows { list-style: none; margin: 0 0 30px; padding: 0; }
+.xp-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 12px 12px 8px;
+  margin: 0 -12px 0 -8px;
+  border-radius: 14px;
+  border-bottom: 1px solid var(--border);
+  transition: background-color .15s ease;
+}
+.xp-row:last-child .xp-link { border-bottom: 0; }
+.xp-link:hover { background: var(--surface-hover); }
+.xp-thumb {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  corner-shape: squircle;
+  overflow: hidden;
+  background: var(--surface);
+}
+.xp-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.xp-text { min-width: 0; }
+.xp-name {
+  display: block;
+  font-size: 15px;
+  font-weight: 550;
+  line-height: 1.3;
+  color: var(--ink-85);
+}
+.xp-meta {
+  display: block;
+  margin-top: 3px;
+  font-size: 12.5px;
+  color: var(--ink-45);
+}
+.xp-count {
+  margin-left: auto;
+  padding-left: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+  white-space: nowrap;
+}
+@media (max-width: 520px) {
+  .xp-thumb { width: 46px; height: 46px; border-radius: 12px; }
+  .xp-count { font-size: 10px; }
+}
 /* The journal is one centered column at social-feed width — the
    head and the cards share the same rail, nothing runs page-wide. */
 .feed-page .wrap { max-width: 640px; }
@@ -3556,7 +3705,7 @@ html.dark body::after {
   html.dark body::after { animation: none; inset: 0; }
 }
 /* Literal-color components that the tokens don't reach */
-html.dark .nav { background-color: rgba(10, 10, 10, .72); }
+html.dark .nav { background-color: rgba(10, 10, 10, .92); }
 html.dark .menu-item__tile { background: #1F1F1D; }
 html.dark .rubric::after { background: rgba(255, 255, 255, .12); }
 html.dark .link-row a {
@@ -3570,14 +3719,8 @@ html.dark .deck a, html.dark .colophon-note a {
 html.dark .gcard::before { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1); }
 html.dark .w-pop { box-shadow: 0 4px 24px rgba(0, 0, 0, .6); }
 /* Gallery-page titles take the display face on dark pages */
-html.dark .page-head h1 {
-  font-family: var(--display);
-  font-weight: 400;
-  font-synthesis: none;
-  letter-spacing: -.005em;
-  font-size: clamp(28px, 3.4vw, 40px);
-  line-height: 1.05;
-}
+/* (dark page titles take the same Gooper italic as light — the
+   old override that changed face and size here has been removed) */
 
 /* --- The dark hero: the lead photograph edge to edge, a full
    viewport tall, the site voice bottom-anchored over a scrim that

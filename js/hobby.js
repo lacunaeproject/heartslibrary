@@ -28,6 +28,19 @@
     if (postTrips[slug]) return postTrips[slug];
     return TRIPS.filter(function (t) { return t.slug === slug; })[0];
   }
+  /* A post can carry its own frames — what came off the phone while
+     it was happening — instead of pointing into the experience's
+     edited set. They travel as a synthetic trip so the tiles and
+     the lightbox treat them like any other set. */
+  function beatSet(trip, b, key) {
+    if (!b.photos || !b.photos.length) return { trip: trip, shots: b.shots || [] };
+    var slug = "live-" + (trip.slug || "post") + "-" + key;
+    var t = postTrips[slug] || (postTrips[slug] = {
+      slug: slug, gallery: false, place: trip.place || "", nav: trip.nav || "", short: trip.short || "",
+      when: trip.when || "", photos: b.photos
+    });
+    return { trip: t, shots: b.photos.map(function (_, i) { return i; }) };
+  }
   function postCard(p, i) {
     var slug = "post-" + i;
     var t = postTrips[slug] || (postTrips[slug] = {
@@ -67,6 +80,28 @@
       return { src: t.cover, alt: t.place };
     }
     return ps[0] || null;
+  }
+  /* What an experience is called, everywhere it's named: the full
+     billing when it has one ("Tame Impala: Deadbeat Tour with
+     Djo"), else the short name, else the title. */
+  function xpName(t) {
+    return t.nav || t.short || t.place || "";
+  }
+  /* An experience's face: its stated cover, else the first frame
+     that isn't a clip (a video has no still to show) */
+  function thumbSrc(t) {
+    if (t.cover) return t.cover;
+    var ps = t.photos || [];
+    for (var i = 0; i < ps.length; i++) if (!ps[i].video) return ps[i].src;
+    return "";
+  }
+  /* "August 5, 2026 @ Bridgestone Arena" — the same line in the
+     nav menu and on the experiences index; a count stands in when
+     an experience never said where it was */
+  function xpByline(t) {
+    var n = (t.photos || []).length;
+    return (longDate(t.posted) || esc(t.when)) +
+      (t.loc ? " @ " + esc(t.loc) : " · " + n + (n === 1 ? " frame" : " frames"));
   }
   var STAMP_MONTHS = ["Jan.", "Feb.", "March", "April", "May", "June",
                       "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
@@ -164,7 +199,7 @@
     img.src = p.src;
     img.alt = p.alt || "";
     /* a standalone post has no place or date to add */
-    var where = [lb.trip.place, lb.trip.when].filter(Boolean).join(", ");
+    var where = [xpName(lb.trip), lb.trip.when].filter(Boolean).join(", ");
     dlg.querySelector(".lightbox-cap").textContent =
       (p.caption ? p.caption + (where ? " — " : "") : "") + where;
     var dl = dlg.querySelector(".lightbox-dl");
@@ -453,31 +488,74 @@
     try { slug = new URLSearchParams(location.search).get("trip") || ""; } catch (e) {}
     var trip = TRIPS.filter(function (t) { return t.slug === slug; })[0] || TRIPS[0];
 
-    document.title = trip.place + " — Cody Heart Photography";
+    document.title = xpName(trip) + " — Cody Heart Photography";
     var tEl = document.getElementById("galleryTitle");
-    if (tEl) tEl.textContent = trip.place;
+    if (tEl) tEl.textContent = xpName(trip);
     /* the bar's scroll-title carries the experience's full billing */
     var navTitle = document.querySelector(".nav__scrolltitle");
-    if (navTitle) navTitle.textContent = trip.nav || trip.short || trip.place;
+    if (navTitle) navTitle.textContent = xpName(trip);
     var crumbEl = document.getElementById("crumbTrip");
-    if (crumbEl) crumbEl.textContent = trip.place;
+    if (crumbEl) crumbEl.textContent = xpName(trip);
     var noteEl = document.getElementById("galleryNote");
     if (noteEl) {
       /* hidden when absent, or the empty paragraph still holds its margin */
       noteEl.textContent = trip.note || "";
       noteEl.hidden = !trip.note;
     }
+    /* An experience has two halves. HIGHLIGHTS are the frames
+       flagged `best` — the ones edited and chosen after the fact.
+       AS IT HAPPENED is the journal from inside the moment: what
+       was written and whatever came off the phone at the time.
+       A new experience starts as the second half alone and grows
+       the first when there's time at a computer. */
+    var picks = [];
+    (trip.photos || []).forEach(function (p, i) {
+      if (p.best) picks.push({ p: p, i: i });
+    });
+    var beats = trip.beats || [];
+    /* nothing edited yet and nothing written either — show the roll
+       rather than an empty page */
+    if (!picks.length && !beats.length) {
+      (trip.photos || []).forEach(function (p, i) { picks.push({ p: p, i: i }); });
+    }
+
+    /* the small line carries when and where alongside the counts */
     var metaEl = document.getElementById("galleryMeta");
     if (metaEl) {
       var n = (trip.photos || []).length;
-      metaEl.textContent = n + (n === 1 ? " frame · " : " frames · ") + trip.when;
+      var bits = [xpByline(trip), n + (n === 1 ? " frame" : " frames")];
+      if (picks.length && picks.length !== n) bits.push(picks.length + " highlighted");
+      if (beats.length) bits.push(beats.length + (beats.length === 1 ? " post" : " posts"));
+      metaEl.textContent = bits.join(" · ");
     }
 
-    /* A trip page is photographs and nothing else now. Whatever was
-       written about the trip lives on the feed, where it can be read. */
-    galleryShots.innerHTML = (trip.photos || []).map(function (p, i) {
-      return shotHtml(trip, p, i);
-    }).join("");
+    var hiSec = document.getElementById("highlightsSec");
+    if (picks.length) {
+      galleryShots.innerHTML = picks.map(function (en) {
+        return shotHtml(trip, en.p, en.i);
+      }).join("");
+      if (hiSec) hiSec.hidden = false;
+    }
+
+    /* the posts run forward here — an experience reads as it was
+       lived, not newest first like the journal */
+    var liveEl = document.getElementById("asItHappened");
+    var liveSec = document.getElementById("asItHappenedSec");
+    if (liveEl && beats.length) {
+      var seenStamp = "";
+      liveEl.innerHTML = beats.map(function (b, bi) {
+        var stamp = b.time ? stampText(b.time) : trip.when;
+        var html = cardHtml(trip, b, stamp === seenStamp, bi);
+        seenStamp = stamp;
+        return html;
+      }).join("");
+      var liveSub = document.getElementById("liveSub");
+      if (liveSub) {
+        liveSub.textContent = "Posted from " + (trip.loc || trip.short || trip.place) +
+          " while it was going on.";
+      }
+      if (liveSec) liveSec.hidden = false;
+    }
     settleReels();
     var reflow;
     window.addEventListener("resize", function () {
@@ -491,7 +569,7 @@
       trail.innerHTML = TRIPS.filter(function (t) { return t.slug !== trip.slug; })
         .map(function (t) {
           return '<a class="press-scale" href="gallery.html?trip=' + esc(t.slug) + '">' +
-            esc(t.place) + ' <span class="arrow" aria-hidden="true">→</span></a>';
+            esc(xpName(t)) + ' <span class="arrow" aria-hidden="true">→</span></a>';
         }).join("") +
         '<a class="press-scale" href="index.html">Photography <span class="arrow" aria-hidden="true">→</span></a>';
     }
@@ -522,9 +600,44 @@
       el.textContent = statsText;
     });
   }
-  /* The experiences: every specific thing — a show, a game, a
-     trip — as one ruled row into its own page, where any frame
-     goes. (The data still calls them TRIPS.) */
+  /* ----------------------------------------------------------
+     THE EXPERIENCES INDEX — every one on its own page, in the
+     log's register: a face, its name, when and where, and the
+     count of frames holding the right edge. Grouped by year.
+     ---------------------------------------------------------- */
+  var xpList = document.getElementById("experienceList");
+  if (xpList && TRIPS.length) {
+    var xhtml = "", xyear = null, xopen = false;
+    TRIPS.forEach(function (t) {
+      var y = String(t.posted || "").slice(0, 4) || "Undated";
+      if (y !== xyear) {
+        xyear = y;
+        if (xopen) xhtml += "</ol>";
+        xhtml += '<h2 class="log-year">' + esc(y) + '</h2><ol class="xp-rows">';
+        xopen = true;
+      }
+      var n = (t.photos || []).length;
+      var src = thumbSrc(t);
+      xhtml += '<li class="xp-row"><a class="xp-link" href="gallery.html?trip=' + esc(t.slug) + '">' +
+        '<span class="xp-thumb">' +
+          (src ? '<img src="' + esc(src) + '" alt="" loading="lazy">' : "") + "</span>" +
+        '<span class="xp-text">' +
+          '<span class="xp-name">' + esc(xpName(t)) + "</span>" +
+          '<span class="xp-meta">' + xpByline(t) + "</span></span>" +
+        '<span class="xp-count">' + n + (n === 1 ? " frame" : " frames") + "</span>" +
+        "</a></li>";
+    });
+    if (xopen) xhtml += "</ol>";
+    xpList.innerHTML = xhtml;
+    var xpStats = document.getElementById("experienceStats");
+    if (xpStats) {
+      xpStats.textContent = TRIPS.length + " experiences · " +
+        allPhotos().length + " frames · newest first";
+    }
+  }
+
+  /* The experiences on the front page: one ruled row each into
+     its own page, where any frame goes. (Data still says TRIPS.) */
   var eventList = document.getElementById("eventList");
   if (eventList && TRIPS.length) {
     eventList.innerHTML = TRIPS.map(function (t) {
@@ -601,14 +714,15 @@
   /* A post is one floating card — a tiny date above, then the words
      and the photos together inside. No headline, no tags; `head`/
      `at`/the experience all stay in the data only. */
-  function cardHtml(trip, b, hideWhen) {
+  function cardHtml(trip, b, hideWhen, key) {
     var stamp = b.time ? stampText(b.time) : trip.when;
+    var set = beatSet(trip, b, key || 0);
     var out = '<article class="msg">';
     if (!hideWhen && stamp) out += '<p class="msg-when">' + esc(stamp) + "</p>";
     /* the card carries only the words; the photos hang beneath it
        on the bare ground, the way the wall shows them */
     if (b.say) out += '<div class="msg-card"><p class="msg-say">' + esc(b.say) + "</p></div>";
-    if (b.shots && b.shots.length) out += tileHtml(trip, b.shots);
+    if (set.shots.length) out += tileHtml(set.trip, set.shots);
     return out + "</article>";
   }
   function cardStamp(c) {
@@ -624,7 +738,7 @@
       (t.beats || []).forEach(function (b, i) {
         /* a post's own stamp when it has one, else the trip's date —
            the index keeps a trip's posts in the order they were written */
-        cards.push({ trip: t, beat: b, key: (b.time || t.posted || "") + "~" + i });
+          cards.push({ trip: t, beat: b, at: i, key: (b.time || t.posted || "") + "~" + i });
       });
     });
     POSTS.forEach(function (p, i) { cards.push(postCard(p, i)); });
@@ -642,7 +756,7 @@
       var prevStamp = "";
       feedList.innerHTML = cards.map(function (c) {
         var s = cardStamp(c);
-        var html = cardHtml(c.trip, c.beat, s === prevStamp);
+        var html = cardHtml(c.trip, c.beat, s === prevStamp, c.at);
         prevStamp = s;
         return html;
       }).join("");
@@ -679,7 +793,7 @@
           /* consecutive same-day posts share one date mark, the way
              a run of texts shares a timestamp */
           var stamp = cardStamp(cards[at]);
-          out += cardHtml(cards[at].trip, cards[at].beat, stamp === lastStamp);
+          out += cardHtml(cards[at].trip, cards[at].beat, stamp === lastStamp, cards[at].at);
           lastStamp = stamp;
         }
         sentinel.insertAdjacentHTML("beforebegin", out);
@@ -758,7 +872,7 @@
     if (menuTrips) {
       menuTrips.innerHTML = TRIPS.map(function (t) {
         return '<a class="mobile-menu__trip" href="gallery.html?trip=' + esc(t.slug) + '">' +
-          '<span>' + esc(t.nav || t.short || t.place) + '</span>' +
+          '<span>' + esc(xpName(t)) + '</span>' +
           '<span class="mobile-menu__trip-meta">' + esc(t.when) + " · " + (t.photos || []).length + "</span></a>";
       }).join("");
     }
@@ -766,30 +880,19 @@
     var navTrips = document.getElementById("navTrips");
     if (navTrips) {
       /* the six newest, each wearing its cover frame; the rest live
-         behind "See all collections" on the front page */
-      var navThumb = function (t) {
-        if (t.cover) return t.cover;
-        var ps = t.photos || [];
-        for (var k = 0; k < ps.length; k++) if (!ps[k].video) return ps[k].src;
-        return "";
-      };
+         behind "See all experiences" */
       navTrips.innerHTML =
         TRIPS.slice(0, 6).map(function (t) {
-          var src = navThumb(t);
-          var n = (t.photos || []).length;
-          /* the byline is the full date at the venue — "August 5,
-             2026 @ Bridgestone Arena"; the month alone and a frame
-             count step in when a collection lacks the specifics */
-          var byline = (longDate(t.posted) || esc(t.when)) +
-            (t.loc ? " @ " + esc(t.loc) : " · " + n + (n === 1 ? " frame" : " frames"));
+          var src = thumbSrc(t);
+          var byline = xpByline(t);
           return '<a class="menu-item" role="menuitem" href="gallery.html?trip=' + esc(t.slug) + '">' +
             '<div class="menu-item__tile menu-item__tile--photo">' +
             (src ? '<img src="' + esc(src) + '" alt="" loading="lazy">' : "") +
             "</div><div>" +
-            '<span class="menu-item__title">' + esc(t.nav || t.short || t.place) + "</span>" +
+            '<span class="menu-item__title">' + esc(xpName(t)) + "</span>" +
             '<span class="menu-item__desc">' + byline + "</span></div></a>";
         }).join("") +
-        '<a class="menu-item menu-item--all" role="menuitem" href="index.html#experiences">' +
+        '<a class="menu-item menu-item--all" role="menuitem" href="experiences.html">' +
           'See all experiences <span class="arrow" aria-hidden="true">→</span></a>';
     }
   }

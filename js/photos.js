@@ -7,6 +7,24 @@
    Each collection is a gallery page at gallery.html?trip=<slug>;
    frames flagged `best: true` also hang on the front wall.
 
+   THE TWO HALVES OF AN EXPERIENCE. Its page shows HIGHLIGHTS (the
+   frames you flagged `best` — edited later, at a computer) over
+   AS IT HAPPENED (the `beats` below — what you wrote and posted
+   from inside the moment). A new experience can start as posts
+   alone; the highlights appear when you flag some frames. A beat
+   may carry its own `photos: [...]` — the unedited ones off your
+   phone, kept out of the experience's edited set:
+
+     beats: [
+       { time: "2026-08-09T00:07",
+         say: "Shooting from the floor, hands shaking.",
+         photos: [ { src: "photos/deadbeat-tour/live/img_1204.jpg",
+                     w: 1200, h: 1600, alt: "From the floor" } ] }
+     ]
+
+   Without `photos:` a beat uses `shots: [i, …]`, indexes into the
+   collection's own photos list.
+
    To post a collection:
    1. Drop your image files into photos/<trip-slug>/
       (JPGs are fine; export around 1600px on the long side).
@@ -30,6 +48,7 @@
 window.TRIPS = [
   {
     slug: "deadbeat-tour",
+    note: "Bought the tickets for Djo months ago and found out that night he was opening for Tame Impala. Shot both sets from the floor.",
     loc: "Bridgestone Arena",
     posted: "2026-08-05",
     place: "The Deadbeat Tour",
@@ -48,15 +67,16 @@ window.TRIPS = [
       { src: "photos/deadbeat-tour/dsc03789.jpg", best: true, w: 882, h: 1124, alt: "The Deadbeat Tour" }
     ],
     beats: [
-      { at: "Djo", time: "2026-08-09T00:07", say: "I acquired these tickets a while ago. On the concert date, I was surprised to learn he was opening for Tame Impala. Below are several of the strongest images I captured during his set. On the day of the concert, I was surprised to discover he was opening for Tame Impala! Below are several of the strongest images I took during his set.", shots: [0, 1, 2, 3, 4, 5, 6, 7] }
+      { at: "Djo", time: "2026-08-09T00:07", say: "Got these tickets months ago and only found out tonight he was opening for Tame Impala. Shooting from the floor, hands shaking. Will edit the good ones later.", shots: [1, 3, 4, 6] }
     ]
   },
   {
     slug: "fenway",
+    note: "They won it at home in the bottom of the ninth. Everyone stood up at once and I got about six seconds of it.",
     loc: "Dodger Stadium",
     posted: "2026-08-01",
-    place: "Fenway Park",
-    short: "Fenway",
+    place: "Dodgers vs. Redsox",
+    short: "Dodgers",
     nav: "Dodgers vs. Redsox",
     when: "August 2026",
     continent: "North America",
@@ -69,6 +89,7 @@ window.TRIPS = [
   },
   {
     slug: "los-angeles",
+    note: "The new building's first summer. Went for the architecture and stayed for the light coming through it.",
     loc: "LACMA",
     posted: "2026-07-11",
     place: "Los Angeles in July",
@@ -78,11 +99,15 @@ window.TRIPS = [
     continent: "North America",
     photos: [
       { src: "photos/placeholders/la-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Marine layer over the basin" },
-      { src: "photos/placeholders/la-2.svg", best: true, w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Palms on Rossmore" },
-      { src: "photos/placeholders/la-3.svg", best: true, w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "The 110 at gold hour" },
+      { src: "photos/placeholders/la-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Palms on Rossmore" },
+      { src: "photos/placeholders/la-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "The 110 at gold hour" },
       { src: "photos/placeholders/la-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Stucco and shadow, Echo Park" },
       { src: "photos/placeholders/la-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Haze off the Pacific" },
-      { src: "photos/placeholders/la-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Griffith, waiting for dark" }
+      { src: "photos/placeholders/la-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Griffith, waiting for dark" },
+      { src: "photos/placeholders/la-7.svg", best: true, w: 1000, h: 1000, alt: "Placeholder frame — replace with your photo", caption: "Wilshire, mid-afternoon" },
+      { src: "photos/placeholders/la-8.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "The basin from the third floor" },
+      { src: "photos/placeholders/la-9.svg", best: true, w: 900, h: 1200, alt: "Placeholder frame — replace with your photo", caption: "Travertine and shadow" },
+      { src: "photos/placeholders/la-10.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Last light on the plaza" }
     ],
     beats: [
       { at: "Mid-Wilshire", say: "The marine layer never really burned off. Grey until noon, gold by five, grey again for the drive home.", shots: [0, 1] },
@@ -92,6 +117,7 @@ window.TRIPS = [
   },
   {
     slug: "san-diego",
+    note: "Went for the zoo and basically never left it — most of a day with the big cats and the orangutans.",
     loc: "San Diego, CA",
     nav: "San Diego Zoo",
     posted: "2026-06-20",
@@ -121,6 +147,7 @@ window.TRIPS = [
   },
   {
     slug: "chicago-february",
+    note: "February in Chicago on purpose, the year before the move. First game at the United Center.",
     loc: "United Center",
     nav: "Bulls vs. Pistons",
     posted: "2026-02-21",
@@ -130,11 +157,15 @@ window.TRIPS = [
     continent: "North America",
     photos: [
       { src: "photos/placeholders/chi-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "The lakefront, frozen over" },
-      { src: "photos/placeholders/chi-2.svg", best: true, w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Steam over the Loop" },
+      { src: "photos/placeholders/chi-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Steam over the Loop" },
       { src: "photos/placeholders/chi-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Snow on the Blue Line" },
       { src: "photos/placeholders/chi-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Radiator light, Logan Square" },
-      { src: "photos/placeholders/chi-5.svg", best: true, w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "The El in a whiteout" },
-      { src: "photos/placeholders/chi-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Lake Michigan, minus nine" }
+      { src: "photos/placeholders/chi-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "The El in a whiteout" },
+      { src: "photos/placeholders/chi-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Lake Michigan, minus nine" },
+      { src: "photos/placeholders/chi-7.svg", best: true, w: 1000, h: 1000, alt: "Placeholder frame — replace with your photo", caption: "The lake, frozen out to the crib" },
+      { src: "photos/placeholders/chi-8.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Wacker at dusk" },
+      { src: "photos/placeholders/chi-9.svg", best: true, w: 900, h: 1200, alt: "Placeholder frame — replace with your photo", caption: "Snow coming across the river" },
+      { src: "photos/placeholders/chi-10.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Blue hour, west loop" }
     ],
     beats: [
       { at: "The lakefront", say: "Came in February on purpose. If I'm moving here I wanted to see it at its worst first.", shots: [0, 1] },
@@ -144,6 +175,7 @@ window.TRIPS = [
   },
   {
     slug: "london-paris",
+    note: "Took the train out from Paris to see the pond. Expected to be underwhelmed and wasn't.",
     loc: "Giverny, France",
     nav: "Claude Monet’s House and Gardens",
     posted: "2025-10-12",
@@ -158,7 +190,11 @@ window.TRIPS = [
       { src: "photos/placeholders/ldnpar-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Barbican in the rain" },
       { src: "photos/placeholders/ldnpar-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Café tabac, 7th arrondissement" },
       { src: "photos/placeholders/ldnpar-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "St Paul's from the bridge" },
-      { src: "photos/placeholders/ldnpar-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Montmartre stairs" }
+      { src: "photos/placeholders/ldnpar-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Montmartre stairs" },
+      { src: "photos/placeholders/ldnpar-7.svg", best: true, w: 1000, h: 1000, alt: "Placeholder frame — replace with your photo", caption: "The pond, second morning" },
+      { src: "photos/placeholders/ldnpar-8.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Willows over the water" },
+      { src: "photos/placeholders/ldnpar-9.svg", best: true, w: 900, h: 1200, alt: "Placeholder frame — replace with your photo", caption: "The garden path" },
+      { src: "photos/placeholders/ldnpar-10.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Giverny, going grey" }
     ],
     beats: [
       { at: "Giverny", say: "Went to Monet's pond expecting to be underwhelmed. Wasn't.", shots: [0] },
@@ -168,6 +204,7 @@ window.TRIPS = [
   },
   {
     slug: "nashville",
+    note: "One last slow lap before the move — Franklin, Radnor Lake, and Lower Broadway at first light.",
     loc: "Nashville, TN",
     posted: "2025-08-16",
     place: "Nashville, before the move",
@@ -176,11 +213,15 @@ window.TRIPS = [
     continent: "North America",
     photos: [
       { src: "photos/placeholders/nash-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Lower Broadway from the bridge" },
-      { src: "photos/placeholders/nash-2.svg", best: true, w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Radnor Lake, first light" },
+      { src: "photos/placeholders/nash-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Radnor Lake, first light" },
       { src: "photos/placeholders/nash-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Porch storm, Franklin" },
       { src: "photos/placeholders/nash-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "The Ryman’s alley" },
       { src: "photos/placeholders/nash-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Harpeth bends" },
-      { src: "photos/placeholders/nash-6.svg", best: true, w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Neon spill, Printer’s Alley" }
+      { src: "photos/placeholders/nash-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Neon spill, Printer’s Alley" },
+      { src: "photos/placeholders/nash-7.svg", best: true, w: 1000, h: 1000, alt: "Placeholder frame — replace with your photo", caption: "Ridge line off Highway 96" },
+      { src: "photos/placeholders/nash-8.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "The Harpeth in low water" },
+      { src: "photos/placeholders/nash-9.svg", best: true, w: 900, h: 1200, alt: "Placeholder frame — replace with your photo", caption: "Late summer, Franklin" },
+      { src: "photos/placeholders/nash-10.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "First light, Radnor" }
     ],
     beats: [
       { at: "Franklin", say: "One last slow lap before the move. Sat out a storm on the porch and didn't take a frame for an hour.", shots: [2, 4] },
@@ -190,6 +231,7 @@ window.TRIPS = [
   },
   {
     slug: "big-sur",
+    note: "Highway 1 from Carmel down to Lucia, stopping at every pull-off. Fog in, fog out, all afternoon.",
     loc: "Big Sur, CA",
     posted: "2025-05-18",
     place: "Big Sur, Highway 1",
@@ -197,12 +239,16 @@ window.TRIPS = [
     when: "May 2025",
     continent: "North America",
     photos: [
-      { src: "photos/placeholders/bigsur-1.svg", best: true, w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Bixby at golden hour" },
-      { src: "photos/placeholders/bigsur-2.svg", best: true, w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Redwood understory" },
+      { src: "photos/placeholders/bigsur-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Bixby at golden hour" },
+      { src: "photos/placeholders/bigsur-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Redwood understory" },
       { src: "photos/placeholders/bigsur-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "McWay cove" },
       { src: "photos/placeholders/bigsur-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Fog over Point Sur" },
       { src: "photos/placeholders/bigsur-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Pfeiffer surf" },
-      { src: "photos/placeholders/bigsur-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Highway pull-off, dusk" }
+      { src: "photos/placeholders/bigsur-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Highway pull-off, dusk" },
+      { src: "photos/placeholders/bigsur-7.svg", best: true, w: 1000, h: 1000, alt: "Placeholder frame — replace with your photo", caption: "South from Bixby" },
+      { src: "photos/placeholders/bigsur-8.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "The cove at slack tide" },
+      { src: "photos/placeholders/bigsur-9.svg", best: true, w: 900, h: 1200, alt: "Placeholder frame — replace with your photo", caption: "Fog on the ridge road" },
+      { src: "photos/placeholders/bigsur-10.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Pfeiffer, late afternoon" }
     ],
     beats: [
       { at: "Highway 1", say: "Windows down, fog in, fog out. The camera barely kept up.", shots: [0, 1] },
@@ -212,6 +258,7 @@ window.TRIPS = [
   },
   {
     slug: "new-york",
+    note: "Back for a week, two years after leaving. Walked the old commute, in snow this time.",
     loc: "New York, NY",
     posted: "2024-12-08",
     place: "New York, back for a week",
@@ -220,11 +267,15 @@ window.TRIPS = [
     continent: "North America",
     photos: [
       { src: "photos/placeholders/nyc-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Sixth Avenue steam" },
-      { src: "photos/placeholders/nyc-2.svg", best: true, w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Snow on the High Line" },
+      { src: "photos/placeholders/nyc-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Snow on the High Line" },
       { src: "photos/placeholders/nyc-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Grand Central, 8 a.m." },
       { src: "photos/placeholders/nyc-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Roosevelt Island tram" },
-      { src: "photos/placeholders/nyc-5.svg", best: true, w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Chinatown dusk" },
-      { src: "photos/placeholders/nyc-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "The park after the storm" }
+      { src: "photos/placeholders/nyc-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Chinatown dusk" },
+      { src: "photos/placeholders/nyc-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "The park after the storm" },
+      { src: "photos/placeholders/nyc-7.svg", best: true, w: 1000, h: 1000, alt: "Placeholder frame — replace with your photo", caption: "Sixth Avenue in the snow" },
+      { src: "photos/placeholders/nyc-8.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "The park after the storm" },
+      { src: "photos/placeholders/nyc-9.svg", best: true, w: 900, h: 1200, alt: "Placeholder frame — replace with your photo", caption: "Uptown, white sky" },
+      { src: "photos/placeholders/nyc-10.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Hudson light, late day" }
     ],
     beats: [
       { at: "Midtown", say: "Back for a week, two years after leaving. Walked the old commute, in snow this time.", shots: [0, 2] },
@@ -234,6 +285,7 @@ window.TRIPS = [
   },
   {
     slug: "joshua-tree",
+    note: "Came out for the boulders and stayed for what happened after the sun went down.",
     loc: "Joshua Tree National Park",
     posted: "2024-03-22",
     place: "Joshua Tree, dusk to dark",
@@ -242,11 +294,15 @@ window.TRIPS = [
     continent: "North America",
     photos: [
       { src: "photos/placeholders/jtree-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Golden hour boulders" },
-      { src: "photos/placeholders/jtree-2.svg", best: true, w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "First stars, Cap Rock" },
+      { src: "photos/placeholders/jtree-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "First stars, Cap Rock" },
       { src: "photos/placeholders/jtree-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Cholla garden" },
       { src: "photos/placeholders/jtree-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Skull Rock silhouette" },
       { src: "photos/placeholders/jtree-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Dusk on the ridge" },
-      { src: "photos/placeholders/jtree-6.svg", best: true, w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "The Milky Way, faint" }
+      { src: "photos/placeholders/jtree-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "The Milky Way, faint" },
+      { src: "photos/placeholders/jtree-7.svg", best: true, w: 1000, h: 1000, alt: "Placeholder frame — replace with your photo", caption: "Dusk over the boulders" },
+      { src: "photos/placeholders/jtree-8.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Cap Rock, first stars" },
+      { src: "photos/placeholders/jtree-9.svg", best: true, w: 900, h: 1200, alt: "Placeholder frame — replace with your photo", caption: "The cholla garden going dark" },
+      { src: "photos/placeholders/jtree-10.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Last colour on the ridge" }
     ],
     beats: [
       { at: "Hidden Valley", say: "Came out for the boulders. Stayed for what happened after the sun went.", shots: [0, 2] },
@@ -256,6 +312,7 @@ window.TRIPS = [
   },
   {
     slug: "the-bay",
+    note: "School streets a decade on. The hills go gold in September and I had completely forgotten that.",
     loc: "Bay Area, CA",
     posted: "2023-09-10",
     place: "The Bay, revisited",
@@ -263,12 +320,16 @@ window.TRIPS = [
     when: "September 2023",
     continent: "North America",
     photos: [
-      { src: "photos/placeholders/bay-1.svg", best: true, w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Fog over the gate" },
+      { src: "photos/placeholders/bay-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Fog over the gate" },
       { src: "photos/placeholders/bay-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Berkeley hills, dry gold" },
       { src: "photos/placeholders/bay-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Ocean Beach wind" },
       { src: "photos/placeholders/bay-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Sutro through the mist" },
       { src: "photos/placeholders/bay-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Ferry wake" },
-      { src: "photos/placeholders/bay-6.svg", best: true, w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Twin Peaks, blue hour" }
+      { src: "photos/placeholders/bay-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Twin Peaks, blue hour" },
+      { src: "photos/placeholders/bay-7.svg", best: true, w: 1000, h: 1000, alt: "Placeholder frame — replace with your photo", caption: "The hills gone gold" },
+      { src: "photos/placeholders/bay-8.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Fog over the gate" },
+      { src: "photos/placeholders/bay-9.svg", best: true, w: 900, h: 1200, alt: "Placeholder frame — replace with your photo", caption: "Berkeley, late September" },
+      { src: "photos/placeholders/bay-10.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Twin Peaks at blue hour" }
     ],
     beats: [
       { at: "Berkeley", say: "School streets, a decade on. The hills go gold in September and I had completely forgotten that.", shots: [1, 4] },
