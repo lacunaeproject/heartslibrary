@@ -6,11 +6,11 @@
 <title>Cody Heart Photography</title>
 <meta name="description" content="Cody Heart’s photography: a running record of the road, trip by trip, on the way to all seven continents. Free to download for personal use.">
 <script>try{if(localStorage.getItem("hl-theme")==="light")document.documentElement.classList.remove("dark")}catch(e){}</script>
-<link rel="stylesheet" href="css/review.css?v=20260810g">
+<link rel="stylesheet" href="css/review.css?v=20260810i">
 <script>window.coverFallback=window.coverFallback||function(i){(window.__fellCovers=window.__fellCovers||[]).push(i)}</script>
-<script defer src="js/review.js?v=20260810g"></script>
-<script defer src="js/photos.js?v=20260810g"></script>
-<script defer src="js/hobby.js?v=20260810g"></script>
+<script defer src="js/review.js?v=20260810i"></script>
+<script defer src="js/photos.js?v=20260810i"></script>
+<script defer src="js/hobby.js?v=20260810i"></script>
 </head>
 <body class="home studio-page">
 
@@ -20,6 +20,12 @@
     <a class="nav__wordmark" href="index.html"><svg width="13" height="12" viewBox="2.462 4.062 19.133 17.838" aria-hidden="true"><path fill="#E5484D" d="M12.1 7.6C13.7 5 15.8 3.7 18 4.15 20.9 4.6 22.1 7.1 21.4 9.9 20.8 12.5 18 15.4 11.7 21.9 5.6 15.4 3.1 12.4 2.6 9.7 2 6.9 3.4 4.6 6 4.2 8.1 3.85 10.5 5 12.1 7.6Z"/></svg><span>Cody Heart Photography</span></a>
     <div class="nav__links">
       <a class="nav__link link-hover" href="index.html" aria-current="page">Galleries</a>
+      <div class="nav__drop">
+        <button class="nav__link link-hover press-scale" aria-expanded="false" aria-haspopup="true" aria-controls="menu-trips">Trips<svg class="chev" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4L5 6.5L7.5 4"/></svg></button>
+        <div class="nav__menu" id="menu-trips" role="menu" aria-hidden="true">
+          <div class="nav__menu-pad" id="navTrips"></div>
+        </div>
+      </div>
       <a class="nav__link link-hover" href="about.html">About</a>
       <div class="nav__drop">
         <button class="nav__link link-hover press-scale" aria-expanded="false" aria-haspopup="true" aria-controls="menu-elsewhere">Elsewhere<svg class="chev" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4L5 6.5L7.5 4"/></svg></button>
@@ -58,6 +64,47 @@
 
 <main id="main">
 <div class="studio">
+  <aside class="studio-side" aria-label="Site navigation">
+    <a class="side-mark" href="index.html"><svg viewBox="2.462 4.062 19.133 17.838" aria-hidden="true"><path fill="#E5484D" d="M12.1 7.6C13.7 5 15.8 3.7 18 4.15 20.9 4.6 22.1 7.1 21.4 9.9 20.8 12.5 18 15.4 11.7 21.9 5.6 15.4 3.1 12.4 2.6 9.7 2 6.9 3.4 4.6 6 4.2 8.1 3.85 10.5 5 12.1 7.6Z"/></svg><span>Heart Library</span></a>
+    <nav class="side-nav">
+      <a class="side-nav__link is-here" href="index.html">Galleries</a>
+      <a class="side-nav__link" href="about.html">About</a>
+    </nav>
+    <div class="side-label"><span>Trips</span></div>
+    <nav class="side-trips" id="sideTrips" aria-label="Trips">
+      <a class="side-trip is-active" href="index.html"><span class="side-name">Everything</span><span class="side-trip-meta">54 frames</span></a>
+      <a class="side-trip" href="gallery.html?trip=san-diego"><span class="side-name">San Diego</span><span class="side-trip-meta">June 2026 · 11</span></a>
+      <a class="side-trip" href="gallery.html?trip=chicago-february"><span class="side-name">Chicago</span><span class="side-trip-meta">February 2026 · 6</span></a>
+      <a class="side-trip" href="gallery.html?trip=london-paris"><span class="side-name">London &amp; Paris</span><span class="side-trip-meta">October 2025 · 7</span></a>
+      <a class="side-trip" href="gallery.html?trip=nashville"><span class="side-name">Nashville</span><span class="side-trip-meta">August 2025 · 6</span></a>
+      <a class="side-trip" href="gallery.html?trip=big-sur"><span class="side-name">Big Sur</span><span class="side-trip-meta">May 2025 · 6</span></a>
+      <a class="side-trip" href="gallery.html?trip=new-york"><span class="side-name">New York</span><span class="side-trip-meta">December 2024 · 6</span></a>
+      <a class="side-trip" href="gallery.html?trip=joshua-tree"><span class="side-name">Joshua Tree</span><span class="side-trip-meta">March 2024 · 6</span></a>
+      <a class="side-trip" href="gallery.html?trip=the-bay"><span class="side-name">The Bay</span><span class="side-trip-meta">September 2023 · 6</span></a>
+    </nav>
+    <div class="side-label"><span>Elsewhere</span></div>
+    <div class="side-elsewhere">
+      <a class="menu-item" target="_blank" rel="noopener noreferrer" href="https://substack.com/@codyheart"><div class="menu-item__tile"><svg class="icon-duo is-colored c-orange" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect class="duo-a" x="2" y="2" width="20" height="20" rx="3"/><rect class="duo-b" x="6" y="6.5" width="12" height="2.4" rx="1.2"/><rect class="duo-b" x="6" y="11" width="12" height="2.4" rx="1.2"/><path class="duo-b" d="M6 15.5h12v2a1 1 0 0 1-1.4.92L12 16.6l-4.6 1.82A1 1 0 0 1 6 17.5v-2Z"/></svg></div><div><span class="menu-item__title">Substack</span><span class="menu-item__desc">The newsletter</span></div></a>
+      <a class="menu-item" target="_blank" rel="noopener noreferrer" href="https://www.goodreads.com/user/show/164877363-cody-heart"><div class="menu-item__tile"><svg class="icon-duo is-colored c-teal" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path class="duo-a" d="M12 4.8C9.2 3 5.9 2.7 2 3.6v15.6c3.9-.9 7.2-.6 10 1.2V4.8Z"/><path class="duo-b" d="M12 4.8C14.8 3 18.1 2.7 22 3.6v15.6c-3.9-.9-7.2-.6-10 1.2V4.8Z"/></svg></div><div><span class="menu-item__title">Goodreads</span><span class="menu-item__desc">The live shelf</span></div></a>
+      <a class="menu-item" href="mailto:hello@heartslibrary.com"><div class="menu-item__tile"><svg class="icon-duo is-colored c-green" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path class="duo-b" d="M12 12.6 0 5.4V5a3 3 0 0 1 3-3h18a3 3 0 0 1 3 3v.4l-12 7.2Z"/><path class="duo-a" d="M0 8.2 12 15.4 24 8.2V19a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V8.2Z"/></svg></div><div><span class="menu-item__title">Email</span><span class="menu-item__desc">hello@heartslibrary.com</span></div></a>
+    </div>
+    <div class="side-foot">
+      <div class="side-stats">
+        <div class="side-stat"><span>Frames</span><b data-stat="frames">54</b></div>
+        <div class="side-stat"><span>Trips</span><b data-stat="trips">8</b></div>
+        <div class="side-stat"><span>Continents</span><b data-stat="continents">2 of 7</b></div>
+      </div>
+      <div class="side-foot-row">
+        <span class="side-copy">© 2026 · Franklin → Chicago</span>
+        <button class="theme-toggle" type="button" aria-label="Switch between light and dark mode">
+          <span class="theme-knob" aria-hidden="true">
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.6 14.2A8.8 8.8 0 0 1 9.8 3.4a8.8 8.8 0 1 0 10.8 10.8Z"/></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M19.1 4.9l-1.6 1.6M6.5 17.5l-1.6 1.6"/></svg>
+          </span>
+        </button>
+      </div>
+    </div>
+  </aside>
   <div class="studio-main">
     <section class="stream-sec" id="photos" aria-label="The photographs">
       <div class="stream-head">

@@ -2400,6 +2400,64 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 .studio-side { display: none; }
 .studio-main .stream-sec { padding-top: 26px; }
 .studio-main .page-head { padding-top: 26px; padding-bottom: 14px; }
+@media (min-width: 900px) {
+  .studio {
+    display: grid;
+    grid-template-columns: minmax(250px, 300px) 1fr;
+    column-gap: clamp(32px, 3vw, 56px);
+    align-items: start;
+  }
+  .studio-side {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0 26px;
+  }
+  .studio-main .stream-head { display: none; }
+}
+/* The vertical nav, laid out like the menu: big links, then the
+   trips, then elsewhere with its tiles */
+.side-nav {
+  display: flex;
+  flex-direction: column;
+  margin-top: 22px;
+}
+.side-nav__link {
+  padding: 4px 0;
+  font-size: 15px;
+  font-weight: 550;
+  letter-spacing: -.005em;
+  color: var(--ink-55);
+  transition: color .15s ease;
+}
+.side-nav__link:hover,
+.side-nav__link.is-here { color: var(--ink-85); }
+.side-trip {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 4px 0;
+}
+.side-trip-meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+  white-space: nowrap;
+  transition: color .15s ease;
+}
+.side-trip.is-active .side-trip-meta { color: #E5484D; }
+.side-elsewhere {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+}
+.side-elsewhere .menu-item { padding: 6px 0; }
 .side-mark {
   flex: none;
   display: inline-flex;
@@ -2478,22 +2536,6 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   padding-right: 10px;
   scrollbar-width: thin;
 }
-.side-trip {
-  display: grid;
-  grid-template-columns: 58px 22px 1fr;
-  gap: 12px;
-  align-items: baseline;
-  padding: 3px 0;
-}
-.side-date,
-.side-count {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: .06em;
-  color: var(--ink-40);
-  transition: color .15s ease;
-}
-.side-count { text-align: right; color: var(--ink-30); }
 .side-name {
   font-family: var(--display);
   font-weight: 400;
@@ -2506,7 +2548,6 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 }
 .side-trip:hover .side-name { color: var(--ink-85); }
 .side-trip.is-active .side-name { color: var(--ink-85); font-weight: 500; }
-.side-trip.is-active .side-date { color: #E5484D; }
 /* The portfolio's stat rows: mono label left, value right, a
    hairline over each */
 .side-stats { display: flex; flex-direction: column; }
@@ -2934,10 +2975,12 @@ html.dark .page-head h1 {
    viewport tall, the site voice bottom-anchored over a scrim that
    keeps the type readable without burying the animal. The nav
    floats over it (body.home unsticks it from the flow). --- */
-/* Studio pages run the mobile chrome at every width: the top bar
-   with the burger, the trip ledger inside the menu */
-body.studio-page .nav__links { display: none; }
-body.studio-page .nav__burger-wrap { display: block; }
+/* Studio pages: the vertical nav carries everything on desktop;
+   the top bar + burger only exist on small screens */
+@media (min-width: 900px) {
+  body.studio-page .nav { display: none; }
+  body.studio-page .gallery-trail { display: none; }
+}
 .darkhero {
   text-align: center;
 }

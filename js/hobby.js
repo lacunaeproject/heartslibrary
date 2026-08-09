@@ -275,15 +275,12 @@
     if (sideTrips) {
       sideTrips.innerHTML =
         '<a class="side-trip' + (activeSlug === "all" ? " is-active" : "") + '" href="index.html">' +
-          '<span class="side-date">—</span>' +
-          '<span class="side-count">' + allPhotos().length + '</span>' +
-          '<span class="side-name">Everything</span></a>' +
+          '<span class="side-name">Everything</span>' +
+          '<span class="side-trip-meta">' + allPhotos().length + " frames</span></a>" +
         TRIPS.map(function (t) {
-          var ym = (t.posted || "").slice(0, 7).replace("-", "/");
           return '<a class="side-trip' + (t.slug === activeSlug ? " is-active" : "") + '" href="gallery.html?trip=' + esc(t.slug) + '">' +
-            '<span class="side-date">' + esc(ym) + '</span>' +
-            '<span class="side-count">' + (t.photos || []).length + '</span>' +
-            '<span class="side-name">' + esc(t.short || t.place) + "</span></a>";
+            '<span class="side-name">' + esc(t.short || t.place) + "</span>" +
+            '<span class="side-trip-meta">' + esc(t.when) + " · " + (t.photos || []).length + "</span></a>";
         }).join("");
     }
     if (menuTrips) {
@@ -292,6 +289,19 @@
           '<span>' + esc(t.short || t.place) + '</span>' +
           '<span class="mobile-menu__trip-meta">' + esc(t.when) + " · " + (t.photos || []).length + "</span></a>";
       }).join("");
+    }
+    /* The Trips dropdown in the top nav */
+    var navTrips = document.getElementById("navTrips");
+    if (navTrips) {
+      navTrips.innerHTML =
+        '<a class="menu-item" role="menuitem" href="index.html"><div>' +
+          '<span class="menu-item__title">Everything</span>' +
+          '<span class="menu-item__desc">' + allPhotos().length + " frames</span></div></a>" +
+        TRIPS.map(function (t) {
+          return '<a class="menu-item" role="menuitem" href="gallery.html?trip=' + esc(t.slug) + '"><div>' +
+            '<span class="menu-item__title">' + esc(t.short || t.place) + "</span>" +
+            '<span class="menu-item__desc">' + esc(t.when) + " · " + (t.photos || []).length + " frames</span></div></a>";
+        }).join("");
     }
   }
 
