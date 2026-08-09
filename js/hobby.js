@@ -1,7 +1,7 @@
 /* ============================================================
    HEART'S LIBRARY — page renderers.
-   One small file drives the photography pages (the homepage
-   gallery grid, gallery.html, the photos.html archive) and the
+   One small file drives the photography pages (the wall at
+   index.html, gallery.html) and the
    background wings (pins, games, writing), reading the plain
    data files. Each block no-ops unless its container exists,
    so every page can load the same script. You never need to
@@ -16,9 +16,34 @@
       .replace(/"/g, "&quot;");
   }
   var TRIPS = window.TRIPS || [];
+  var POSTS = window.POSTS || [];
   var PINS = window.PINS || [];
   var GAMES = window.GAMES || [];
   var WRITING = window.WRITING || [];
+
+  /* A standalone blog post travels as a tiny synthetic trip so its
+     tiles and the lightbox treat the frames like any other set. */
+  var postTrips = {};
+  function tripBySlug(slug) {
+    if (postTrips[slug]) return postTrips[slug];
+    return TRIPS.filter(function (t) { return t.slug === slug; })[0];
+  }
+  function postCard(p, i) {
+    var slug = "post-" + i;
+    var t = postTrips[slug] || (postTrips[slug] = {
+      slug: slug, gallery: false, place: "", short: "",
+      when: "", photos: p.photos || []
+    });
+    return {
+      trip: t,
+      beat: { at: p.at, head: p.head, say: p.say, time: p.time,
+              shots: (p.photos || []).map(function (_, k) { return k; }) },
+      key: (p.time || "") + "~p" + i
+    };
+  }
+  function postCount() {
+    return TRIPS.reduce(function (n, t) { return n + (t.beats || []).length; }, 0) + POSTS.length;
+  }
 
   function allPhotos() {
     var out = [];
@@ -113,19 +138,23 @@
   /* Lightbox: one <dialog>, shared by any page that renders shots. It
      opens on a set rather than a single frame — whatever sat alongside
      the one you tapped — so you can keep going with an arrow, a key or
-     a thumb. */
-  var lb = { trip: null, list: [], at: 0 };
+     a thumb. Entries carry their own trip, so the best-of wall can
+     page straight across events. */
+  var lb = { list: [], at: 0 };
 
   function lbShow(dlg, k) {
     if (k < 0 || k >= lb.list.length) return;
     lb.at = k;
-    var p = lb.trip.photos[lb.list[k]];
+    lb.trip = lb.list[k].t;
+    var p = lb.trip.photos[lb.list[k].i];
     if (!p) return;
     var img = dlg.querySelector("img");
     img.src = p.src;
     img.alt = p.alt || "";
+    /* a standalone post has no place or date to add */
+    var where = [lb.trip.place, lb.trip.when].filter(Boolean).join(", ");
     dlg.querySelector(".lightbox-cap").textContent =
-      (p.caption ? p.caption + " — " : "") + lb.trip.place + ", " + lb.trip.when;
+      (p.caption ? p.caption + (where ? " — " : "") : "") + where;
     var dl = dlg.querySelector(".lightbox-dl");
     if (dl) dl.href = p.src;
     var many = lb.list.length > 1;
@@ -158,25 +187,30 @@
     document.addEventListener("click", function (e) {
       var btn = e.target.closest(".shot-btn");
       if (!btn) return;
-      var trip = TRIPS.filter(function (t) { return t.slug === btn.getAttribute("data-trip"); })[0];
+      var trip = tripBySlug(btn.getAttribute("data-trip"));
       if (!trip) return;
       var here = Number(btn.getAttribute("data-i"));
-      lb.trip = trip;
       /* a card's tiles name their whole post, so the four you can see
          open onto all of it; elsewhere the set is whatever shares the
          strip or the grid */
       var tiles = btn.closest(".tiles");
       var box = btn.closest(".reel-track, .post-media, .stream-grid");
       if (tiles && tiles.getAttribute("data-all")) {
-        lb.list = tiles.getAttribute("data-all").split(",").map(Number);
+        lb.list = tiles.getAttribute("data-all").split(",").map(function (n) {
+          return { t: trip, i: Number(n) };
+        });
       } else if (box) {
         lb.list = Array.prototype.map.call(box.querySelectorAll(".shot-btn"), function (b) {
-          return Number(b.getAttribute("data-i"));
-        });
+          return { t: tripBySlug(b.getAttribute("data-trip")), i: Number(b.getAttribute("data-i")) };
+        }).filter(function (en) { return en.t; });
       } else {
-        lb.list = [here];
+        lb.list = [{ t: trip, i: here }];
       }
-      var start = lb.list.indexOf(here);
+      var start = -1;
+      lb.list.some(function (en, k) {
+        if (en.t === trip && en.i === here) { start = k; return true; }
+        return false;
+      });
       lbShow(dlg, start < 0 ? 0 : start);
       dlg.showModal();
     });
@@ -444,32 +478,47 @@
           return '<a class="press-scale" href="gallery.html?trip=' + esc(t.slug) + '">' +
             esc(t.place) + ' <span class="arrow" aria-hidden="true">→</span></a>';
         }).join("") +
-        '<a class="press-scale" href="index.html#photos">Photography <span class="arrow" aria-hidden="true">→</span></a>';
+        '<a class="press-scale" href="index.html">Photography <span class="arrow" aria-hidden="true">→</span></a>';
     }
   }
 
   /* ----------------------------------------------------------
-     THE STREAM — every frame on one page (homepage + archive):
-     a uniform three-across wall per trip, split only by a thin
-     roll line that clicks through to that trip's gallery.
+     THE WALL — the front door shows only the keepers: every
+     frame flagged `best: true`, one unbroken wall, newest trip
+     first. The full sets live on the event pages, indexed just
+     below the wall.
      ---------------------------------------------------------- */
-  var tripList = document.getElementById("tripList");
-  if (tripList && TRIPS.length) {
-    tripList.innerHTML = TRIPS.map(function (t) {
-      return '<section class="roll" id="' + esc(t.slug) + '">' +
-        '<a class="roll-head" href="gallery.html?trip=' + esc(t.slug) + '">' +
-          '<span class="roll-place">' + esc(t.short || t.place) + '</span>' +
-          '<span class="roll-meta">' + esc(t.when) + " · " + (t.photos || []).length + " frames</span>" +
-          '<span class="roll-go" aria-hidden="true">→</span></a>' +
-        '<div class="stream-grid">' +
-        (t.photos || []).map(function (p, i) { return shotHtml(t, p, i); }).join("") +
-        "</div></section>";
-    }).join("");
-
-    var statsText = allPhotos().length + " frames · " + TRIPS.length + " trips · newest first";
+  function bestPhotos() {
+    var out = [];
+    TRIPS.forEach(function (t) {
+      (t.photos || []).forEach(function (p, i) {
+        if (p.best) out.push({ t: t, p: p, i: i });
+      });
+    });
+    return out;
+  }
+  var bestWall = document.getElementById("bestWall");
+  if (bestWall && TRIPS.length) {
+    var picks = bestPhotos();
+    bestWall.innerHTML = '<div class="stream-grid">' +
+      picks.map(function (en) { return shotHtml(en.t, en.p, en.i); }).join("") + "</div>";
+    var statsText = picks.length + " keepers · " + TRIPS.length + " collections · newest first";
     Array.prototype.forEach.call(document.querySelectorAll(".photo-stats"), function (el) {
       el.textContent = statsText;
     });
+  }
+  /* The collections: every specific thing — a show, a game, a
+     trip — as one ruled row into its own page, where any frame
+     goes. (The data still calls them TRIPS.) */
+  var eventList = document.getElementById("eventList");
+  if (eventList && TRIPS.length) {
+    eventList.innerHTML = TRIPS.map(function (t) {
+      var n = (t.photos || []).length;
+      return '<a class="roll-head" href="gallery.html?trip=' + esc(t.slug) + '">' +
+        '<span class="roll-place">' + esc(t.nav || t.place) + '</span>' +
+        '<span class="roll-meta">' + esc(t.when) + " · " + n + (n === 1 ? " frame" : " frames") + "</span>" +
+        '<span class="roll-go" aria-hidden="true">→</span></a>';
+    }).join("");
   }
   /* The sidebar stat rows */
   (function () {
@@ -528,10 +577,14 @@
       if (cut) { head = cut[1]; body = cut[2]; }
       else { head = body; body = ""; }
     }
+    /* a trip's post names its gallery; a standalone one is just the
+       journal talking */
     var out = '<article class="card">' +
       '<div class="card-top">' +
-        '<a class="card-where" href="gallery.html?trip=' + esc(trip.slug) + '">' +
-          esc(trip.short || trip.place) + "</a>" +
+        (trip.gallery === false
+          ? '<span class="card-where">Journal</span>'
+          : '<a class="card-where" href="gallery.html?trip=' + esc(trip.slug) + '">' +
+            esc(trip.short || trip.place) + "</a>") +
         '<span class="card-when">' + esc(b.time ? stampText(b.time) : trip.when) + "</span>" +
       "</div>";
     if (b.at) out += '<p class="card-at">' + esc(b.at) + "</p>";
@@ -541,8 +594,10 @@
     return out + "</article>";
   }
 
-  var feedList = document.getElementById("feedList");
-  if (feedList && TRIPS.length) {
+  /* Everything postable lands in one pile: trip posts and the
+     standalone journal entries, newest first. The blog page shows
+     the whole pile; Home shows the top of it. */
+  function allCards() {
     var cards = [];
     TRIPS.forEach(function (t) {
       (t.beats || []).forEach(function (b, i) {
@@ -551,7 +606,14 @@
         cards.push({ trip: t, beat: b, key: (b.time || t.posted || "") + "~" + i });
       });
     });
+    POSTS.forEach(function (p, i) { cards.push(postCard(p, i)); });
     cards.sort(function (a, b) { return a.key < b.key ? 1 : a.key > b.key ? -1 : 0; });
+    return cards;
+  }
+
+  var feedList = document.getElementById("feedList");
+  if (feedList && (TRIPS.length || POSTS.length)) {
+    var cards = allCards();
     feedList.innerHTML = cards.length
       ? cards.map(function (c) { return cardHtml(c.trip, c.beat); }).join("")
       : '<p class="noscript-note">Nothing posted yet.</p>';
@@ -559,7 +621,7 @@
     var feedStat = document.getElementById("feedStat");
     if (feedStat) {
       feedStat.textContent = cards.length + (cards.length === 1 ? " post" : " posts") +
-        " · " + TRIPS.length + " events";
+        " · newest first";
     }
   }
 
@@ -585,39 +647,34 @@
   }
 
   /* ----------------------------------------------------------
-     THE LEDGER — the notion-style sidebar index: Highlights on
-     top, then every trip (date · count · name), each row a page
-     of its own. The current page's row is marked. Mirrored into
-     the burger menu on small screens.
+     THE LEDGER — two pillars and the quiet rows. Photos is the
+     front door; the events live as chips on the wall, not here.
      ---------------------------------------------------------- */
   var sideTrips = document.getElementById("sideTrips");
   var menuTrips = document.getElementById("menuTrips");
   if ((sideTrips || menuTrips) && TRIPS.length) {
-    var activeSlug = "all";
-    if (/gallery\.html$/i.test(location.pathname)) {
-      try { activeSlug = new URLSearchParams(location.search).get("trip") || TRIPS[0].slug; } catch (e) { activeSlug = TRIPS[0].slug; }
-    }
-    var onFeed = /feed\.html$/i.test(location.pathname);
+    var onBlog = /feed\.html$/i.test(location.pathname);
     if (sideTrips) {
+      var row = function (href, name, meta, active) {
+        return '<a class="side-trip' + (active ? " is-active" : "") + '" href="' + href + '">' +
+          '<span class="side-name">' + name + "</span>" +
+          (meta ? '<span class="side-trip-meta">' + meta + "</span>" : "") + "</a>";
+      };
+      var keepers = 0;
+      TRIPS.forEach(function (t) {
+        (t.photos || []).forEach(function (p) { if (p.best) keepers++; });
+      });
       sideTrips.innerHTML =
-        '<a class="side-trip' + (onFeed ? " is-active" : "") + '" href="feed.html">' +
-          '<span class="side-name">What I’m up to</span>' +
-          '<span class="side-trip-meta">' +
-            TRIPS.reduce(function (n, t) { return n + (t.beats || []).length; }, 0) +
-          " posts</span></a>" +
-        '<a class="side-trip is-all' + (activeSlug === "all" && !onFeed ? " is-active" : "") + '" href="index.html">' +
-          '<span class="side-name">Photography</span>' +
-          '<span class="side-trip-meta">' + highlightCount() + " frames</span></a>" +
-        TRIPS.map(function (t) {
-          return '<a class="side-trip' + (t.slug === activeSlug ? " is-active" : "") + '" href="gallery.html?trip=' + esc(t.slug) + '">' +
-            '<span class="side-name">' + esc(t.short || t.place) + "</span>" +
-            '<span class="side-trip-meta">' + esc(t.when) + "</span></a>";
-        }).join("");
+        row("index.html", "Photos", keepers + " keepers", !onBlog) +
+        row("feed.html", "Blog", postCount() + " posts", onBlog) +
+        '<div class="side-gap" aria-hidden="true"></div>' +
+        row("about.html", "About", "", false) +
+        row("mailto:hello@heartslibrary.com", "Contact", "email", false);
     }
     if (menuTrips) {
       menuTrips.innerHTML = TRIPS.map(function (t) {
         return '<a class="mobile-menu__trip" href="gallery.html?trip=' + esc(t.slug) + '">' +
-          '<span>' + esc(t.short || t.place) + '</span>' +
+          '<span>' + esc(t.nav || t.short || t.place) + '</span>' +
           '<span class="mobile-menu__trip-meta">' + esc(t.when) + " · " + (t.photos || []).length + "</span></a>";
       }).join("");
     }
@@ -625,12 +682,9 @@
     var navTrips = document.getElementById("navTrips");
     if (navTrips) {
       navTrips.innerHTML =
-        '<a class="menu-item" role="menuitem" href="index.html"><div>' +
-          '<span class="menu-item__title">Photography</span>' +
-          '<span class="menu-item__desc">' + highlightCount() + " frames</span></div></a>" +
         TRIPS.map(function (t) {
           return '<a class="menu-item" role="menuitem" href="gallery.html?trip=' + esc(t.slug) + '"><div>' +
-            '<span class="menu-item__title">' + esc(t.short || t.place) + "</span>" +
+            '<span class="menu-item__title">' + esc(t.nav || t.short || t.place) + "</span>" +
             '<span class="menu-item__desc">' + esc(t.when) + " · " + (t.photos || []).length + " frames</span></div></a>";
         }).join("");
     }
