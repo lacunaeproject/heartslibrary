@@ -108,31 +108,139 @@
       "</button></figure>";
   }
 
-  /* Lightbox: one <dialog>, shared by any page that renders shots. */
+  /* Lightbox: one <dialog>, shared by any page that renders shots. It
+     opens on a set rather than a single frame — whatever sat alongside
+     the one you tapped — so you can keep going with an arrow, a key or
+     a thumb. */
+  var lb = { trip: null, list: [], at: 0 };
+
+  function lbShow(dlg, k) {
+    if (k < 0 || k >= lb.list.length) return;
+    lb.at = k;
+    var p = lb.trip.photos[lb.list[k]];
+    if (!p) return;
+    var img = dlg.querySelector("img");
+    img.src = p.src;
+    img.alt = p.alt || "";
+    dlg.querySelector(".lightbox-cap").textContent =
+      (p.caption ? p.caption + " — " : "") + lb.trip.place + ", " + lb.trip.when;
+    var dl = dlg.querySelector(".lightbox-dl");
+    if (dl) dl.href = p.src;
+    var many = lb.list.length > 1;
+    dlg.classList.toggle("has-set", many);
+    var tally = dlg.querySelector(".lightbox-tally");
+    if (tally) tally.textContent = many ? (k + 1) + " / " + lb.list.length : "";
+    var prev = dlg.querySelector(".lb-prev"), next = dlg.querySelector(".lb-next");
+    if (prev) prev.disabled = k === 0;
+    if (next) next.disabled = k === lb.list.length - 1;
+  }
+
   function bindLightbox() {
     var dlg = document.getElementById("lightbox");
     if (!dlg || typeof dlg.showModal !== "function") return;
+
+    /* the arrows and tally live here rather than in every page's markup */
+    if (!dlg.querySelector(".lb-prev")) {
+      var arrow = function (cls, label, d) {
+        return '<button class="lb-arrow ' + cls + '" type="button" aria-label="' + label + '">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+          'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + d +
+          '"/></svg></button>';
+      };
+      dlg.insertAdjacentHTML("beforeend",
+        arrow("lb-prev", "Previous frame", "M15 5l-7 7 7 7") +
+        arrow("lb-next", "Next frame", "M9 5l7 7-7 7") +
+        '<span class="lightbox-tally"></span>');
+    }
+
     document.addEventListener("click", function (e) {
       var btn = e.target.closest(".shot-btn");
       if (!btn) return;
       var trip = TRIPS.filter(function (t) { return t.slug === btn.getAttribute("data-trip"); })[0];
-      var p = trip && trip.photos[Number(btn.getAttribute("data-i"))];
-      if (!p) return;
-      dlg.querySelector("img").src = p.src;
-      dlg.querySelector("img").alt = p.alt || "";
-      dlg.querySelector(".lightbox-cap").textContent =
-        (p.caption ? p.caption + " — " : "") + trip.place + ", " + trip.when;
-      var dl = dlg.querySelector(".lightbox-dl");
-      if (dl) dl.href = p.src;
+      if (!trip) return;
+      /* the set is whatever shares this frame's strip or grid */
+      var box = btn.closest(".reel-track, .post-media, .stream-grid");
+      var here = Number(btn.getAttribute("data-i"));
+      lb.trip = trip;
+      lb.list = box
+        ? Array.prototype.map.call(box.querySelectorAll(".shot-btn"), function (b) {
+            return Number(b.getAttribute("data-i"));
+          })
+        : [here];
+      var start = lb.list.indexOf(here);
+      lbShow(dlg, start < 0 ? 0 : start);
       dlg.showModal();
     });
+
     dlg.addEventListener("click", function (e) {
       if (e.target.closest(".lightbox-dl")) return;
+      var arrow = e.target.closest(".lb-arrow");
+      if (arrow) {
+        e.stopPropagation();
+        lbShow(dlg, lb.at + (arrow.classList.contains("lb-next") ? 1 : -1));
+        return;
+      }
       dlg.close();
     });
+
+    document.addEventListener("keydown", function (e) {
+      if (!dlg.open) return;
+      if (e.key === "ArrowRight") lbShow(dlg, lb.at + 1);
+      if (e.key === "ArrowLeft") lbShow(dlg, lb.at - 1);
+    });
+
+    /* a thumb flick, the way you'd move through an album */
+    var x0 = null;
+    dlg.addEventListener("touchstart", function (e) {
+      x0 = e.changedTouches[0].clientX;
+    }, { passive: true });
+    dlg.addEventListener("touchend", function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      x0 = null;
+      if (Math.abs(dx) < 45) return;
+      e.stopPropagation();
+      lbShow(dlg, lb.at + (dx < 0 ? 1 : -1));
+    });
   }
+  /* Keep the counter honest as the strip is swiped: whichever frame is
+     nearest the middle of the track is the one you're looking at.
+     Listens on the way down rather than binding to each strip, because
+     scroll doesn't bubble and the feed is built long after this runs. */
+  function bindReels() {
+    var tick;
+    document.addEventListener("scroll", function (e) {
+      var track = e.target && e.target.closest && e.target.closest(".reel-track");
+      if (!track) return;
+      clearTimeout(tick);
+      tick = setTimeout(function () {
+        var out = track.parentNode.querySelector(".reel-count b");
+        if (!out) return;
+        /* both sides measured against the viewport — offsetLeft is
+           relative to the nearest positioned ancestor, which isn't the
+           track, so it can't be compared with scrollLeft */
+        var box = track.getBoundingClientRect();
+        var mid = box.left + box.width / 2;
+        var best = 0, gap = Infinity;
+        Array.prototype.forEach.call(track.children, function (kid, i) {
+          var r = kid.getBoundingClientRect();
+          var c = r.left + r.width / 2;
+          if (Math.abs(c - mid) < gap) { gap = Math.abs(c - mid); best = i; }
+        });
+        /* the first and last frames can never reach the middle, so the
+           nearest-to-centre test undercounts at both ends */
+        if (track.scrollLeft <= 2) best = 0;
+        else if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 2) {
+          best = track.children.length - 1;
+        }
+        out.textContent = best + 1;
+      }, 60);
+    }, true);
+  }
+
   bindLightbox();
   bindVideos();
+  bindReels();
 
   /* ----------------------------------------------------------
      HOMEPAGE — the gallery wall: big rounded-rectangle covers,
@@ -285,15 +393,20 @@
         if (head) out += '<h2 class="post-head">' + esc(head) + "</h2>";
         if (body) out += '<p class="post-say">' + esc(body) + "</p>";
         if (b.shots && b.shots.length) {
-          /* a moment carried by one frame gets the full column, the way
-             the reference runs a single image or clip */
-          out += '<div class="stream-grid post-media post-media--' +
-            (b.shots.length === 1 ? "solo" : "pair") + '">' +
-            b.shots.map(function (n) {
-              var p = trip.photos[n];
-              return p ? shotHtml(trip, p, n) : "";
-            }).join("") +
-            "</div>";
+          var frames = b.shots.map(function (n) {
+            var p = trip.photos[n];
+            return p ? shotHtml(trip, p, n) : "";
+          }).join("");
+          if (b.shots.length === 1) {
+            /* a moment carried by one frame gets the full column */
+            out += '<div class="stream-grid post-media post-media--solo">' +
+              frames + "</div>";
+          } else {
+            /* Anything more rides a strip you swipe. A stack of eight
+               down the page is a scroll; sideways it stays one moment. */
+            out += '<div class="reel"><div class="reel-track">' + frames + "</div>" +
+              '<p class="reel-count"><b>1</b> / ' + b.shots.length + "</p></div>";
+          }
         }
         return out + "</article>";
       }).join("");
