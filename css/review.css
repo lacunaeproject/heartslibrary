@@ -2954,14 +2954,59 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   color: var(--ink-55);
 }
 .shot-credit { margin-left: 8px; font-size: 12px; color: var(--ink-40); }
-/* Column width rather than column count: now that the layout is capped
-   the count has to follow the container it actually sits in, not the
-   viewport — a 1500px window would otherwise force four columns into
-   a 650px column. */
+/* The wall is uniform: upright 3:4 tiles on fixed rows, and a
+   landscape frame lies across two of them — same row height, two
+   tracks wide, which lands its crop near 3:2. Rows have to be an
+   explicit height for a spanning tile to sit flush with its
+   neighbours, so the column count is stepped by CONTAINER width
+   (the homepage wall lives beside a sidebar, so the viewport is
+   the wrong ruler — the parents carry container-type) and the row
+   height is derived from the track via cqi. dense backfills the
+   hole when a wide frame won't fit at the end of a row. */
+#photoStream,
+.roll { container-type: inline-size; }
 .stream-grid {
-  columns: 230px;
-  column-gap: clamp(12px, 1.2vw, 18px);
+  --wall-gap: clamp(5px, 0.55vw, 8px);
+  --wall-cols: 4;
+  --wall-track: calc((100cqi - (var(--wall-cols) - 1) * var(--wall-gap)) / var(--wall-cols));
+  display: grid;
+  grid-template-columns: repeat(var(--wall-cols), minmax(0, 1fr));
+  grid-auto-rows: calc(var(--wall-track) * 4 / 3);
+  grid-auto-flow: dense;
+  gap: var(--wall-gap);
   padding-bottom: clamp(28px, 4vw, 48px);
+}
+.stream-grid .shot { margin: 0; }
+.stream-grid .shot--wide { grid-column: span 2; }
+/* Apple's corner language: 22px (the iOS card/widget radius) drawn
+   as a continuous superellipse — corner-shape is the web's version
+   of Apple's squircle; browsers without it just round normally. */
+.stream-grid .shot-btn,
+.stream-grid .shot-btn::after,
+.stream-grid .vid {
+  border-radius: 22px;
+  corner-shape: squircle;
+}
+/* The definite height from the fixed row wins over the ratio; the
+   ratio only takes over in one-column mode, where rows go auto. */
+.stream-grid .shot-btn,
+.stream-grid .vid { aspect-ratio: 3 / 4; height: 100%; }
+.stream-grid .shot--wide .shot-btn,
+.stream-grid .shot--wide .vid { aspect-ratio: 3 / 2; }
+/* Setting both axes makes the browser drop each frame's own inline
+   aspect-ratio, so the crop wins without touching the markup. */
+.stream-grid .shot-btn img,
+.stream-grid .vid video { width: 100%; height: 100%; object-fit: cover; }
+/* Captions under a tile would stagger the rows — on the wall they
+   live in the hover pill and the lightbox instead. */
+.stream-grid .shot-cap { display: none; }
+@container (width < 800px) { .stream-grid { --wall-cols: 3; } }
+@container (width < 600px) { .stream-grid { --wall-cols: 2; } }
+/* One column: rows follow each frame's own shape instead — a lone
+   landscape runs full width at 3:2 rather than cropped upright. */
+@container (width < 400px) {
+  .stream-grid { --wall-cols: 1; grid-auto-rows: auto; }
+  .stream-grid .shot--wide { grid-column: auto; }
 }
 .shot { margin: 0 0 clamp(12px, 1.2vw, 18px); break-inside: avoid; }
 .shot-btn {

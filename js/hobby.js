@@ -81,10 +81,12 @@
   }
   function shotHtml(t, p, i) {
     var ratio = p.w && p.h ? ' style="aspect-ratio:' + Number(p.w) + "/" + Number(p.h) + '"' : "";
+    /* A landscape frame lies across two portrait cells on the wall */
+    var wide = Number(p.w) > Number(p.h) ? " shot--wide" : "";
     /* A clip plays where it sits — no lightbox button wrapping it, or
        the click to play would fight the click to enlarge. */
     if (p.video) {
-      return '<figure class="shot shot--video">' +
+      return '<figure class="shot shot--video' + wide + '">' +
         '<div class="vid">' +
           /* #t=0.1 makes the browser seek a tenth of a second in and
              paint that frame, which stands in for a poster image */
@@ -101,7 +103,7 @@
           : "") +
         "</figure>";
     }
-    return '<figure class="shot">' +
+    return '<figure class="shot' + wide + '">' +
       '<button class="shot-btn" type="button" data-trip="' + esc(t.slug) + '" data-i="' + i + '" aria-label="View larger: ' + esc(p.caption || t.place) + '">' +
       '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '" loading="lazy"' + ratio + ">" +
       (p.caption ? '<span class="shot-pill">' + esc(p.caption) + "</span>" : "") +
@@ -448,8 +450,8 @@
 
   /* ----------------------------------------------------------
      THE STREAM — every frame on one page (homepage + archive):
-     a masonry wall per trip, split only by a thin roll line
-     that clicks through to that trip's gallery.
+     a uniform three-across wall per trip, split only by a thin
+     roll line that clicks through to that trip's gallery.
      ---------------------------------------------------------- */
   var tripList = document.getElementById("tripList");
   if (tripList && TRIPS.length) {
@@ -562,8 +564,8 @@
   }
 
   /* ----------------------------------------------------------
-     HIGHLIGHTS — the homepage: the lead frames of every trip in
-     one endless masonry, newest first, no separators. The trip a
+     HIGHLIGHTS — the homepage: the lead frames of every trip on
+     one uniform wall, newest first, no separators. The trip a
      frame belongs to shows up in its caption and its lightbox.
      ---------------------------------------------------------- */
   var photoStream = document.getElementById("photoStream");
