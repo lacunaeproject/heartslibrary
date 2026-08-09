@@ -181,7 +181,7 @@
     try { slug = new URLSearchParams(location.search).get("trip") || ""; } catch (e) {}
     var trip = TRIPS.filter(function (t) { return t.slug === slug; })[0] || TRIPS[0];
 
-    document.title = trip.place + " — Heart’s Library";
+    document.title = trip.place + " — Cody Heart Photography";
     var tEl = document.getElementById("galleryTitle");
     if (tEl) tEl.textContent = trip.place;
     var crumbEl = document.getElementById("crumbTrip");
