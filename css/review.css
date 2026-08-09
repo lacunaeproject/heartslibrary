@@ -2382,7 +2382,14 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
 }
-.studio { padding: 0 clamp(20px, 2vw, 36px); }
+/* Two columns that stop growing. Past this width the reading column
+   turns into a paragraph the width of a desk, which is the thing the
+   reference never lets happen. */
+.studio {
+  padding: 0 clamp(20px, 2vw, 36px);
+  max-width: 1080px;
+  margin-inline: auto;
+}
 .studio-main { min-width: 0; }
 .studio-main .colophon-note h2 {
   font-family: var(--display);
@@ -2671,7 +2678,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
    Geist carries a taller x-height than the serif it replaced. */
 .post-say {
   margin: 0;
-  max-width: 46em;
+  max-width: 34em;
   font-family: var(--sans);
   font-size: 17px;
   line-height: 1.62;
@@ -2744,14 +2751,15 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   color: var(--ink-55);
 }
 .shot-credit { margin-left: 8px; font-size: 12px; color: var(--ink-40); }
+/* Column width rather than column count: now that the layout is capped
+   the count has to follow the container it actually sits in, not the
+   viewport — a 1500px window would otherwise force four columns into
+   a 650px column. */
 .stream-grid {
-  columns: 1;
+  columns: 230px;
   column-gap: clamp(12px, 1.2vw, 18px);
   padding-bottom: clamp(28px, 4vw, 48px);
 }
-@media (min-width: 600px) { .stream-grid { columns: 2; } }
-@media (min-width: 1024px) { .stream-grid { columns: 3; } }
-@media (min-width: 1500px) { .stream-grid { columns: 4; } }
 .shot { margin: 0 0 clamp(12px, 1.2vw, 18px); break-inside: avoid; }
 .shot-btn {
   display: block;

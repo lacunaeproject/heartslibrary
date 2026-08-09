@@ -140,7 +140,10 @@
       "Bash(curl -s -o /dev/null -w \"one photo: HTTP %{http_code}  %{size_download} bytes\\\\n\" \"https://heartslibrary.com/photos/deadbeat-tour/dsc03638.jpg\")",
       "Bash(curl -s https://heartslibrary.com/js/photos.js?x=__TRACKED_VAR__)",
       "Bash(curl -s -o /dev/null -w \"a photo: HTTP %{http_code}  %{size_download} bytes\\\\n\" \"https://heartslibrary.com/photos/deadbeat-tour/dsc03638.jpg\")",
-      "Bash(GIT_EDITOR=true git rebase --continue)"
+      "Bash(GIT_EDITOR=true git rebase --continue)",
+      "Bash(curl -s https://heartslibrary.com/css/review.css?x=__TRACKED_VAR__)",
+      "Bash(curl -s \"https://heartslibrary.com/gallery.html?trip=deadbeat-tour\")",
+      "Bash(curl -s -o /dev/null -w \"server:%{http_code}\\\\n\" http://localhost:8765/gallery.html)"
     ]
   }
 }
