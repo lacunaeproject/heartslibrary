@@ -27,6 +27,12 @@
    not here; hand edits get overwritten on the next sync. */
 window.CURRENT = [
   {
+    "title": "King Leopold's Ghost",
+    "author": "Adam Hochschild",
+    "cover": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1532716127l/40961621._SX98_.jpg",
+    "href": "https://www.goodreads.com/book/show/40961621"
+  },
+  {
     "title": "The Iliad",
     "author": "Homer",
     "cover": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1625333695l/1371._SX98_.jpg",
