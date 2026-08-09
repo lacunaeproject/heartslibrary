@@ -25,23 +25,22 @@
 window.TRIPS = [
   {
     slug: "deadbeat-tour",
-    posted: "2026-08-05",
-    place: "The Deadbeat Tour",
-    short: "Deadbeat Tour",
-    when: "August 2026",
-    continent: "North America",
+    posted: "2026-08-01",
+    place: "deadbeat-tour",
+    short: "deadbeat-tour",
+    when: "August 2026 Â",
     photos: [
-      { src: "photos/placeholders/dead-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Doors, and the room filling in" },
-      { src: "photos/placeholders/dead-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "First song, front of the pit" },
-      { src: "photos/placeholders/dead-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "The room from the back rail" },
-      { src: "photos/placeholders/dead-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Amber wash, second set" },
-      { src: "photos/placeholders/dead-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Hands up for the encore" },
-      { src: "photos/placeholders/dead-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "House lights, everyone blinking" }
+      { src: "photos/deadbeat-tour/dsc03638.jpg", w: 1600, h: 1200, alt: "deadbeat-tour" },
+      { src: "photos/deadbeat-tour/dsc03659.jpg", w: 1200, h: 1600, alt: "deadbeat-tour" },
+      { src: "photos/deadbeat-tour/dsc03660.jpg", w: 1200, h: 1600, alt: "deadbeat-tour" },
+      { src: "photos/deadbeat-tour/dsc03676.jpg", w: 1200, h: 1600, alt: "deadbeat-tour" },
+      { src: "photos/deadbeat-tour/dsc03707.jpg", w: 1200, h: 1600, alt: "deadbeat-tour" },
+      { src: "photos/deadbeat-tour/dsc03684.jpg", w: 1200, h: 1600, alt: "deadbeat-tour" },
+      { src: "photos/deadbeat-tour/dsc03683.jpg", w: 1200, h: 1600, alt: "deadbeat-tour" },
+      { src: "photos/deadbeat-tour/dsc03789.jpg", w: 882, h: 1124, alt: "deadbeat-tour" }
     ],
     beats: [
-      { at: "Doors", say: "Got there early enough to watch the room fill up. Best part of any show is the twenty minutes before it starts.", shots: [0, 1] },
-      { at: "Second set", say: "The light did all the work tonight. Amber wash off the back rail, nothing to do with me.", shots: [2, 3] },
-      { at: "Encore", say: "Every hand in the room went up at once. Then house lights, and four hundred people blinking at each other.", shots: [4, 5] }
+      { at: "Djo Â", time: "2026-08-09T00:07", say: "I acquired these tickets a while ago. On the concert date, I was surprised to learn he was opening for Tame Impala. Below are several of the strongest images I captured during his set. On the day of the concert, I was surprised to discover he was opening for Tame Impala! Below are several of the strongest images I took during his set.", shots: [0, 1, 2, 3, 4, 5, 6, 7] }
     ]
   },
   {
