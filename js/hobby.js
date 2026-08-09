@@ -158,15 +158,22 @@
       if (!btn) return;
       var trip = TRIPS.filter(function (t) { return t.slug === btn.getAttribute("data-trip"); })[0];
       if (!trip) return;
-      /* the set is whatever shares this frame's strip or grid */
-      var box = btn.closest(".reel-track, .post-media, .stream-grid");
       var here = Number(btn.getAttribute("data-i"));
       lb.trip = trip;
-      lb.list = box
-        ? Array.prototype.map.call(box.querySelectorAll(".shot-btn"), function (b) {
-            return Number(b.getAttribute("data-i"));
-          })
-        : [here];
+      /* a card's tiles name their whole post, so the four you can see
+         open onto all of it; elsewhere the set is whatever shares the
+         strip or the grid */
+      var tiles = btn.closest(".tiles");
+      var box = btn.closest(".reel-track, .post-media, .stream-grid");
+      if (tiles && tiles.getAttribute("data-all")) {
+        lb.list = tiles.getAttribute("data-all").split(",").map(Number);
+      } else if (box) {
+        lb.list = Array.prototype.map.call(box.querySelectorAll(".shot-btn"), function (b) {
+          return Number(b.getAttribute("data-i"));
+        });
+      } else {
+        lb.list = [here];
+      }
       var start = lb.list.indexOf(here);
       lbShow(dlg, start < 0 ? 0 : start);
       dlg.showModal();
@@ -415,58 +422,11 @@
       metaEl.textContent = n + (n === 1 ? " frame · " : " frames · ") + trip.when;
     }
 
-    /* A trip authored as a thread carries `beats`: an ordered run of
-       things said and groups of frames, the shots holding indices
-       into trip.photos so the lightbox still resolves them. Without
-       beats — the older trips — it stays one flat grid. */
-    if (trip.beats && trip.beats.length) {
-      galleryShots.className = "feed";
-      galleryShots.innerHTML = trip.beats.map(function (b) {
-        /* The reference leads each post with a headline and follows it
-           with the detail. Splitting at the first full stop gives that
-           for free — write a punchy opening line, let the rest run on —
-           and an explicit `head` overrides it when the split is wrong. */
-        var head = b.head || "", body = b.say || "";
-        if (!head && body) {
-          var cut = body.match(/^([^.!?]+[.!?])\s+(.+)$/);
-          if (cut) { head = cut[1]; body = cut[2]; }
-          else { head = body; body = ""; }
-        }
-        var out = '<article class="post">';
-        if (b.at) out += '<p class="post-at">' + esc(b.at) + "</p>";
-        if (b.time) out += '<p class="post-when">' + esc(stampText(b.time)) + "</p>";
-        if (head) out += '<h2 class="post-head">' + esc(head) + "</h2>";
-        if (body) out += '<p class="post-say">' + esc(body) + "</p>";
-        if (b.shots && b.shots.length) {
-          var frames = b.shots.map(function (n) {
-            var p = trip.photos[n];
-            return p ? shotHtml(trip, p, n) : "";
-          }).join("");
-          if (b.shots.length === 1) {
-            /* a moment carried by one frame gets the full column */
-            out += '<div class="stream-grid post-media post-media--solo">' +
-              frames + "</div>";
-          } else {
-            /* Anything more rides a strip you swipe. A stack of eight
-               down the page is a scroll; sideways it stays one moment.
-               Arrows because a mouse wheel only goes one way. */
-            out += '<div class="reel"><div class="reel-window">' +
-              '<div class="reel-track">' + frames + "</div>" +
-              '<button class="reel-arrow reel-prev" type="button" aria-label="Previous frames" disabled>' +
-                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>' +
-              '<button class="reel-arrow reel-next" type="button" aria-label="More frames">' +
-                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>' +
-              "</div>" +
-              '<p class="reel-count"><b>1</b> / ' + b.shots.length + "</p></div>";
-          }
-        }
-        return out + "</article>";
-      }).join("");
-    } else {
-      galleryShots.innerHTML = (trip.photos || []).map(function (p, i) {
-        return shotHtml(trip, p, i);
-      }).join("");
-    }
+    /* A trip page is photographs and nothing else now. Whatever was
+       written about the trip lives on the feed, where it can be read. */
+    galleryShots.innerHTML = (trip.photos || []).map(function (p, i) {
+      return shotHtml(trip, p, i);
+    }).join("");
     settleReels();
     var reflow;
     window.addEventListener("resize", function () {
@@ -527,6 +487,81 @@
   })();
 
   /* ----------------------------------------------------------
+     THE FEED — what I'm up to: every post from every trip on one
+     page, newest first, each one a card. The trip pages are
+     photographs; this is the place words live.
+     ---------------------------------------------------------- */
+
+  /* The tiled gallery, x's arrangement: one frame runs full width, two
+     sit side by side, three put a tall one beside a stacked pair, four
+     make a square. Past four the fourth tile carries the remainder. */
+  function tileHtml(trip, shots) {
+    var n = Math.min(shots.length, 4);
+    var extra = shots.length - n;
+    /* the tiles show at most four; data-all carries the whole post so
+       the lightbox pages through every frame, not just the visible ones */
+    return '<div class="tiles tiles--' + n + '" data-all="' + shots.join(",") + '">' +
+      shots.slice(0, n).map(function (idx, k) {
+        var p = trip.photos[idx];
+        if (!p) return "";
+        var more = (extra && k === n - 1)
+          ? '<span class="tile-more">+' + extra + "</span>" : "";
+        if (p.video) {
+          return '<figure class="tile tile--video">' +
+            '<video src="' + esc(p.src) + '#t=0.1" playsinline preload="metadata" muted></video>' +
+            '<span class="tile-play" aria-hidden="true">▶</span>' + more + "</figure>";
+        }
+        return '<figure class="tile">' +
+          '<button class="shot-btn tile-btn" type="button" data-trip="' + esc(trip.slug) +
+          '" data-i="' + idx + '" aria-label="View larger: ' + esc(p.caption || trip.place) + '">' +
+          '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '" loading="lazy">' +
+          more + "</button></figure>";
+      }).join("") + "</div>";
+  }
+
+  function cardHtml(trip, b) {
+    var head = b.head || "", body = b.say || "";
+    if (!head && body) {
+      var cut = body.match(/^([^.!?]+[.!?])\s+(.+)$/);
+      if (cut) { head = cut[1]; body = cut[2]; }
+      else { head = body; body = ""; }
+    }
+    var out = '<article class="card">' +
+      '<div class="card-top">' +
+        '<a class="card-where" href="gallery.html?trip=' + esc(trip.slug) + '">' +
+          esc(trip.short || trip.place) + "</a>" +
+        '<span class="card-when">' + esc(b.time ? stampText(b.time) : trip.when) + "</span>" +
+      "</div>";
+    if (b.at) out += '<p class="card-at">' + esc(b.at) + "</p>";
+    if (head) out += '<h2 class="card-head">' + esc(head) + "</h2>";
+    if (body) out += '<p class="card-say">' + esc(body) + "</p>";
+    if (b.shots && b.shots.length) out += tileHtml(trip, b.shots);
+    return out + "</article>";
+  }
+
+  var feedList = document.getElementById("feedList");
+  if (feedList && TRIPS.length) {
+    var cards = [];
+    TRIPS.forEach(function (t) {
+      (t.beats || []).forEach(function (b, i) {
+        /* a post's own stamp when it has one, else the trip's date —
+           the index keeps a trip's posts in the order they were written */
+        cards.push({ trip: t, beat: b, key: (b.time || t.posted || "") + "~" + i });
+      });
+    });
+    cards.sort(function (a, b) { return a.key < b.key ? 1 : a.key > b.key ? -1 : 0; });
+    feedList.innerHTML = cards.length
+      ? cards.map(function (c) { return cardHtml(c.trip, c.beat); }).join("")
+      : '<p class="noscript-note">Nothing posted yet.</p>';
+
+    var feedStat = document.getElementById("feedStat");
+    if (feedStat) {
+      feedStat.textContent = cards.length + (cards.length === 1 ? " post" : " posts") +
+        " · " + TRIPS.length + " events";
+    }
+  }
+
+  /* ----------------------------------------------------------
      HIGHLIGHTS — the homepage: the lead frames of every trip in
      one endless masonry, newest first, no separators. The trip a
      frame belongs to shows up in its caption and its lightbox.
@@ -560,9 +595,15 @@
     if (/gallery\.html$/i.test(location.pathname)) {
       try { activeSlug = new URLSearchParams(location.search).get("trip") || TRIPS[0].slug; } catch (e) { activeSlug = TRIPS[0].slug; }
     }
+    var onFeed = /feed\.html$/i.test(location.pathname);
     if (sideTrips) {
       sideTrips.innerHTML =
-        '<a class="side-trip is-all' + (activeSlug === "all" ? " is-active" : "") + '" href="index.html">' +
+        '<a class="side-trip' + (onFeed ? " is-active" : "") + '" href="feed.html">' +
+          '<span class="side-name">What I’m up to</span>' +
+          '<span class="side-trip-meta">' +
+            TRIPS.reduce(function (n, t) { return n + (t.beats || []).length; }, 0) +
+          " posts</span></a>" +
+        '<a class="side-trip is-all' + (activeSlug === "all" && !onFeed ? " is-active" : "") + '" href="index.html">' +
           '<span class="side-name">Highlights</span>' +
           '<span class="side-trip-meta">' + highlightCount() + " frames</span></a>" +
         TRIPS.map(function (t) {

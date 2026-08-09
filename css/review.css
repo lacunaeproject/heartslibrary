@@ -2382,14 +2382,9 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
 }
-/* Two columns that stop growing. Past this width the reading column
-   turns into a paragraph the width of a desk, which is the thing the
-   reference never lets happen. */
-.studio {
-  padding: 0 clamp(20px, 2vw, 36px);
-  max-width: 1080px;
-  margin-inline: auto;
-}
+/* Photography pages run wide: a small left column and as much room for
+   frames as the window will give. Only the feed is capped, below. */
+.studio { padding: 0 clamp(20px, 2vw, 36px); }
 .studio-main { min-width: 0; }
 .studio-main .colophon-note h2 {
   font-family: var(--display);
@@ -2425,12 +2420,13 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   }
   .studio-main .stream-head { display: none; }
 }
-/* Once there's room, an empty gutter mirrors the nav on the right, so
-   the posts land on the middle of the page instead of being pushed off
-   it by the width of the nav. Has to come after the rule above or it
-   loses on source order. */
+/* The feed is the one page that reads rather than looks, so it keeps
+   the capped column and, once there's room, an empty gutter mirroring
+   the nav so the cards land on the middle of the page. Has to follow
+   the rule above or it loses on source order. */
+.studio--read { max-width: 1080px; margin-inline: auto; }
 @media (min-width: 1240px) {
-  .studio {
+  .studio--read {
     max-width: 1420px;
     grid-template-columns: minmax(250px, 300px) minmax(0, 1fr) minmax(0, 300px);
   }
@@ -2773,6 +2769,123 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   color: var(--ink-40);
 }
 .reel-count b { color: var(--ink-85); font-weight: 550; }
+
+/* ============================================================
+   THE FEED — what I'm up to. One card a post, newest first, the
+   photographs tiled inside it rather than running the page.
+   ============================================================ */
+.feed-list { display: flex; flex-direction: column; gap: 16px; padding-bottom: 60px; }
+.card {
+  padding: 18px 20px 20px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  transition: border-color .15s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .card:hover { border-color: var(--ink-30); }
+}
+.card-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.card-where {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -.005em;
+  color: var(--ink-85);
+}
+.card-where:hover { color: #E5484D; }
+.card-when { font-size: 12px; color: var(--ink-40); white-space: nowrap; }
+.card-at { margin: 0 0 4px; font-size: 12.5px; font-weight: 600; color: var(--ink-55); }
+.card-head {
+  margin: 0 0 8px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-synthesis: none;
+  font-size: clamp(19px, 1.9vw, 23px);
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  color: var(--ink-85);
+}
+.card-say {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: var(--ink-78);
+}
+/* The tiles: one full width, two abreast, three as a tall beside a
+   stacked pair, four square. Fixed ratios so a card never stretches to
+   whatever shape the photographs happen to be. */
+.tiles {
+  display: grid;
+  gap: 3px;
+  margin-top: 13px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.tiles--1 { grid-template-columns: 1fr; aspect-ratio: 3 / 2; }
+.tiles--2 { grid-template-columns: 1fr 1fr; aspect-ratio: 2 / 1; }
+.tiles--3 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; aspect-ratio: 2 / 1.4; }
+.tiles--3 .tile:first-child { grid-row: span 2; }
+.tiles--4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; aspect-ratio: 1 / 1; }
+.tiles .tile { position: relative; margin: 0; min-height: 0; overflow: hidden; }
+/* scoped under .tiles to outrank the .shot-btn rules further down the
+   file, which otherwise win on source order and give every tile its own
+   rounded corners and an auto height */
+.tiles .tile-btn {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--surface-hover);
+  cursor: zoom-in;
+  overflow: hidden;
+}
+.tiles .tile-btn::after { content: none; }
+.tiles .tile img,
+.tiles .tile video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .5s var(--ease-out-quart);
+}
+@media (hover: hover) and (pointer: fine) {
+  .tiles .tile-btn:hover img { transform: scale(1.03); }
+}
+.tile-play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(20, 20, 20, .58);
+  color: #fff;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.tile-more {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 10, .52);
+  color: #fff;
+  font-size: 21px;
+  font-weight: 600;
+  pointer-events: none;
+}
 
 .post-media { margin-top: clamp(18px, 2vw, 26px); padding-bottom: 0; }
 /* specificity has to beat the .stream-grid column counts set in the

@@ -143,7 +143,10 @@
       "Bash(GIT_EDITOR=true git rebase --continue)",
       "Bash(curl -s https://heartslibrary.com/css/review.css?x=__TRACKED_VAR__)",
       "Bash(curl -s \"https://heartslibrary.com/gallery.html?trip=deadbeat-tour\")",
-      "Bash(curl -s -o /dev/null -w \"server:%{http_code}\\\\n\" http://localhost:8765/gallery.html)"
+      "Bash(curl -s -o /dev/null -w \"server:%{http_code}\\\\n\" http://localhost:8765/gallery.html)",
+      "Bash(sed -i 's/?v=[A-Za-z0-9._-]*/?v=20260809-feed/g' ./*.html)",
+      "Bash(curl -s -o /dev/null -w \"feed:%{http_code} gallery:\" http://localhost:8765/feed.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:8765/gallery.html?trip=deadbeat-tour\")"
     ]
   }
 }
