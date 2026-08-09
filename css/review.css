@@ -2423,12 +2423,12 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 .side-nav {
   display: flex;
   flex-direction: column;
-  margin-top: 22px;
+  margin-top: 24px;
 }
 .side-nav__link {
-  padding: 4px 0;
-  font-size: 15px;
-  font-weight: 550;
+  padding: 3px 0;
+  font-size: 13px;
+  font-weight: 450;
   letter-spacing: -.005em;
   color: var(--ink-55);
   transition: color .15s ease;
@@ -2443,10 +2443,8 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   padding: 4px 0;
 }
 .side-trip-meta {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: .05em;
-  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 450;
   color: var(--ink-40);
   white-space: nowrap;
   transition: color .15s ease;
@@ -2462,16 +2460,16 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   flex: none;
   display: inline-flex;
   align-items: center;
-  gap: .3em;
+  gap: .4em;
   font-family: var(--display);
-  font-weight: 400;
+  font-weight: 500;
   font-synthesis: none;
-  font-size: clamp(23px, 2.2vw, 29px);
-  line-height: 1.1;
+  font-size: 16px;
+  line-height: 1.2;
   letter-spacing: -.005em;
   color: var(--ink-85);
 }
-.side-mark svg { width: .5em; height: .47em; flex: none; }
+.side-mark svg { width: .72em; height: .68em; flex: none; }
 @media (hover: hover) and (pointer: fine) {
   .side-mark:hover svg { animation: heart-pulse 1.3s ease-in-out infinite; }
 }
@@ -2532,22 +2530,20 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
-  margin-top: 12px;
+  margin-top: 28px;
   padding-right: 10px;
   scrollbar-width: thin;
 }
 .side-name {
-  font-family: var(--display);
-  font-weight: 400;
-  font-synthesis: none;
-  font-size: 16px;
-  line-height: 1.3;
-  letter-spacing: 0;
+  font-size: 13px;
+  font-weight: 550;
+  line-height: 1.4;
+  letter-spacing: -.005em;
   color: var(--ink-55);
   transition: color .15s ease;
 }
 .side-trip:hover .side-name { color: var(--ink-85); }
-.side-trip.is-active .side-name { color: var(--ink-85); font-weight: 500; }
+.side-trip.is-active .side-name { color: var(--ink-85); }
 /* The portfolio's stat rows: mono label left, value right, a
    hairline over each */
 .side-stats { display: flex; flex-direction: column; }
@@ -2664,6 +2660,54 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   .roll-head:hover .roll-place { color: #E5484D; }
   .roll-head:hover .roll-go { transform: translateX(4px); color: var(--ink-85); }
 }
+/* Between trips in the Everything view: the reference's section
+   furniture, kept quiet — small label, small meta, a hairline out
+   to the edge, the whole line clicking through to the gallery */
+.stream-sep {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: clamp(30px, 3.4vw, 48px) 0 16px;
+}
+.stream-group:first-child .stream-sep { margin-top: 4px; }
+.stream-sep span {
+  font-size: 13px;
+  font-weight: 550;
+  letter-spacing: -.005em;
+  color: var(--ink-85);
+  white-space: nowrap;
+  transition: color .15s ease;
+}
+.stream-sep em {
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 450;
+  color: var(--ink-40);
+  white-space: nowrap;
+}
+.stream-sep::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+@media (hover: hover) and (pointer: fine) {
+  .stream-sep:hover span { color: #E5484D; }
+}
+/* The way back, the reference's: a quiet return link where the
+   page begins */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 450;
+  color: var(--ink-55);
+  transition: color .15s ease;
+}
+.back-link:hover { color: var(--ink-85); }
+.back-link .arrow { transition: transform .25s var(--ease-out-quart); }
+.back-link:hover .arrow { transform: translateX(-3px); }
 .stream-grid {
   columns: 1;
   column-gap: clamp(12px, 1.2vw, 18px);

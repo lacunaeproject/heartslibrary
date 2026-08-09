@@ -253,10 +253,15 @@
      ---------------------------------------------------------- */
   var photoStream = document.getElementById("photoStream");
   if (photoStream && TRIPS.length) {
-    photoStream.innerHTML = '<div class="stream-grid">' +
-      TRIPS.map(function (t) {
-        return (t.photos || []).map(function (p, i) { return shotHtml(t, p, i); }).join("");
-      }).join("") + "</div>";
+    photoStream.innerHTML = TRIPS.map(function (t) {
+      return '<section class="stream-group" id="' + esc(t.slug) + '">' +
+        '<a class="stream-sep" href="gallery.html?trip=' + esc(t.slug) + '">' +
+          '<span>' + esc(t.short || t.place) + '</span>' +
+          '<em>' + esc(t.when) + " · " + (t.photos || []).length + " frames</em></a>" +
+        '<div class="stream-grid">' +
+        (t.photos || []).map(function (p, i) { return shotHtml(t, p, i); }).join("") +
+        "</div></section>";
+    }).join("");
   }
 
   /* ----------------------------------------------------------
