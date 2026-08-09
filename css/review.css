@@ -2083,10 +2083,10 @@ main { display: block; }
 }
 .sec-sub {
   margin-top: 10px;
-  font-size: 15px;
+  font-size: 13px;
   line-height: 1.6;
   color: var(--ink-55);
-  max-width: 520px;
+  max-width: 480px;
 }
 .sec-head--row {
   display: flex;
@@ -2144,12 +2144,33 @@ html:not(.dark) .theme-knob .icon-moon { display: none; }
 .places-sec { padding-top: 0; }
 .sec-head--center { text-align: center; }
 .sec-head--center .sec-sub { margin-left: auto; margin-right: auto; }
+/* Section furniture inside the main pane, vollendorf's register */
+.sec-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: clamp(72px, 9vw, 110px);
+}
+.sec-label span {
+  font-size: 13px;
+  font-weight: 550;
+  letter-spacing: -.005em;
+  color: var(--ink-85);
+  white-space: nowrap;
+}
+.sec-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.sec-label + .sec-sub { margin-top: 16px; }
 .filter-row {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 8px;
-  margin-top: 24px;
+  margin-top: 18px;
 }
 .filter-pill {
   padding: 8px 16px;
@@ -2172,13 +2193,13 @@ html:not(.dark) .theme-knob .icon-moon { display: none; }
 }
 html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 .places-cloud {
-  margin-top: clamp(30px, 4vw, 52px);
+  margin-top: clamp(26px, 3.4vw, 44px);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  column-gap: clamp(28px, 4vw, 64px);
-  row-gap: clamp(18px, 2.5vw, 34px);
+  justify-content: flex-start;
+  column-gap: clamp(22px, 2.6vw, 44px);
+  row-gap: clamp(14px, 2vw, 26px);
 }
 .place {
   display: inline-flex;
@@ -2186,18 +2207,18 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   gap: clamp(12px, 1.5vw, 22px);
 }
 .place-thumb {
-  width: clamp(56px, 6vw, 88px);
-  height: clamp(56px, 6vw, 88px);
-  border-radius: clamp(16px, 1.8vw, 24px);
+  width: clamp(44px, 4.6vw, 64px);
+  height: clamp(44px, 4.6vw, 64px);
+  border-radius: clamp(12px, 1.3vw, 16px);
   object-fit: cover;
   display: block;
   transition: transform .3s var(--ease-out-quart);
 }
 .place-badge {
   flex: none;
-  width: clamp(56px, 6vw, 88px);
-  height: clamp(56px, 6vw, 88px);
-  border-radius: clamp(16px, 1.8vw, 24px);
+  width: clamp(44px, 4.6vw, 64px);
+  height: clamp(44px, 4.6vw, 64px);
+  border-radius: clamp(12px, 1.3vw, 16px);
   border: 1px solid var(--border);
   background: var(--surface);
   display: inline-flex;
@@ -2212,7 +2233,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   font-family: var(--display);
   font-weight: 400;
   font-synthesis: none;
-  font-size: clamp(30px, 4vw, 52px);
+  font-size: clamp(24px, 3vw, 40px);
   letter-spacing: -.005em;
   line-height: 1.1;
   color: var(--ink-85);
@@ -2363,6 +2384,13 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 }
 .studio { padding: 0 20px; }
 .studio-main { min-width: 0; }
+.studio-main .colophon-note h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: 21px;
+  letter-spacing: -.005em;
+}
 .studio-main .wall {
   padding-left: 0;
   padding-right: 0;
@@ -2411,19 +2439,35 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 @media (prefers-reduced-motion: reduce) {
   .side-mark:hover svg { animation: none; }
 }
+/* The statement, vollendorf's hero pattern at sidebar scale: a
+   quiet serif line with a smaller sans line beneath */
+.side-state {
+  margin-top: 18px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-synthesis: none;
+  font-size: 19px;
+  line-height: 1.35;
+  letter-spacing: -.005em;
+  color: var(--ink-85);
+  max-width: 24ch;
+}
 .side-tag {
-  margin-top: 14px;
+  margin-top: 10px;
   font-size: 13px;
-  line-height: 1.6;
+  line-height: 1.55;
   color: var(--ink-55);
-  max-width: 32ch;
+  max-width: 30ch;
 }
 .side-links {
-  margin-top: 12px;
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
   font-size: 12px;
+  font-weight: 450;
   color: var(--ink-55);
 }
-.side-links .sep { color: var(--ink-30); margin: 0 2px; }
 /* Section furniture, the portfolio's: small strong label with a
    hairline running to the edge */
 .side-label {
@@ -2433,7 +2477,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   margin-top: 36px;
 }
 .side-label span {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 550;
   letter-spacing: -.005em;
   color: var(--ink-85);
@@ -2519,11 +2563,9 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   gap: 12px;
 }
 .side-copy {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: var(--ink-40);
+  font-size: 12px;
+  font-weight: 450;
+  color: var(--ink-50);
 }
 .side-foot .theme-toggle { margin-bottom: 0; }
 /* The ledger inside the burger menu on small screens */
