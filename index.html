@@ -6,13 +6,13 @@
 <title>Cody Heart Photography</title>
 <meta name="description" content="Cody Heart’s photography: a running record of the road, trip by trip, on the way to all seven continents. Free to download for personal use.">
 <script>try{if(localStorage.getItem("hl-theme")==="light")document.documentElement.classList.remove("dark")}catch(e){}</script>
-<link rel="stylesheet" href="css/review.css?v=20260810b">
+<link rel="stylesheet" href="css/review.css?v=20260810c">
 <script>window.coverFallback=window.coverFallback||function(i){(window.__fellCovers=window.__fellCovers||[]).push(i)}</script>
-<script defer src="js/review.js?v=20260810b"></script>
-<script defer src="js/photos.js?v=20260810b"></script>
-<script defer src="js/hobby.js?v=20260810b"></script>
+<script defer src="js/review.js?v=20260810c"></script>
+<script defer src="js/photos.js?v=20260810c"></script>
+<script defer src="js/hobby.js?v=20260810c"></script>
 </head>
-<body class="home">
+<body class="home studio-page">
 
 <a class="skip" href="#main">Skip to content</a>
 <nav class="nav" aria-label="Main navigation">
@@ -69,14 +69,15 @@
       <a class="link-hover" href="mailto:hello@heartslibrary.com">Email</a>
     </p>
     <nav class="side-trips" id="sideTrips" aria-label="Trips">
-      <a class="side-trip" data-slug="san-diego" href="#san-diego"><span class="side-date">2026/06</span><span class="side-count">11</span><span class="side-name">San Diego</span></a>
-      <a class="side-trip" data-slug="chicago-february" href="#chicago-february"><span class="side-date">2026/02</span><span class="side-count">6</span><span class="side-name">Chicago</span></a>
-      <a class="side-trip" data-slug="london-paris" href="#london-paris"><span class="side-date">2025/10</span><span class="side-count">7</span><span class="side-name">London &amp; Paris</span></a>
-      <a class="side-trip" data-slug="nashville" href="#nashville"><span class="side-date">2025/08</span><span class="side-count">6</span><span class="side-name">Nashville</span></a>
-      <a class="side-trip" data-slug="big-sur" href="#big-sur"><span class="side-date">2025/05</span><span class="side-count">6</span><span class="side-name">Big Sur</span></a>
-      <a class="side-trip" data-slug="new-york" href="#new-york"><span class="side-date">2024/12</span><span class="side-count">6</span><span class="side-name">New York</span></a>
-      <a class="side-trip" data-slug="joshua-tree" href="#joshua-tree"><span class="side-date">2024/03</span><span class="side-count">6</span><span class="side-name">Joshua Tree</span></a>
-      <a class="side-trip" data-slug="the-bay" href="#the-bay"><span class="side-date">2023/09</span><span class="side-count">6</span><span class="side-name">The Bay</span></a>
+      <a class="side-trip is-active" href="index.html"><span class="side-date">—</span><span class="side-count">54</span><span class="side-name">Everything</span></a>
+      <a class="side-trip" href="gallery.html?trip=san-diego"><span class="side-date">2026/06</span><span class="side-count">11</span><span class="side-name">San Diego</span></a>
+      <a class="side-trip" href="gallery.html?trip=chicago-february"><span class="side-date">2026/02</span><span class="side-count">6</span><span class="side-name">Chicago</span></a>
+      <a class="side-trip" href="gallery.html?trip=london-paris"><span class="side-date">2025/10</span><span class="side-count">7</span><span class="side-name">London &amp; Paris</span></a>
+      <a class="side-trip" href="gallery.html?trip=nashville"><span class="side-date">2025/08</span><span class="side-count">6</span><span class="side-name">Nashville</span></a>
+      <a class="side-trip" href="gallery.html?trip=big-sur"><span class="side-date">2025/05</span><span class="side-count">6</span><span class="side-name">Big Sur</span></a>
+      <a class="side-trip" href="gallery.html?trip=new-york"><span class="side-date">2024/12</span><span class="side-count">6</span><span class="side-name">New York</span></a>
+      <a class="side-trip" href="gallery.html?trip=joshua-tree"><span class="side-date">2024/03</span><span class="side-count">6</span><span class="side-name">Joshua Tree</span></a>
+      <a class="side-trip" href="gallery.html?trip=the-bay"><span class="side-date">2023/09</span><span class="side-count">6</span><span class="side-name">The Bay</span></a>
     </nav>
     <div class="side-foot">
       <p class="photo-stats">54 frames · 8 trips · newest first</p>
@@ -102,7 +103,7 @@
           </span>
         </button>
       </div>
-      <div id="tripList"></div>
+      <div id="photoStream"></div>
       <noscript><p class="noscript-note">The photographs need JavaScript to render — they read from <code>js/photos.js</code>.</p></noscript>
     </section>
 

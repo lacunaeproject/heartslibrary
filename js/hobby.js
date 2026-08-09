@@ -232,39 +232,51 @@
   }
 
   /* ----------------------------------------------------------
-     THE LEDGER — the vincelo-style trip index in the homepage
-     sidebar (date · count · name), scroll-synced to the stream,
-     mirrored into the burger menu on small screens.
+     EVERYTHING — the homepage: one endless masonry of every
+     frame, newest trip first, no separators.
+     ---------------------------------------------------------- */
+  var photoStream = document.getElementById("photoStream");
+  if (photoStream && TRIPS.length) {
+    photoStream.innerHTML = '<div class="stream-grid">' +
+      TRIPS.map(function (t) {
+        return (t.photos || []).map(function (p, i) { return shotHtml(t, p, i); }).join("");
+      }).join("") + "</div>";
+  }
+
+  /* ----------------------------------------------------------
+     THE LEDGER — the notion-style sidebar index: Everything on
+     top, then every trip (date · count · name), each row a page
+     of its own. The current page's row is marked. Mirrored into
+     the burger menu on small screens.
      ---------------------------------------------------------- */
   var sideTrips = document.getElementById("sideTrips");
-  if (sideTrips && TRIPS.length) {
-    sideTrips.innerHTML = TRIPS.map(function (t) {
-      var ym = (t.posted || "").slice(0, 7).replace("-", "/");
-      return '<a class="side-trip" data-slug="' + esc(t.slug) + '" href="#' + esc(t.slug) + '">' +
-        '<span class="side-date">' + esc(ym) + '</span>' +
-        '<span class="side-count">' + (t.photos || []).length + '</span>' +
-        '<span class="side-name">' + esc(t.short || t.place) + "</span></a>";
-    }).join("");
-    if ("IntersectionObserver" in window) {
-      var spy = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          if (!en.isIntersecting) return;
-          var slug = en.target.id;
-          Array.prototype.forEach.call(sideTrips.querySelectorAll(".side-trip"), function (a) {
-            a.classList.toggle("is-active", a.getAttribute("data-slug") === slug);
-          });
-        });
-      }, { rootMargin: "-25% 0px -65% 0px" });
-      Array.prototype.forEach.call(document.querySelectorAll(".roll"), function (s) { spy.observe(s); });
-    }
-  }
   var menuTrips = document.getElementById("menuTrips");
-  if (menuTrips && TRIPS.length) {
-    menuTrips.innerHTML = TRIPS.map(function (t) {
-      return '<a class="mobile-menu__trip" href="#' + esc(t.slug) + '">' +
-        '<span>' + esc(t.short || t.place) + '</span>' +
-        '<span class="mobile-menu__trip-meta">' + esc(t.when) + " · " + (t.photos || []).length + "</span></a>";
-    }).join("");
+  if ((sideTrips || menuTrips) && TRIPS.length) {
+    var activeSlug = "all";
+    if (/gallery\.html$/i.test(location.pathname)) {
+      try { activeSlug = new URLSearchParams(location.search).get("trip") || TRIPS[0].slug; } catch (e) { activeSlug = TRIPS[0].slug; }
+    }
+    if (sideTrips) {
+      sideTrips.innerHTML =
+        '<a class="side-trip' + (activeSlug === "all" ? " is-active" : "") + '" href="index.html">' +
+          '<span class="side-date">—</span>' +
+          '<span class="side-count">' + allPhotos().length + '</span>' +
+          '<span class="side-name">Everything</span></a>' +
+        TRIPS.map(function (t) {
+          var ym = (t.posted || "").slice(0, 7).replace("-", "/");
+          return '<a class="side-trip' + (t.slug === activeSlug ? " is-active" : "") + '" href="gallery.html?trip=' + esc(t.slug) + '">' +
+            '<span class="side-date">' + esc(ym) + '</span>' +
+            '<span class="side-count">' + (t.photos || []).length + '</span>' +
+            '<span class="side-name">' + esc(t.short || t.place) + "</span></a>";
+        }).join("");
+    }
+    if (menuTrips) {
+      menuTrips.innerHTML = TRIPS.map(function (t) {
+        return '<a class="mobile-menu__trip" href="gallery.html?trip=' + esc(t.slug) + '">' +
+          '<span>' + esc(t.short || t.place) + '</span>' +
+          '<span class="mobile-menu__trip-meta">' + esc(t.when) + " · " + (t.photos || []).length + "</span></a>";
+      }).join("");
+    }
   }
 
   /* ----------------------------------------------------------

@@ -2357,12 +2357,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   }
   .studio-main .stream-head { display: none; }
   .studio-main .stream-sec { padding-top: 30px; }
-  /* The first roll title tops the pane, on the logo's line */
-  .studio-main .roll:first-of-type { padding-top: 0; }
-  .studio-main .roll:first-of-type .roll-head {
-    border-top: 0;
-    padding-top: 0;
-  }
+  .studio-main .page-head { padding-top: 24px; padding-bottom: 14px; }
 }
 .side-mark {
   flex: none;
@@ -2830,10 +2825,11 @@ html.dark .page-head h1 {
    viewport tall, the site voice bottom-anchored over a scrim that
    keeps the type readable without burying the animal. The nav
    floats over it (body.home unsticks it from the flow). --- */
-/* On the homepage the sidebar carries the brand and nav; the top
+/* On studio pages the sidebar carries the brand and nav; the top
    bar only exists on small screens for the burger */
 @media (min-width: 900px) {
-  body.home .nav { display: none; }
+  body.studio-page .nav { display: none; }
+  body.studio-page .gallery-trail { display: none; }
 }
 .darkhero {
   text-align: center;
