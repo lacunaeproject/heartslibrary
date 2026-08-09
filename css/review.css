@@ -2382,7 +2382,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
 }
-.studio { padding: 0 20px; }
+.studio { padding: 0 clamp(20px, 2vw, 36px); }
 .studio-main { min-width: 0; }
 .studio-main .colophon-note h2 {
   font-family: var(--display);
@@ -2398,27 +2398,8 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 }
 .studio-main .wrap { max-width: none; }
 .studio-side { display: none; }
-@media (min-width: 900px) {
-  .studio {
-    display: grid;
-    grid-template-columns: minmax(240px, 280px) 1fr;
-    column-gap: clamp(32px, 3vw, 56px);
-    padding: 0 clamp(20px, 2vw, 36px);
-    align-items: start;
-  }
-  .studio-side {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    height: 100svh;
-    display: flex;
-    flex-direction: column;
-    padding: 30px 0 26px;
-  }
-  .studio-main .stream-head { display: none; }
-  .studio-main .stream-sec { padding-top: 30px; }
-  .studio-main .page-head { padding-top: 24px; padding-bottom: 14px; }
-}
+.studio-main .stream-sec { padding-top: 26px; }
+.studio-main .page-head { padding-top: 26px; padding-bottom: 14px; }
 .side-mark {
   flex: none;
   display: inline-flex;
@@ -2649,6 +2630,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 }
 @media (min-width: 600px) { .stream-grid { columns: 2; } }
 @media (min-width: 1024px) { .stream-grid { columns: 3; } }
+@media (min-width: 1500px) { .stream-grid { columns: 4; } }
 .shot { margin: 0 0 clamp(12px, 1.2vw, 18px); break-inside: avoid; }
 .shot-btn {
   display: block;
@@ -2952,12 +2934,10 @@ html.dark .page-head h1 {
    viewport tall, the site voice bottom-anchored over a scrim that
    keeps the type readable without burying the animal. The nav
    floats over it (body.home unsticks it from the flow). --- */
-/* On studio pages the sidebar carries the brand and nav; the top
-   bar only exists on small screens for the burger */
-@media (min-width: 900px) {
-  body.studio-page .nav { display: none; }
-  body.studio-page .gallery-trail { display: none; }
-}
+/* Studio pages run the mobile chrome at every width: the top bar
+   with the burger, the trip ledger inside the menu */
+body.studio-page .nav__links { display: none; }
+body.studio-page .nav__burger-wrap { display: block; }
 .darkhero {
   text-align: center;
 }

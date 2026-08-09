@@ -6,11 +6,11 @@
 <title>Gallery — Cody Heart Photography</title>
 <meta name="description" content="A photo gallery from Cody Heart’s travels.">
 <script>try{if(localStorage.getItem("hl-theme")==="light")document.documentElement.classList.remove("dark")}catch(e){}</script>
-<link rel="stylesheet" href="css/review.css?v=20260810f">
+<link rel="stylesheet" href="css/review.css?v=20260810g">
 <script>window.coverFallback=window.coverFallback||function(i){(window.__fellCovers=window.__fellCovers||[]).push(i)}</script>
-<script defer src="js/review.js?v=20260810f"></script>
-<script defer src="js/photos.js?v=20260810f"></script>
-<script defer src="js/hobby.js?v=20260810f"></script>
+<script defer src="js/review.js?v=20260810g"></script>
+<script defer src="js/photos.js?v=20260810g"></script>
+<script defer src="js/hobby.js?v=20260810g"></script>
 </head>
 <body class="studio-page">
 
@@ -42,6 +42,10 @@
     <a class="mobile-menu__link" href="index.html">Galleries</a>
     <a class="mobile-menu__link" href="about.html">About</a>
     <div class="mobile-menu__section">
+      <p class="mobile-menu__label">Trips</p>
+      <div class="mobile-menu__triplist" id="menuTrips"></div>
+    </div>
+    <div class="mobile-menu__section">
       <p class="mobile-menu__label">Elsewhere</p>
       <div class="mobile-menu__list">
         <a class="mobile-menu__item" target="_blank" rel="noopener noreferrer" href="https://substack.com/@codyheart"><div class="menu-item__tile"><svg class="icon-duo is-colored c-orange" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect class="duo-a" x="2" y="2" width="20" height="20" rx="3"/><rect class="duo-b" x="6" y="6.5" width="12" height="2.4" rx="1.2"/><rect class="duo-b" x="6" y="11" width="12" height="2.4" rx="1.2"/><path class="duo-b" d="M6 15.5h12v2a1 1 0 0 1-1.4.92L12 16.6l-4.6 1.82A1 1 0 0 1 6 17.5v-2Z"/></svg></div><div><span class="menu-item__title">Substack</span><span class="menu-item__desc">The newsletter</span></div></a>
@@ -54,46 +58,6 @@
 
 <main id="main">
 <div class="studio">
-  <aside class="studio-side" aria-label="The trip ledger">
-    <a class="side-mark" href="index.html"><svg viewBox="2.462 4.062 19.133 17.838" aria-hidden="true"><path fill="#E5484D" d="M12.1 7.6C13.7 5 15.8 3.7 18 4.15 20.9 4.6 22.1 7.1 21.4 9.9 20.8 12.5 18 15.4 11.7 21.9 5.6 15.4 3.1 12.4 2.6 9.7 2 6.9 3.4 4.6 6 4.2 8.1 3.85 10.5 5 12.1 7.6Z"/></svg><span>Heart Library</span></a>
-    <p class="side-state">Documenting the world,
-    one trip at a time.</p>
-    <p class="side-tag">Every frame free to download for personal use.</p>
-    <p class="side-links">
-      <a class="link-hover" href="about.html">About</a>
-      <a class="link-hover" href="books.html">The Library</a>
-      <a class="link-hover" target="_blank" rel="noopener noreferrer" href="https://substack.com/@codyheart">Substack</a>
-      <a class="link-hover" href="mailto:hello@heartslibrary.com">Email</a>
-    </p>
-    <div class="side-label"><span>Trips</span></div>
-    <nav class="side-trips" id="sideTrips" aria-label="Trips">
-      <a class="side-trip" href="index.html"><span class="side-date">—</span><span class="side-count">54</span><span class="side-name">Everything</span></a>
-      <a class="side-trip" href="gallery.html?trip=san-diego"><span class="side-date">2026/06</span><span class="side-count">11</span><span class="side-name">San Diego</span></a>
-      <a class="side-trip" href="gallery.html?trip=chicago-february"><span class="side-date">2026/02</span><span class="side-count">6</span><span class="side-name">Chicago</span></a>
-      <a class="side-trip" href="gallery.html?trip=london-paris"><span class="side-date">2025/10</span><span class="side-count">7</span><span class="side-name">London &amp; Paris</span></a>
-      <a class="side-trip" href="gallery.html?trip=nashville"><span class="side-date">2025/08</span><span class="side-count">6</span><span class="side-name">Nashville</span></a>
-      <a class="side-trip" href="gallery.html?trip=big-sur"><span class="side-date">2025/05</span><span class="side-count">6</span><span class="side-name">Big Sur</span></a>
-      <a class="side-trip" href="gallery.html?trip=new-york"><span class="side-date">2024/12</span><span class="side-count">6</span><span class="side-name">New York</span></a>
-      <a class="side-trip" href="gallery.html?trip=joshua-tree"><span class="side-date">2024/03</span><span class="side-count">6</span><span class="side-name">Joshua Tree</span></a>
-      <a class="side-trip" href="gallery.html?trip=the-bay"><span class="side-date">2023/09</span><span class="side-count">6</span><span class="side-name">The Bay</span></a>
-    </nav>
-    <div class="side-foot">
-      <div class="side-stats">
-        <div class="side-stat"><span>Frames</span><b data-stat="frames">54</b></div>
-        <div class="side-stat"><span>Trips</span><b data-stat="trips">8</b></div>
-        <div class="side-stat"><span>Continents</span><b data-stat="continents">2 of 7</b></div>
-      </div>
-      <div class="side-foot-row">
-        <span class="side-copy">© 2026 · Franklin → Chicago</span>
-        <button class="theme-toggle" type="button" aria-label="Switch between light and dark mode">
-          <span class="theme-knob" aria-hidden="true">
-            <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.6 14.2A8.8 8.8 0 0 1 9.8 3.4a8.8 8.8 0 1 0 10.8 10.8Z"/></svg>
-            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M19.1 4.9l-1.6 1.6M6.5 17.5l-1.6 1.6"/></svg>
-          </span>
-        </button>
-      </div>
-    </div>
-  </aside>
   <div class="studio-main">
     <section class="page-head">
       <h1 id="galleryTitle">The gallery</h1>
