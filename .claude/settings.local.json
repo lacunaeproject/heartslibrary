@@ -176,7 +176,10 @@
       "Bash(curl -s \"http://localhost:8791/index.html\")",
       "Bash(git checkout *)",
       "Bash(git rev-list *)",
-      "Bash(git merge *)"
+      "Bash(git merge *)",
+      "Bash(git branch *)",
+      "Bash(sed -n '/function loadTrips/,/^}/p' scripts/post.js)",
+      "Bash(sed -n '/function writeTrips/,/^}/p' scripts/post.js)"
     ]
   }
 }
