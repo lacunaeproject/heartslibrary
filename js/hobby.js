@@ -186,8 +186,18 @@
   }
   function shotHtml(t, p, i) {
     var ratio = p.w && p.h ? ' style="aspect-ratio:' + Number(p.w) + "/" + Number(p.h) + '"' : "";
-    /* A landscape frame lies across two portrait cells on the wall */
-    var wide = Number(p.w) > Number(p.h) ? " shot--wide" : "";
+    /* Equal area, not equal width: a frame's width is the square root
+       of its aspect, so an upright and a landscape end up covering the
+       same amount of paper and neither one dominates the wall. 3:2
+       lands on the full column; everything narrower steps back from
+       it. The wall is the only grid that reads this — everywhere else
+       the variable goes unused. */
+    var fw = "";
+    if (p.w && p.h) {
+      var pct = 100 * Math.sqrt((Number(p.w) / Number(p.h)) / 1.5);
+      fw = ' style="--fw:' + Math.round(Math.max(54, Math.min(100, pct))) + '%"';
+    }
+    var wide = "";
     /* A clip's own surface opens the viewer; only the speaker
        button swallows the press. */
     if (p.video) {
@@ -202,7 +212,7 @@
         "</button>";
       var badge = '<span class="vid-badge" aria-hidden="true">' +
         '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 6.5v11a1 1 0 0 0 1.5.87l9-5.5a1 1 0 0 0 0-1.74l-9-5.5A1 1 0 0 0 9 6.5Z"/></svg></span>';
-      return '<figure class="shot shot--video' + wide + '">' +
+      return '<figure class="shot shot--video' + wide + '"' + fw + '>' +
         '<div class="vid is-muted' + (live ? "" : " is-still") + '">' +
           '<video src="' + esc(p.src) + (live ? "" : "#t=0.1") +
           '" playsinline preload="metadata" muted loop' +
@@ -219,7 +229,7 @@
           : "") +
         "</figure>";
     }
-    return '<figure class="shot' + wide + '">' +
+    return '<figure class="shot' + wide + '"' + fw + '>' +
       '<button class="shot-btn" type="button" data-trip="' + esc(t.slug) + '" data-i="' + i + '" aria-label="View larger: ' + esc(p.caption || t.place) + '">' +
       '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '" loading="lazy"' + ratio + ">" +
       (p.caption ? '<span class="shot-pill">' + esc(p.caption) + "</span>" : "") +

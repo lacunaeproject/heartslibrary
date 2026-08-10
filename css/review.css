@@ -3265,48 +3265,60 @@ html.dark body.feed-page { background: var(--background); }
    hole when a wide frame won't fit at the end of a row. */
 #photoStream,
 .roll { container-type: inline-size; }
+/* ---------- The wall, and every experience's gallery ----------
+   Square corners and a lot of air. The frames are not cropped to a
+   common shape any more — each one keeps the proportions it was shot
+   at, and the grid is built to make that look deliberate rather than
+   ragged.
+
+   Two rules do the work. Widths come from `--fw`, set per frame in
+   js/hobby.js as the square root of its aspect: an upright and a
+   landscape end up covering the same area, so neither one takes the
+   page. And the cells centre on their row, which is what turns
+   mismatched heights into a stagger instead of a mess.
+
+   No titles under the frames. The picture is the whole message. */
 .stream-grid {
-  --wall-gap: clamp(5px, 0.55vw, 8px);
   --wall-cols: 4;
-  --wall-track: calc((100cqi - (var(--wall-cols) - 1) * var(--wall-gap)) / var(--wall-cols));
   display: grid;
   grid-template-columns: repeat(var(--wall-cols), minmax(0, 1fr));
-  grid-auto-rows: calc(var(--wall-track) * 4 / 3);
-  grid-auto-flow: dense;
-  gap: var(--wall-gap);
-  padding-bottom: clamp(28px, 4vw, 48px);
+  align-items: center;
+  justify-items: center;
+  /* the air is the point — rows breathe harder than columns */
+  gap: clamp(38px, 5vw, 96px) clamp(24px, 3.2vw, 64px);
+  padding-bottom: clamp(52px, 6vw, 104px);
 }
-.stream-grid .shot { margin: 0; }
-.stream-grid .shot--wide { grid-column: span 2; }
-/* Apple's corner language: 22px (the iOS card/widget radius) drawn
-   as a continuous superellipse — corner-shape is the web's version
-   of Apple's squircle; browsers without it just round normally. */
+.stream-grid .shot {
+  margin: 0;
+  width: var(--fw, 100%);
+}
 .stream-grid .shot-btn,
-.stream-grid .shot-btn::after,
 .stream-grid .vid {
-  border-radius: 22px;
-  corner-shape: squircle;
+  width: 100%;
+  height: auto;
+  border-radius: 0;
+  corner-shape: normal;
+  background: none;
 }
-/* The definite height from the fixed row wins over the ratio; the
-   ratio only takes over in one-column mode, where rows go auto. */
-.stream-grid .shot-btn,
-.stream-grid .vid { aspect-ratio: 3 / 4; height: 100%; }
-.stream-grid .shot--wide .shot-btn,
-.stream-grid .shot--wide .vid { aspect-ratio: 3 / 2; }
-/* Setting both axes makes the browser drop each frame's own inline
-   aspect-ratio, so the crop wins without touching the markup. */
+/* the flush inset ring belonged to the rounded tile; a square frame
+   sits on the page unaided */
+.stream-grid .shot-btn::after { display: none; }
+/* each frame at its own shape — the inline aspect-ratio the renderer
+   writes is left to resolve the height */
 .stream-grid .shot-btn img,
-.stream-grid .vid video { width: 100%; height: 100%; object-fit: cover; }
-/* Captions under a tile would stagger the rows — on the wall they
-   live in the hover pill and the lightbox instead. */
+.stream-grid .vid video {
+  width: 100%;
+  height: auto;
+  object-fit: fill;
+}
 .stream-grid .shot-cap { display: none; }
-@container (width < 800px) { .stream-grid { --wall-cols: 3; } }
-@container (width < 600px) { .stream-grid { --wall-cols: 2; } }
-/* One column: rows follow each frame's own shape instead — a lone
-   landscape runs full width at 3:2 rather than cropped upright. */
-@container (width < 400px) {
-  .stream-grid { --wall-cols: 1; grid-auto-rows: auto; }
-  .stream-grid .shot--wide { grid-column: auto; }
+@container (width < 1000px) { .stream-grid { --wall-cols: 3; } }
+@container (width < 720px)  { .stream-grid { --wall-cols: 2; } }
+/* one column on a phone, and the frames run the full measure there —
+   holding an upright to 60% of a 340px screen helps nobody */
+@container (width < 560px) {
+  .stream-grid { --wall-cols: 1; gap: clamp(28px, 9vw, 48px); }
+  .stream-grid .shot { width: 100%; }
 }
 .shot { margin: 0 0 clamp(12px, 1.2vw, 18px); break-inside: avoid; }
 .shot-btn {
