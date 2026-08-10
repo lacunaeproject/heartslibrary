@@ -158,7 +158,8 @@
       "Bash(sed -i 's|<title>Blog — Cody Heart</title>|<title>Journal — Cody Heart</title>|; s|<h1>The blog.</h1>|<h1>The journal.</h1>|; s|content=\"Cody Heart’s blog — a live journal of posts and pictures, newest first.\"|content=\"Cody Heart’s journal — posts and pictures as they happen, newest first.\"|' feed.html)",
       "Bash(curl -s \"https://codyheart.design/css/site.css?v=36\")",
       "Bash(curl -s https://heartslibrary.com/index.html?z=__TRACKED_VAR__)",
-      "Bash(curl -s \"https://heartslibrary.com/experiences.html\")"
+      "Bash(curl -s \"https://heartslibrary.com/experiences.html\")",
+      "Bash(grep -vi '\\\\.jpg$')"
     ]
   }
 }
