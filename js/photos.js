@@ -41,9 +41,20 @@
    3. Bump the ?v= on js/photos.js in the HTML pages if you
       want caches to pick it up immediately.
 
-   ⚠ EVERYTHING BELOW IS SAMPLE CONTENT. The images are
-   generated placeholder art (photos/placeholders/*.svg) —
-   replace the trips wholesale with your own.
+   THE LIST BELOW IS REAL — every experience Cody wants tracked,
+   newest first, back to 2019. Most are still waiting on their
+   photographs: an entry with an empty `photos: []` is a slot, not a
+   mistake. It shows on experiences.html with a 0-frame count and is
+   deliberately kept out of the nav, the burger menu, and the front
+   wall until it has frames (see `withFrames` in js/hobby.js).
+
+   To fill one in: drop the images in photos/<slug>/, write a
+   trip.txt, and run `node scripts/post.js <slug>` — the poster
+   replaces that one entry and leaves the rest alone.
+
+   Entries with only a year in `when` are ordered by a `posted` date
+   that is a sort key, not a claim about the day it happened. Put the
+   real date in when you know it.
    ============================================================ */
 window.TRIPS = [
   {
@@ -140,6 +151,17 @@ window.TRIPS = [
     ]
   },
   {
+    slug: "universal-hollywood-2026",
+    posted: "2026-08-03",
+    place: "Universal Studios Hollywood",
+    short: "Universal Hollywood",
+    when: "2026",
+    continent: "North America",
+    photos: [
+
+    ]
+  },
+  {
     slug: "fenway",
     posted: "2026-08-01",
     place: "Dodgers vs. Redsox",
@@ -157,31 +179,25 @@ window.TRIPS = [
     ]
   },
   {
-    slug: "los-angeles",
-    posted: "2026-07-11",
-    place: "Los Angeles in July",
-    short: "Los Angeles",
-    nav: "David Geffen Galleries",
-    loc: "LACMA",
-    when: "July 2026",
+    slug: "geffen-galleries",
+    posted: "2026-07-20",
+    place: "David Geffen Galleries",
+    short: "Geffen Galleries",
+    when: "2026",
     continent: "North America",
-    note: "The new building's first summer. Went for the architecture and stayed for the light coming through it.",
     photos: [
-      { src: "photos/placeholders/la-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Marine layer over the basin" },
-      { src: "photos/placeholders/la-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Palms on Rossmore" },
-      { src: "photos/placeholders/la-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "The 110 at gold hour" },
-      { src: "photos/placeholders/la-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Stucco and shadow, Echo Park" },
-      { src: "photos/placeholders/la-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Haze off the Pacific" },
-      { src: "photos/placeholders/la-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Griffith, waiting for dark" },
-      { src: "photos/placeholders/la-7.svg", best: true, w: 1000, h: 1000, alt: "Placeholder frame — replace with your photo", caption: "Wilshire, mid-afternoon" },
-      { src: "photos/placeholders/la-8.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "The basin from the third floor" },
-      { src: "photos/placeholders/la-9.svg", best: true, w: 900, h: 1200, alt: "Placeholder frame — replace with your photo", caption: "Travertine and shadow" },
-      { src: "photos/placeholders/la-10.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Last light on the plaza" }
-    ],
-    beats: [
-      { at: "Mid-Wilshire", say: "The marine layer never really burned off. Grey until noon, gold by five, grey again for the drive home.", shots: [0, 1] },
-      { at: "Echo Park", say: "Spent most of a week photographing stucco. It's the shadows here. They land harder than anywhere else I've shot.", shots: [2, 3] },
-      { at: "Griffith", say: "Waited two hours for dark. Got about ninety seconds out of it.", shots: [4, 5] }
+
+    ]
+  },
+  {
+    slug: "sea-world",
+    posted: "2026-07-10",
+    place: "Sea World",
+    short: "Sea World",
+    when: "2026",
+    continent: "North America",
+    photos: [
+
     ]
   },
   {
@@ -215,195 +231,246 @@ window.TRIPS = [
     ]
   },
   {
-    slug: "chicago-february",
-    posted: "2026-02-21",
-    place: "Chicago in February",
-    short: "Chicago",
-    nav: "Bulls vs. Pistons",
-    loc: "United Center",
-    when: "February 2026",
+    slug: "blue-whale-watching",
+    posted: "2026-06-10",
+    place: "Blue Whale Watching",
+    short: "Blue Whales",
+    when: "2026",
     continent: "North America",
-    note: "February in Chicago on purpose, the year before the move. First game at the United Center.",
     photos: [
-      { src: "photos/placeholders/chi-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "The lakefront, frozen over" },
-      { src: "photos/placeholders/chi-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Steam over the Loop" },
-      { src: "photos/placeholders/chi-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Snow on the Blue Line" },
-      { src: "photos/placeholders/chi-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Radiator light, Logan Square" },
-      { src: "photos/placeholders/chi-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "The El in a whiteout" },
-      { src: "photos/placeholders/chi-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Lake Michigan, minus nine" },
-      { src: "photos/placeholders/chi-7.svg", best: true, w: 1000, h: 1000, alt: "Placeholder frame — replace with your photo", caption: "The lake, frozen out to the crib" },
-      { src: "photos/placeholders/chi-8.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Wacker at dusk" },
-      { src: "photos/placeholders/chi-9.svg", best: true, w: 900, h: 1200, alt: "Placeholder frame — replace with your photo", caption: "Snow coming across the river" },
-      { src: "photos/placeholders/chi-10.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Blue hour, west loop" }
-    ],
-    beats: [
-      { at: "The lakefront", say: "Came in February on purpose. If I'm moving here I wanted to see it at its worst first.", shots: [0, 1] },
-      { at: "Logan Square", say: "Minus nine outside and the radiators were winning. Best light of the trip came through a window I had no business standing near.", shots: [2, 3] },
-      { at: "The Blue Line", say: "Shot the El in a whiteout. Couldn't feel my hands for an hour after.", shots: [4, 5] }
+
     ]
   },
   {
-    slug: "london-paris",
-    posted: "2025-10-12",
-    place: "London and Paris",
-    short: "London & Paris",
-    nav: "Claude Monet’s House and Gardens",
+    slug: "monet-giverny",
+    posted: "2026-05-20",
+    place: "Claude Monet’s House and Garden",
+    short: "Giverny",
+    nav: "Claude Monet’s House and Garden",
     loc: "Giverny, France",
-    when: "October 2025",
+    when: "2026",
     continent: "Europe",
     note: "Took the train out from Paris to see the pond. Expected to be underwhelmed and wasn't.",
     photos: [
-      { src: "photos/london-paris/web/monet-pond.jpg", best: true, w: 1200, h: 1600, alt: "Water lilies on Monet's pond at Giverny, clouds reflected in the water", caption: "Monet's pond, Giverny" },
-      { src: "photos/placeholders/ldnpar-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Thames fog, morning" },
-      { src: "photos/placeholders/ldnpar-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Gold hour on the Seine" },
-      { src: "photos/placeholders/ldnpar-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Barbican in the rain" },
-      { src: "photos/placeholders/ldnpar-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Café tabac, 7th arrondissement" },
-      { src: "photos/placeholders/ldnpar-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "St Paul's from the bridge" },
-      { src: "photos/placeholders/ldnpar-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Montmartre stairs" },
-      { src: "photos/placeholders/ldnpar-7.svg", best: true, w: 1000, h: 1000, alt: "Placeholder frame — replace with your photo", caption: "The pond, second morning" },
-      { src: "photos/placeholders/ldnpar-8.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Willows over the water" },
-      { src: "photos/placeholders/ldnpar-9.svg", best: true, w: 900, h: 1200, alt: "Placeholder frame — replace with your photo", caption: "The garden path" },
-      { src: "photos/placeholders/ldnpar-10.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Giverny, going grey" }
+      { src: "photos/london-paris/web/monet-pond.jpg", best: true, w: 1200, h: 1600, alt: "Water lilies on Monet's pond at Giverny, clouds reflected in the water", caption: "Monet's pond, Giverny" }
     ],
     beats: [
-      { at: "Giverny", say: "Went to Monet's pond expecting to be underwhelmed. Wasn't.", shots: [0] },
-      { at: "London", say: "Fog on the Thames every single morning, which felt like a cliché right up until I was standing in it. The Barbican in rain is the best building I've ever pointed a camera at.", shots: [1, 3, 5] },
-      { at: "Paris", say: "Two cities, one carry-on. Gold hour on the Seine, then a tabac in the 7th where nobody minded the camera at all.", shots: [2, 4, 6] }
+      { at: "Giverny", say: "Went to Monet's pond expecting to be underwhelmed. Wasn't.", shots: [0] }
     ]
   },
   {
-    slug: "nashville",
-    posted: "2025-08-16",
-    place: "Nashville, before the move",
-    short: "Nashville",
-    loc: "Nashville, TN",
-    when: "August 2025",
-    continent: "North America",
-    note: "One last slow lap before the move — Franklin, Radnor Lake, and Lower Broadway at first light.",
+    slug: "paris",
+    posted: "2026-05-15",
+    place: "Paris",
+    short: "Paris",
+    when: "2026",
+    continent: "Europe",
     photos: [
-      { src: "photos/placeholders/nash-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Lower Broadway from the bridge" },
-      { src: "photos/placeholders/nash-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Radnor Lake, first light" },
-      { src: "photos/placeholders/nash-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Porch storm, Franklin" },
-      { src: "photos/placeholders/nash-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "The Ryman’s alley" },
-      { src: "photos/placeholders/nash-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Harpeth bends" },
-      { src: "photos/placeholders/nash-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Neon spill, Printer’s Alley" },
-      { src: "photos/placeholders/nash-7.svg", best: true, w: 1000, h: 1000, alt: "Placeholder frame — replace with your photo", caption: "Ridge line off Highway 96" },
-      { src: "photos/placeholders/nash-8.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "The Harpeth in low water" },
-      { src: "photos/placeholders/nash-9.svg", best: true, w: 900, h: 1200, alt: "Placeholder frame — replace with your photo", caption: "Late summer, Franklin" },
-      { src: "photos/placeholders/nash-10.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "First light, Radnor" }
+
     ],
     beats: [
-      { at: "Franklin", say: "One last slow lap before the move. Sat out a storm on the porch and didn't take a frame for an hour.", shots: [2, 4] },
-      { at: "Lower Broadway", say: "Easier to photograph than to stand in. Went at first light, when it was still just a street.", shots: [0, 3] },
-      { at: "Radnor Lake", say: "First light, nobody else out. Printer's Alley later on, neon doing what neon does.", shots: [1, 5] }
+      { at: "Paris", say: "Two cities, one carry-on. Gold hour on the Seine, then a tabac in the 7th where nobody minded the camera at all." }
     ]
   },
   {
-    slug: "big-sur",
-    posted: "2025-05-18",
-    place: "Big Sur, Highway 1",
-    short: "Big Sur",
-    loc: "Big Sur, CA",
-    when: "May 2025",
-    continent: "North America",
-    note: "Highway 1 from Carmel down to Lucia, stopping at every pull-off. Fog in, fog out, all afternoon.",
+    slug: "london",
+    posted: "2026-05-10",
+    place: "London",
+    short: "London",
+    when: "2026",
+    continent: "Europe",
     photos: [
-      { src: "photos/placeholders/bigsur-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Bixby at golden hour" },
-      { src: "photos/placeholders/bigsur-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Redwood understory" },
-      { src: "photos/placeholders/bigsur-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "McWay cove" },
-      { src: "photos/placeholders/bigsur-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Fog over Point Sur" },
-      { src: "photos/placeholders/bigsur-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Pfeiffer surf" },
-      { src: "photos/placeholders/bigsur-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Highway pull-off, dusk" },
-      { src: "photos/placeholders/bigsur-7.svg", best: true, w: 1000, h: 1000, alt: "Placeholder frame — replace with your photo", caption: "South from Bixby" },
-      { src: "photos/placeholders/bigsur-8.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "The cove at slack tide" },
-      { src: "photos/placeholders/bigsur-9.svg", best: true, w: 900, h: 1200, alt: "Placeholder frame — replace with your photo", caption: "Fog on the ridge road" },
-      { src: "photos/placeholders/bigsur-10.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Pfeiffer, late afternoon" }
+
     ],
     beats: [
-      { at: "Highway 1", say: "Windows down, fog in, fog out. The camera barely kept up.", shots: [0, 1] },
-      { at: "McWay", say: "Stopped at every pull-off between Carmel and Lucia. Regretted none of them.", shots: [2, 3] },
-      { at: "Pfeiffer", say: "The surf here sounds bigger than it photographs. Stayed until dusk trying to fix that and never did.", shots: [4, 5] }
+      { at: "London", say: "Fog on the Thames every single morning, which felt like a cliché right up until I was standing in it. The Barbican in rain is the best building I've ever pointed a camera at." }
     ]
   },
   {
-    slug: "new-york",
-    posted: "2024-12-08",
-    place: "New York, back for a week",
-    short: "New York",
-    loc: "New York, NY",
-    when: "December 2024",
+    slug: "yankees-rays",
+    posted: "2026-04-15",
+    place: "Yankees vs. Rays",
+    short: "Yankees",
+    when: "2026",
     continent: "North America",
-    note: "Back for a week, two years after leaving. Walked the old commute, in snow this time.",
     photos: [
-      { src: "photos/placeholders/nyc-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Sixth Avenue steam" },
-      { src: "photos/placeholders/nyc-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Snow on the High Line" },
-      { src: "photos/placeholders/nyc-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Grand Central, 8 a.m." },
-      { src: "photos/placeholders/nyc-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Roosevelt Island tram" },
-      { src: "photos/placeholders/nyc-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Chinatown dusk" },
-      { src: "photos/placeholders/nyc-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "The park after the storm" },
-      { src: "photos/placeholders/nyc-7.svg", best: true, w: 1000, h: 1000, alt: "Placeholder frame — replace with your photo", caption: "Sixth Avenue in the snow" },
-      { src: "photos/placeholders/nyc-8.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "The park after the storm" },
-      { src: "photos/placeholders/nyc-9.svg", best: true, w: 900, h: 1200, alt: "Placeholder frame — replace with your photo", caption: "Uptown, white sky" },
-      { src: "photos/placeholders/nyc-10.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Hudson light, late day" }
-    ],
-    beats: [
-      { at: "Midtown", say: "Back for a week, two years after leaving. Walked the old commute, in snow this time.", shots: [0, 2] },
-      { at: "The High Line", say: "Snow makes this city legible. Everything loud goes quiet for about six hours.", shots: [1, 5] },
-      { at: "Chinatown", say: "Tram at dusk, then downtown. Ate standing up and shot one-handed.", shots: [3, 4] }
+
     ]
   },
   {
-    slug: "joshua-tree",
-    posted: "2024-03-22",
-    place: "Joshua Tree, dusk to dark",
-    short: "Joshua Tree",
-    loc: "Joshua Tree National Park",
-    when: "March 2024",
+    slug: "chicago-2026",
+    posted: "2026-03-10",
+    place: "Chicago",
+    short: "Chicago",
+    when: "2026",
     continent: "North America",
-    note: "Came out for the boulders and stayed for what happened after the sun went down.",
     photos: [
-      { src: "photos/placeholders/jtree-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Golden hour boulders" },
-      { src: "photos/placeholders/jtree-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "First stars, Cap Rock" },
-      { src: "photos/placeholders/jtree-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Cholla garden" },
-      { src: "photos/placeholders/jtree-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Skull Rock silhouette" },
-      { src: "photos/placeholders/jtree-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Dusk on the ridge" },
-      { src: "photos/placeholders/jtree-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "The Milky Way, faint" },
-      { src: "photos/placeholders/jtree-7.svg", best: true, w: 1000, h: 1000, alt: "Placeholder frame — replace with your photo", caption: "Dusk over the boulders" },
-      { src: "photos/placeholders/jtree-8.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Cap Rock, first stars" },
-      { src: "photos/placeholders/jtree-9.svg", best: true, w: 900, h: 1200, alt: "Placeholder frame — replace with your photo", caption: "The cholla garden going dark" },
-      { src: "photos/placeholders/jtree-10.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Last colour on the ridge" }
-    ],
-    beats: [
-      { at: "Hidden Valley", say: "Came out for the boulders. Stayed for what happened after the sun went.", shots: [0, 2] },
-      { at: "Cap Rock", say: "First stars around eight. The cholla garden at dusk is the only hour that place isn't hostile.", shots: [1, 3] },
-      { at: "The ridge", say: "Milky Way came in faint. Cold enough by then that I stopped caring whether the tripod was level.", shots: [4, 5] }
+
     ]
   },
   {
-    slug: "the-bay",
-    posted: "2023-09-10",
-    place: "The Bay, revisited",
-    short: "The Bay",
-    loc: "Bay Area, CA",
-    when: "September 2023",
+    slug: "lakers-rockets",
+    posted: "2025-12-25",
+    place: "Lakers vs. Rockets",
+    short: "Lakers",
+    when: "December 2025",
     continent: "North America",
-    note: "School streets a decade on. The hills go gold in September and I had completely forgotten that.",
     photos: [
-      { src: "photos/placeholders/bay-1.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Fog over the gate" },
-      { src: "photos/placeholders/bay-2.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Berkeley hills, dry gold" },
-      { src: "photos/placeholders/bay-3.svg", w: 4, h: 3, alt: "Placeholder frame — replace with your photo", caption: "Ocean Beach wind" },
-      { src: "photos/placeholders/bay-4.svg", w: 1, h: 1, alt: "Placeholder frame — replace with your photo", caption: "Sutro through the mist" },
-      { src: "photos/placeholders/bay-5.svg", w: 3, h: 2, alt: "Placeholder frame — replace with your photo", caption: "Ferry wake" },
-      { src: "photos/placeholders/bay-6.svg", w: 3, h: 4, alt: "Placeholder frame — replace with your photo", caption: "Twin Peaks, blue hour" },
-      { src: "photos/placeholders/bay-7.svg", best: true, w: 1000, h: 1000, alt: "Placeholder frame — replace with your photo", caption: "The hills gone gold" },
-      { src: "photos/placeholders/bay-8.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Fog over the gate" },
-      { src: "photos/placeholders/bay-9.svg", best: true, w: 900, h: 1200, alt: "Placeholder frame — replace with your photo", caption: "Berkeley, late September" },
-      { src: "photos/placeholders/bay-10.svg", best: true, w: 1200, h: 900, alt: "Placeholder frame — replace with your photo", caption: "Twin Peaks at blue hour" }
-    ],
-    beats: [
-      { at: "Berkeley", say: "School streets, a decade on. The hills go gold in September and I had completely forgotten that.", shots: [1, 4] },
-      { at: "Ocean Beach", say: "Wind off the water all afternoon. Sutro came and went through the mist about six times.", shots: [2, 3] },
-      { at: "Twin Peaks", say: "Blue hour over the gate. Same view as always, which was the whole point.", shots: [0, 5] }
+
+    ]
+  },
+  {
+    slug: "walt-disney-world",
+    posted: "2025-11-01",
+    place: "Walt Disney World",
+    short: "Disney World",
+    when: "2025",
+    continent: "North America",
+    photos: [
+
+    ]
+  },
+  {
+    slug: "epic-universe",
+    posted: "2025-09-01",
+    place: "Universal Studios Epic Universe+",
+    short: "Epic Universe",
+    when: "2025",
+    continent: "North America",
+    photos: [
+
+    ]
+  },
+  {
+    slug: "universal-hollywood-2025",
+    posted: "2025-07-01",
+    place: "Universal Studios Hollywood",
+    short: "Universal Hollywood",
+    when: "2025",
+    continent: "North America",
+    photos: [
+
+    ]
+  },
+  {
+    slug: "gatlinburg-pigeon-forge",
+    posted: "2025-05-01",
+    place: "Gatlinburg and Pigeon Forge",
+    short: "Gatlinburg",
+    when: "2025",
+    continent: "North America",
+    photos: [
+
+    ]
+  },
+  {
+    slug: "denver",
+    posted: "2024-10-01",
+    place: "Denver",
+    short: "Denver",
+    when: "2024",
+    continent: "North America",
+    photos: [
+
+    ]
+  },
+  {
+    slug: "scotland",
+    posted: "2024-07-01",
+    place: "Scotland",
+    short: "Scotland",
+    when: "2024",
+    continent: "Europe",
+    photos: [
+
+    ]
+  },
+  {
+    slug: "disneyland-california-adventure",
+    posted: "2024-04-01",
+    place: "Disneyland and California Adventure",
+    short: "Disneyland",
+    when: "2024",
+    continent: "North America",
+    photos: [
+
+    ]
+  },
+  {
+    slug: "massachusetts",
+    posted: "2022-06-01",
+    place: "Massachusetts",
+    short: "Massachusetts",
+    when: "2022",
+    continent: "North America",
+    photos: [
+
+    ]
+  },
+  {
+    slug: "salt-lake-city",
+    posted: "2019-11-01",
+    place: "Salt Lake City",
+    short: "Salt Lake City",
+    when: "2019",
+    continent: "North America",
+    photos: [
+
+    ]
+  },
+  {
+    slug: "oregon-colorado",
+    posted: "2019-09-01",
+    place: "Oregon and Colorado",
+    short: "Oregon & Colorado",
+    when: "2019",
+    continent: "North America",
+    photos: [
+
+    ]
+  },
+  {
+    slug: "sequoia-national-park",
+    posted: "2019-07-01",
+    place: "Sequoia National Park",
+    short: "Sequoia",
+    when: "2019",
+    continent: "North America",
+    photos: [
+
+    ]
+  },
+  {
+    slug: "dollywood",
+    posted: "2019-05-01",
+    place: "Dollywood",
+    short: "Dollywood",
+    when: "2019",
+    continent: "North America",
+    photos: [
+
+    ]
+  },
+  {
+    slug: "chicago-2019",
+    posted: "2019-04-01",
+    place: "Chicago",
+    short: "Chicago",
+    when: "2019",
+    continent: "North America",
+    photos: [
+
+    ]
+  },
+  {
+    slug: "mexico",
+    posted: "2019-02-01",
+    place: "Mexico",
+    short: "Mexico",
+    when: "2019",
+    continent: "North America",
+    photos: [
+
     ]
   }
 ];

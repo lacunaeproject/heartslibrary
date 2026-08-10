@@ -16,6 +16,13 @@
       .replace(/"/g, "&quot;");
   }
   var TRIPS = window.TRIPS || [];
+  /* Most experiences are logged before their photographs exist — the
+     list goes back to 2019 and the camera does not. Those empty slots
+     belong on experiences.html, which is the ledger and says "0
+     frames" plainly; they do not belong in the nav or the burger,
+     where every row wears a cover frame and an empty one would just
+     be a blank tile. */
+  var withFrames = TRIPS.filter(function (t) { return (t.photos || []).length; });
   var POSTS = window.POSTS || [];
   var PINS = window.PINS || [];
   var GAMES = window.GAMES || [];
@@ -645,6 +652,12 @@
       }
       if (liveSec) liveSec.hidden = false;
     }
+    /* An experience is logged when it happens; its photographs can
+       arrive years later, or never. Say that outright rather than
+       leaving a title standing over a blank page. */
+    var emptyEl = document.getElementById("galleryEmpty");
+    if (emptyEl && !picks.length && !clips.length && !beats.length) emptyEl.hidden = false;
+
     settleReels();
     var reflow;
     window.addEventListener("resize", function () {
@@ -930,7 +943,7 @@
        Both are built from the same data, so posting updates both. */
     if (menuTrips) {
       menuTrips.innerHTML =
-        TRIPS.slice(0, 6).map(function (t) {
+        withFrames.slice(0, 6).map(function (t) {
           var src = thumbSrc(t);
           return '<a class="mobile-menu__item" href="gallery.html?trip=' + esc(t.slug) + '">' +
             '<div class="menu-item__tile menu-item__tile--photo">' +
@@ -948,7 +961,7 @@
       /* the six newest, each wearing its cover frame; the rest live
          behind "See all experiences" */
       navTrips.innerHTML =
-        TRIPS.slice(0, 6).map(function (t) {
+        withFrames.slice(0, 6).map(function (t) {
           var src = thumbSrc(t);
           var byline = xpByline(t);
           return '<a class="menu-item" role="menuitem" href="gallery.html?trip=' + esc(t.slug) + '">' +
