@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Scrapbook — Cody Heart</title>
+<!-- Family D: a private tool. No shell, no nav, no footer, and no
+     theme init — this page is white paper on purpose. The data comes
+     straight from the live file; css/print.css is the only stylesheet. -->
+<link rel="stylesheet" href="css/print.css?v=20260810-12">
+<script defer src="js/photos.js?v=20260810-12"></script>
+</head>
+<body>
+
+<div class="panel" id="panel">
+
+  <h1>
+    <svg viewBox="2.462 4.062 19.133 17.838" aria-hidden="true"><path fill="#E5484D" d="M12.1 7.6C13.7 5 15.8 3.7 18 4.15 20.9 4.6 22.1 7.1 21.4 9.9 20.8 12.5 18 15.4 11.7 21.9 5.6 15.4 3.1 12.4 2.6 9.7 2 6.9 3.4 4.6 6 4.2 8.1 3.85 10.5 5 12.1 7.6Z"/></svg>
+    Scrapbook
+  </h1>
+  <p class="lede">
+    Everything you've written and every frame you've posted, laid out for a
+    home printer and a three-ring binder. Nothing here is on the website —
+    this page is just for you.
+  </p>
+
+  <section class="ctl">
+    <h2>What goes in</h2>
+    <div class="quick">
+      <button type="button" data-pick="all">All</button>
+      <button type="button" data-pick="none">None</button>
+      <button type="button" data-pick="full">Only ones with something in them</button>
+    </div>
+    <div class="picks" id="picks"></div>
+  </section>
+
+  <section class="ctl">
+    <h2>How it prints</h2>
+    <div class="opts">
+      <fieldset>
+        <legend>Contents</legend>
+        <label><input type="radio" name="mode" value="both" checked> Photos and writing</label>
+        <label><input type="radio" name="mode" value="words"> Writing only</label>
+      </fieldset>
+      <fieldset>
+        <legend>Paper</legend>
+        <label><input type="radio" name="paper" value="us" checked> US Letter</label>
+        <label><input type="radio" name="paper" value="a4"> A4</label>
+      </fieldset>
+      <fieldset>
+        <legend>Binding</legend>
+        <label><input type="radio" name="bind" value="one" checked> One-sided</label>
+        <label><input type="radio" name="bind" value="two"> Double-sided</label>
+      </fieldset>
+    </div>
+    <p style="margin-top:12px">
+      The bound edge keeps an extra ¾ inch so the hole punch can't reach
+      anything. One-sided puts that margin on the left of every sheet;
+      double-sided mirrors it, so it stays on the inside once the stack is
+      punched.
+    </p>
+  </section>
+
+  <section class="ctl">
+    <p class="summary" id="summary"></p>
+    <div class="warn" id="warn" hidden></div>
+    <button class="go" id="go" type="button">Print / Save as PDF</button>
+    <p style="margin-top:12px">
+      In Chrome's print box: <b>Destination</b> → Save as PDF (or your
+      printer), <b>Paper size</b> matching the choice above,
+      <b>Margins → Default</b>, <b>Scale → Default (100%)</b>, and tick
+      <b>Background graphics</b> so the rules and captions come through.
+      Tick <b>Headers and footers</b> if you want page numbers on each sheet.
+    </p>
+  </section>
+
+  <section class="ctl">
+    <h2>The photo files themselves</h2>
+    <p>
+      The printout is the scrapbook; this is the raw material. Every frame
+      lives in a folder under <code>photos/</code> in this repository. Paste
+      the whole block below into <b>PowerShell</b> and it collects the frames
+      from everything you've ticked into one folder on your Desktop, sorted
+      by experience.
+    </p>
+    <pre class="cmd" id="cmd"></pre>
+    <p>
+      <button class="copy" id="copy" type="button">Copy the command</button>
+      <span class="said" id="said"></span>
+    </p>
+    <p id="cmdNote"></p>
+  </section>
+
+</div>
+
+<p class="preview-label">Preview</p>
+<main class="book" id="book"></main>
+
+<script>
+(function () {
+  "use strict";
+
+  var $ = function (id) { return document.getElementById(id); };
+  var els = {
+    picks: $("picks"), book: $("book"), summary: $("summary"),
+    warn: $("warn"), go: $("go"), cmd: $("cmd"), copy: $("copy"),
+    said: $("said"), cmdNote: $("cmdNote")
+  };
+
+  /* Own escaper — nothing is imported here on purpose. */
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+
+  var MONTHS = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"];
+
+  /* Beat stamps print in full — a binder outlives the context that
+     made "Aug 9" enough. */
+  function stamp(s) {
+    var m = String(s || "").match(/^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2}))?$/);
+    if (!m) return "";
+    var out = MONTHS[Number(m[2]) - 1] + " " + Number(m[3]) + ", " + m[1];
+    if (m[4]) {
+      var h = Number(m[4]), half = h < 12 ? "a.m." : "p.m.";
+      h = h % 12; if (!h) h = 12;
+      out += ", " + h + ":" + m[5] + " " + half;
+    }
+    return out;
+  }
+
+  function clock(s) {
+    var n = Math.round(Number(s) || 0);
+    return Math.floor(n / 60) + ":" + (n % 60 < 10 ? "0" : "") + (n % 60);
+  }
+
+  function nameOf(t) { return t.nav || t.place || t.short || t.slug; }
+  function fileOf(src) { return String(src || "").split("/").pop(); }
+  function isClip(p) {
+    return p.video === true || /\.(mp4|mov|m4v|webm)$/i.test(p.src || "");
+  }
+
+  /* A beat either names frames from the collection (`shots`) or
+     carries its own (`photos`). Both shapes land here as photo
+     objects so the printer doesn't care which it got. */
+  function beatFrames(trip, b) {
+    if (b.photos && b.photos.length) return b.photos.slice();
+    return (b.shots || []).map(function (i) { return (trip.photos || [])[i]; })
+                          .filter(Boolean);
+  }
+
+  /* The file already reads forward — post.js appends. Only re-sort
+     when every beat carries a time, so a partially stamped list
+     keeps the order it was written in. */
+  function beatsOf(trip) {
+    var beats = (trip.beats || []).slice();
+    if (beats.length && beats.every(function (b) { return !!b.time; })) {
+      beats.sort(function (a, b) { return a.time < b.time ? -1 : a.time > b.time ? 1 : 0; });
+    }
+    return beats;
+  }
+
+  function loneFrames(trip) {
+    var claimed = {};
+    beatsOf(trip).forEach(function (b) {
+      if (b.photos && b.photos.length) return;
+      (b.shots || []).forEach(function (i) { claimed[i] = true; });
+    });
+    return (trip.photos || []).filter(function (p, i) { return !claimed[i]; });
+  }
+
+  function frameCount(trip) {
+    var n = (trip.photos || []).length;
+    beatsOf(trip).forEach(function (b) {
+      if (b.photos) n += b.photos.length;
+    });
+    return n;
+  }
+
+  function hasSomething(trip) {
+    return !!trip.note || beatsOf(trip).length > 0 || frameCount(trip) > 0;
+  }
+
+  /* ---------- building a sheet ---------- */
+
+  function frameHtml(p) {
+    var cap = p.caption || p.alt || "";
+    if (isClip(p)) {
+      return '<figure class="frame">' +
+        '<div class="clip">' +
+          '<span class="clip-mark">Clip</span>' +
+          '<span class="clip-name">' + esc(cap || fileOf(p.src)) + "</span>" +
+          (p.seconds ? '<span class="clip-len">' + esc(clock(p.seconds)) + "</span>" : "") +
+        "</div>" +
+        '<figcaption><span class="frame-file">' + esc(p.src) + "</span></figcaption>" +
+        "</figure>";
+    }
+    return '<figure class="frame">' +
+      '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || cap) + '" loading="lazy"' +
+      (p.w && p.h ? ' width="' + esc(p.w) + '" height="' + esc(p.h) + '"' : "") + ">" +
+      (cap ? "<figcaption>" + esc(cap) + "</figcaption>" : "") +
+      "</figure>";
+  }
+
+  function proseHtml(text) {
+    return esc(text).split(/\n{2,}/).map(function (para) {
+      return '<p class="beat-say">' + para.replace(/\n/g, "<br>") + "</p>";
+    }).join("");
+  }
+
+  function sheetHtml(trip) {
+    var meta = [trip.when, trip.loc, trip.continent].filter(Boolean)
+                 .map(esc).join(" &middot; ");
+    var out = '<section class="sheet" data-slug="' + esc(trip.slug) + '">' +
+      '<header class="sheet-head">' +
+        '<h2 class="exp-name">' + esc(nameOf(trip)) + "</h2>" +
+        (meta ? '<p class="exp-meta">' + meta + "</p>" : "") +
+      "</header>";
+
+    if (trip.note) out += '<p class="exp-note">' + esc(trip.note) + "</p>";
+
+    beatsOf(trip).forEach(function (b) {
+      var when = stamp(b.time);
+      var line = b.at || b.head || "";
+      out += '<article class="beat"><div class="beat-words">';
+      if (line || when) {
+        out += '<p class="beat-at">' + esc(line) +
+               (when ? '<span class="beat-when">' + esc(when) + "</span>" : "") + "</p>";
+      }
+      if (b.say) out += proseHtml(b.say);
+      out += "</div>";
+      out += beatFrames(trip, b).map(frameHtml).join("");
+      out += "</article>";
+    });
+
+    var rest = loneFrames(trip);
+    if (rest.length) {
+      out += '<section class="frames"><h3 class="frames-head">' +
+        (beatsOf(trip).length ? "The rest of the frames" : "The frames") +
+        " &middot; " + rest.length + "</h3>" +
+        rest.map(frameHtml).join("") + "</section>";
+    }
+    if (!trip.note && !beatsOf(trip).length && !rest.length) {
+      out += '<p class="nothing">Nothing written down yet.</p>';
+    }
+    return out + "</section>";
+  }
+
+  /* ---------- the panel ---------- */
+
+  var TRIPS = [], boxes = [];
+
+  function chosen() {
+    return TRIPS.filter(function (t, i) {
+      return boxes[i].checked && hasSomething(t);
+    });
+  }
+
+  function buildPicks() {
+    els.picks.innerHTML = TRIPS.map(function (t, i) {
+      var full = hasSomething(t);
+      var n = frameCount(t), posts = beatsOf(t).length;
+      var bits = [t.when || ""];
+      if (n) bits.push(n + (n === 1 ? " frame" : " frames"));
+      if (posts) bits.push(posts + (posts === 1 ? " post" : " posts"));
+      if (!full) bits.push("nothing yet");
+      return '<label class="pick' + (full ? "" : " pick--empty") + '">' +
+        '<input type="checkbox" checked data-i="' + i + '">' +
+        '<span class="pick-name">' + esc(nameOf(t)) + "</span>" +
+        '<span class="pick-meta">' + esc(bits.filter(Boolean).join(" · ")) + "</span>" +
+      "</label>";
+    }).join("");
+    boxes = Array.prototype.slice.call(els.picks.querySelectorAll("input"));
+    boxes.forEach(function (b) { b.addEventListener("change", refresh); });
+  }
+
+  function coverHtml(list) {
+    var frames = list.reduce(function (n, t) { return n + frameCount(t); }, 0);
+    var d = new Date();
+    return '<section class="cover">' +
+      '<h1 class="cover-title">A scrapbook</h1>' +
+      '<p class="cover-sub">Cody Heart &middot; printed ' +
+        MONTHS[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear() +
+        " &middot; " + list.length + (list.length === 1 ? " experience" : " experiences") +
+        (frames ? " &middot; " + frames + (frames === 1 ? " frame" : " frames") : "") +
+      "</p>" +
+      (list.length
+        ? "<h2>What's in here</h2><ul class=\"toc\">" + list.map(function (t) {
+            return "<li><span class=\"toc-name\">" + esc(nameOf(t)) + "</span>" +
+                   '<span class="toc-meta">' + esc(t.when || "") + "</span></li>";
+          }).join("") + "</ul>"
+        : '<p class="nothing">Nothing ticked.</p>') +
+      "</section>";
+  }
+
+  /* Every sheet is built once and then shown or hidden. Re-rendering
+     on each tick would re-request 155MB of frames. */
+  function buildBook() {
+    els.book.innerHTML = '<div id="cover"></div>' +
+      TRIPS.filter(hasSomething).map(sheetHtml).join("");
+    Array.prototype.forEach.call(els.book.querySelectorAll("img"), function (img) {
+      img.addEventListener("error", function () {
+        var fig = img.parentNode, src = img.getAttribute("src") || "";
+        if (!fig) return;
+        img.parentNode.removeChild(img);
+        fig.insertAdjacentHTML("afterbegin",
+          '<div class="gone">Frame not found &mdash; ' + esc(src) + "</div>");
+      });
+    });
+  }
+
+  /* ---------- the PowerShell collector ---------- */
+
+  function psq(s) { return "'" + String(s).replace(/'/g, "''") + "'"; }
+
+  function safeFolder(s) {
+    return String(s).replace(/[\\\/:*?"<>|]+/g, " ")
+                    .replace(/\s+/g, " ").replace(/\.+$/, "").trim().slice(0, 60);
+  }
+
+  /* The folder a frame lives in is not always photos/<slug>/ — San
+     Diego's slug is san-diego and its frames sit in
+     photos/sandiego-zoo/web/. Read the directories off the data. */
+  function dirsOf(trip) {
+    var seen = {}, out = [];
+    var all = (trip.photos || []).slice();
+    beatsOf(trip).forEach(function (b) {
+      if (b.photos) all = all.concat(b.photos);
+    });
+    all.forEach(function (p) {
+      var d = String(p.src || "").replace(/\/[^\/]*$/, "");
+      if (d && !seen[d]) { seen[d] = 1; out.push(d.replace(/\//g, "\\")); }
+    });
+    if (!out.length) out.push("photos\\" + trip.slug);
+    return out;
+  }
+
+  /* Opened from disk we know exactly where the repository is; served
+     over http we can't, so fall back to "run it from in there". */
+  function repoRoot() {
+    if (location.protocol !== "file:") return null;
+    var p = decodeURIComponent(location.pathname).replace(/^\/+/, "");
+    return p.replace(/\/[^\/]*$/, "").replace(/\//g, "\\");
+  }
+
+  function buildCmd(list) {
+    var root = repoRoot();
+    var lines = [
+      "# Collects the frames from the ticked experiences into one folder",
+      "# on your Desktop. Paste the whole block into PowerShell.",
+      "",
+      root ? "$repo = " + psq(root)
+           : "$repo = $PWD   # run this from inside the heartslibrary folder",
+      "$out  = Join-Path $HOME " + psq("Desktop\\Cody Heart scrapbook"),
+      "$kinds = '*.jpg','*.jpeg','*.png','*.webp','*.heic','*.mp4','*.mov'",
+      "",
+      "$sets = @("
+    ];
+    lines.push(list.map(function (t) {
+      return "  @{ name = " + psq(safeFolder(nameOf(t))) + "; dirs = @(" +
+             dirsOf(t).map(psq).join(", ") + ") }";
+    }).join(",\n"));
+    lines = lines.concat([
+      ")",
+      "",
+      "foreach ($s in $sets) {",
+      "  $dest = Join-Path $out $s.name",
+      "  New-Item -ItemType Directory -Force -Path $dest | Out-Null",
+      "  foreach ($d in $s.dirs) {",
+      "    $from = Join-Path $repo $d",
+      "    if (Test-Path $from) {",
+      "      Get-ChildItem -Path (Join-Path $from '*') -Include $kinds -File |",
+      "        Copy-Item -Destination $dest -Force",
+      "    }",
+      "  }",
+      "}",
+      "",
+      "$n = (Get-ChildItem $out -Recurse -File).Count",
+      "Write-Host \"Copied $n files to $out\"",
+      "explorer $out"
+    ]);
+    return lines.join("\n");
+  }
+
+  /* ---------- wiring ---------- */
+
+  function refresh() {
+    var list = chosen();
+    var ticked = boxes.filter(function (b) { return b.checked; }).length;
+    var empties = ticked - list.length;
+    var frames = list.reduce(function (n, t) { return n + frameCount(t); }, 0);
+
+    $("cover").innerHTML = coverHtml(list);
+
+    var want = {};
+    list.forEach(function (t) { want[t.slug] = 1; });
+    Array.prototype.forEach.call(els.book.querySelectorAll(".sheet"), function (s) {
+      s.hidden = !want[s.getAttribute("data-slug")];
+    });
+
+    els.summary.innerHTML = "<b>" + list.length +
+      (list.length === 1 ? "</b> experience" : "</b> experiences") +
+      ", <b>" + frames + "</b> " + (frames === 1 ? "frame" : "frames") +
+      (empties ? ". " + empties + (empties === 1 ? " ticked experience has" : " ticked experiences have") +
+                 " nothing written down yet and won't print." : ".");
+
+    els.warn.hidden = frames < 40;
+    if (!els.warn.hidden) {
+      els.warn.innerHTML = "That's " + frames + " frames. Chrome has to load and " +
+        "lay out every one before the print box opens, which on a big binder " +
+        "takes a minute or two and a lot of paper. Save as PDF first and look " +
+        "at it before you commit a tray.";
+    }
+
+    els.go.disabled = list.length === 0;
+    els.cmd.textContent = list.length
+      ? buildCmd(list)
+      : "# Tick at least one experience above.";
+    els.said.textContent = "";
+  }
+
+  function applyOpts() {
+    var mode = document.querySelector('input[name=mode]:checked').value;
+    var paper = document.querySelector('input[name=paper]:checked').value;
+    var bind = document.querySelector('input[name=bind]:checked').value;
+    var c = document.documentElement.classList;
+    c.toggle("words-only", mode === "words");
+    c.toggle("paper-a4", paper === "a4");
+    c.toggle("duplex", bind === "two");
+  }
+
+  Array.prototype.forEach.call(
+    document.querySelectorAll('input[name=mode],input[name=paper],input[name=bind]'),
+    function (r) { r.addEventListener("change", applyOpts); });
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-pick]"), function (b) {
+    b.addEventListener("click", function () {
+      var how = b.getAttribute("data-pick");
+      boxes.forEach(function (box, i) {
+        box.checked = how === "all" ? true
+                    : how === "none" ? false
+                    : hasSomething(TRIPS[i]);
+      });
+      refresh();
+    });
+  });
+
+  /* Lazy frames are what keeps the preview usable; Chrome does load
+     them for a print, but flipping them eager first costs nothing
+     and removes the question. */
+  function unlazy() {
+    Array.prototype.forEach.call(
+      document.querySelectorAll('img[loading="lazy"]'),
+      function (im) { im.loading = "eager"; });
+  }
+  window.addEventListener("beforeprint", unlazy);
+  els.go.addEventListener("click", function () { unlazy(); window.print(); });
+
+  els.copy.addEventListener("click", function () {
+    var text = els.cmd.textContent;
+    function done() { els.said.textContent = "Copied."; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else { fallback(); }
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.cssText = "position:fixed;left:-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); done(); }
+      catch (e) { els.said.textContent = "Select it and copy by hand."; }
+      document.body.removeChild(ta);
+    }
+  });
+
+  window.addEventListener("DOMContentLoaded", function () {
+    TRIPS = window.TRIPS || [];
+    els.cmdNote.innerHTML = repoRoot()
+      ? "These are the web-sized files the site serves. Camera originals, " +
+        "where they exist, sit one folder up from the <code>web</code> folder."
+      : "This page is being served over the web, so it can't know where the " +
+        "repository sits on your disk. Open <code>print.html</code> straight " +
+        "from the folder and the command fills in the path itself.";
+    buildPicks();
+    buildBook();
+    applyOpts();
+    refresh();
+  });
+})();
+</script>
+</body>
+</html>

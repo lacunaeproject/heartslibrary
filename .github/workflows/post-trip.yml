@@ -56,16 +56,18 @@ jobs:
           fi
 
       # photos.js is pinned by ?v= in every page, so without a fresh
-      # stamp a returning visitor keeps the cached galleries
+      # stamp a returning visitor keeps the cached galleries. This goes
+      # through the shell generator rather than sed-ing the pages: the
+      # stamp lives in scripts/shell.js, and a sed here would be undone
+      # by the next local `node scripts/shell.js`.
       - name: Stamp the asset version
         run: |
           stamp="$(date -u +%Y%m%d)-${GITHUB_RUN_NUMBER}"
-          sed -i -E "s/\?v=[A-Za-z0-9._-]+/?v=${stamp}/g" ./*.html
-          echo "stamped ?v=${stamp}"
+          node scripts/shell.js --stamp "$stamp"
 
       - name: Commit and push if changed
         run: |
-          git add -A photos js/photos.js ./*.html
+          git add -A photos js/photos.js scripts/shell.js ./*.html
           if ! git diff --cached --quiet; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
