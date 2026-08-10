@@ -307,7 +307,7 @@
          whole journal post or a whole note — passages and all, so a
          post's frames read as one roll even when its beats carried
          their own — else the grid the frame shares. */
-      var box = btn.closest(".post, .note, .stream-grid");
+      var box = btn.closest(".post, .stream-grid");
       if (box) {
         lb.list = Array.prototype.map.call(box.querySelectorAll("[data-trip][data-i]"), function (b) {
           return { t: tripBySlug(b.getAttribute("data-trip")), i: Number(b.getAttribute("data-i")) };
@@ -526,22 +526,17 @@
        a post also shows it — the post is the moment it went up, the
        section is where you go to watch. Stills don't double up: the
        wall takes the edited ones, the posts keep the rest. */
-    /* The wall is the edited gallery: every still not already in a
-       note. Which of those also reach the home page is `best`. */
-    var inAPost = {};
-    beats.forEach(function (b) {
-      if (!b.photos) (b.shots || []).forEach(function (i) { inAPost[i] = true; });
-    });
+    /* AN EXPERIENCE PAGE IS THE PICTURES. It used to run a Notes
+       section under the wall carrying what was written at the time,
+       and the wall then had to EXCLUDE any frame a note had already
+       shown so nothing appeared twice. With the notes gone the split
+       goes with them: every still is on the wall. The writing still
+       exists and still has a home — it is the journal. */
     var picks = [], clips = [];
     (trip.photos || []).forEach(function (p, i) {
       if (p.video) clips.push({ p: p, i: i });
-      else if (!inAPost[i]) picks.push({ p: p, i: i });
+      else picks.push({ p: p, i: i });
     });
-    /* nothing edited yet and nothing written either — show the roll
-       rather than an empty page */
-    if (!picks.length && !clips.length && !beats.length) {
-      (trip.photos || []).forEach(function (p, i) { picks.push({ p: p, i: i }); });
-    }
 
     /* the small line carries when and where alongside the counts */
     var metaEl = document.getElementById("galleryMeta");
@@ -551,9 +546,7 @@
          said where it was — saying it twice read as a stutter */
       var bits = [xpByline(trip)];
       if (trip.loc) bits.push(n + (n === 1 ? " frame" : " frames"));
-      if (picks.length && picks.length !== n) bits.push(picks.length + " in the gallery");
       if (clips.length) bits.push(clips.length + (clips.length === 1 ? " clip" : " clips"));
-      if (beats.length) bits.push(beats.length + (beats.length === 1 ? " note" : " notes"));
       metaEl.textContent = bits.join(" · ");
     }
 
@@ -561,7 +554,9 @@
     if (picks.length) {
       /* captions read as text here, not as a pill on hover */
       galleryShots.innerHTML = picks.map(function (en) {
-        return shotHtml(trip, en.p, en.i, true);
+        /* images, not images-and-writing: the caption stays on the
+           hover pill and in the lightbox, same as the front wall */
+        return shotHtml(trip, en.p, en.i, false);
       }).join("");
       if (framesSec) framesSec.hidden = false;
     }
@@ -579,36 +574,7 @@
 
     /* the notes run forward here — an experience reads as it was
        lived, not newest first like the journal */
-    var notesEl = document.getElementById("notesList");
-    var notesSec = document.getElementById("notesSec");
-    if (notesEl && beats.length) {
-      /* Everything written from inside one experience is one record
-         by definition, so it is drawn as one: a single rule down the
-         column, no hairlines cutting it into pieces, and nothing
-         naming the author or the experience — both are on the page
-         already, a few inches up. */
-      var lastStamp = "";
-      notesEl.innerHTML = beats.map(function (b, bi) {
-        /* a beat with neither words nor frames would draw its tick on
-           the rule and then say nothing */
-        if (!b.say && !(b.photos || b.shots || []).length) return "";
-        var stamp = b.time ? stampText(b.time) : (trip.when || "");
-        var fresh = stamp && stamp !== lastStamp ? stamp : "";
-        lastStamp = stamp;
-        return noteHtml(trip, b, bi, fresh);
-      }).join("");
-      var notesSub = document.getElementById("notesSub");
-      if (notesSub) {
-        notesSub.textContent = "Written from " + (trip.loc || trip.short || trip.place) +
-          " while it was going on, in the order I wrote it.";
-      }
-      if (notesSec) notesSec.hidden = false;
-    }
-    /* An experience is logged when it happens; its photographs can
-       arrive years later, or never. Say that outright rather than
-       leaving a title standing over a blank page. */
-    var emptyEl = document.getElementById("galleryEmpty");
-    if (emptyEl && !picks.length && !clips.length && !beats.length) emptyEl.hidden = false;
+    if (emptyEl && !picks.length && !clips.length) emptyEl.hidden = false;
   }
 
   /* ----------------------------------------------------------
@@ -843,35 +809,6 @@
     return out ? '<div class="media"><div class="strip">' + out + "</div></div>" : "";
   }
 
-  /* ----------------------------------------------------------
-     A NOTE, on the experience's own page. The journal's card
-     treatment is the journal's: there a post has to say which
-     experience it came from and hold its own against forty
-     others. Here the page is already one outing — the masthead
-     names it, dates it, says where it was and counts what came
-     back — so a note is just what was written at the time, with
-     what was shot alongside it. No card, no author, no swipe:
-     prose down a ruled column, and the frames laid out under
-     each paragraph where they fit the measure.
-     ---------------------------------------------------------- */
-  /* The frames a note carries are laid out by the shared rules above —
-     one in the column at a capped height, several on a strip — so a
-     photograph reads the same here as it does in a post. (They used to
-     be a wrapping sheet of negatives, all one height. That was a third
-     way of showing a picture on a site that already had two.)
-
-     `stamp` is passed in rather than worked out here: a run of notes
-     written on one day says the date once, at the head of the run,
-     the way a diary does. Give a beat its own `time` and it gets its
-     own line back. */
-  function noteHtml(trip, b, key, stamp) {
-    var set = beatSet(trip, b, key || 0);
-    var out = '<article class="note">';
-    if (stamp) out += '<p class="note-when">' + esc(stamp) + "</p>";
-    if (b.say) out += '<p class="note-say">' + esc(b.say) + "</p>";
-    out += mediaHtml(set.trip, set.shots, true);
-    return out + "</article>";
-  }
 
   /* ----------------------------------------------------------
      THE JOURNAL — one post per outing, newest first.

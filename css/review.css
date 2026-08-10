@@ -2156,18 +2156,6 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   object-fit: fill;
 }
 .stream-grid .shot-cap { display: none; }
-/* …except on an experience's own wall, where what was written under
-   a frame is half of what the page is for. It stays quiet — a
-   caption, not a headline — and a frame with nothing written under
-   it gets no line at all. The front wall keeps the picture as the
-   whole message and leaves the caption to the hover pill. */
-.stream-grid--noted .shot-cap {
-  display: block;
-  max-width: 100%;
-  margin-top: 10px;
-  font-size: 13.5px;
-  color: var(--ink-45);
-}
 @container (width < 1000px) { .stream-grid { --wall-cols: 3; } }
 @container (width < 720px)  { .stream-grid { --wall-cols: 2; } }
 /* one column on a phone, and the frames run the full measure there —
@@ -2243,120 +2231,6 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 .wall-bleed { padding: 0 var(--gutter); }
 .wall-bleed .roll { padding-top: clamp(5px, 0.55vw, 8px); }
 .wall-bleed .stream-grid { padding-bottom: 0; }
-/* THE NOTES — an experience page runs its frames first, then what
-   was written from inside it. Not a live feed and no longer built
-   like one: this is the written half of the record, and it is meant
-   to carry the same weight as the wall above it.
-
-   The wall runs wide; the notes draw into a reading column down the
-   middle — a change of voice, not a continuation. The band the
-   column sits on is the same grey the journal page uses; dark needs
-   no band, the writing already lifts off the black. */
-.notes-sec {
-  max-width: none;
-  margin: clamp(46px, 6vw, 78px) 0 0;
-  padding: clamp(30px, 4vw, 52px) var(--gutter) clamp(32px, 4vw, 56px);
-  background: var(--surface);
-}
-html.dark .notes-sec { background: transparent; }
-.notes-sec > * {
-  max-width: 640px;
-  margin-left: auto;
-  margin-right: auto;
-}
-/* A page of notes, not a banner over a live feed: the heading sits
-   at the head of its own column, upright in the page serif, ruled
-   off underneath the way a notebook is. Nothing centred and nothing
-   italic — it reads as the top of something written. */
-.notes-head {
-  margin: 0 auto;
-  padding-bottom: 11px;
-  border-bottom: 1px solid var(--border);
-  font-family: var(--display);
-  font-weight: 600;
-  font-synthesis: none;
-  font-size: clamp(21px, 2.2vw, 27px);
-  line-height: 1.15;
-  letter-spacing: -.012em;
-  color: var(--ink-85);
-  text-align: left;
-}
-.notes-sub {
-  /* auto sides, or this shorthand would undo the column centring */
-  margin: 10px auto clamp(20px, 2.4vw, 30px);
-  text-align: left;
-  font-size: 13.5px;
-  line-height: 1.5;
-  color: var(--ink-45);
-}
-/* ---------- THE RECORD ITSELF ----------
-   This used to be the journal's thread lifted whole: a white card,
-   hairlines between the rows, a portrait and the author's name on
-   every one of them, and the frames on a swipe strip that ran off
-   the card and got cut by its rounded corner. All of that is the
-   journal's job — there a post is one of forty and has to say whose
-   it is, which experience it came from and where to go next.
-
-   Here the page is already one outing. The masthead above has named
-   it, dated it, said where it was and counted what came back, so a
-   note has nothing left to introduce: it is a paragraph with a date
-   and the frames that go with it. One rule runs down the whole run
-   — drawn once for the record rather than once per post — with a
-   tick where each note begins. Nothing sits on a surface, so
-   nothing can be cut by the corner of one. */
-.notes-log {
-  --note-indent: clamp(19px, 2.4vw, 28px);
-  border-left: 1px solid var(--border);
-  padding-left: var(--note-indent);
-}
-.note { position: relative; }
-.note + .note { margin-top: clamp(28px, 3.4vw, 42px); }
-/* the tick: a short mark reaching out of the rule, level with the
-   first line. A dot read as a bullet and made a list of it. */
-.note::before {
-  content: "";
-  position: absolute;
-  left: calc(-1 * var(--note-indent) - 1px);
-  top: 9px;
-  width: 11px;
-  height: 1px;
-  background: var(--ink-30);
-}
-/* A run written on one day says the date once, at its head. Give a
-   beat its own `time` in the data and every note gets one back. */
-.note-when {
-  margin: 0 0 7px;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: -.004em;
-  color: var(--ink-45);
-}
-/* Prose, at the same size and leading as a post in the journal. The
-   two pages are deliberately different objects, but the writing is
-   the same writing and there is no reason for it to be set twice. */
-.note-say {
-  margin: 0;
-  font-size: 17px;
-  line-height: 1.62;
-  letter-spacing: -.003em;
-  color: var(--ink-85);
-}
-/* THE FRAMES a note carries are laid out by the shared media rules
-   (see THE JOURNAL below): one in the column at a capped height,
-   several on a strip. They used to be a sheet of negatives — all one
-   height, each at its own width, wrapping when the measure ran out —
-   which was a third way of showing a photograph on a site that
-   already had two. A picture now behaves the same here as in a post.
-
-   The strip runs out past the right edge of the reading column, the
-   way it runs past the edge of a post's card, and stops at the band's
-   own margin. Nothing is clipped; there is no surface to clip it. */
-.note .media { margin-top: clamp(12px, 1.4vw, 16px); }
-.note .strip {
-  margin-right: calc(-1 * var(--note-indent));
-  padding-right: var(--note-indent);
-}
-.notes-sec .link-row { justify-content: flex-start; }
 /* The masthead is a column down the middle of the page with its
    type ragged right — a headline measure, not a full page width.
    The wall below it still runs edge to edge. */
