@@ -26,8 +26,20 @@
    optional continent and an optional YYYY-MM-DD for ordering.
    After that: blank-line-separated blocks. A block of filenames
    is a group of photos; anything else is you talking, and shows
-   up on the trip page as a message bubble. Two spaces after a
-   filename gives that one frame a caption. Most won't need one.
+   up on the trip page as a message bubble.
+
+   Two spaces after a filename describe that one frame:
+
+     mcway.jpg  The cove, four minutes of light
+     mcway.jpg  [Sunlit falls dropping onto a sand cove]
+     mcway.jpg  Four minutes of light  [Sunlit falls onto sand]
+
+   Plain text is a caption — printed under the frame, and used as
+   its alt text. Text in [brackets] is alt only: it describes the
+   picture for a screen reader without putting a caption on the
+   page. Give most frames the bracket form. A frame with neither
+   falls back to the trip name, which is better than nothing and
+   worse than anything else; the poster counts those and says so.
 
    Two blocks are special, and they're what the trip page's two
    halves are made of:
@@ -241,7 +253,20 @@ function parseTrip(text, slug) {
       const head = row.split(/\s{2,}/)[0];
       if (MEDIA_RE.test(head)) {
         const [file, ...rest] = row.split(/\s{2,}/);
-        const frame = { file, caption: rest.join(" ").trim() };
+        /* After the filename: plain text is a caption — printed under
+           the frame, and doubling as its alt. Text in [brackets] is
+           alt only: it describes the picture for a screen reader
+           without putting a caption on the page. Either, neither, or
+           both. Most frames want the bracket form — a wall of visible
+           captions is not the look, but an unlabelled photo is not an
+           option either. */
+        let caption = rest.join(" ").trim(), alt = "";
+        const bracketed = caption.match(/\[([^\]]*)\]\s*$/);
+        if (bracketed) {
+          alt = bracketed[1].trim();
+          caption = caption.slice(0, bracketed.index).trim();
+        }
+        const frame = { file, caption, alt };
         /* a highlight belongs to the trip but to no post; whether it
            also hangs on the home wall is the `best` flag, set by hand */
         if (directive !== "highlights") shots.push(photos.length);
@@ -389,10 +414,14 @@ function main() {
         heavy.push({ file: p.file, mb, w: size.w, codec: size.codec });
       }
     }
-    /* a caption doubles as alt text; without one we fall back to the
-       trip name so the image is never announced as unlabelled */
-    p.alt = p.caption || trip.place;
-    if (!p.caption) missingAlt++;
+    /* an explicit [alt] wins; failing that a caption doubles as alt
+       text; failing both we fall back to the trip name so the image is
+       never announced as unlabelled — but that fallback repeats the
+       same string on every frame, which tells a screen-reader user
+       nothing, so it is counted and reported, not silently accepted */
+    const described = p.alt || p.caption;
+    p.alt = described || trip.place;
+    if (!described) missingAlt++;
     delete p.file;
   }
 
@@ -425,7 +454,10 @@ function main() {
               `${trip.beats.filter(b => b.say).length} notes, #${pos} of ${trips.length}`);
   if (missingAlt) {
     console.log(`${missingAlt} frame${missingAlt > 1 ? "s" : ""} fell back to "${trip.place}" ` +
-                `for alt text — add captions in trip.txt and re-run to improve them`);
+                `for alt text, which reads the same on every one of them.\n` +
+                `    Describe them in trip.txt and re-run — two spaces after the` +
+                ` filename,\n    then [square brackets] to describe the frame` +
+                ` without showing a caption.`);
   }
   for (const v of heavy) {
     console.log(`\n  ⚠ ${v.file} is ${v.mb.toFixed(1)} MB at ${v.w}px wide.`);
