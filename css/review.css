@@ -3607,106 +3607,65 @@ html.dark .live-sec { background: transparent; }
 }
 .about-read .signoff { margin-top: 22px; color: var(--ink-55); }
 .about-reach { padding-bottom: clamp(40px, 6vw, 72px); }
-/* THE EXPERIENCES INDEX — the log's list register, with a face:
-   thumb, name over when-and-where, frame count on the right */
-.xp-rows { list-style: none; margin: 0 0 30px; padding: 0; }
-.xp-link {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 12px 12px 12px 8px;
-  margin: 0 -12px 0 -8px;
-  border-radius: 14px;
-  border-bottom: 1px solid var(--border);
-  transition: background-color .15s ease;
-}
-.xp-row:last-child .xp-link { border-bottom: 0; }
-.xp-link:hover { background: var(--surface-hover); }
-.xp-thumb {
-  flex: none;
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
-  corner-shape: squircle;
-  overflow: hidden;
-  background: var(--surface);
-}
-.xp-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.xp-text { min-width: 0; }
-.xp-name {
-  display: block;
-  font-size: 15px;
-  font-weight: 550;
-  line-height: 1.3;
-  color: var(--ink-85);
-}
-.xp-meta {
-  display: block;
-  margin-top: 3px;
-  font-size: 12.5px;
-  color: var(--ink-45);
-}
-.xp-count {
-  margin-left: auto;
-  padding-left: 12px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: var(--ink-40);
-  white-space: nowrap;
-}
+/* ---------- The experiences index ----------
+   Every experience is a band: its name across the page in Gooper, the
+   byline under it, an arrow at the far edge, and its own roll running
+   out past the right margin beneath — as much of it as the page will
+   hold, the rest a scroll away.
 
-/* ---------- The year still being lived ----------
-   The filed years are a ledger and read like one. This year is set in
-   Gooper across the whole page — three names at a time, each one big
-   enough to be the only thing you look at, held in grey until you
-   arrive on it and it takes its colour. No cards, no frames around
-   it: the type is the thing.
+   Everything sits grey until you arrive on a band, and then that
+   roll takes its colour and the name takes its ink. A page of grey
+   with one row lit is the whole idea.
 
-   It rides the galleries' reel, so the arrows, the snapping and the
-   end-stops come with it. The ledger underneath keeps a reading
-   measure; this doesn't. */
-/* the head sits at the gutter with the rail, not centred over it the
-   way a gallery's does — the type below starts at the page edge and
-   the title has to start there too */
+   All the way back, not just the current year: 2019 gets the same
+   band as this August. Only the year heading marks which one is still
+   being lived. */
+
+/* the head sits at the gutter with the bands, not centred over them
+   the way a gallery's does — the type below starts at the page edge
+   and the title has to start there too */
 .xp-head {
   padding-left: var(--gutter);
   padding-right: var(--gutter);
 }
 .xp-head > * { max-width: 46rem; }
-.log-year--now {
+/* every band brings its own rule on top, so a second one under the
+   year heading would just double it. Scoped to the index so the log's
+   year headings keep theirs. */
+#experienceList .log-year {
   border-bottom: 0;
-  padding-bottom: 0;
-  font-size: 30px;
+  padding-bottom: 2px;
 }
-.xp-reel { margin: 10px 0 52px; }
-.xp-reel .reel-track { gap: 0; align-items: stretch; }
-.xp-card {
+.log-year--now { font-size: 30px; }
+.xp-bands { margin: 6px 0 44px; }
+.xp-band {
   --ink: var(--ink-85);
-  flex: 0 0 33.3333%;
-  min-width: 0;
-  scroll-snap-align: start;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 22px 28px 22px 0;
   border-top: 1px solid var(--border);
+  padding: 20px 0 26px;
   transition: border-color .3s ease;
 }
-.xp-card__name {
+.xp-band__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+.xp-band__name {
+  display: block;
   font-family: 'Gooper', var(--serif);
   font-weight: 500;
-  font-size: clamp(30px, 3.9vw, 62px);
-  line-height: .98;
-  letter-spacing: -.02em;
-  /* grey until arrived on — the whole rail reads as one flat field
-     and the one you're on is the only thing carrying colour */
+  /* bigger than the 15px it started at, and a long way back from the
+     48px it briefly reached — the name should carry the row without
+     becoming the poster */
+  font-size: clamp(17px, 1.45vw, 23px);
+  line-height: 1.1;
+  letter-spacing: -.01em;
   color: var(--ink-30);
   transition: color .28s var(--ease-out-quart);
 }
-.xp-card__meta {
+.xp-band__meta {
+  display: block;
+  margin-top: 9px;
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: .06em;
@@ -3714,32 +3673,66 @@ html.dark .live-sec { background: transparent; }
   color: var(--ink-30);
   transition: color .28s ease;
 }
-.xp-card:hover .xp-card__name,
-.xp-card:focus-visible .xp-card__name { color: var(--ink); }
-.xp-card:hover .xp-card__meta,
-.xp-card:focus-visible .xp-card__meta { color: var(--ink-55); }
-.xp-card:hover, .xp-card:focus-visible { border-top-color: var(--ink); }
-.xp-card:nth-child(5n+1) { --ink: #C7502C; }
-.xp-card:nth-child(5n+2) { --ink: #A64A3F; }
-.xp-card:nth-child(5n+3) { --ink: #C13840; }
-.xp-card:nth-child(5n+4) { --ink: #1E7F9E; }
-.xp-card:nth-child(5n+5) { --ink: #6B4F9E; }
+.xp-band__go {
+  flex: none;
+  margin-top: 4px;
+  color: var(--ink-30);
+  transition: color .28s ease, transform .28s var(--ease-out-quart);
+}
+.xp-band__go svg { width: 22px; height: 22px; display: block; }
+/* the roll runs off the right edge; it keeps scrolling past the page */
+.xp-band__strip {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.xp-band__strip::-webkit-scrollbar { display: none; }
+.xp-band__strip img {
+  flex: none;
+  height: clamp(84px, 8.6vw, 126px);
+  width: auto;
+  display: block;
+  border-radius: 5px;
+  background: var(--surface);
+  filter: grayscale(1);
+  transition: filter .45s var(--ease-out-quart);
+}
+.xp-band__soon {
+  margin: 18px 0 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-30);
+}
+/* arriving on the band brings the whole row up out of the grey */
+.xp-band:hover, .xp-band:focus-within { border-top-color: var(--ink); }
+.xp-band:hover .xp-band__name,
+.xp-band:focus-within .xp-band__name { color: var(--ink); }
+.xp-band:hover .xp-band__meta,
+.xp-band:focus-within .xp-band__meta { color: var(--ink-55); }
+.xp-band:hover .xp-band__go,
+.xp-band:focus-within .xp-band__go { color: var(--ink); transform: translateX(4px); }
+.xp-band:hover .xp-band__strip img,
+.xp-band:focus-within .xp-band__strip img { filter: grayscale(0); }
+.xp-band:nth-child(5n+1) { --ink: #C7502C; }
+.xp-band:nth-child(5n+2) { --ink: #A64A3F; }
+.xp-band:nth-child(5n+3) { --ink: #C13840; }
+.xp-band:nth-child(5n+4) { --ink: #1E7F9E; }
+.xp-band:nth-child(5n+5) { --ink: #6B4F9E; }
 /* the same five lifted off the near-black ground */
-html.dark .xp-card:nth-child(5n+1) { --ink: #F0855C; }
-html.dark .xp-card:nth-child(5n+2) { --ink: #E08A78; }
-html.dark .xp-card:nth-child(5n+3) { --ink: #F26E75; }
-html.dark .xp-card:nth-child(5n+4) { --ink: #5FC6E0; }
-html.dark .xp-card:nth-child(5n+5) { --ink: #B49BE8; }
-/* three across is a desktop count; the type would be oversized in
-   name only at phone widths */
-@media (max-width: 1000px) { .xp-card { flex-basis: 50%; } }
-@media (max-width: 640px)  { .xp-card { flex-basis: 82%; } }
-/* the ledger below keeps the reading measure the rail gives up */
-.xp-rows { max-width: 48rem; }
-.log-year:not(.log-year--now) { max-width: 48rem; }
-@media (max-width: 520px) {
-  .xp-thumb { width: 46px; height: 46px; border-radius: 12px; }
-  .xp-count { font-size: 10px; }
+html.dark .xp-band:nth-child(5n+1) { --ink: #F0855C; }
+html.dark .xp-band:nth-child(5n+2) { --ink: #E08A78; }
+html.dark .xp-band:nth-child(5n+3) { --ink: #F26E75; }
+html.dark .xp-band:nth-child(5n+4) { --ink: #5FC6E0; }
+html.dark .xp-band:nth-child(5n+5) { --ink: #B49BE8; }
+/* a finger has no hover, so the roll arrives in colour on touch */
+@media (hover: none) {
+  .xp-band__strip img { filter: none; }
+  .xp-band__name { color: var(--ink); }
 }
 /* The journal is one centered column at social-feed width — the
    head and the cards share the same rail, nothing runs page-wide. */

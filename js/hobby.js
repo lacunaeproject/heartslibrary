@@ -705,59 +705,47 @@
      ---------------------------------------------------------- */
   var xpList = document.getElementById("experienceList");
   if (xpList && TRIPS.length) {
-    /* The year still being lived reads differently from the ones
-       already filed. It comes off the data rather than the clock, so
-       the top group is always the loud one and nothing has to be
-       changed in January. The years under it stay plain rows — the
-       contrast is the point, and it only works if it happens once. */
+    /* Every experience gets a band: its name across the page, the
+       byline under it, and its own roll running off the right edge —
+       grey until the band is arrived on. The live year is marked at
+       its heading only; the rows themselves read the same all the way
+       back, because an experience from 2019 is not a lesser thing than
+       one from this August. */
     var thisYear = String((TRIPS[0] || {}).posted || "").slice(0, 4);
-    /* The live year runs as a rail — three at a time, oversized, and
-       grey until you arrive on one. Same reel the galleries use, so it
-       inherits the arrows, the snapping and the end-stops. */
-    var xpArrow = function (cls, label, d) {
-      return '<button class="reel-arrow ' + cls + '" type="button" aria-label="' + label + '">' +
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
-        'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + d +
-        '"/></svg></button>';
-    };
     var xhtml = "", xyear = null, xopen = "";
-    TRIPS.forEach(function (t, i) {
+    TRIPS.forEach(function (t) {
       var y = String(t.posted || "").slice(0, 4) || "Undated";
-      var loud = y === thisYear;
       if (y !== xyear) {
         xyear = y;
         if (xopen) xhtml += xopen;
-        xhtml += '<h2 class="log-year' + (loud ? " log-year--now" : "") + '">' +
-          (loud ? '<span class="accent">' + esc(y) + "</span>" : esc(y)) + "</h2>";
-        if (loud) {
-          xhtml += '<div class="reel xp-reel"><div class="reel-window">' +
-            xpArrow("reel-prev", "Previous experience", "M15 5l-7 7 7 7") +
-            xpArrow("reel-next", "Next experience", "M9 5l7 7-7 7") +
-            '<div class="reel-track">';
-          xopen = "</div></div></div>";
-        } else {
-          xhtml += '<ol class="xp-rows">';
-          xopen = "</ol>";
-        }
+        var live = y === thisYear;
+        xhtml += '<h2 class="log-year' + (live ? " log-year--now" : "") + '">' +
+          (live ? '<span class="accent">' + esc(y) + "</span>" : esc(y)) + "</h2>";
+        xhtml += '<div class="xp-bands">';
+        xopen = "</div>";
       }
       var n = (t.photos || []).length;
-      var src = thumbSrc(t);
-      if (loud) {
-        xhtml += '<a class="xp-card" href="gallery.html?trip=' + esc(t.slug) + '">' +
-          '<span class="xp-card__name">' + esc(xpName(t)) + "</span>" +
-          '<span class="xp-card__meta">' +
-            (n ? n + (n === 1 ? " frame" : " frames") : "Not yet") + "</span>" +
-          "</a>";
-        return;
-      }
-      xhtml += '<li class="xp-row"><a class="xp-link" href="gallery.html?trip=' + esc(t.slug) + '">' +
-        '<span class="xp-thumb">' +
-          (src ? '<img src="' + esc(src) + '" alt="" loading="lazy">' : "") + "</span>" +
-        '<span class="xp-text">' +
-          '<span class="xp-name">' + esc(xpName(t)) + "</span>" +
-          '<span class="xp-meta">' + xpByline(t) + "</span></span>" +
-        '<span class="xp-count">' + n + (n === 1 ? " frame" : " frames") + "</span>" +
-        "</a></li>";
+      /* a clip has no still to contribute, so it sits out of the roll */
+      var strip = (t.photos || []).map(function (p) {
+        return p.video ? "" :
+          '<img src="' + esc(p.src) + '" alt="" loading="lazy" decoding="async">';
+      }).join("");
+      xhtml += '<section class="xp-band">' +
+        '<a class="xp-band__head" href="gallery.html?trip=' + esc(t.slug) + '">' +
+          '<span class="xp-band__text">' +
+            '<span class="xp-band__name">' + esc(xpName(t)) + "</span>" +
+            '<span class="xp-band__meta">' + xpByline(t) + "</span>" +
+          "</span>" +
+          '<span class="xp-band__go" aria-hidden="true">' +
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
+            'stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>' +
+          "</span>" +
+        "</a>" +
+        (strip ? '<div class="xp-band__strip">' + strip + "</div>"
+          /* the byline already says 0 frames; only the case where a
+             clip exists but no still needs saying out loud */
+          : n ? '<p class="xp-band__soon">Nothing still from this one yet</p>' : "") +
+        "</section>";
     });
     if (xopen) xhtml += xopen;
     xpList.innerHTML = xhtml;
