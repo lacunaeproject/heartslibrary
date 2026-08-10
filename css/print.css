@@ -1,0 +1,429 @@
+/* ============================================================
+   PRINT.CSS — the scrapbook sheets, plus the plain screen
+   furniture for print.html's control panel.
+
+   This is the one stylesheet that is NOT css/review.css, and
+   print.html is the one page that doesn't load review.css. It is
+   a private tool (shell family D, like post.html): no nav, no
+   footer, and deliberately NO THEME. Paper is white and ink is
+   near-black whatever the rest of the site is wearing, so a
+   dark-mode visit can't empty a cartridge.
+
+   The five faces it needs are re-declared here rather than
+   pulling in 4,000 lines of themed CSS to override — the point
+   is a page that can't inherit the theme by accident. If the
+   type tokens in review.css ever change, mirror them here.
+
+   PAGE GEOMETRY lives at the bottom. Named @page rules (verified
+   working in Chrome) let a class on <html> pick paper size and
+   binding, which a plain @page rule can't do — @page isn't
+   selector-scoped.
+   ============================================================ */
+
+/* ---------- Faces (same files as the rest of the site) ---------- */
+@font-face {
+  font-family: 'Geist';
+  src: url('../fonts/Geist-Variable.woff2') format('woff2');
+  font-weight: 100 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('../fonts/GeistMono-Variable.woff2') format('woff2');
+  font-weight: 100 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Cheltenham Classic';
+  src: url('../fonts/CheltenhamClassic.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Cheltenham Classic';
+  src: url('../fonts/CheltenhamClassicItalic.woff2') format('woff2');
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Cheltenham Classic';
+  src: url('../fonts/CheltenhamClassicMedium.woff2') format('woff2');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Cheltenham Classic';
+  src: url('../fonts/CheltenhamClassicBold.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
+/* ---------- Tokens — one fixed light scale, no dark variant ---------- */
+:root {
+  --sans: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --serif: 'Cheltenham Classic', Georgia, serif;
+  --mono: 'Geist Mono', ui-monospace, 'Cascadia Mono', monospace;
+
+  --paper: #fff;
+  --ink: #111;
+  --ink-dim: #555;
+  --ink-faint: #777;
+  --rule: #d8d6d2;
+  --rule-soft: #ececea;
+  --screen-bg: #f4f3f1;
+  --heart: #e5484d;
+
+  /* How tall one frame is allowed to get. Letter leaves 9.85in of
+     column; two frames plus captions and gutters have to live in
+     that or every portrait shot owns a sheet to itself and the
+     binder doubles in thickness. 4.2in puts a 3:4 frame at snapshot
+     size (3.15 x 4.2in) and a 3:2 frame at 6.3 x 4.2in, two to a
+     sheet either way. Retuned for A4 below. */
+  --frame-max: 4.2in;
+}
+
+* { box-sizing: border-box; }
+
+html, body { background: var(--screen-bg); color: var(--ink); }
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ============================================================
+   SCREEN — the control panel. Plain and functional on purpose.
+   ============================================================ */
+
+.panel {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 30px 22px 10px;
+}
+.panel h1 {
+  display: flex; align-items: center; gap: .4em;
+  margin: 0 0 6px;
+  font-family: var(--serif);
+  font-size: 30px; font-weight: 500; letter-spacing: -.01em;
+}
+.panel h1 svg { width: 19px; height: 18px; }
+.lede { margin: 0 0 26px; max-width: 34em; color: var(--ink-dim); font-size: 14px; }
+
+.ctl {
+  margin: 0 0 22px;
+  padding: 16px 18px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+}
+.ctl h2 {
+  margin: 0 0 12px;
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .09em;
+  color: var(--ink-faint);
+}
+.ctl p { margin: 0 0 10px; font-size: 13.5px; color: var(--ink-dim); }
+.ctl p:last-child { margin-bottom: 0; }
+.ctl a { color: var(--ink); }
+
+.quick { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 12px; }
+.quick button, .copy {
+  padding: 5px 11px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: #fbfbfa;
+  font: inherit; font-size: 12.5px; color: var(--ink-dim);
+  cursor: pointer;
+}
+.quick button:hover, .copy:hover { background: #f1f0ee; color: var(--ink); }
+
+.picks { display: flex; flex-direction: column; }
+.pick {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 6px 0;
+  border-top: 1px solid var(--rule-soft);
+  cursor: pointer;
+}
+.pick:first-child { border-top: 0; }
+.pick input { margin: 0; flex: none; align-self: center; }
+.pick-name { flex: 1; min-width: 0; font-size: 14px; }
+.pick-meta {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 10.5px; color: var(--ink-faint);
+  letter-spacing: .01em;
+}
+.pick--empty .pick-name, .pick--empty .pick-meta { color: var(--ink-faint); }
+
+.opts { display: flex; flex-wrap: wrap; gap: 10px 28px; }
+.opts fieldset { margin: 0; padding: 0; border: 0; }
+.opts legend {
+  padding: 0 0 6px;
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .09em;
+  color: var(--ink-faint);
+}
+.opts label { display: block; padding: 2px 0; font-size: 13.5px; cursor: pointer; }
+.opts input { margin: 0 7px 0 0; }
+
+.summary { margin: 0 0 12px; font-size: 13.5px; color: var(--ink); }
+.summary b { font-weight: 600; }
+.warn {
+  margin: 0 0 12px; padding: 9px 11px;
+  border: 1px solid #f0d3d4; border-radius: 6px;
+  background: #fdf3f3;
+  font-size: 12.5px; color: var(--ink-dim); line-height: 1.45;
+}
+.go {
+  width: 100%; padding: 13px;
+  border: 0; border-radius: 7px;
+  background: var(--ink); color: #fff;
+  font: inherit; font-size: 15px; font-weight: 550;
+  cursor: pointer;
+}
+.go:hover { background: #000; }
+.go:disabled { background: #c9c7c4; cursor: default; }
+
+.cmd {
+  margin: 0 0 10px; padding: 12px 13px;
+  max-height: 19em; overflow: auto;
+  background: #fbfbfa;
+  border: 1px solid var(--rule); border-radius: 6px;
+  font-family: var(--mono); font-size: 11.5px; line-height: 1.5;
+  white-space: pre; color: var(--ink);
+}
+.said { margin-left: 9px; font-size: 12.5px; color: var(--ink-faint); }
+
+.preview-label {
+  max-width: 46rem;
+  margin: 8px auto 0; padding: 0 22px;
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .09em;
+  color: var(--ink-faint);
+}
+
+/* ============================================================
+   THE BOOK — shared by the on-screen preview and the paper.
+   ============================================================ */
+
+.book {
+  max-width: 46rem;
+  margin: 10px auto 60px;
+  padding: 34px 34px 40px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+}
+
+.sheet { break-before: page; }
+.sheet[hidden] { display: none; }
+
+/* Cover + contents. Always the first sheet, so every experience
+   section can carry break-before without leaving a blank leaf. */
+.cover { margin: 0 0 10px; }
+.cover-title {
+  margin: 0 0 4px;
+  font-family: var(--serif);
+  font-size: 34px; font-weight: 500; line-height: 1.1; letter-spacing: -.015em;
+}
+.cover-sub { margin: 0 0 30px; font-size: 13px; color: var(--ink-dim); }
+.cover h2 {
+  margin: 0 0 10px; padding-bottom: 7px;
+  border-bottom: 1px solid var(--rule);
+  font-size: 10.5px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: var(--ink-faint);
+}
+.toc { margin: 0; padding: 0; list-style: none; }
+.toc li {
+  display: flex; align-items: baseline; gap: 12px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.toc-name { flex: 1; min-width: 0; font-family: var(--serif); font-size: 15px; }
+.toc-meta {
+  flex: none;
+  font-family: var(--mono); font-size: 10px; color: var(--ink-faint);
+}
+
+/* Experience head — the title-page-ish block each section opens on. */
+.sheet-head {
+  margin: 0 0 20px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+  break-after: avoid;
+}
+.exp-name {
+  margin: 0 0 5px;
+  font-family: var(--serif);
+  font-size: 25px; font-weight: 500; line-height: 1.15; letter-spacing: -.01em;
+}
+.exp-meta {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 10.5px; letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.exp-note {
+  margin: 0 0 22px;
+  max-width: 34em;
+  font-family: var(--serif);
+  font-size: 15px; line-height: 1.5;
+}
+
+/* A beat: its dateline, its words, then the frames it named.
+   break-inside:avoid deliberately sits on the WORDS and not the
+   whole beat — a beat with four frames is taller than a sheet, so
+   avoiding a break inside it would push a fresh page and then
+   break anyway, wasting paper. This keeps the dateline welded to
+   its prose and the prose welded to the first frame instead. */
+.beat { margin: 0 0 24px; }
+.beat-words { break-inside: avoid; break-after: avoid; margin: 0 0 12px; }
+.beat-at {
+  margin: 0 0 5px;
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.beat-when { margin-left: .7em; font-weight: 400; color: var(--ink-faint); }
+.beat-say { margin: 0 0 8px; max-width: 34em; font-size: 12.5px; line-height: 1.55; }
+.beat-say:last-child { margin-bottom: 0; }
+
+.frames { margin: 26px 0 0; }
+.frames-head {
+  margin: 0 0 14px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule-soft);
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  break-after: avoid;
+}
+
+/* A frame and its caption are one indivisible thing on paper. */
+.frame {
+  margin: 0 0 18px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.frame img {
+  display: block;
+  max-width: 100%;
+  max-height: var(--frame-max);
+  width: auto; height: auto;
+  background: #f2f1ef;
+}
+.frame figcaption {
+  margin: 6px 0 0;
+  max-width: 34em;
+  font-size: 11px; line-height: 1.45;
+  color: var(--ink-dim);
+}
+.frame-file {
+  display: block;
+  font-family: var(--mono);
+  font-size: 8.5px; letter-spacing: .02em;
+  color: var(--ink-faint);
+}
+
+/* Clips can't print. They get a slug that says what they were and
+   where the file is, so the binder still records them. */
+.clip {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--rule);
+}
+.clip-mark {
+  font-family: var(--mono);
+  font-size: 9.5px; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.clip-name { flex: 1; min-width: 0; font-size: 12px; }
+.clip-len { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); }
+
+/* A missing file never shows a broken-image icon — it leaves a
+   ruled slot with the filename, which is the useful thing to
+   have in front of you when you go looking for it. */
+.gone {
+  padding: 14px;
+  border: 1px dashed var(--rule);
+  font-family: var(--mono); font-size: 10px; color: var(--ink-faint);
+}
+
+.nothing { margin: 0; font-size: 12.5px; color: var(--ink-faint); }
+
+/* Writing-only binder: the words carry it, the frames step out. */
+html.words-only .frame,
+html.words-only .frames { display: none; }
+
+/* ============================================================
+   PAPER
+   ============================================================ */
+
+@media print {
+  .panel, .preview-label { display: none !important; }
+
+  html, body { background: #fff; color: #000; }
+  body { font-size: 11pt; }
+
+  .book {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: #fff;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* Chrome renders images at their own colours; nothing here paints
+     a background that a printer would have to fill in. */
+  .ctl, .go, .cmd { display: none; }
+
+  .cover-title { font-size: 30pt; }
+  .exp-name { font-size: 20pt; }
+  .exp-note { font-size: 11.5pt; }
+  .beat-say { font-size: 10.5pt; }
+  .frame figcaption { font-size: 9pt; }
+  .toc-name { font-size: 11pt; }
+}
+
+/* ---------- Page geometry ----------
+   The bound edge gets an extra ~0.75in over the outer edge so a
+   three-hole punch (holes centred 3/8in in) can't reach anything.
+
+   The bare rule is the fallback: US Letter, bound on the left,
+   correct for a one-sided print even if named pages aren't
+   understood. The named rules below are what the control panel
+   actually switches between via a class on <html>.
+   --------------------------------------------------------------- */
+@page { size: letter portrait; margin: 0.55in 0.5in 0.6in 1.25in; }
+
+/* One-sided: every sheet binds on the left. */
+@page sheet-us { size: letter portrait; margin: 0.55in 0.5in 0.6in 1.25in; }
+@page sheet-a4 { size: A4 portrait;     margin: 14mm 13mm 15mm 32mm; }
+
+/* Double-sided: the bound edge mirrors, so the wide margin is
+   always the inner one once the stack is punched. */
+@page sheet-us-dx:right { size: letter portrait; margin: 0.55in 0.5in 0.6in 1.25in; }
+@page sheet-us-dx:left  { size: letter portrait; margin: 0.55in 1.25in 0.6in 0.5in; }
+@page sheet-a4-dx:right { size: A4 portrait;     margin: 14mm 13mm 15mm 32mm; }
+@page sheet-a4-dx:left  { size: A4 portrait;     margin: 14mm 32mm 15mm 13mm; }
+
+body                        { page: sheet-us; }
+html.paper-a4 body          { page: sheet-a4; }
+html.duplex body            { page: sheet-us-dx; }
+html.paper-a4.duplex body   { page: sheet-a4-dx; }
+
+/* A4's column is 268mm tall, a shade more than Letter's 250mm. */
+html.paper-a4 { --frame-max: 108mm; }
+
+/* Running footers. Margin boxes are inert in Chrome (and in every
+   browser) — they only fire in real paged engines. Chrome's own
+   print dialog has a "Headers and footers" tick box that supplies
+   the page number instead; see HOW-TO-UPDATE.md. Kept in its own
+   @page block so an unsupported at-rule can't take the margins
+   above down with it. */
+@page {
+  @bottom-left  { content: string(experience); font-family: 'Geist', sans-serif; font-size: 8pt; color: #777; }
+  @bottom-right { content: counter(page);      font-family: 'Geist', sans-serif; font-size: 8pt; color: #777; }
+}
+.exp-name { string-set: experience content(); }

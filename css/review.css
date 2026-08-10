@@ -279,19 +279,17 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
    photos do — the give is on the frame, not the picture inside it,
    so the crop never shifts. */
 .shot-btn,
-.msg-one .vid,
-.reel-track .vid,
+.frame-btn,
 .tile--video {
   transition: transform .16s var(--ease-out-quart);
 }
 .shot-btn:active,
-.msg-one .vid:active,
-.reel-track .vid:active,
+.frame-btn:active,
 .tile--video:active { transform: scale(.97); }
 @media (prefers-reduced-motion: reduce) {
-  .shot-btn, .msg-one .vid, .reel-track .vid, .tile--video { transition: none; }
-  .shot-btn:active, .msg-one .vid:active,
-  .reel-track .vid:active, .tile--video:active { transform: none; }
+  .shot-btn, .frame-btn, .tile--video { transition: none; }
+  .shot-btn:active, .frame-btn:active,
+  .tile--video:active { transform: none; }
 }
 .img-hover { transition: opacity .15s ease; }
 .img-hover:hover { opacity: .9; }
@@ -304,7 +302,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   45%      { transform: scale(1.15); }
   60%      { transform: scale(1); }
 }
-.nav__wordmark:hover svg { animation: heart-pulse 1.3s ease-in-out infinite; }
+.wordmark:hover .wordmark__dot { animation: heart-pulse 1.3s ease-in-out infinite; }
 
 /* Emphasis spans in headings — the portfolio's petal-gradient
    italics, in the name's rose-brick → poppy. */
@@ -323,12 +321,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
     padding: .25em .15em;
     margin: 0 -.15em;
   }
-}
-
-/* The Shelf's "shelved" wears Chicago-flag blue instead. */
-.accent--chicago { color: #2493C6; }
-@supports ((-webkit-background-clip: text) or (background-clip: text)) {
-  .accent--chicago { background-image: linear-gradient(100deg, #2493C6, #41B6E6); }
 }
 
 /* ============================================================
@@ -357,52 +349,77 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   position: relative;
 }
 
-.nav__wordmark {
+/* ---------- The wordmark ----------
+   "Cody Heart" with the heart set as the full stop after the name.
+   One lockup on every page — every interior page used to trade it for
+   a "← Home" back link, which meant the name only ever appeared on
+   the front door. It is written by scripts/shell.js, so it exists in
+   exactly one place; the heart takes --heart rather than repeating a
+   hex literal in nine files. */
+.wordmark {
   display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-family: var(--serif);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: -.01em;
+  /* baseline, not flex-end: the heart is punctuation, so it sits ON
+     the line the letters sit on, not on the box's bottom edge */
+  align-items: baseline;
+  flex: none;
+  gap: .28em;
+  line-height: 1;
   color: var(--foreground);
 }
-.nav__wordmark svg {
+/* Set in the mono, uppercase — the register of a byline stamp or the
+   margin of a contact sheet. The serif read as a book title, which is
+   the wrong claim for a site that is documentation first. */
+.wordmark__name {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+/* The SVG's own baseline is its bottom edge, so with the tight
+   viewBox in scripts/shell.js this lands the heart exactly on the
+   text baseline — no nudge needed. The old rule pushed it down 1.5px
+   to compensate for padding that was inside the viewBox; both the
+   padding and the nudge are gone. Sized 6/6.4 to match the mono's
+   full stop rather than out-shout it. */
+.wordmark__dot {
   display: block;
-  flex-shrink: 0;
-  /* Optical: the cap band sits a hair higher than the line box. */
-  position: relative;
-  top: -.5px;
+  flex: none;
+  width: 6.4px;
+  height: 6px;
+  color: var(--heart);
 }
 
-/* Interior pages trade the wordmark for the portfolio's back link —
-   a curved arrow and the name of where it leads */
-.nav__back {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--ink-55);
-}
-.nav__back:hover { color: var(--ink-85); }
-.nav__back svg { display: block; }
+/* The page name, fading in once you're past the masthead. It used to
+   be absolutely positioned at left:50% while the link row was right-
+   aligned and grew leftward, so on any page with a wide enough nav —
+   experiences.html at every width from 768px to about 1100px — the
+   title was drawn straight through the links, half over and half
+   under them, and swallowed their clicks. As an ordinary flex child
+   between the wordmark and the links it cannot overlap by
+   construction; when the bar tightens it ellipsizes instead. */
 .nav__scrolltitle {
   display: none;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -8px);
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0 16px;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  text-align: center;
   font-size: 13px;
   font-weight: 550;
   color: var(--ink-85);
   opacity: 0;
+  transform: translateY(-6px);
   pointer-events: none;
+  cursor: pointer;
   transition: opacity .2s var(--ease-out-quart), transform .2s var(--ease-out-quart);
   white-space: nowrap;
-  max-width: 44vw;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.nav__scrolltitle.is-visible { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+.nav__scrolltitle.is-visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
 @media (min-width: 768px) { .nav__scrolltitle { display: block; } }
 
 .nav__links {
@@ -446,6 +463,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   background: var(--background);
   border-radius: 8px;
   overflow: hidden;
+  /* the default suits the Elsewhere menu, whose rows are one word;
+     the trips menu overrides it below */
   width: 280px;
   box-shadow: var(--shadow-floating);
   opacity: 0;
@@ -482,10 +501,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   box-shadow: var(--shadow-flush);
 }
 .menu-item__tile svg { width: 28px; height: 28px; display: block; }
-/* Collections in the dropdown wear a cover frame — a mini wall
-   tile, same continuous-corner language at menu scale — and their
-   menu runs wider so the long event names keep to one line. */
-#menu-collections { width: 360px; }
+/* Experiences in the dropdown wear a cover frame — a mini wall tile,
+   same continuous-corner language at menu scale — and their menu
+   runs wider than the plain one, because a row here carries a whole
+   billing ("Tame Impala: Deadbeat Tour with Djo") over a byline with
+   a date and a venue in it. At the shared 280px both wrapped to
+   three lines. This rule used to be keyed to `#menu-collections`, an
+   id the shell stopped writing, so it had been matching nothing.
+   Only the Elsewhere menu, whose rows are one word, keeps 280. */
+#menu-trips { width: 396px; }
 .menu-item__tile--photo {
   overflow: hidden;
   border-radius: 14px;
@@ -496,6 +520,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   height: 100%;
   object-fit: cover;
   display: block;
+}
+/* An experience whose only frame is a clip has no still to wear.
+   The tile holds the slot open instead of showing the white ground
+   the duotone icons are drawn on — which on a dark page read as a
+   lit square with nothing in it. */
+.menu-item__tile--empty {
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 .menu-item__title {
   display: block;
@@ -660,6 +692,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   color: var(--ink-78);
   margin-bottom: 12px;
 }
+.mobile-menu__section--theme { margin-top: 4px; }
 .mobile-menu__list { display: flex; flex-direction: column; margin-bottom: 16px; }
 .mobile-menu__item {
   display: flex;
@@ -831,606 +864,8 @@ main { display: block; }
 }
 .kicker--ink { color: var(--ink-55); }
 
-/* ============================================================
-   HERO (index) — the reference register: a left-set serif
-   statement in the article column, a quiet deck, a byline.
-   Nothing centered, nothing ornamental; the heart full stop
-   and the W-flag hover are the page's two winks.
-   ============================================================ */
-.page-head--hero { display: block; }
-.page-head--hero h1 {
-  font-size: 32px;
-  letter-spacing: -.01em;
-  margin-bottom: 16px;
-}
-.page-head--hero .deck {
-  font-size: 14px;
-  max-width: 620px;
-}
-/* The headline's full stop is the wordmark heart. */
-.h1-heart svg {
-  width: .38em;
-  height: .36em;
-  display: inline-block;
-  margin-left: .06em;
-}
-
-/* Hover "Chicago" in the deck → the Cubs W flag flies. */
-.chi-w {
-  position: relative;
-  border-bottom: 1px dotted var(--ink-30);
-  cursor: default;
-}
-.w-pop {
-  position: absolute;
-  bottom: calc(100% + 10px);
-  left: 50%;
-  width: 140px;
-  height: 92px;
-  transform: translate(-50%, 6px) scale(.9) rotate(-4deg);
-  transform-origin: bottom center;
-  opacity: 0;
-  pointer-events: none;
-  border-radius: 6px;
-  box-shadow: var(--shadow-floating);
-  transition: opacity .2s ease, transform .25s var(--ease-out-quart);
-  z-index: var(--z-overlay);
-}
-@media (hover: hover) and (pointer: fine) {
-  .chi-w:hover .w-pop { opacity: 1; transform: translate(-50%, 0) rotate(-4deg); }
-}
-/* Author line under the deck: left-set, no furniture. */
-.hero-byline {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px 10px;
-  margin-top: 20px;
-}
-.byline-dot { color: var(--ink-30); }
-.avatar-zoom {
-  position: relative;
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-}
-.byline-avatar {
-  display: block;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: 50% 42%;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, .08);
-}
-.avatar-pop {
-  position: absolute;
-  top: calc(100% + 12px);
-  left: 0;
-  width: 230px;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  border-radius: 16px;
-  box-shadow: var(--shadow-floating);
-  opacity: 0;
-  transform: translateY(-6px) scale(.92);
-  transform-origin: top left;
-  transition: opacity .2s ease, transform .25s var(--ease-out-quart);
-  pointer-events: none;
-  z-index: var(--z-overlay);
-}
-@media (hover: hover) and (pointer: fine) {
-  .avatar-zoom:hover .avatar-pop { opacity: 1; transform: none; }
-}
-.byline-name {
-  font-size: 13px;
-  font-weight: 550;
-  color: var(--ink-85);
-}
-.byline-gr {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .03em;
-  text-transform: uppercase;
-  color: var(--ink-40);
-  transition: color .15s ease;
-}
-.byline-gr:hover { color: var(--ink-80); }
-@media (min-width: 640px) {
-  .page-head--hero h1 { font-size: 40px; }
-}
-
-/* ============================================================
-   SHELF — currently reading, chips, book rows
-   ============================================================ */
-
-/* Currently reading — a case-plate: surface, radius 8, flush ring */
-.current-read {
-  margin-top: 28px;
-  background: var(--surface);
-  border-radius: 8px;
-  padding: 20px;
-  position: relative;
-  transition: background-color .15s ease;
-}
-.current-read::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 8px;
-  pointer-events: none;
-  box-shadow: var(--shadow-flush);
-}
-.cr-label {
-  display: block;
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--ink-40);
-  margin-bottom: 6px;
-}
-.cr-list li + li { border-top: 1px solid rgba(0, 0, 0, .05); }
-.cr-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 7px 10px;
-  margin: 0 -10px;
-  border-radius: 8px;
-  transition: background-color .15s ease;
-}
-.cr-arrow {
-  font-size: 12px;
-  color: var(--ink-40);
-  opacity: 0;
-  transform: translate(-3px, 2px);
-  transition: opacity .15s ease, transform .15s var(--ease-out-quart);
-}
-@media (hover: hover) and (pointer: fine) {
-  .cr-link[href]:hover { background: var(--surface-hover); }
-  .cr-link[href]:hover .cr-arrow { opacity: 1; transform: none; }
-}
-.cr-thumb {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  object-fit: cover;
-  flex-shrink: 0;
-  background: var(--surface-hover);
-  box-shadow: var(--shadow-flush);
-}
-.cr-by { margin-left: auto; }
-.cr-title {
-  font-family: var(--serif);
-  font-size: 15px;
-  font-weight: 500;
-  letter-spacing: -.005em;
-  color: var(--ink-85);
-}
-.cr-by {
-  font-size: 13px;
-  color: var(--ink-45);
-  white-space: nowrap;
-}
-.cr-note { font-size: 13px; color: var(--ink-55); }
-
-/* --- Filters row: portfolio pill buttons, one line + More --- */
-.filters-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 20px 0 4px;
-  position: relative;
-}
-.chips {
-  display: flex;
-  gap: 8px;
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-}
-.chips button, .chip-more, .more-menu button {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 32px;
-  padding: 0 14px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ink-65);
-  background: #fff;
-  box-shadow: var(--shadow-raised);
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: color .15s ease, background-color .15s ease, transform .1s;
-}
-.chips button:hover, .chip-more:hover, .more-menu button:hover { color: var(--ink-85); }
-.chips button:active, .chip-more:active, .more-menu button:active { transform: scale(.97); }
-.chips button .n, .more-menu button .n, .count {
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 500;
-  color: var(--ink-30);
-  transition: color .15s ease;
-}
-.chips button[aria-pressed="true"], .more-menu button[aria-pressed="true"], .chip-more.is-active {
-  background: rgba(0, 0, 0, .85);
-  color: #fff;
-  box-shadow: none;
-}
-.chips button[aria-pressed="true"] .n, .more-menu button[aria-pressed="true"] .n {
-  color: rgba(255, 255, 255, .55);
-}
-.chips button[aria-pressed="true"]:hover, .more-menu button[aria-pressed="true"]:hover,
-.chip-more.is-active:hover { color: #fff; background: rgba(0, 0, 0, .75); }
-
-.more-wrap { position: relative; flex-shrink: 0; }
-.chip-more .caret {
-  width: 10px; height: 10px;
-  background: currentColor;
-  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4L5 6.5L7.5 4"/></svg>') center / contain no-repeat;
-  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4L5 6.5L7.5 4"/></svg>') center / contain no-repeat;
-  transition: transform .2s var(--ease-out-quart);
-}
-.chip-more[aria-expanded="true"] .caret { transform: rotate(180deg); }
-
-/* The More dropdown — the nav menu, verbatim */
-.more-menu {
-  position: absolute;
-  right: 0;
-  top: 100%;
-  margin-top: 8px;
-  z-index: var(--z-dropdown);
-  background: var(--background);
-  border-radius: 8px;
-  width: 240px;
-  box-shadow: var(--shadow-floating);
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  animation: menu-in .2s var(--ease-out-quart);
-}
-@keyframes menu-in {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.more-menu button {
-  box-shadow: none;
-  border-radius: 8px;
-  background: transparent;
-  height: 36px;
-  justify-content: space-between;
-}
-.more-menu button:hover { background: var(--surface-hover); }
-.more-menu button[aria-pressed="true"] { background: rgba(0, 0, 0, .85); }
-.sheet-scrim { display: none; }
-
-/* On phones the More menu becomes a bottom sheet */
-@media (max-width: 40rem) {
-  .more-menu {
-    position: fixed;
-    left: 0; right: 0; bottom: 0; top: auto;
-    width: auto;
-    margin: 0;
-    border-radius: 12px 12px 0 0;
-    padding: 12px 12px calc(16px + env(safe-area-inset-bottom, 0));
-    box-shadow: 0 -4px 24px rgba(0, 0, 0, .1), inset 0 0 0 1px rgba(0, 0, 0, .08);
-    animation: sheet-in .25s var(--ease-out-quart);
-    z-index: calc(var(--z-dropdown) + 1);
-  }
-  @keyframes sheet-in {
-    from { transform: translateY(24px); opacity: 0; }
-    to   { transform: translateY(0); opacity: 1; }
-  }
-  .more-menu::before {
-    content: "";
-    display: block;
-    width: 36px; height: 4px;
-    border-radius: 999px;
-    background: rgba(0, 0, 0, .12);
-    margin: 0 auto 10px;
-  }
-  .more-menu button { height: 44px; }
-  .sheet-scrim {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, .28);
-    z-index: var(--z-dropdown);
-  }
-  .sheet-scrim[hidden] { display: none; }
-  html.sheet-open { overflow: hidden; }
-}
-
-/* --- Shelf group dividers --- */
-.shelf { margin-top: 8px; }
-.shelf-divider { padding: 48px 0 8px; }
-.shelf-divider h2 {
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: -.01em;
-  color: var(--ink-85);
-  margin-bottom: 8px;
-}
-.shelf-divider p {
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--ink-65);
-  max-width: 560px;
-}
-
-/* --- Book rows --- */
-.book {
-  display: grid;
-  grid-template-columns: 104px 1fr;
-  gap: 20px;
-  padding: 24px 0;
-  border-top: 1px solid var(--border);
-  animation: row-in .5s var(--ease-out-quart) both;
-}
-@keyframes row-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: none; }
-}
-@media (min-width: 640px) {
-  .book { grid-template-columns: 128px 1fr; gap: 28px; padding: 28px 0; }
-}
-/* iOS-card corners: ~11% of the cover's width, in px so the 2:3
-   jacket keeps circular (not elliptical) corners. */
-.book .thumb, .book .cover-plate {
-  border-radius: 12px;
-}
-@media (min-width: 640px) {
-  .book .thumb, .book .cover-plate { border-radius: 14px; }
-}
-.book .thumb {
-  width: 100%;
-  box-shadow: var(--shadow-raised);
-  align-self: start;
-}
-.book h3 {
-  font-family: var(--serif);
-  font-size: 19px;
-  font-weight: 500;
-  line-height: 1.25;
-  letter-spacing: -.01em;
-  color: var(--ink-85);
-}
-@media (min-width: 640px) { .book h3 { font-size: 21px; } }
-
-.book-meta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 4px 8px;
-  font-size: 13px;
-  color: var(--ink-45);
-  margin-top: 4px;
-}
-.book-meta a {
-  text-decoration: underline;
-  text-decoration-color: rgba(0, 0, 0, .18);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  transition: color .15s ease;
-}
-.book-meta a:hover { color: var(--ink-85); }
-.book-meta .dot { display: none; }
-.tagpill, .toppill {
-  display: inline-flex;
-  align-items: center;
-  height: 20px;
-  padding: 0 8px;
-  border-radius: 999px;
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-}
-.tagpill { background: var(--surface); color: var(--ink-55); box-shadow: var(--shadow-flush); }
-.toppill { background: rgba(229, 72, 77, .09); color: #C13438; }
-
-.book-short {
-  margin-top: 10px;
-  font-size: 14px;
-  font-weight: 450;
-  line-height: 1.45rem;
-  letter-spacing: -.005em;
-  color: var(--ink-80);
-}
-
-/* Full review disclosure */
-.book details { margin-top: 10px; }
-.book summary {
-  list-style: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 28px;
-  padding: 0 10px;
-  margin-left: -10px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ink-55);
-  cursor: pointer;
-  user-select: none;
-  transition: color .15s ease, background-color .15s ease;
-}
-.book summary::-webkit-details-marker { display: none; }
-.book summary:hover { color: rgba(0, 0, 0, .85); background: var(--surface); }
-.book summary::after {
-  content: "";
-  width: 10px; height: 10px;
-  background: currentColor;
-  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4L5 6.5L7.5 4"/></svg>') center / contain no-repeat;
-  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4L5 6.5L7.5 4"/></svg>') center / contain no-repeat;
-  transition: transform .2s var(--ease-out-quart);
-}
-.book details[open] summary::after { transform: rotate(180deg); }
-
-.book-full { padding: 8px 0 4px; }
-.book-full p {
-  font-size: 14px;
-  font-weight: 450;
-  line-height: 1.45rem;
-  letter-spacing: -.005em;
-  color: var(--ink-80);
-  margin-bottom: 14px;
-}
-.book-full p:last-child { margin-bottom: 0; }
-
-.about-author {
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid rgba(0, 0, 0, .06);
-}
-.about-author h4 {
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--ink-40);
-  margin-bottom: 8px;
-}
-.about-author p { font-size: 14px; line-height: 1.5; color: var(--ink-65); }
-.also-by { margin-top: 12px; }
-.also-by li {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 7px 0;
-  font-size: 14px;
-}
-.also-by li + li { border-top: 1px solid rgba(0, 0, 0, .05); }
-.also-by a {
-  font-weight: 500;
-  color: var(--ink-80);
-  text-decoration: underline;
-  text-decoration-color: rgba(0, 0, 0, .18);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  transition: color .15s ease;
-}
-.also-by a:hover { color: var(--ink-85); }
-.also-by span {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--ink-40);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-.shop-line { margin-top: 14px; font-size: 13px; color: var(--ink-50); }
-.shop-line a {
-  font-weight: 500;
-  color: var(--ink-65);
-  text-decoration: underline;
-  text-decoration-color: rgba(0, 0, 0, .18);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  transition: color .15s ease;
-}
-.shop-line a:hover { color: var(--ink-85); }
-
-.shelf-count {
-  padding: 20px 0 8px;
-  border-top: 1px solid var(--border);
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: var(--ink-40);
-}
+/* Shared by every list that renders from a data file. */
 .noscript-note { padding: 24px 0; color: var(--ink-55); }
-
-/* --- Cover fallback plate --- */
-.cover-plate {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  text-align: center;
-  width: 100%;
-  aspect-ratio: 2 / 3;
-  padding: 12px;
-  background: var(--surface);
-  border-radius: 12px;
-  box-shadow: var(--shadow-flush);
-}
-.plate-title {
-  font-family: var(--serif);
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.3;
-  color: var(--ink-85);
-}
-.plate-rule { width: 16px; height: 1px; background: rgba(0, 0, 0, .18); }
-.plate-author { font-size: 10px; color: var(--ink-45); }
-
-/* --- Up next — case-plate cards --- */
-.upnext { padding-top: 64px; }
-.upnext-head h2 {
-  font-size: 24px;
-  font-weight: 500;
-  letter-spacing: -.01em;
-  color: var(--ink-85);
-  margin-bottom: 8px;
-}
-.upnext-head p { font-size: 14px; line-height: 1.5; color: var(--ink-65); max-width: 560px; }
-.upnext-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  margin-top: 24px;
-}
-@media (min-width: 640px) { .upnext-grid { grid-template-columns: repeat(2, 1fr); } }
-.upnext-card {
-  position: relative;
-  display: flex;
-  gap: 16px;
-  background: var(--surface);
-  border-radius: 8px;
-  padding: 16px;
-  transition: background-color .15s ease;
-}
-.upnext-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 8px;
-  pointer-events: none;
-  box-shadow: var(--shadow-flush);
-}
-.upnext-card:hover { background: var(--surface-hover); }
-.upnext-card img, .upnext-card .cover-plate {
-  width: 56px;
-  flex-shrink: 0;
-  align-self: start;
-  border-radius: 8px;
-  box-shadow: var(--shadow-raised);
-}
-.upnext-card .cover-plate { aspect-ratio: 2 / 3; padding: 6px; }
-.upnext-card .plate-title { font-size: 9px; }
-.upnext-card .plate-author { font-size: 8px; }
-.upnext-card h3 {
-  font-family: var(--serif);
-  font-size: 17px;
-  font-weight: 500;
-  line-height: 1.25;
-  letter-spacing: -.01em;
-  color: var(--ink-85);
-}
-.upnext-card .who { font-size: 13px; color: var(--ink-45); margin-top: 2px; }
-.upnext-card .why { font-size: 13px; line-height: 1.5; color: var(--ink-65); margin-top: 8px; }
 
 /* --- Colophon + follow --- */
 .colophon-note { padding-top: 64px; padding-bottom: 24px; }
@@ -1449,23 +884,6 @@ main { display: block; }
   max-width: 620px;
 }
 .colophon-note .ornament { display: none; }
-.follow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
-.follow a {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 32px;
-  padding: 0 14px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ink-65);
-  background: var(--background);
-  box-shadow: var(--shadow-raised);
-  transition: color .15s ease, transform .1s;
-}
-.follow a:hover { color: var(--ink-85); }
-.follow a:active { transform: scale(.97); }
 
 /* Link rows on the other pages */
 .link-row {
@@ -1493,67 +911,7 @@ main { display: block; }
 .link-row .arrow { color: var(--ink-30); transition: transform .2s var(--ease-out-quart); }
 .link-row a:hover .arrow { transform: translateX(2px); }
 
-/* ============================================================
-   BOOKSTORES — timeline + city pages
-   ============================================================ */
-.timeline { padding-top: 8px; }
-.era-chapter {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  padding: 24px 0;
-  border-top: 1px solid var(--border);
-}
-@media (min-width: 640px) {
-  .era-chapter { grid-template-columns: 160px 1fr; gap: 24px; padding: 28px 0; }
-}
-.era-years {
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: .04em;
-  color: var(--ink-85);
-  font-variant-numeric: tabular-nums;
-}
-.era-tag {
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--ink-40);
-  margin-top: 4px;
-}
-.era-count { font-size: 13px; color: var(--ink-45); margin-top: 8px; }
-.era-body .kicker { margin-bottom: 4px; }
-.era-body h3 {
-  font-family: var(--serif);
-  font-size: 21px;
-  font-weight: 500;
-  letter-spacing: -.01em;
-  line-height: 1.25;
-  color: var(--ink-85);
-}
-.era-body h3 a { transition: color .15s ease; }
-.era-body h3 a:hover { color: var(--accent); }
-.era-body h3 .arrow {
-  display: inline-block;
-  font-size: .7em;
-  color: var(--ink-30);
-  transition: transform .2s var(--ease-out-quart), color .15s ease;
-}
-.era-body h3 a:hover .arrow { transform: translate(2px, -2px); color: var(--accent); }
-.era-deck { font-size: 14px; line-height: 1.5; color: var(--ink-65); margin-top: 8px; max-width: 560px; }
-.era-regions {
-  margin-top: 12px;
-  font-size: 12px;
-  color: var(--ink-45);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 8px;
-}
-.era-regions .sep { color: var(--ink-30); }
-
+/* Count line closing a rendered list (pins.html) */
 .list-trailer {
   padding: 20px 0 8px;
   border-top: 1px solid var(--border);
@@ -1564,148 +922,6 @@ main { display: block; }
   color: var(--ink-40);
 }
 .list-trailer .live { color: var(--ink-85); }
-
-/* Note block — a case-plate */
-.note-block {
-  position: relative;
-  background: var(--surface);
-  border-radius: 8px;
-  padding: 20px;
-  margin-top: 32px;
-}
-.note-block::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 8px;
-  pointer-events: none;
-  box-shadow: var(--shadow-flush);
-}
-.note-block .kicker { margin-bottom: 8px; }
-.note-block p { font-size: 14px; line-height: 1.5; color: var(--ink-65); }
-.note-block p + p { margin-top: 12px; }
-.note-block a {
-  font-weight: 500;
-  color: var(--ink-80);
-  text-decoration: underline;
-  text-decoration-color: rgba(0, 0, 0, .22);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  transition: color .15s ease;
-}
-.note-block a:hover { color: var(--ink-85); text-decoration-color: rgba(0, 0, 0, .45); }
-.note-block .reach { display: flex; align-items: baseline; gap: 4px; }
-
-/* City filter bar — the same pill row as the shelf */
-.filterbar { padding-top: 8px; }
-.filter-inner {
-  max-width: 48rem;
-  margin: 0 auto;
-  padding: 12px 24px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.filter-inner button {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 32px;
-  padding: 0 14px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ink-65);
-  background: #fff;
-  box-shadow: var(--shadow-raised);
-  white-space: nowrap;
-  transition: color .15s ease, background-color .15s ease, transform .1s;
-}
-.filter-inner button:hover { color: var(--ink-85); }
-.filter-inner button:active { transform: scale(.97); }
-.filter-inner button[aria-pressed="true"] {
-  background: rgba(0, 0, 0, .85);
-  color: #fff;
-  box-shadow: none;
-}
-.filter-inner button[aria-pressed="true"] .count { color: rgba(255, 255, 255, .55); }
-.filter-inner button[aria-pressed="true"]:hover { background: rgba(0, 0, 0, .75); color: #fff; }
-
-.region-section { padding-top: 48px; }
-.region-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 4px;
-}
-.region-eyebrow { margin-bottom: 4px; }
-.region-head h2 {
-  font-size: 24px;
-  font-weight: 500;
-  letter-spacing: -.01em;
-  color: var(--ink-85);
-}
-.count-word {
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--ink-40);
-  margin-left: 6px;
-}
-.region-source {
-  font-size: 12px;
-  color: var(--ink-45);
-  text-decoration: underline;
-  text-decoration-color: rgba(0, 0, 0, .18);
-  text-underline-offset: 3px;
-  transition: color .15s ease;
-}
-.region-source:hover { color: var(--ink-85); }
-
-.shops { margin-top: 8px; }
-.shop { padding: 18px 0; border-top: 1px solid rgba(0, 0, 0, .06); }
-.shop-head {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.shop-name {
-  font-family: var(--serif);
-  font-size: 17px;
-  font-weight: 500;
-  letter-spacing: -.005em;
-  color: var(--ink-85);
-  transition: color .15s ease;
-}
-.shop-name:hover { color: var(--accent); }
-.shop-name .arrow {
-  font-size: .7em;
-  color: var(--ink-30);
-  display: inline-block;
-  transition: transform .2s var(--ease-out-quart), color .15s ease;
-}
-.shop-name:hover .arrow { transform: translate(2px, -2px); color: var(--accent); }
-.shop-locale {
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--ink-40);
-}
-.shop-blurb { margin-top: 6px; font-size: 14px; line-height: 1.5; color: var(--ink-65); max-width: 620px; }
-.shop-blurb a {
-  text-decoration: underline;
-  text-decoration-color: rgba(0, 0, 0, .18);
-  text-underline-offset: 3px;
-  transition: color .15s ease;
-}
-.shop-blurb a:hover { color: var(--ink-85); }
 
 /* ============================================================
    DASHBOARDS
@@ -1991,136 +1207,6 @@ main { display: block; }
 .footer__links a { transition: color .15s ease; }
 .footer__links a:hover { color: rgba(0, 0, 0, .85); }
 
-/* ============================================================
-   CARD CATALOG — the fun drawer: four candy folders in the
-   duotone palette's hues, each with white papers peeking out
-   of a die-cut pocket (they slide up on hover). The Log
-   folder's papers are the three most recent finishes, filled
-   from the live Goodreads data by shelf.js.
-   ============================================================ */
-.catalog { padding-top: 64px; }
-.catalog-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-@media (min-width: 560px) {
-  .catalog-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-}
-.folder {
-  position: relative;
-  display: block;
-  height: 260px;
-  border-radius: 20px;
-  background: var(--f-back);
-  overflow: hidden;
-  transition: transform .3s var(--ease-out-quart);
-}
-.folder--blue   { --f-back: #8CC6F2; --f-front: #A9D6F6; --f-deep: #0F5C9C; }
-.folder--orange { --f-back: #FFC28A; --f-front: #FFD5AC; --f-deep: #9E4A0C; }
-.folder--purple { --f-back: #C9A8F0; --f-front: #D9C0F6; --f-deep: #6A2FA8; }
-.folder--pink   { --f-back: #F2ABD6; --f-front: #F7C6E3; --f-deep: #A81D6E; }
-.folder--teal   { --f-back: #83CFC2; --f-front: #A8DED4; --f-deep: #0B6B5D; }
-.folder--green  { --f-back: #9CD9B3; --f-front: #BEE7CD; --f-deep: #1C7A4B; }
-/* The hub's six drawers sit three across when there's room. */
-@media (min-width: 900px) {
-  .catalog-grid--six { grid-template-columns: repeat(3, 1fr); }
-}
-@media (hover: hover) and (pointer: fine) {
-  .folder:hover { transform: translateY(-3px); }
-}
-.folder:active { transform: scale(.985); }
-
-.folder-papers {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  right: 16px;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  transition: transform .35s var(--ease-out-quart);
-}
-@media (hover: hover) and (pointer: fine) {
-  .folder:hover .folder-papers { transform: translateY(-10px); }
-}
-.folder-paper {
-  display: block;
-  padding: 10px 14px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, .97);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ink-85);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.folder-paper:nth-child(1) { background: rgba(255, 255, 255, .55); }
-.folder-paper:nth-child(2) { background: rgba(255, 255, 255, .8); }
-
-/* The contact folder holds one note card instead of a stack */
-.folder-note {
-  padding: 14px 16px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, .97);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-  font-size: 13px;
-  font-weight: 450;
-  line-height: 1.5;
-  color: var(--ink-80);
-  white-space: normal;
-}
-.folder-note strong { font-weight: 550; color: var(--ink-85); }
-.folder-note-link {
-  display: inline-block;
-  margin-top: 6px;
-  font-weight: 550;
-  color: var(--f-deep);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-}
-
-/* The pocket: an SVG flap with the die-cut step, stretched */
-.folder-front {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 50%;
-  z-index: 2;
-  display: block;
-  pointer-events: none;
-}
-.folder-front path { fill: var(--f-front); }
-
-.folder-meta {
-  position: absolute;
-  left: 20px;
-  bottom: 16px;
-  z-index: 3;
-}
-.folder-label {
-  display: block;
-  font-family: var(--serif);
-  font-size: 19px;
-  font-weight: 500;
-  letter-spacing: -.005em;
-  color: var(--f-deep);
-}
-.folder-sub {
-  display: block;
-  margin-top: 2px;
-  font-size: 12px;
-  font-weight: 450;
-  color: var(--f-deep);
-  opacity: .68;
-}
-
 /* "Live" pill — the dashboards really are live apps */
 .live-pill {
   display: inline-flex;
@@ -2153,7 +1239,9 @@ main { display: block; }
 }
 
 /* ============================================================
-   THE LOG — the complete reading record (log.html)
+   YEAR RULES — a mono stat line under a page head, and the
+   serif year headings the experiences index groups by
+   (js/hobby.js; #experienceList restyles .log-year below).
    ============================================================ */
 .log-stats {
   font-family: var(--mono);
@@ -2163,7 +1251,6 @@ main { display: block; }
   color: var(--ink-40);
   margin-top: 14px;
 }
-.log-list { padding-bottom: 32px; }
 .log-year {
   font-family: var(--serif);
   font-size: 24px;
@@ -2172,46 +1259,6 @@ main { display: block; }
   margin: 40px 0 4px;
   padding-bottom: 10px;
   border-bottom: 1px solid var(--border);
-}
-.log-rows { list-style: none; }
-.log-row {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  padding: 11px 0;
-  border-bottom: 1px solid var(--border);
-}
-.log-row .t {
-  font-family: var(--serif);
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--ink-85);
-  min-width: 0;
-}
-.log-row .a {
-  font-size: 13px;
-  color: var(--ink-45);
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.log-row .spacer { flex: 1; }
-.log-row .stars {
-  font-size: 10px;
-  letter-spacing: 3px;
-  white-space: nowrap;
-  color: var(--ink-85);
-}
-.log-row .stars .off { color: var(--ink-30); opacity: .5; }
-.log-row.is-five .stars .on { color: var(--heart); }
-.log-row .d {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--ink-30);
-  white-space: nowrap;
-  min-width: 52px;
-  text-align: right;
 }
 
 /* ============================================================
@@ -2249,45 +1296,101 @@ main { display: block; }
   gap: 16px;
 }
 
-/* The light/dark switch, park's: a track with a knob carrying the
-   moon (dark, left) or the sun (light, right) */
-.theme-toggle {
+/* ============================================================
+   COLOUR THEME — three states, one control
+   ============================================================
+   `html[data-theme]` is what was CHOSEN (auto · light · dark);
+   `html.dark` is what that resolves to right now. Auto follows the
+   sun, computed before paint by the inline head script. Auto used to
+   be unreachable: the old switch was a two-way flip that wrote
+   localStorage on the first click, so once you touched it the
+   sun-driven default was gone for good.
+
+   The bar carries one cycling glyph. The mobile menu carries the
+   labelled three-way, because below 768px the open overlay covers
+   the bar entirely — the switch used to sit underneath it, visible
+   but untouchable until you closed the menu again.
+
+   Both are written by scripts/shell.js. */
+.theme-btn {
   flex: none;
-  position: relative;
-  width: 56px;
-  height: 30px;
-  margin-bottom: 8px;
+  width: 32px;
+  height: 32px;
+  margin-left: 6px;
   border: 0;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .16);
-  cursor: pointer;
-  transition: background-color .2s ease;
-}
-html:not(.dark) .theme-toggle { background: rgba(0, 0, 0, .14); }
-.theme-knob {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 24px;
-  height: 24px;
   border-radius: 50%;
+  background: transparent;
+  color: var(--ink-55);
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #17170F;
-  color: #FBF9F0;
-  transition: transform .25s var(--ease-out-quart), background-color .2s ease;
+  transition: background-color .15s ease, color .15s ease;
 }
-html:not(.dark) .theme-knob {
-  transform: translateX(26px);
-  background: #fff;
-  color: #17170F;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, .25);
+.theme-btn:hover { background: var(--surface-hover); color: var(--ink-85); }
+.theme-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* the burger pulls itself 8px into the gutter; at desktop widths the
+   glyph is the last item in the bar and needs the same optical hug */
+@media (min-width: 768px) { .theme-btn { margin-right: -6px; } }
+/* below the burger breakpoint the picker in the menu takes over */
+@media (max-width: 767.98px) { .theme-btn { display: none; } }
+
+.theme-btn__stack { position: relative; display: block; width: 17px; height: 17px; }
+.theme-i {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: rotate(-45deg) scale(.55);
+  transition: opacity .18s var(--ease-out-quart), transform .3s var(--ease-out-quart);
 }
-.theme-knob svg { width: 14px; height: 14px; display: block; }
-.theme-knob .icon-sun { display: none; }
-html:not(.dark) .theme-knob .icon-sun { display: block; }
-html:not(.dark) .theme-knob .icon-moon { display: none; }
+html[data-theme="auto"]  .theme-i--auto,
+html[data-theme="light"] .theme-i--sun,
+html[data-theme="dark"]  .theme-i--moon { opacity: 1; transform: none; }
+
+.theme-pick {
+  display: flex;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: var(--shadow-flush);
+}
+.theme-pick__opt {
+  flex: 1;
+  height: 38px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-55);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -.005rem;
+  cursor: pointer;
+  transition: background-color .18s var(--ease-out-quart), color .18s ease;
+}
+.theme-pick__opt:hover { color: var(--ink-85); }
+html[data-theme="auto"]  .theme-pick__opt[data-theme-set="auto"],
+html[data-theme="light"] .theme-pick__opt[data-theme-set="light"],
+html[data-theme="dark"]  .theme-pick__opt[data-theme-set="dark"] {
+  background: var(--background);
+  color: var(--foreground);
+  box-shadow: var(--shadow-raised);
+}
+
+/* The flip used to be a hard cut across the whole page. A short
+   dissolve on the surfaces that actually carry the theme reads as a
+   dimmer rather than a switch. `.theme-anim` is added by review.js
+   only around a deliberate change, so the theme the head script sets
+   before first paint never animates in. */
+html.theme-anim body,
+html.theme-anim .nav,
+html.theme-anim .footer,
+html.theme-anim .mobile-menu__inner {
+  transition: background-color .32s var(--ease-out-quart), color .32s var(--ease-out-quart);
+}
 
 /* ============================================================
    WHERE I'VE BEEN — the filterable cloud: trips, shows, and
@@ -2699,16 +1802,6 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 }
 .side-trip:hover .side-name { color: var(--ink-85); }
 .side-trip.is-active .side-name { color: var(--ink-85); }
-/* The foot holds the light/dark switch alone — on desktop the top
-   bar is gone, so this is the only place it lives */
-.side-foot {
-  flex: none;
-  display: flex;
-  align-items: center;
-  margin-top: 22px;
-  padding-left: 10px;
-}
-.side-foot .theme-toggle { margin-bottom: 0; }
 /* The ledger inside the burger menu on small screens */
 .mobile-menu__triplist { display: flex; flex-direction: column; }
 .mobile-menu__trip {
@@ -2796,140 +1889,6 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 .back-link:hover { color: var(--ink-85); }
 .back-link .arrow { transition: transform .25s var(--ease-out-quart); }
 .back-link:hover .arrow { transform: translateX(-3px); }
-/* The feed: a trip as a run of posts, the live-reporting shape —
-   hairline between entries, an optional dateline, what you wrote,
-   then the media belonging to that moment sitting inside the post
-   rather than between them. That containment is what makes a clip
-   read as one moment instead of a file that happens to be here. */
-.feed { display: flex; flex-direction: column; }
-/* The reference rules the top of each entry firmly rather than
-   whispering a hairline — it's what separates one moment from the
-   next when the media inside is doing the shouting. */
-.post {
-  padding: clamp(20px, 2.2vw, 30px) 0 clamp(26px, 3vw, 40px);
-  border-top: 2px solid var(--ink-30);
-}
-.post:first-child { border-top: 0; padding-top: 4px; }
-.post-at {
-  margin: 0 0 5px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: -.005em;
-  color: var(--ink-85);
-}
-/* When it went up. Earns its line because it differs post to post —
-   the trip's own date would just repeat down the page. */
-.post-when {
-  margin: 0 0 11px;
-  font-size: 12.5px;
-  font-weight: 450;
-  color: var(--ink-45);
-}
-.post-at + .post-when { margin-top: -1px; }
-/* The headline carries the post, the way it does in the reference —
-   the display face at roughly double the body, tight and bold. This
-   is the difference between a feed and a list of captions. */
-.post-head {
-  margin: 0 0 12px;
-  font-family: var(--display);
-  font-weight: 700;
-  font-synthesis: none;
-  font-size: clamp(21px, 2.2vw, 27px);
-  line-height: 1.18;
-  letter-spacing: -.01em;
-  color: var(--ink-85);
-  max-width: 38ch;
-}
-/* Serif headline, sans body — the sans runs a shade smaller because
-   Geist carries a taller x-height than the serif it replaced. */
-.post-say {
-  margin: 0;
-  max-width: 34em;
-  font-family: var(--sans);
-  font-size: 17px;
-  line-height: 1.62;
-  color: var(--ink-78);
-}
-/* The strip: frames on one baseline, swiped sideways. Eight photos
-   stacked down a post is a scroll to get past; sideways they stay one
-   moment, and the height never depends on how many there are. */
-.reel { margin-top: clamp(18px, 2vw, 26px); }
-.reel-window { position: relative; }
-/* Arrows for anything with a pointer — a wheel scrolls one axis and it
-   isn't this one. Touch swipes instead and never sees them. */
-.reel-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-  width: 38px;
-  height: 38px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: rgba(20, 20, 20, .62);
-  color: #fff;
-  cursor: pointer;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity .15s ease, background-color .15s ease;
-}
-.reel-arrow svg { width: 19px; height: 19px; }
-.reel-prev { left: 8px; }
-.reel-next { right: 8px; }
-.reel-arrow:disabled { opacity: 0 !important; pointer-events: none; }
-@media (hover: hover) and (pointer: fine) {
-  .reel:not(.is-whole) .reel-arrow { display: flex; }
-  .reel:hover .reel-arrow,
-  .reel-arrow:focus-visible { opacity: 1; }
-  .reel-arrow:hover { background: rgba(20, 20, 20, .85); }
-}
-.reel-track {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.reel-track::-webkit-scrollbar { display: none; }
-/* the arrows set scrollLeft; this is what eases it */
-@media (prefers-reduced-motion: no-preference) {
-  .reel-track { scroll-behavior: smooth; }
-}
-/* The image carries the height and its aspect ratio resolves the width;
-   everything above it shrink-wraps. A block with width:auto fills its
-   parent instead of measuring its content, so fit-content is doing the
-   real work here. */
-.reel-track > .shot {
-  flex: 0 0 auto;
-  margin: 0;
-  scroll-snap-align: center;
-  width: fit-content;
-}
-.reel-track .shot-btn,
-.reel-track .vid { width: fit-content; height: auto; }
-.reel-track .shot-btn img,
-.reel-track .vid video {
-  height: clamp(240px, 44vh, 420px);
-  width: auto;
-  max-width: none;
-  display: block;
-}
-/* a caption would break the shared baseline; it lives in the lightbox */
-.reel-track .shot-cap { display: none; }
-.reel-count {
-  margin: 9px 0 0;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .06em;
-  color: var(--ink-40);
-}
-.reel-count b { color: var(--ink-85); font-weight: 550; }
-
 /* ============================================================
    THE FEED — what I'm up to. One card a post, newest first, the
    photographs tiled inside it rather than running the page.
@@ -2955,93 +1914,6 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 }
 .card-top .card-head { margin: 0; }
 .card-top .card-when { margin-left: auto; }
-/* The journal speaks in bubbles — one voice, iMessage's shape:
-   a small centered date, a rounded bubble of words, the photos
-   attached beneath at the same width. */
-/* THE THREAD — the shape Threads uses: every post shares one
-   rounded container and the rows are told apart by a hairline, not
-   by gaps. No avatar, no name; the site is one voice already. */
-/* The reference's light mode is a grey ground with white posts, so
-   the thread is the lighter thing on the page — the page gives way
-   to it, not the other way round. Dark keeps the same relationship
-   with the ground already near-black. */
-.thread {
-  --row-pad: clamp(15px, 1.7vw, 20px);
-  --thread-bg: #fff;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  background: var(--thread-bg);
-  overflow: hidden;
-}
-html.dark .thread { --thread-bg: var(--surface); }
-/* the journal is nothing but thread, so the whole page takes the
-   ground; elsewhere a thread is one section and keeps its border */
-body.feed-page { background: var(--surface); }
-html.dark body.feed-page { background: var(--background); }
-.thread .msg {
-  margin: 0;
-  padding: var(--row-pad);
-  border-top: 1px solid var(--border);
-}
-.thread .msg:first-child { border-top: 0; }
-/* Where the reference shows a name and a time, a post shows which
-   experience it came from — and clicks through to it */
-.msg-when {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin: 0 0 6px;
-  /* the meta line reads at the post's own size — only its colour
-     sets it back from the words */
-  font-size: 15.5px;
-  color: var(--ink-45);
-}
-.msg-from {
-  font-weight: 600;
-  color: var(--ink-85);
-  transition: color .15s ease;
-}
-.msg-from:hover { color: #E5484D; }
-.msg-dot { color: var(--ink-30); }
-.msg-say {
-  margin: 0;
-  font-size: 15.5px;
-  line-height: 1.55;
-  color: var(--ink-85);
-}
-/* A lone frame keeps its own shape, inset with the words */
-.msg-one { margin-top: 11px; }
-.msg-one .shot { margin: 0; }
-.msg-one .shot-btn,
-.msg-one .vid { border-radius: 10px; max-width: 340px; }
-.msg-one .shot-btn::after { border-radius: 10px; }
-/* Several run off the right edge of the container into a swipe —
-   the strip starts at the words' left edge and is cut by the
-   container, exactly as the reference does it. */
-.msg-reel {
-  margin: 11px calc(-1 * var(--row-pad)) 0 0;
-}
-.msg-reel .reel-track { gap: 6px; padding-right: var(--row-pad); }
-.msg-reel .reel-track .shot-btn,
-.msg-reel .reel-track .vid { border-radius: 10px; }
-.msg-reel .reel-track .shot-btn::after { border-radius: 10px; }
-.msg-reel .reel-track .shot-btn img,
-.msg-reel .reel-track .vid video {
-  height: clamp(200px, 26vw, 290px);
-}
-/* On a phone the thread is the page: edge to edge, corners off.
-   The gutter it has to escape differs by page — 24px inside the
-   journal's wrap, the section's own gutter on an experience. */
-@media (max-width: 640px) {
-  .thread {
-    margin-inline: calc(-1 * var(--escape, 24px));
-    border-radius: 0;
-    border-left: 0;
-    border-right: 0;
-  }
-  .live-sec { --escape: var(--gutter); padding-left: var(--gutter); padding-right: var(--gutter); }
-}
 .card-where {
   font-size: 13px;
   font-weight: 600;
@@ -3164,18 +2036,6 @@ html.dark body.feed-page { background: var(--background); }
   pointer-events: none;
 }
 
-.post-media { margin-top: clamp(18px, 2vw, 26px); padding-bottom: 0; }
-/* specificity has to beat the .stream-grid column counts set in the
-   width media queries further down, which would otherwise win on order.
-   A post never runs three across — the frames stay big. */
-.post-media.post-media--solo { columns: 1; }
-.post-media.post-media--pair { columns: 2; }
-/* A single upright frame or clip would otherwise run taller than the
-   window — cap the height and let the width follow the aspect ratio. */
-.post-media--solo .vid { width: fit-content; }
-.post-media--solo .vid video,
-.post-media--solo .shot-btn img { max-height: 74vh; width: auto; max-width: 100%; }
-
 /* A clip holds still under a play button until it's asked for, the
    duration burned into the corner — the reference's treatment, and
    the reason a six-second video reads as a moment and not a file. */
@@ -3198,28 +2058,12 @@ html.dark body.feed-page { background: var(--background); }
   background: none;
   cursor: zoom-in;
 }
-.vid-mute {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  z-index: 2;
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: rgba(10, 10, 10, .55);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  color: #fff;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color .15s ease;
-}
-.vid-mute:hover { background: rgba(10, 10, 10, .78); }
-/* the clip's length, in the corner opposite the speaker. It has to
+/* The speaker button lived here — a clip in the journal used to run
+   itself, muted and looping, and the speaker was the only control it
+   needed. A post's clip now carries ordinary controls instead, so
+   nothing autoplays anywhere and nothing needs muting by hand.
+
+   The clip's length, in the corner. It has to
    be taken out of flow or its line box props the container open
    below the video and shows a band of the black backing. */
 .vid-dur {
@@ -3238,13 +2082,6 @@ html.dark body.feed-page { background: var(--background); }
   color: #fff;
   pointer-events: none;
 }
-.vid-mute svg { width: 16px; height: 16px; display: block; }
-.vid-mute .icon-on { display: none; }
-.vid.is-muted .vid-mute .icon-off { display: block; }
-.vid.is-muted .vid-mute .icon-on { display: none; }
-.vid:not(.is-muted) .vid-mute .icon-off { display: none; }
-.vid:not(.is-muted) .vid-mute .icon-on { display: block; }
-/* the clip is always running now, so the duration just sits there */
 .shot-cap {
   display: block;
   margin-top: 8px;
@@ -3312,6 +2149,18 @@ html.dark body.feed-page { background: var(--background); }
   object-fit: fill;
 }
 .stream-grid .shot-cap { display: none; }
+/* …except on an experience's own wall, where what was written under
+   a frame is half of what the page is for. It stays quiet — a
+   caption, not a headline — and a frame with nothing written under
+   it gets no line at all. The front wall keeps the picture as the
+   whole message and leaves the caption to the hover pill. */
+.stream-grid--noted .shot-cap {
+  display: block;
+  max-width: 100%;
+  margin-top: 10px;
+  font-size: 13.5px;
+  color: var(--ink-45);
+}
 @container (width < 1000px) { .stream-grid { --wall-cols: 3; } }
 @container (width < 720px)  { .stream-grid { --wall-cols: 2; } }
 /* one column on a phone, and the frames run the full measure there —
@@ -3376,111 +2225,131 @@ html.dark body.feed-page { background: var(--background); }
 @media (hover: none) {
   .shot-pill { opacity: 1; transform: none; }
 }
-/* The switch rides the top bar now that the sidebar is gone */
-/* The pages follow the sun on their own; this is the override —
-   one quiet glyph offering the mode you'd be switching to, a sun
-   in the dark and a moon in the light. */
-.nav .theme-toggle.nav__theme {
-  flex: none;
-  margin-left: 6px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: transparent;
-  color: var(--ink-55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color .15s ease, color .15s ease;
-}
-.nav .theme-toggle.nav__theme:hover {
-  background: var(--surface-hover);
-  color: var(--ink-85);
-}
-.nav .theme-toggle.nav__theme .theme-knob,
-html:not(.dark) .nav .theme-toggle.nav__theme .theme-knob {
-  position: static;
-  transform: none;
-  width: auto;
-  height: auto;
-  background: transparent;
-  color: inherit;
-  box-shadow: none;
-}
-.nav .theme-toggle.nav__theme .theme-knob svg { width: 16px; height: 16px; }
-.nav .theme-toggle.nav__theme .icon-sun { display: block; }
-.nav .theme-toggle.nav__theme .icon-moon { display: none; }
-html:not(.dark) .nav .theme-toggle.nav__theme .icon-sun { display: none; }
-html:not(.dark) .nav .theme-toggle.nav__theme .icon-moon { display: block; }
-/* below the burger breakpoint the links are gone, so the glyph
-   pushes itself and the burger to the right */
-@media (max-width: 767.98px) {
-  .nav .theme-toggle.nav__theme { margin-left: auto; }
-}
+/* The theme control lives with the other theme rules — see
+   COLOUR THEME above. The old override lived here and leaked a
+   `margin-bottom: 8px` from the retired track-and-knob switch it
+   was overriding: flexbox centres the margin box, so the glyph sat
+   4px above every other item in the bar. */
 /* The photos page opens on the wall itself — no masthead, frames
    straight under the bar. It keeps the same gutter as an
    experience's wall so the two pages line up edge for edge. */
 .wall-bleed { padding: 0 var(--gutter); }
 .wall-bleed .roll { padding-top: clamp(5px, 0.55vw, 8px); }
 .wall-bleed .stream-grid { padding-bottom: 0; }
-/* An experience page runs highlights first, then the live journal
-   from inside the moment — the posts at reading width, centred
-   under the full-bleed wall above them. */
-/* The wall runs wide; the live journal draws into a narrow column
-   down the middle — a change of voice, not a continuation. Its
-   heading answers the page title in the same thick italic. */
-/* The live journal gets the same ground the journal page has: a
-   grey band the full width of the page, its column down the middle
-   and the white thread sitting on it. Dark needs no band — the
-   thread already lifts off the black. */
-.live-sec {
+/* THE NOTES — an experience page runs its frames first, then what
+   was written from inside it. Not a live feed and no longer built
+   like one: this is the written half of the record, and it is meant
+   to carry the same weight as the wall above it.
+
+   The wall runs wide; the notes draw into a reading column down the
+   middle — a change of voice, not a continuation. The band the
+   column sits on is the same grey the journal page uses; dark needs
+   no band, the writing already lifts off the black. */
+.notes-sec {
   max-width: none;
   margin: clamp(46px, 6vw, 78px) 0 0;
   padding: clamp(30px, 4vw, 52px) var(--gutter) clamp(32px, 4vw, 56px);
   background: var(--surface);
 }
-html.dark .live-sec { background: transparent; }
-.live-sec > * {
+html.dark .notes-sec { background: transparent; }
+.notes-sec > * {
   max-width: 640px;
   margin-left: auto;
   margin-right: auto;
 }
-/* the column rule above would otherwise pin the thread inside the
-   band's gutter; on a phone it runs the full width like the journal */
-@media (max-width: 640px) {
-  .live-sec > .thread {
-    max-width: none;
-    margin-left: calc(-1 * var(--gutter));
-    margin-right: calc(-1 * var(--gutter));
-  }
-}
-.live-head {
-  font-family: 'Gooper', Georgia, serif;
-  font-style: italic;
-  font-weight: 800;
+/* A page of notes, not a banner over a live feed: the heading sits
+   at the head of its own column, upright in the page serif, ruled
+   off underneath the way a notebook is. Nothing centred and nothing
+   italic — it reads as the top of something written. */
+.notes-head {
+  margin: 0 auto;
+  padding-bottom: 11px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--display);
+  font-weight: 600;
   font-synthesis: none;
-  font-size: clamp(23px, 2.5vw, 30px);
-  line-height: 1.1;
-  letter-spacing: -.015em;
+  font-size: clamp(21px, 2.2vw, 27px);
+  line-height: 1.15;
+  letter-spacing: -.012em;
   color: var(--ink-85);
-  text-align: center;
+  text-align: left;
 }
-.live-sub {
+.notes-sub {
   /* auto sides, or this shorthand would undo the column centring */
-  margin: 9px auto clamp(20px, 2.4vw, 30px);
-  text-align: center;
+  margin: 10px auto clamp(20px, 2.4vw, 30px);
+  text-align: left;
   font-size: 13.5px;
   line-height: 1.5;
   color: var(--ink-45);
 }
-.live-sec .link-row { justify-content: center; }
-/* On a phone the column is the whole page, so centring buys
-   nothing — the heading falls in line with everything else. */
-@media (max-width: 640px) {
-  .live-head, .live-sub { text-align: left; }
-  .live-sec .link-row { justify-content: flex-start; }
+/* ---------- THE RECORD ITSELF ----------
+   This used to be the journal's thread lifted whole: a white card,
+   hairlines between the rows, a portrait and the author's name on
+   every one of them, and the frames on a swipe strip that ran off
+   the card and got cut by its rounded corner. All of that is the
+   journal's job — there a post is one of forty and has to say whose
+   it is, which experience it came from and where to go next.
+
+   Here the page is already one outing. The masthead above has named
+   it, dated it, said where it was and counted what came back, so a
+   note has nothing left to introduce: it is a paragraph with a date
+   and the frames that go with it. One rule runs down the whole run
+   — drawn once for the record rather than once per post — with a
+   tick where each note begins. Nothing sits on a surface, so
+   nothing can be cut by the corner of one. */
+.notes-log {
+  --note-indent: clamp(19px, 2.4vw, 28px);
+  border-left: 1px solid var(--border);
+  padding-left: var(--note-indent);
 }
-/* the wall above needs air before the label */
+.note { position: relative; }
+.note + .note { margin-top: clamp(28px, 3.4vw, 42px); }
+/* the tick: a short mark reaching out of the rule, level with the
+   first line. A dot read as a bullet and made a list of it. */
+.note::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--note-indent) - 1px);
+  top: 9px;
+  width: 11px;
+  height: 1px;
+  background: var(--ink-30);
+}
+/* A run written on one day says the date once, at its head. Give a
+   beat its own `time` in the data and every note gets one back. */
+.note-when {
+  margin: 0 0 7px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -.004em;
+  color: var(--ink-45);
+}
+/* Prose, at the same size and leading as a post in the journal. The
+   two pages are deliberately different objects, but the writing is
+   the same writing and there is no reason for it to be set twice. */
+.note-say {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.62;
+  letter-spacing: -.003em;
+  color: var(--ink-85);
+}
+/* THE FRAMES a note carries are laid out by the shared media rules
+   (see THE JOURNAL below): one in the column at a capped height,
+   several on a strip. They used to be a sheet of negatives — all one
+   height, each at its own width, wrapping when the measure ran out —
+   which was a third way of showing a photograph on a site that
+   already had two. A picture now behaves the same here as in a post.
+
+   The strip runs out past the right edge of the reading column, the
+   way it runs past the edge of a post's card, and stops at the band's
+   own margin. Nothing is clipped; there is no surface to clip it. */
+.note .media { margin-top: clamp(12px, 1.4vw, 16px); }
+.note .strip {
+  margin-right: calc(-1 * var(--note-indent));
+  padding-right: var(--note-indent);
+}
+.notes-sec .link-row { justify-content: flex-start; }
 /* The masthead is a column down the middle of the page with its
    type ragged right — a headline measure, not a full page width.
    The wall below it still runs edge to edge. */
@@ -3505,12 +2374,11 @@ html.dark .live-sec { background: transparent; }
   color: var(--ink-55);
   margin: -6px 0 14px;
 }
-/* the section labels elsewhere separate whole chapters; here the
-   label belongs to the title right above it */
-#highlightsSec .sec-label {
-  margin-top: clamp(18px, 2vw, 26px);
-  margin-bottom: 14px;
-}
+/* The frames used to carry a "Highlights" label and its hairline.
+   The page is one experience and the pictures are the first thing on
+   it — nothing needed announcing. All the label left behind is the
+   air it held between the masthead and the first frame. */
+#framesSec .roll { padding-top: clamp(20px, 2.4vw, 34px); }
 /* a clip that isn't playing wears a play badge; the whole frame
    still opens it, so the badge is decoration */
 .vid-badge {
@@ -3708,6 +2576,13 @@ html.dark .live-sec { background: transparent; }
   scrollbar-width: none;
 }
 .xp-band__strip::-webkit-scrollbar { display: none; }
+/* Height is fixed and width follows the shape. That only works from
+   the first paint if the shape is known before the bytes are — which
+   is why the renderer writes width/height attributes off the data.
+   Without them Chrome falls back to its 300×150 default object size,
+   so every frame not yet in reserved a 252px slot at 2:1 and then
+   jumped to its real width on load; the tail of a long roll sat
+   empty grey until you scrolled it into view. */
 .xp-band__strip img {
   flex: none;
   height: clamp(84px, 8.6vw, 126px);
@@ -3716,13 +2591,30 @@ html.dark .live-sec { background: transparent; }
   border-radius: 5px;
   background: var(--surface);
 }
-.xp-band__soon {
-  margin: 18px 0 0;
-  font-family: var(--sans);
-  font-size: 14px;
-  font-weight: 450;
-  color: var(--ink-30);
+/* SLOTS. An experience is logged when it happens; its photographs
+   can arrive years later, or never. A row with none yet holds the
+   slots open rather than trailing off into white — the same height
+   as a frame, at two of the shapes a frame comes in, flat and inert.
+   Nothing shimmers: a shimmer promises something is on its way, and
+   these are waiting on Cody, not on the network. (Which is also why
+   there is no motion here for prefers-reduced-motion to turn off.) */
+.xp-band__strip--empty { overflow: hidden; }
+.xp-slot {
+  flex: none;
+  height: clamp(84px, 8.6vw, 126px);
+  aspect-ratio: 3 / 4;
+  border-radius: 5px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--border);
 }
+.xp-slot:nth-child(3n + 2) { aspect-ratio: 3 / 2; }
+/* the roll trails off rather than stopping dead — five solid blocks
+   a row, twenty rows down a page that is mostly still waiting, would
+   be a wall of grey where the writing should be */
+.xp-slot:nth-child(2) { opacity: .8; }
+.xp-slot:nth-child(3) { opacity: .6; }
+.xp-slot:nth-child(4) { opacity: .42; }
+.xp-slot:nth-child(5) { opacity: .26; }
 /* arriving on the band brings the whole row up out of the grey */
 .xp-band:hover, .xp-band:focus-within { border-top-color: var(--ink); }
 .xp-band:hover .xp-band__name,
@@ -3746,23 +2638,420 @@ html.dark .xp-band:nth-child(5n+5) { --ink: #B49BE8; }
 @media (hover: none) {
   .xp-band__name { color: var(--ink); }
 }
-/* The journal is one centered column at social-feed width — the
-   head and the cards share the same rail, nothing runs page-wide. */
-.feed-page .wrap { max-width: 640px; }
-/* The masthead wears the face behind the thread */
-.journal-head { display: flex; align-items: center; gap: 16px; }
+/* ============================================================
+   THE JOURNAL — short posts, newest first.
+
+   WHAT THIS REPLACED. The journal used to be a THREAD: every
+   note was its own row, and a run of rows from one outing was
+   drawn as a "chain" hanging off a connector rail with a node
+   per post, each row re-introducing the same experience, venue
+   and date the reader had just read. A note is still one post —
+   posting cheaply and often is the point — but the chain, the
+   rail and the per-row header line are gone, and a same-day run
+   now simply clusters under one dateline. See `sameRun` in
+   js/hobby.js.
+
+   THE SHAPE, measured off threads.com at a 1275px viewport
+   rather than remembered:
+
+     page ground   a grey — NOT the page white
+     the column    one WHITE surface holding every post as a row,
+                   divided by hairlines, radius 16
+     the archive   a second card in the right margin, slightly
+                   DARKER than the ground, with a hairline
+
+   That is three grounds, not one: the page recedes, the column
+   is the brightest thing on it, and the rail sits just behind
+   the page. A stack of separate post-cards was tried first and
+   read as a feed of objects rather than as one publication —
+   which is the wrong claim for a journal. Dark keeps the same
+   relationships with the page already near-black.
+   ============================================================ */
+/* INVERTED. The page is the white ground and each post carries its own
+   light grey — the opposite of the column-on-grey it started as. A post
+   is a block you can see the edges of, and the PHOTOGRAPHS SIT OUTSIDE
+   IT, on the page, tied to it by proximity rather than by being inside
+   its box. That is how an attachment behaves in a message thread: the
+   bubble holds the words, the picture is its own thing underneath. */
+body.feed-page { background: var(--background); }
+html.dark body.feed-page { background: var(--background); }
+
+/* THE LAYOUT. Three tracks: an empty one, the column, and the
+   archive. Because the side tracks are both 1fr the column is
+   centred on the page no matter how wide the rail is — the rail
+   lives in the margin and can never push the reading measure off
+   centre. Below 1100px there is no margin to live in and the whole
+   thing collapses to one column, which is why the archive comes
+   first in the source: on a phone it belongs under the masthead. */
+/* One centred column. There was a second track here holding a sticky
+   month rail; the archive is the pill row under the masthead at every
+   width now, so the posts have the page to themselves. */
+.journal {
+  max-width: 648px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.journal .page-head { padding-bottom: 18px; }
+/* The masthead wears the face; the deck says what a post is before
+   the reader has scrolled to one. */
+/* The masthead stacks and centres: the face on top, the title under
+   it, the deck under that. It used to run the portrait and the title
+   side by side on the left, which pulled the whole head off-axis from
+   the column of posts below it. */
+.journal .page-head { text-align: center; }
+.journal-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
 .journal-head h1 { margin: 0; }
+.journal-deck {
+  margin: 14px auto 0;
+  max-width: 46ch;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-55);
+}
+/* the month pills centre with it rather than hanging left */
+.journal .archive__in { justify-content: center; }
 .journal-avatar {
   flex: none;
-  width: 54px;
-  height: 54px;
+  /* the face leads the masthead now that it sits above the title
+     rather than beside it, so it carries more weight */
+  width: 92px;
+  height: 92px;
   border-radius: 50%;
   object-fit: cover;
   display: block;
   box-shadow: 0 0 0 1px var(--border);
 }
-.feed-page .feed-list { max-width: none; }
+
+/* ---------- THE COLUMN ----------
+   ONE surface holding every post. `overflow: hidden` is load-bearing
+   twice over: it keeps the corners honest, and it is what a strip
+   bleeding past the last post's padding runs into — so the bleed can
+   never turn into a page that scrolls sideways. */
+/* The column is no longer a card. It was one surface holding every
+   post; now the posts are the surfaces and the page shows between
+   them. */
+.posts {
+  margin-bottom: clamp(64px, 8vw, 120px);
+  background: none;
+  border: 0;
+  overflow: visible;
+}
+/* on a phone the column is the page: edge to edge, corners off */
+@media (max-width: 640px) {
+  .posts { margin-inline: -24px; border-radius: 0; }
+}
 .feed-sentinel { height: 1px; }
+.noscript-note + .feed-sentinel { display: none; }
+
+/* ---------- A POST ----------
+   A row of the publication, not an object of its own: told from the
+   one above it by a hairline running the column's full width, never
+   by a gap and never by a border of its own. */
+.post {
+  --post-pad: 18px;
+  /* the bubble's own inset. It used to share --post-pad with the photo
+     strip's bleed, which meant loosening the writing also pushed the
+     frames further past the column edge. */
+  --bubble-pad: 24px;
+  padding: 0;
+  border: 0;
+  margin-bottom: 26px;
+}
+.post:last-child { margin-bottom: 0; }
+/* The padding is symmetric, but the last thing inside a post used to
+   add its own bottom margin on top of it — a paragraph carries 18px,
+   so a text-only post sat 26px from the top rule and 44px from the
+   bottom one. Collapsing the final margin is what actually makes the
+   inset equal on all four sides. */
+.post > :last-child { margin-bottom: 0; }
+@media (max-width: 560px) { .post { --post-pad: 18px; --bubble-pad: 18px; } }
+
+/* ---------- A RUN OF POSTS ON ONE DAY ----------
+   Posting more than once a day is the point, and each note is its own
+   post. But three posts in a row repeating "June 20, 2026 · San Diego,
+   CA" is the reader being told something they were just told.
+
+   So a same-day, same-place run clusters the way a burst of iOS
+   messages does: the first post carries the dateline, the rest sit
+   tight under it with no rule and no repeated header. A new day — or
+   the same day somewhere else — breaks the run and starts a fresh one.
+   Threads' column, iMessage's grouping.
+
+   (An earlier pass grouped an outing into ONE post with its notes on a
+   connector rail. Rejected: the relationship was real but it made a day
+   read as a single obligation rather than several cheap ones.) */
+/* The boundary still has to be VISIBLE, or a run collapses into one
+   flowing post — which is the thing the rail version got wrong. In
+   iMessage the bubble's own shape does that job; there are no bubbles
+   here, so an inset rule does it instead. Full-width rule = a new day.
+   Short inset rule = same day, next post. Air alone wasn't enough. */
+
+/* THE HEADER IS THE DATE, in full, and the place after it in the
+   quiet weight. There is no title: a post is two sentences long and a
+   headline over two sentences is a title on a note to yourself. The
+   whole line is the permalink, so the thing you would copy is the
+   thing you click. The scroll margin keeps the sticky bar off it when
+   an anchor is followed. */
+.post__head {
+  display: block;
+  /* Tight to the words under it: the date is this post's header, not a
+     separate line of furniture sitting above one. The margin alone
+     wasn't the whole gap — the line inherited the body's 1.45rem
+     leading, which put ~4px of air under a 15px baseline before the
+     margin even started, and the paragraph adds its own above. Pulling
+     the leading in is what actually closes it. */
+  /* Place left, date pinned right, sharing the first baseline. Inline
+     with a dot reads better when every place is one word, but these
+     get long — "Universal Studios Hollywood" and a date run together
+     stop being one label and become a run-on. */
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  line-height: 1.3;
+  margin-bottom: 11px;
+  scroll-margin-top: 92px;
+}
+/* A KICKER, NOT A TITLE. The dateline ran at the prose size in heavy
+   ink, which made it the loudest thing in the post — a headline over
+   two sentences, and a date is not what the post is about. It is
+   furniture: it says when, gets out of the way, and gives every card
+   the same thing in the same place so none of them look structureless.
+   Small, quiet, and identical on every post. */
+/* WHERE, then WHEN. The place carries the post — it is the thing that
+   differs between one entry and the next — and the date sits under it
+   as the stamp. A date in bold at the head of every card was furniture
+   pretending to be a title. */
+/* It WRAPS rather than truncating: with a long title you would rather
+   read the whole thing on two lines than "Universal Studios Holl…".
+   The date keeps the first line's baseline while the title runs on
+   under it. */
+.post__title {
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: -.01em;
+  color: var(--foreground);
+  transition: color .15s ease;
+}
+/* The date sits a step below the title's size. It was matched at 16px
+   and read larger, because the numerals in it have no x-height to lose
+   against a lowercase word. 14px is where the two look level. */
+.post__date {
+  /* never shrinks — the title gives way first */
+  flex: none;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .005em;
+  color: var(--ink-40);
+}
+.post__head:hover .post__title { color: var(--heart); }
+
+/* THE CARD CARRIES THE GREY and holds the whole post — dateline,
+   words and frames. A words-only card is only as wide as it needs to
+   be, so a two-line note doesn't drag a full-width slab across the
+   column; a card with frames takes the full width, because a strip
+   needs a width to overflow and a photograph shouldn't be sized by
+   the length of the sentence above it. */
+.bubble {
+  display: inline-block;
+  max-width: 100%;
+  padding: 18px var(--bubble-pad) 20px;
+  border-radius: 16px;
+  background: var(--surface);
+}
+.bubble--media { display: block; }
+/* air between the writing and what was shot while it was written */
+.post__say + .media { margin-top: 14px; }
+.post__say {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-78);
+  letter-spacing: -.003em;
+}
+.post__say + .post__say { margin-top: 10px; }
+
+/* ---------- MEDIA, wherever prose is the point ----------
+   ONE item sits in the column, capped by HEIGHT so a portrait can't
+   own the screen. TWO OR MORE become a strip that runs past the
+   right edge of the card and snaps. That overflow is the point: it
+   says "there's more here" without a count badge, and it is the one
+   place the column is allowed to break. */
+.media { --frame-cap: min(460px, 58vh); margin: 0 0 20px; }
+.media:last-child { margin-bottom: 0; }
+
+/* The cap is a height, and it is set so a portrait costs roughly the
+   same vertical space as a landscape rather than half again as much:
+   at 660px wide a 3:2 landscape is 440px tall, so a 3:4 portrait
+   capped at 460 lands at 345×460 and the two read as equals down the
+   page. Capping at 600 made every portrait the tallest thing on
+   screen, which was the complaint. The width left over beside an
+   upright frame is not waste — it is what stops a column of mixed
+   orientations from lurching. */
+figure.one { margin: 0; display: flex; flex-direction: column; align-items: flex-start; }
+figure.one .frame-btn { max-width: 100%; }
+figure.one .frame {
+  width: auto;
+  max-width: 100%;
+  max-height: var(--frame-cap);
+  height: auto;
+}
+figure.one figcaption {
+  margin-top: 9px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-55);
+  max-width: 60ch;
+}
+
+.strip {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+  scroll-snap-type: x proximity;
+}
+.strip::-webkit-scrollbar { display: none; }
+/* the bleed: out to the card's own edge, and padded back so the last
+   frame can come to rest instead of sitting under the corner */
+.post .strip {
+  margin-right: calc(-1 * var(--bubble-pad));
+  padding-right: var(--bubble-pad);
+}
+.strip figure { margin: 0; flex: none; scroll-snap-align: start; max-width: 78vw; }
+/* A definite height — not a max — because intrinsic sizing reads a
+   definite height through the aspect ratio and a max-height doesn't;
+   this is what lets the button shrink-wrap the picture. */
+.strip .frame { height: clamp(220px, 30vw, 320px); width: auto; max-width: none; }
+.strip figcaption {
+  margin-top: 8px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--ink-55);
+  max-width: 34ch;
+}
+
+/* the frame itself: square-ish corners, the surface showing through
+   while the bytes are still in the air */
+/* Photographs and clips take the same corner as the bubble beside
+   them, a hair tighter. They sit on the page rather than inside the
+   post, so a square corner read as a crop mark against the rounded
+   block above it. */
+.frame { display: block; border-radius: 14px; background: var(--surface); }
+/* in dark the column is already the surface, so a frame still in the
+   air takes the next step up rather than vanishing into it */
+html.dark .frame { background: var(--surface-hover); }
+.frame[data-kind="video"] { background: #000; }
+.frame-btn {
+  display: block;
+  width: fit-content;
+  padding: 0;
+  border: 0;
+  /* the button clips the frame it holds, so both carry the radius */
+  border-radius: 14px;
+  overflow: hidden;
+  background: none;
+  line-height: 0;
+  cursor: zoom-in;
+}
+.strip .frame-btn { height: auto; }
+
+/* YouTube. An iframe, not a script — nothing is fetched from a CDN at
+   parse time, and nocookie sets nothing until it is played. */
+.tube {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  /* same corner as a photograph — an embed is a frame like any other */
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;
+}
+.tube iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.strip .tube { width: clamp(320px, 50vw, 500px); height: auto; }
+
+/* ---------- THE ARCHIVE ----------
+   A month index beside the column, grouped by year and newest first,
+   with a count per month. Clicking one filters the journal to it and
+   writes ?month= into the URL, so a month is a place you can send
+   somebody.
+
+   THIS IS A DELIBERATE EXCEPTION to the house rule that filters
+   belong inside the list rather than in a control beside it (see
+   HANDOFF.md). Cody asked for it by name, for the journal only: the
+   record runs back to 2019, and there is no way to put "September
+   2021" inside a stream that renders eight posts at a time. Don't
+   copy the pattern to any other page.
+
+   It is the second card: slightly DARKER than the page ground and
+   drawn with a hairline, exactly like the panel the reference keeps
+   in that slot. It recedes rather than competing — a sibling of the
+   column, not nav floating in the margin.
+
+   RIGHT, not left: the masthead is set hard against the left edge of
+   the column and a left rail would argue with it, and right is where
+   a blog has always put its archive. */
+.archive { margin: 0 0 14px; }
+.archive__in {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.archive__in::-webkit-scrollbar { display: none; }
+.archive__label { display: none; }
+.archive__year { display: flex; align-items: center; gap: 7px; }
+.archive__y {
+  flex: none;
+  padding-left: 4px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .09em;
+  color: var(--ink-40);
+}
+.archive__row {
+  flex: none;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--background);
+  font-size: 13.5px;
+  font-weight: 450;
+  color: var(--ink-55);
+  white-space: nowrap;
+  text-align: left;
+  transition: color .14s ease, background-color .14s var(--ease-out-quart);
+}
+html.dark .archive__row { background: var(--surface); }
+.archive__row:hover { color: var(--foreground); background: var(--surface-hover); }
+.archive__n { font-family: var(--mono); font-size: 10.5px; color: var(--ink-40); }
+/* the live month is named by weight and by the count going red — the
+   same red the wordmark keeps, and the only colour on the page */
+.archive__row.is-active { color: var(--foreground); font-weight: 600; }
+.archive__row.is-active .archive__n { color: var(--heart); }
+
+/* The archive is the pill row, at every width — a horizontal scroll under the masthead, which on a
+   phone is the only way back to 2019. It is chrome there, not a
+   sibling column, so it takes no card of its own. */
+@media (max-width: 640px) {
+  /* out to the gutter, so the row can be scrolled edge to edge */
+  .archive { margin-inline: -24px; }
+  .archive__in { padding-inline: 24px; }
+}
 /* The sidebar's quiet rows sit a breath below the main four */
 .side-gap { height: 18px; }
 /* Home: the summary column — posts read at feed width, the shelf
@@ -4324,5 +3613,9 @@ html.dark .w-pop { box-shadow: 0 4px 24px rgba(0, 0, 0, .6); }
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
-  .nav__wordmark:hover svg { animation: none; }
+  .wordmark:hover .wordmark__dot { animation: none; }
+  html.theme-anim body,
+  html.theme-anim .nav,
+  html.theme-anim .footer,
+  html.theme-anim .mobile-menu__inner { transition: none; }
 }

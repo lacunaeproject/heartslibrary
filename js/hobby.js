@@ -24,6 +24,12 @@
      be a blank tile. */
   var withFrames = TRIPS.filter(function (t) { return (t.photos || []).length; });
   var POSTS = window.POSTS || [];
+  /* No post wears a portrait. There is one author, the journal's
+     masthead already carries his face, and a column of the same
+     36px photograph forty times over told the reader nothing it
+     hadn't already said. What marks where a post starts is the
+     dateline and the hairline above it — see THE JOURNAL in
+     css/review.css. */
   var PINS = window.PINS || [];
   var GAMES = window.GAMES || [];
   var WRITING = window.WRITING || [];
@@ -48,21 +54,21 @@
     });
     return { trip: t, shots: b.photos.map(function (_, i) { return i; }) };
   }
-  function postCard(p, i) {
+  /* A standalone journal entry belongs to no experience, so it gets a
+     synthetic trip of its own — nowhere to click through to, but the
+     lightbox can page its frames like any other set. */
+  function postTrip(p, i) {
     var slug = "post-" + i;
-    var t = postTrips[slug] || (postTrips[slug] = {
-      slug: slug, gallery: false, place: "", short: "",
+    return postTrips[slug] || (postTrips[slug] = {
+      slug: slug, gallery: false, place: "", short: "", nav: "",
       when: "", photos: p.photos || []
     });
-    return {
-      trip: t,
-      beat: { at: p.at, head: p.head, say: p.say, time: p.time,
-              shots: (p.photos || []).map(function (_, k) { return k; }) },
-      key: (p.time || "") + "~p" + i
-    };
   }
+  /* How many posts the journal holds: one per outing that was written
+     from, plus every standalone entry. A trip's beats are passages of
+     ONE post now, not posts of their own. */
   function postCount() {
-    return TRIPS.reduce(function (n, t) { return n + (t.beats || []).length; }, 0) + POSTS.length;
+    return TRIPS.filter(function (t) { return (t.beats || []).length; }).length + POSTS.length;
   }
 
   function allPhotos() {
@@ -95,11 +101,15 @@
     return t.nav || t.short || t.place || "";
   }
   /* An experience's face: its stated cover, else the first frame
-     that isn't a clip (a video has no still to show) */
+     that isn't a clip, else a clip's poster if it has one. An
+     experience whose only frame is a video and whose video has no
+     poster has no face at all, and says so with an empty tile
+     rather than a white square. */
   function thumbSrc(t) {
     if (t.cover) return t.cover;
     var ps = t.photos || [];
     for (var i = 0; i < ps.length; i++) if (!ps[i].video) return ps[i].src;
+    for (var j = 0; j < ps.length; j++) if (ps[j].poster) return ps[j].poster;
     return "";
   }
   /* "August 5, 2026 @ Bridgestone Arena" — the same line in the
@@ -126,6 +136,20 @@
     if (!m) return "";
     return LONG_MONTHS[Number(m[2]) - 1] + " " + Number(m[3]) + ", " + m[1];
   }
+  var SHORT_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  /* A JOURNAL DATE reads "Aug 11" — short enough to sit beside a place
+     without competing with it, and still a date rather than a code.
+     The year is dropped while it is still this year and only earns its
+     space once it is telling you something: "Jun 20, 2024". Computed
+     off the real clock, so a 2026 post starts showing its year on its
+     own the moment 2027 arrives. */
+  function postDate(s) {
+    var m = String(s || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return "";
+    var day = SHORT_MONTHS[Number(m[2]) - 1] + " " + Number(m[3]);
+    return Number(m[1]) === new Date().getFullYear() ? day : day + ", " + m[1];
+  }
   /* The date a post went up. The hour still lives in the data —
      it keeps the sort honest — but the card shows only the day. */
   function stampText(s) {
@@ -137,54 +161,21 @@
     var n = Math.round(s);
     return Math.floor(n / 60) + ":" + String(n % 60).padStart(2, "0");
   }
-  /* Clips play themselves only in the journal, where the page is a
-     feed and movement is the point. On an experience they hold still
-     under a play badge until you open them. */
-  var LIVE_VIDEO = /feed\.html$/i.test(location.pathname);
-  /* Clips that do run are muted and looping; a press on the speaker
-     is what gives them sound. */
+  /* On a wall a clip holds still under a play badge until you open
+     it — a grid of moving frames fights the photographs beside it.
+     (The journal used to run them muted and looping behind a speaker
+     button; a post's clip now carries ordinary controls instead, so
+     the autoplay watcher and the speaker went with the thread.) */
   function playSafely(v) {
     var p = v.play();
     /* a browser that refuses autoplay rejects rather than throwing */
     if (p && p.catch) p.catch(function () {});
   }
-  function bindVideos() {
-    document.addEventListener("click", function (e) {
-      var btn = e.target.closest && e.target.closest(".vid-mute");
-      if (!btn) return;
-      e.stopPropagation();
-      var wrap = btn.closest(".vid");
-      var v = wrap && wrap.querySelector("video");
-      if (!v) return;
-      v.muted = !v.muted;
-      if (!v.muted) playSafely(v);
-      wrap.classList.toggle("is-muted", v.muted);
-      btn.setAttribute("aria-label", v.muted ? "Unmute the clip" : "Mute the clip");
-    });
-  }
-  /* Only the clips actually on screen run — a page of them would
-     otherwise all decode at once. */
-  var vidWatcher = null;
-  function settleVideos() {
-    if (!window.IntersectionObserver) return;
-    if (!vidWatcher) {
-      vidWatcher = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          var v = en.target.querySelector("video");
-          if (!v) return;
-          if (en.isIntersecting) playSafely(v);
-          else v.pause();
-        });
-      }, { threshold: 0.2 });
-    }
-    if (!LIVE_VIDEO) return;
-    Array.prototype.forEach.call(document.querySelectorAll(".vid"), function (el) {
-      if (el.dataset.watched) return;
-      el.dataset.watched = "1";
-      vidWatcher.observe(el);
-    });
-  }
-  function shotHtml(t, p, i) {
+  /* `capped` asks for the caption as text under the frame rather than
+     as a pill that only shows on hover. An experience's own wall takes
+     it — the writing there is half the point of the page. The front
+     wall doesn't: there the picture is the whole message. */
+  function shotHtml(t, p, i, capped) {
     var ratio = p.w && p.h ? ' style="aspect-ratio:' + Number(p.w) + "/" + Number(p.h) + '"' : "";
     /* Equal area, not equal width: a frame's width is the square root
        of its aspect, so an upright and a landscape end up covering the
@@ -201,26 +192,19 @@
     /* A clip's own surface opens the viewer; only the speaker
        button swallows the press. */
     if (p.video) {
-      /* In the journal a clip runs itself, silently and looping, and
-         the speaker is the only control it needs. Everywhere else it
-         holds a frame under a play badge — #t=0.1 is what paints that
-         frame instead of a black box — and opens to play. */
-      var live = LIVE_VIDEO;
-      var speaker = '<button class="vid-mute" type="button" aria-label="Unmute the clip">' +
-        '<svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M17 9.5 22 15M22 9.5 17 15"/></svg>' +
-        '<svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M16 9a4 4 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11"/></svg>' +
-        "</button>";
+      /* A clip on a wall holds a frame under a play badge — #t=0.1 is
+         what paints that frame instead of a black box — and opens to
+         play in the viewer. */
       var badge = '<span class="vid-badge" aria-hidden="true">' +
         '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 6.5v11a1 1 0 0 0 1.5.87l9-5.5a1 1 0 0 0 0-1.74l-9-5.5A1 1 0 0 0 9 6.5Z"/></svg></span>';
       return '<figure class="shot shot--video' + wide + '"' + fw + '>' +
-        '<div class="vid is-muted' + (live ? "" : " is-still") + '">' +
-          '<video src="' + esc(p.src) + (live ? "" : "#t=0.1") +
-          '" playsinline preload="metadata" muted loop' +
+        '<div class="vid">' +
+          '<video src="' + esc(p.src) + '#t=0.1' +
+          '" playsinline preload="metadata" muted' +
           (p.poster ? ' poster="' + esc(p.poster) + '"' : "") + ratio + "></video>" +
-          (live ? "" : badge) +
+          badge +
           '<button class="vid-open" type="button" aria-label="View larger: ' +
             esc(p.caption || t.place) + '" data-trip="' + esc(t.slug) + '" data-i="' + i + '"></button>' +
-          (live ? speaker : "") +
           (p.seconds ? '<span class="vid-dur">' + clock(p.seconds) + "</span>" : "") +
         "</div>" +
         (p.caption
@@ -229,11 +213,17 @@
           : "") +
         "</figure>";
     }
+    /* one or the other, never both — the same words twice would be
+       read out twice. A frame with nothing written under it says
+       nothing, rather than holding an empty line. */
+    var pill = p.caption && !capped
+      ? '<span class="shot-pill">' + esc(p.caption) + "</span>" : "";
+    var cap = p.caption && capped
+      ? '<figcaption class="shot-cap">' + esc(p.caption) + "</figcaption>" : "";
     return '<figure class="shot' + wide + '"' + fw + '>' +
       '<button class="shot-btn" type="button" data-trip="' + esc(t.slug) + '" data-i="' + i + '" aria-label="View larger: ' + esc(p.caption || t.place) + '">' +
       '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '" loading="lazy"' + ratio + ">" +
-      (p.caption ? '<span class="shot-pill">' + esc(p.caption) + "</span>" : "") +
-      "</button></figure>";
+      pill + "</button>" + cap + "</figure>";
   }
 
   /* Lightbox: one <dialog>, shared by any page that renders shots. It
@@ -308,22 +298,17 @@
     }
 
     document.addEventListener("click", function (e) {
-      if (e.target.closest(".vid-mute")) return;
-      var btn = e.target.closest(".shot-btn, .vid-open");
+      var btn = e.target.closest(".shot-btn, .vid-open, .frame-btn");
       if (!btn) return;
       var trip = tripBySlug(btn.getAttribute("data-trip"));
       if (!trip) return;
       var here = Number(btn.getAttribute("data-i"));
-      /* a card's tiles name their whole post, so the four you can see
-         open onto all of it; elsewhere the set is whatever shares the
-         strip or the grid */
-      var tiles = btn.closest(".tiles");
-      var box = btn.closest(".reel-track, .stream-grid, .msg-one");
-      if (tiles && tiles.getAttribute("data-all")) {
-        lb.list = tiles.getAttribute("data-all").split(",").map(function (n) {
-          return { t: trip, i: Number(n) };
-        });
-      } else if (box) {
+      /* The set you page through is whatever the frame belongs to: a
+         whole journal post or a whole note — passages and all, so a
+         post's frames read as one roll even when its beats carried
+         their own — else the grid the frame shares. */
+      var box = btn.closest(".post, .note, .stream-grid");
+      if (box) {
         lb.list = Array.prototype.map.call(box.querySelectorAll("[data-trip][data-i]"), function (b) {
           return { t: tripBySlug(b.getAttribute("data-trip")), i: Number(b.getAttribute("data-i")) };
         }).filter(function (en) { return en.t; });
@@ -374,101 +359,36 @@
       lbShow(dlg, lb.at + (dx < 0 ? 1 : -1));
     });
   }
-  /* Keep the counter honest as the strip is swiped: whichever frame is
-     nearest the middle of the track is the one you're looking at.
-     Listens on the way down rather than binding to each strip, because
-     scroll doesn't bubble and the feed is built long after this runs. */
-  function reelEnds(track) {
-    var reel = track.closest(".reel");
-    if (!reel) return;
-    var prev = reel.querySelector(".reel-prev"), next = reel.querySelector(".reel-next");
-    if (prev) prev.disabled = track.scrollLeft <= 2;
-    if (next) next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
-  }
-
-  function bindReels() {
-    var tick;
-    /* a wheel only goes up and down, so a pointer needs something to
-       press; touch just swipes and never sees these */
-    document.addEventListener("click", function (e) {
-      var arrow = e.target.closest && e.target.closest(".reel-arrow");
-      if (!arrow) return;
-      var track = arrow.closest(".reel-window").querySelector(".reel-track");
-      var kids = track.children;
-      if (!kids.length) return;
-
-      /* Assigning scrollLeft rather than scrollBy — the easing belongs to
-         the track's own scroll-behavior, so a press still lands on the
-         right frame even where animation can't run. One frame a press. */
-      var box = track.getBoundingClientRect();
-      var mid = box.left + box.width / 2;
-      var at = 0, gap = Infinity;
-      Array.prototype.forEach.call(kids, function (kid, i) {
-        var r = kid.getBoundingClientRect();
-        var d = Math.abs(r.left + r.width / 2 - mid);
-        if (d < gap) { gap = d; at = i; }
-      });
-      var want = at + (arrow.classList.contains("reel-next") ? 1 : -1);
-      want = Math.max(0, Math.min(kids.length - 1, want));
-      var target = kids[want].getBoundingClientRect();
-      track.scrollLeft += (target.left + target.width / 2) - mid;
-    });
-
-    document.addEventListener("scroll", function (e) {
-      var track = e.target && e.target.closest && e.target.closest(".reel-track");
-      if (!track) return;
-      reelEnds(track);
-      clearTimeout(tick);
-      tick = setTimeout(function () {
-        var out = track.closest(".reel").querySelector(".reel-count b");
-        if (!out) return;
-        /* both sides measured against the viewport — offsetLeft is
-           relative to the nearest positioned ancestor, which isn't the
-           track, so it can't be compared with scrollLeft */
-        var box = track.getBoundingClientRect();
-        var mid = box.left + box.width / 2;
-        var best = 0, gap = Infinity;
-        Array.prototype.forEach.call(track.children, function (kid, i) {
-          var r = kid.getBoundingClientRect();
-          var c = r.left + r.width / 2;
-          if (Math.abs(c - mid) < gap) { gap = Math.abs(c - mid); best = i; }
-        });
-        /* the first and last frames can never reach the middle, so the
-           nearest-to-centre test undercounts at both ends */
-        if (track.scrollLeft <= 2) best = 0;
-        else if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 2) {
-          best = track.children.length - 1;
-        }
-        out.textContent = best + 1;
-      }, 60);
+  /* A strip of frames used to be a "reel": a track with hover arrows,
+     a live counter under it, and a settle pass that measured whether
+     it overflowed at all. Only the journal ever built one, and a post
+     now carries a plain scroll-snapping strip whose overflow past the
+     card edge is the whole affordance — so the arrows, the counter and
+     the measuring went with the thread. What is left is the quiet
+     sweep below: a frame whose file is missing takes its figure with
+     it rather than showing a broken-image icon, and empties the strip
+     or the block if it was the last one, so nothing is left holding a
+     gap where a picture was. */
+  function sweepBrokenFrames() {
+    document.addEventListener("error", function (e) {
+      var img = e.target;
+      if (!img || img.tagName !== "IMG" || !img.classList ||
+          !img.classList.contains("frame")) return;
+      var fig = img.closest("figure");
+      if (!fig) { img.remove(); return; }
+      var box = fig.parentNode;
+      fig.remove();
+      while (box && box.classList && !box.children.length &&
+             (box.classList.contains("strip") || box.classList.contains("media"))) {
+        var up = box.parentNode;
+        box.remove();
+        box = up;
+      }
     }, true);
   }
 
-  /* a strip narrow enough to hold everything needs no arrows at all */
-  function settleReels() {
-    Array.prototype.forEach.call(document.querySelectorAll(".reel-track"), function (track) {
-      var reel = track.closest(".reel");
-      var roomy = track.scrollWidth <= track.clientWidth + 2;
-      reel.classList.toggle("is-whole", roomy);
-      if (!roomy) reelEnds(track);
-    });
-  }
-
   bindLightbox();
-  bindVideos();
-  bindReels();
-  /* strips are built by several blocks below; settle them all once
-     the page has finished rendering, and again when it reflows */
-  function settleLater() {
-    if (typeof settleReels === "function") settleReels();
-    settleVideos();
-  }
-  window.addEventListener("load", settleLater);
-  var settleTick;
-  window.addEventListener("resize", function () {
-    clearTimeout(settleTick);
-    settleTick = setTimeout(settleLater, 150);
-  });
+  sweepBrokenFrames();
 
   /* ----------------------------------------------------------
      HOMEPAGE — the gallery wall: big rounded-rectangle covers,
@@ -595,19 +515,19 @@
       noteEl.textContent = trip.note || "";
       noteEl.hidden = !trip.note;
     }
-    /* An experience has two halves. HIGHLIGHTS are the frames
-       flagged `best` — the ones edited and chosen after the fact.
-       AS IT HAPPENED is the journal from inside the moment: what
-       was written and whatever came off the phone at the time.
-       A new experience starts as the second half alone and grows
-       the first when there's time at a computer. */
+    /* An experience has two halves, and they weigh the same. The
+       FRAMES are the pictures, edited and chosen after the fact.
+       The NOTES are what was written from inside it, and whatever
+       came off the phone at the time. A new experience often starts
+       as notes alone and grows its frames when there's time at a
+       computer; either half on its own is still the record. */
     var beats = trip.beats || [];
     /* Every clip the experience holds shows in Video, whether or not
        a post also shows it — the post is the moment it went up, the
        section is where you go to watch. Stills don't double up: the
        wall takes the edited ones, the posts keep the rest. */
-    /* Highlights is the edited gallery: every still not already in a
-       post. Which of those also reach the home page is `best`. */
+    /* The wall is the edited gallery: every still not already in a
+       note. Which of those also reach the home page is `best`. */
     var inAPost = {};
     beats.forEach(function (b) {
       if (!b.photos) (b.shots || []).forEach(function (i) { inAPost[i] = true; });
@@ -627,19 +547,23 @@
     var metaEl = document.getElementById("galleryMeta");
     if (metaEl) {
       var n = (trip.photos || []).length;
-      var bits = [xpByline(trip), n + (n === 1 ? " frame" : " frames")];
+      /* the byline already counts the frames when an experience never
+         said where it was — saying it twice read as a stutter */
+      var bits = [xpByline(trip)];
+      if (trip.loc) bits.push(n + (n === 1 ? " frame" : " frames"));
       if (picks.length && picks.length !== n) bits.push(picks.length + " in the gallery");
       if (clips.length) bits.push(clips.length + (clips.length === 1 ? " clip" : " clips"));
-      if (beats.length) bits.push(beats.length + (beats.length === 1 ? " post" : " posts"));
+      if (beats.length) bits.push(beats.length + (beats.length === 1 ? " note" : " notes"));
       metaEl.textContent = bits.join(" · ");
     }
 
-    var hiSec = document.getElementById("highlightsSec");
+    var framesSec = document.getElementById("framesSec");
     if (picks.length) {
+      /* captions read as text here, not as a pill on hover */
       galleryShots.innerHTML = picks.map(function (en) {
-        return shotHtml(trip, en.p, en.i);
+        return shotHtml(trip, en.p, en.i, true);
       }).join("");
-      if (hiSec) hiSec.hidden = false;
+      if (framesSec) framesSec.hidden = false;
     }
 
     /* The clips stand apart from the stills — they play themselves,
@@ -653,34 +577,38 @@
       if (vidSec) vidSec.hidden = false;
     }
 
-    /* the posts run forward here — an experience reads as it was
+    /* the notes run forward here — an experience reads as it was
        lived, not newest first like the journal */
-    var liveEl = document.getElementById("asItHappened");
-    var liveSec = document.getElementById("asItHappenedSec");
-    if (liveEl && beats.length) {
-      liveEl.innerHTML = beats.map(function (b, bi) {
-        return cardHtml(trip, b, bi);
+    var notesEl = document.getElementById("notesList");
+    var notesSec = document.getElementById("notesSec");
+    if (notesEl && beats.length) {
+      /* Everything written from inside one experience is one record
+         by definition, so it is drawn as one: a single rule down the
+         column, no hairlines cutting it into pieces, and nothing
+         naming the author or the experience — both are on the page
+         already, a few inches up. */
+      var lastStamp = "";
+      notesEl.innerHTML = beats.map(function (b, bi) {
+        /* a beat with neither words nor frames would draw its tick on
+           the rule and then say nothing */
+        if (!b.say && !(b.photos || b.shots || []).length) return "";
+        var stamp = b.time ? stampText(b.time) : (trip.when || "");
+        var fresh = stamp && stamp !== lastStamp ? stamp : "";
+        lastStamp = stamp;
+        return noteHtml(trip, b, bi, fresh);
       }).join("");
-      var liveSub = document.getElementById("liveSub");
-      if (liveSub) {
-        liveSub.textContent = "Posted from " + (trip.loc || trip.short || trip.place) +
-          " while it was going on.";
+      var notesSub = document.getElementById("notesSub");
+      if (notesSub) {
+        notesSub.textContent = "Written from " + (trip.loc || trip.short || trip.place) +
+          " while it was going on, in the order I wrote it.";
       }
-      if (liveSec) liveSec.hidden = false;
+      if (notesSec) notesSec.hidden = false;
     }
     /* An experience is logged when it happens; its photographs can
        arrive years later, or never. Say that outright rather than
        leaving a title standing over a blank page. */
     var emptyEl = document.getElementById("galleryEmpty");
     if (emptyEl && !picks.length && !clips.length && !beats.length) emptyEl.hidden = false;
-
-    settleReels();
-    var reflow;
-    window.addEventListener("resize", function () {
-      clearTimeout(reflow);
-      reflow = setTimeout(settleReels, 150);
-    });
-
   }
 
   /* ----------------------------------------------------------
@@ -736,10 +664,34 @@
       }
       var n = (t.photos || []).length;
       /* a clip has no still to contribute, so it sits out of the roll */
-      var strip = (t.photos || []).map(function (p) {
-        return p.video ? "" :
-          '<img src="' + esc(p.src) + '" alt="" loading="lazy" decoding="async">';
+      var stills = (t.photos || []).filter(function (p) { return !p.video; });
+      /* Every frame declares its box before it arrives. The roll sets
+         a height and lets width follow the shape, so without w/h the
+         browser has nothing to size the slot with until the bytes
+         land — which is what left the right-hand end of a row empty
+         and then shoved it about as the pictures came in. The first
+         two are fetched outright: a row is never blank on arrival. */
+      var strip = stills.map(function (p, si) {
+        var box = p.w && p.h
+          ? ' width="' + Number(p.w) + '" height="' + Number(p.h) + '"'
+          : "";
+        return '<img src="' + esc(p.src) + '" alt=""' + box +
+          ' loading="' + (si < 2 ? "eager" : "lazy") + '" decoding="async">';
       }).join("");
+      /* An experience is logged when it happens; the photographs can
+         arrive years later. A row with none yet holds its slots open
+         — flat, inert blocks, no shimmer, because nothing is loading
+         and nothing is about to. The byline beside them already says
+         0 frames, so the slots need no caption of their own. */
+      var slots = "";
+      if (!stills.length) {
+        for (var k = 0; k < 5; k++) slots += '<span class="xp-slot"></span>';
+        slots = '<div class="xp-band__strip xp-band__strip--empty" aria-hidden="true">' +
+          slots + "</div>" +
+          '<p class="visually-hidden">' +
+          (n ? "Only a clip from this one so far — no still photographs yet."
+             : "No photographs from this one yet.") + "</p>";
+      }
       xhtml += '<section class="xp-band">' +
         '<a class="xp-band__head" href="gallery.html?trip=' + esc(t.slug) + '">' +
           '<span class="xp-band__text">' +
@@ -751,10 +703,7 @@
             'stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>' +
           "</span>" +
         "</a>" +
-        (strip ? '<div class="xp-band__strip">' + strip + "</div>"
-          /* the byline already says 0 frames; only the case where a
-             clip exists but no still needs saying out loud */
-          : n ? '<p class="xp-band__soon">Nothing still from this one yet</p>' : "") +
+        (strip ? '<div class="xp-band__strip">' + strip + "</div>" : slots) +
         "</section>";
     });
     if (xopen) xhtml += xopen;
@@ -795,138 +744,450 @@
     });
   })();
 
-  /* ----------------------------------------------------------
-     THE FEED — what I'm up to: every post from every trip on one
-     page, newest first, each one a card. The trip pages are
-     photographs; this is the place words live.
-     ---------------------------------------------------------- */
+  /* ==========================================================
+     WHAT A FRAME DOES WHERE THE WRITING IS THE POINT.
 
+     Two places on this site put photographs under prose: a post
+     in the journal and a note on an experience's page. They are
+     deliberately different objects — a post is one of forty and
+     has to say which outing it came from; a note sits on a page
+     whose masthead already said all that — but a photograph must
+     not behave differently in the two of them. So the media
+     rules live here, once, and both call them.
+     ========================================================== */
 
-  /* A post is one floating card — a tiny date above, then the words
-     and the photos together inside. No headline, no tags; `head`/
-     `at`/the experience all stay in the data only. */
-  /* A post's frames. One sits inline at its own shape; several ride
-     a strip that runs off the right edge of the column — swipe on a
-     thumb, arrows on a pointer — and any of them opens the lightbox,
-     which pages through the whole set. */
-  function mediaHtml(trip, shots) {
-    if (shots.length === 1) {
-      var only = trip.photos[shots[0]];
-      return only
-        ? '<div class="msg-one">' + shotHtml(trip, only, shots[0]) + "</div>"
-        : "";
+  /* ---------- what a piece of media IS ----------
+     One field decides it. `youtube` wins; otherwise the extension
+     does the work, so a .gif needs no new field at all — it rides the
+     image path and animates on its own. */
+  function kindOf(m) {
+    if (!m) return "photo";
+    if (m.youtube) return "youtube";
+    if (m.video === true || /\.(mp4|mov|m4v|webm)$/i.test(m.src || "")) return "video";
+    if (/\.gif$/i.test(m.src || "")) return "gif";
+    return "photo";
+  }
+  /* the id out of whatever was pasted — a watch URL, a youtu.be
+     short link, an embed, a short, or the bare id itself */
+  function tubeId(v) {
+    var s = String(v || "");
+    var m = s.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{6,})/);
+    return m ? m[1] : s;
+  }
+  function mediaEl(t, p, i, single) {
+    var k = kindOf(p);
+    var box = (p.w && p.h)
+      ? ' width="' + Number(p.w) + '" height="' + Number(p.h) + '"' : "";
+    /* An iframe, not a script — nothing is fetched from a CDN at parse
+       time, and nocookie keeps it from setting one before a click. */
+    if (k === "youtube") {
+      return '<div class="tube"><iframe src="https://www.youtube-nocookie.com/embed/' +
+        esc(tubeId(p.youtube)) + '" title="' + esc(p.alt || p.caption || "YouTube video") +
+        '" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"' +
+        " allowfullscreen></iframe></div>";
     }
-    var arrow = function (cls, label, d) {
-      return '<button class="reel-arrow ' + cls + '" type="button" aria-label="' + label + '">' +
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
-        'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + d +
-        '"/></svg></button>';
-    };
-    return '<div class="reel msg-reel"><div class="reel-window">' +
-      arrow("reel-prev", "Previous frame", "M15 5l-7 7 7 7") +
-      arrow("reel-next", "Next frame", "M9 5l7 7-7 7") +
-      '<div class="reel-track">' +
-      shots.map(function (i) {
-        var p = trip.photos[i];
-        return p ? shotHtml(trip, p, i) : "";
-      }).join("") +
-      "</div></div></div>";
+    /* A clip of his own: controls, not autoplay, because a written
+       video is watched on purpose rather than glanced at on the way
+       past. It plays where it sits and never opens the viewer. */
+    if (k === "video") {
+      return '<video class="frame" data-kind="video" src="' + esc(p.src) + '"' + box +
+        ' controls playsinline preload="metadata"' +
+        (p.poster ? ' poster="' + esc(p.poster) + '"' : "") + "></video>";
+    }
+    /* A still or a GIF opens the viewer. The button is capped to the
+       picture's own width when the shape is known: a `max-height`
+       never reaches intrinsic sizing, so without this the click target
+       and the focus ring of an upright frame would run the whole
+       measure beside it. */
+    var fit = single && p.w && p.h
+      ? ' style="max-width:min(100%,calc(var(--frame-cap) * ' +
+        (Math.round((Number(p.w) / Number(p.h)) * 1e4) / 1e4) + '))"'
+      : "";
+    return '<button class="frame-btn" type="button" data-trip="' + esc(t.slug) +
+      '" data-i="' + i + '" aria-label="View larger: ' +
+      esc(p.caption || p.alt || xpName(t) || "frame") + '"' + fit + ">" +
+      '<img class="frame" data-kind="' + k + '" src="' + esc(p.src) + '" alt="' +
+      esc(p.alt || "") + '"' + box + ' loading="lazy" decoding="async"></button>';
+  }
+  /* `caps` asks for the written caption under the frame. Only a written
+     caption ever shows; `alt` stays where it belongs — it describes the
+     picture for someone who cannot see it, and printing it underneath
+     says the same thing twice.
+
+     A JOURNAL POST passes false. The post's own words are right above
+     the picture, so a caption under it is a second, quieter voice
+     saying something about the same frame — and on a strip of four it
+     was four of them. An EXPERIENCE PAGE passes true: there the writing
+     beside each frame is half the reason the page exists. */
+  function figureFor(t, p, i, single, caps) {
+    return "<figure" + (single ? ' class="one"' : "") + ">" +
+      mediaEl(t, p, i, single) +
+      (caps && p.caption ? "<figcaption>" + esc(p.caption) + "</figcaption>" : "") +
+      "</figure>";
+  }
+  /* ONE item sits in the column, capped by height so a portrait can't
+     own the screen. TWO OR MORE become a strip that runs past the
+     right edge and scroll-snaps. That overflow is the point: it says
+     "there's more here" without a count badge, and it is the one place
+     the column is allowed to break. */
+  function mediaHtml(t, shots, caps) {
+    if (!shots || !shots.length) return "";
+    if (shots.length === 1) {
+      var only = t.photos[shots[0]];
+      return only ? '<div class="media">' + figureFor(t, only, shots[0], true, caps) + "</div>" : "";
+    }
+    var out = shots.map(function (i) {
+      var p = t.photos[i];
+      return p ? figureFor(t, p, i, false, caps) : "";
+    }).join("");
+    return out ? '<div class="media"><div class="strip">' + out + "</div></div>" : "";
   }
 
-  /* A post is a row in the thread: its date, what was written, then
-     the frames. The rows share one rounded container and are split
-     by hairlines — no avatar, no name, the site is one voice. */
-  function cardHtml(trip, b, key, fromLink) {
-    var stamp = b.time ? stampText(b.time) : trip.when;
+  /* ----------------------------------------------------------
+     A NOTE, on the experience's own page. The journal's card
+     treatment is the journal's: there a post has to say which
+     experience it came from and hold its own against forty
+     others. Here the page is already one outing — the masthead
+     names it, dates it, says where it was and counts what came
+     back — so a note is just what was written at the time, with
+     what was shot alongside it. No card, no author, no swipe:
+     prose down a ruled column, and the frames laid out under
+     each paragraph where they fit the measure.
+     ---------------------------------------------------------- */
+  /* The frames a note carries are laid out by the shared rules above —
+     one in the column at a capped height, several on a strip — so a
+     photograph reads the same here as it does in a post. (They used to
+     be a wrapping sheet of negatives, all one height. That was a third
+     way of showing a picture on a site that already had two.)
+
+     `stamp` is passed in rather than worked out here: a run of notes
+     written on one day says the date once, at the head of the run,
+     the way a diary does. Give a beat its own `time` and it gets its
+     own line back. */
+  function noteHtml(trip, b, key, stamp) {
     var set = beatSet(trip, b, key || 0);
-    var out = '<article class="msg">';
-    /* Where the reference puts a name, a post says which experience
-       it belongs to and clicks through to it. On the experience's
-       own page that would only point back at itself, so it's the
-       journal that asks for the link. */
-    var meta = "";
-    if (fromLink && trip.gallery !== false && trip.slug) {
-      meta += '<a class="msg-from" href="gallery.html?trip=' + esc(trip.slug) + '">' +
-        esc(xpName(trip)) + "</a>";
-    }
-    if (stamp) {
-      meta += (meta ? '<span class="msg-dot" aria-hidden="true">·</span>' : "") +
-        "<span>" + esc(stamp) + "</span>";
-    }
-    if (meta) out += '<p class="msg-when">' + meta + "</p>";
-    if (b.say) out += '<p class="msg-say">' + esc(b.say) + "</p>";
-    if (set.shots.length) out += mediaHtml(set.trip, set.shots);
+    var out = '<article class="note">';
+    if (stamp) out += '<p class="note-when">' + esc(stamp) + "</p>";
+    if (b.say) out += '<p class="note-say">' + esc(b.say) + "</p>";
+    out += mediaHtml(set.trip, set.shots, true);
     return out + "</article>";
   }
 
-  /* Everything postable lands in one pile: trip posts and the
-     standalone journal entries, newest first. The blog page shows
-     the whole pile; Home shows the top of it. */
-  function allCards() {
-    var cards = [];
+  /* ----------------------------------------------------------
+     THE JOURNAL — one post per outing, newest first.
+
+     WHAT THIS REPLACED. The journal used to be a THREAD: every
+     beat of every experience was its own row, hairlined off from
+     the one above, and a run of rows from one experience was
+     drawn as a chain hanging off a connector rail. Three notes
+     written across one afternoon in San Diego came out as three
+     orphans, each re-introducing the same experience, the same
+     venue and the same date to the reader who had just read it.
+
+     An outing is one thing, so it is now one POST. Its beats are
+     the PASSAGES inside it — words, then whatever was shot while
+     those words were being written, then the next paragraph. A
+     standalone entry is a post of its own. The chain, the rail,
+     the per-row header line and the whole thread container went
+     with them.
+
+     THE HEADER IS THE DATE. No titles: `b.head` and `p.head`
+     still live in the data and nothing renders them, because a
+     headline over two sentences is a title on a note to yourself.
+     The date carries the post and the place follows it in the
+     quiet weight, which is what a blog has always done.
+     ---------------------------------------------------------- */
+
+  /* post-2026-08-09-deadbeat-tour — stable as long as the day and the
+     slug are, which is what a permalink has to be */
+  function anchorFor(e) {
+    return "post-" + (String(e.date || "").slice(0, 10) || "x") +
+      (e.slug ? "-" + e.slug : "") + (e.n ? "-" + e.n : "");
+  }
+  function monthOf(d) { return String(d || "").slice(0, 7); }
+  function monthLabel(k) {
+    var m = String(k).match(/^(\d{4})-(\d{2})$/);
+    return m ? LONG_MONTHS[Number(m[2]) - 1] : String(k);
+  }
+
+  /* ONE NOTE, ONE POST. Every beat stands on its own — three notes
+     written across a day at the zoo are three posts, not one post with
+     three parts. Posting more than once a day is the point; they queue
+     up in the column the way anything else does, newest first, each
+     with its own date and its own permalink.
+
+     (This has been both ways. Grouping an outing into a single post
+     with its passages strung on a rail was tried and rejected: the
+     relationship it drew was real but it made a day feel like one
+     obligation rather than several cheap ones, which is the opposite
+     of the point.) */
+  function journalPosts() {
+    var out = [];
     TRIPS.forEach(function (t) {
-      (t.beats || []).forEach(function (b, i) {
-        /* a post's own stamp when it has one, else the trip's date —
-           the index keeps a trip's posts in the order they were written */
-          cards.push({ trip: t, beat: b, at: i, key: (b.time || t.posted || "") + "~" + i });
+      var beats = (t.beats || []).slice();
+      if (!beats.length) return;
+      /* Beats read in the order they were written; when every one of
+         them carries a time, that order is the clock's. */
+      if (beats.every(function (b) { return !!b.time; })) {
+        beats.sort(function (a, b) { return a.time < b.time ? -1 : a.time > b.time ? 1 : 0; });
+      }
+      beats.forEach(function (b, i) {
+        var set = beatSet(t, b, i);
+        out.push({
+          date: b.time || t.posted || "",
+          title: b.title || "",
+          where: t.loc || "",
+          slug: t.slug,
+          /* several notes can share a day AND an outing, so the anchor
+             takes the beat's index too or the permalinks collide */
+          n: i,
+          passages: [{ say: b.say || "", trip: set.trip, shots: set.shots }]
+        });
       });
     });
-    POSTS.forEach(function (p, i) { cards.push(postCard(p, i)); });
-    cards.sort(function (a, b) { return a.key < b.key ? 1 : a.key > b.key ? -1 : 0; });
-    return cards;
+    POSTS.forEach(function (p, i) {
+      var t = postTrip(p, i);
+      out.push({
+        date: p.time || "", title: p.title || "", where: p.at || "", slug: "", n: 0,
+        passages: [{
+          say: p.say || "", trip: t,
+          shots: (p.photos || []).map(function (_, k) { return k; })
+        }]
+      });
+    });
+    /* AT LEAST ONE OF. A post is valid with frames, or with words, or
+       both — it is never required to have both. What it may not be is
+       neither: an outing that was logged and then never written from
+       and never shot is an experience, not a post, and it belongs on
+       the index rather than as an empty card here. */
+    out = out.filter(function (e) {
+      return e.passages.some(function (p) { return p.say || p.shots.length; });
+    });
+    out.sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
+    return out;
+  }
+
+  /* EVERY POST CARRIES ITS OWN DATELINE. A previous pass suppressed it
+     on a same-day run so the date wasn't repeated — but that made the
+     first post of a day look structurally different from the two under
+     it, and the ones without a header read as loose text with nothing
+     holding them. Uniformity is worth more than avoiding a repeat, and
+     at kicker size a repeat costs almost nothing. */
+  function postHtml(e) {
+    var id = anchorFor(e);
+    /* THE TITLE IS WHATEVER THE POST IS ABOUT. Usually that is where you
+       were — and where you were comes free, so most posts get a title
+       without typing one — but it is not a location field. A post about
+       the pizza is titled "The pizza"; a post about a clip somebody
+       else made is titled with whatever you have to say about it.
+
+         title:  what you wrote, if you wrote one     ← wins
+         at:     a standalone post's own line
+         loc:    the venue of the experience it belongs to
+         date:   nothing else to say, so the date leads
+
+       Falling back this way means old entries keep the venue they had
+       and new ones can say anything, with no field to fill in unless
+       you want to. */
+    var place = e.title || e.where || "";
+    var head = '<a class="post__head" id="' + esc(id) + '" href="#' + esc(id) + '">' +
+      (place
+        ? '<span class="post__title">' + esc(place) + "</span>" +
+          '<span class="post__date">' + esc(postDate(e.date)) + "</span>"
+        : '<span class="post__title">' + esc(postDate(e.date)) + "</span>") +
+      "</a>";
+    /* a passage with neither words nor frames is nothing — not an empty
+       box, and not a gap where a paragraph would have been */
+    var live = e.passages.filter(function (p) { return p.say || p.shots.length; });
+    /* THE CARD holds all of it — the dateline, the words, and the
+       frames. The photographs were briefly set outside it on the page,
+       tied to the post by proximity alone; inside is what makes a post
+       one object you can see the edges of. */
+    var words = live.map(function (p) {
+      return p.say ? '<p class="post__say">' + esc(p.say) + "</p>" : "";
+    }).join("");
+    var frames = live.map(function (p) {
+      return mediaHtml(p.trip, p.shots, false);
+    }).join("");
+    /* a card with frames takes the full column: a strip has to have a
+       width to overflow, and a picture shouldn't be sized by how long
+       the sentence above it happened to be */
+    var body = '<div class="bubble' + (frames ? " bubble--media" : "") + '">' +
+      head + words + frames + "</div>";
+    /* No tail. A post used to end with a row pointing at the experience
+       it came from — cover thumb, label, name, chevron. It was the
+       heaviest thing in the post and it repeated on every one of them,
+       so a page of short entries read as a list of adverts for pages
+       elsewhere. The nav's Experiences menu already goes there, and the
+       post itself is the point. */
+    return '<article class="post">' + body + "</article>";
+  }
+
+  /* ---------- THE ARCHIVE ----------
+     A month index in the right-hand margin, grouped by year. The
+     house rule on this site is that filters belong inside the list
+     they filter rather than in a control beside it — see HANDOFF.md.
+     The journal is the one deliberate exception, asked for by name:
+     it is the shape every blog has, the record runs back to 2019,
+     and there is no way to put "September 2021" inside a stream that
+     lazily renders the last eight posts. It is a card of the same
+     material as the posts, so it reads as the second column of one
+     object rather than as chrome floating in the margin. Do not copy
+     this pattern anywhere else on the site. */
+  function monthIndex(entries) {
+    var order = [], seen = {};
+    /* entries arrive newest first, so the months do too */
+    entries.forEach(function (e) {
+      var k = monthOf(e.date);
+      if (!k) return;
+      if (!seen[k]) { seen[k] = { key: k, n: 0 }; order.push(seen[k]); }
+      seen[k].n++;
+    });
+    var years = [], byYear = {}, keys = [];
+    order.forEach(function (m) {
+      var y = m.key.slice(0, 4);
+      if (!byYear[y]) { byYear[y] = { year: y, months: [] }; years.push(byYear[y]); }
+      byYear[y].months.push(m);
+      keys.push(m.key);
+    });
+    return { years: years, keys: keys };
+  }
+  function archiveHtml(years, total) {
+    var row = function (key, name, n) {
+      return '<button class="archive__row" type="button" data-month="' + esc(key) + '">' +
+        '<span class="archive__name">' + esc(name) + "</span>" +
+        '<span class="archive__n">' + n + "</span></button>";
+    };
+    var out = '<div class="archive__in">' +
+      '<p class="archive__label">Archive</p>' +
+      row("all", "All posts", total);
+    years.forEach(function (g) {
+      out += '<div class="archive__year"><span class="archive__y">' + esc(g.year) + "</span>";
+      g.months.forEach(function (m) { out += row(m.key, monthLabel(m.key), m.n); });
+      out += "</div>";
+    });
+    return out + "</div>";
   }
 
   var feedList = document.getElementById("feedList");
   if (feedList && (TRIPS.length || POSTS.length)) {
-    var cards = allCards();
-    if (!cards.length) {
-      feedList.innerHTML = '<p class="noscript-note">Nothing posted yet.</p>';
-    } else if (!window.IntersectionObserver) {
-      /* ancient browser: render everything at once */
-      feedList.innerHTML = cards.map(function (c) {
-        return cardHtml(c.trip, c.beat, c.at, true);
-      }).join("");
-    } else {
-      /* Batches keep a journal years deep light: fifteen cards at a
-         time, more as the bottom nears, with a month mark whenever
-         the stream crosses into an earlier month. The while-loop
-         matters — after a batch the sentinel can still be in view,
-         and the observer alone won't re-fire for it. */
-      var BATCH = 15;
-      var at = 0;
-      var sentinel = document.createElement("div");
-      sentinel.className = "feed-sentinel";
-      feedList.appendChild(sentinel);
-      var renderBatch = function () {
-        var out = "";
-        var stop = Math.min(at + BATCH, cards.length);
-        for (; at < stop; at++) {
-          out += cardHtml(cards[at].trip, cards[at].beat, cards[at].at, true);
-        }
-        sentinel.insertAdjacentHTML("beforebegin", out);
-      };
-      var watcher = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) { if (en.isIntersecting) fill(); });
-      }, { rootMargin: "1200px 0px" });
-      var fill = function () {
-        var guard = 0;
-        while (at < cards.length && guard++ < 40 &&
-               sentinel.getBoundingClientRect().top < window.innerHeight + 1200) {
-          renderBatch();
-        }
-        if (at >= cards.length) {
-          watcher.disconnect();
-          sentinel.remove();
-        }
-      };
-      fill();
-      if (at < cards.length) watcher.observe(sentinel);
+    var entries = journalPosts();
+    var index = monthIndex(entries);
+    /* THE MONTH FILTER IS OFF. Its markup was pulled from feed.html, so
+       everything below that touches `#feedArchive` no-ops on its own —
+       the machinery is left intact for when it comes back. The one
+       thing that would NOT no-op is the `?month=` deep link: it would
+       still filter the journal with no visible control to undo it, so
+       it is only honoured while the archive is actually on the page. */
+    var month = "all";
+    if (document.getElementById("feedArchive")) {
+      try {
+        var asked = new URLSearchParams(location.search).get("month") || "";
+        if (asked && index.keys.indexOf(asked) >= 0) month = asked;
+      } catch (e) {}
     }
 
-    var feedStat = document.getElementById("feedStat");
-    if (feedStat) {
-      feedStat.textContent = cards.length + (cards.length === 1 ? " post" : " posts") +
-        " · newest first";
+    var view = entries, vAt = 0;
+    var sentinel = document.createElement("div");
+    sentinel.className = "feed-sentinel";
+    /* Batches keep a journal years deep light: eight posts at a time,
+       more as the bottom nears. The unit is a whole post, so the fold
+       can never land inside one. The while-loop matters — after a
+       batch the sentinel can still be in view, and the observer alone
+       won't re-fire for it. */
+    var BATCH = 8;
+    var fill = function () {
+      var guard = 0;
+      while (vAt < view.length && guard++ < 40 &&
+             sentinel.getBoundingClientRect().top < window.innerHeight + 1200) {
+        var out = "", n = 0;
+        while (vAt < view.length && n < BATCH) { out += postHtml(view[vAt]); vAt++; n++; }
+        sentinel.insertAdjacentHTML("beforebegin", out);
+      }
+      if (vAt >= view.length && watcher) watcher.disconnect();
+    };
+    var watcher = window.IntersectionObserver
+      ? new IntersectionObserver(function (ens) {
+          ens.forEach(function (en) { if (en.isIntersecting) fill(); });
+        }, { rootMargin: "1200px 0px" })
+      : null;
+
+    var frameCount = function (list) {
+      var n = 0;
+      list.forEach(function (e) {
+        e.passages.forEach(function (p) { n += p.shots.length; });
+      });
+      return n;
+    };
+    var show = function (key) {
+      month = key;
+      view = key === "all" ? entries
+        : entries.filter(function (e) { return monthOf(e.date) === key; });
+      vAt = 0;
+      if (watcher) watcher.disconnect();
+      feedList.innerHTML = "";
+      feedList.appendChild(sentinel);
+      if (!view.length) {
+        sentinel.insertAdjacentHTML("beforebegin",
+          '<p class="noscript-note">Nothing posted ' +
+          (key === "all" ? "yet." : "that month.") + "</p>");
+      } else if (!watcher) {
+        /* no IntersectionObserver: render the lot at once rather than
+           leaving the page holding a sentinel and nothing else */
+        sentinel.insertAdjacentHTML("beforebegin",
+          view.map(postHtml).join(""));
+        vAt = view.length;
+      } else {
+        fill();
+        if (vAt < view.length) watcher.observe(sentinel);
+      }
+
+      var stat = document.getElementById("feedStat");
+      if (stat) {
+        var f = frameCount(view);
+        stat.textContent = view.length + (view.length === 1 ? " post" : " posts") +
+          (f ? " · " + f + (f === 1 ? " frame" : " frames") : "") + " · " +
+          (key === "all" ? "newest first" : monthLabel(key) + " " + key.slice(0, 4));
+      }
+      var rail = document.getElementById("feedArchive");
+      if (rail) {
+        Array.prototype.forEach.call(rail.querySelectorAll("[data-month]"), function (b) {
+          var on = b.getAttribute("data-month") === key;
+          b.classList.toggle("is-active", on);
+          if (on) b.setAttribute("aria-current", "true");
+          else b.removeAttribute("aria-current");
+        });
+      }
+      /* the month is a place you can send someone, so it lives in the
+         URL — replaced rather than pushed, because the back button
+         belongs to the pages you came from, not to a filter */
+      try {
+        var u = new URL(location.href);
+        if (key === "all") u.searchParams.delete("month");
+        else u.searchParams.set("month", key);
+        history.replaceState(null, "", u.pathname + u.search + u.hash);
+      } catch (e) {}
+    };
+
+    /* The posts render first and on their own. Nothing below can stop
+       them: if the archive never builds, the journal is still a
+       journal. */
+    show(month);
+
+    var rail = document.getElementById("feedArchive");
+    if (rail && entries.length) {
+      rail.innerHTML = archiveHtml(index.years, entries.length);
+      rail.hidden = false;
+      rail.addEventListener("click", function (e) {
+        var b = e.target.closest("[data-month]");
+        if (b) show(b.getAttribute("data-month"));
+      });
+      /* mark whatever the URL asked for, now that the rows exist */
+      Array.prototype.forEach.call(rail.querySelectorAll("[data-month]"), function (b) {
+        var on = b.getAttribute("data-month") === month;
+        b.classList.toggle("is-active", on);
+        if (on) b.setAttribute("aria-current", "true");
+      });
     }
   }
 
@@ -1001,7 +1262,8 @@
         withFrames.slice(0, 6).map(function (t) {
           var src = thumbSrc(t);
           return '<a class="mobile-menu__item" href="gallery.html?trip=' + esc(t.slug) + '">' +
-            '<div class="menu-item__tile menu-item__tile--photo">' +
+            '<div class="menu-item__tile menu-item__tile--photo' +
+            (src ? "" : " menu-item__tile--empty") + '">' +
             (src ? '<img src="' + esc(src) + '" alt="" loading="lazy">' : "") +
             "</div><div>" +
             '<span class="menu-item__title">' + esc(xpName(t)) + "</span>" +
@@ -1020,7 +1282,8 @@
           var src = thumbSrc(t);
           var byline = xpByline(t);
           return '<a class="menu-item" role="menuitem" href="gallery.html?trip=' + esc(t.slug) + '">' +
-            '<div class="menu-item__tile menu-item__tile--photo">' +
+            '<div class="menu-item__tile menu-item__tile--photo' +
+            (src ? "" : " menu-item__tile--empty") + '">' +
             (src ? '<img src="' + esc(src) + '" alt="" loading="lazy">' : "") +
             "</div><div>" +
             '<span class="menu-item__title">' + esc(xpName(t)) + "</span>" +

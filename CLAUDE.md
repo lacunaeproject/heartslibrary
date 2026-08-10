@@ -1,84 +1,128 @@
 # Heart's Library — working notes
 
-Cody Heart's personal site: a photography wing at the front, a books/hobby wing
-one floor down. **Static — no build step, no package.json, no bundler, no CDN
-scripts.** Open any `.html` from disk and it works. Deployed to GitHub Pages at
+Cody Heart's personal site: **a photography site**, plus a handful of side
+pages (pins, writing, games, dashboards) kept out of the global nav.
+**Static — no build step, no package.json, no bundler, no CDN scripts.**
+Open any `.html` from disk and it works. Deployed to GitHub Pages at
 **heartslibrary.com** (see `CNAME`).
+
+The books wing — the shelf, the reading log, the bookstore pages, and the
+Goodreads sync that fed them — was deleted in Aug 2026. Don't restore any
+of it from git history unless Cody asks.
 
 Two longer docs already exist and are the source of truth for their topics —
 read them instead of re-deriving:
 
-- **`HOW-TO-UPDATE.md`** — how Cody posts content (trips, books, pins, games).
-  This is the doc he actually uses. Don't break the workflows it describes.
+- **`HOW-TO-UPDATE.md`** — how Cody posts content (trips, pins, games,
+  writing). This is the doc he actually uses. Don't break the workflows it
+  describes.
 - **`HANDOFF.md`** — design-system provenance and the decisions log. Explains
   *why* the type/color/motion choices are what they are.
 
-Both were reconciled against the code on 2026-08-09. Where a doc and the code
-disagree, **the code is current** — and fix the doc.
+Both were reconciled against the code on 2026-08-10, after the shell was
+consolidated. Where a doc and the code disagree, **the code is current** — and
+fix the doc.
 
 ## Layout
 
 | What | Where |
 |---|---|
-| 21 hand-maintained pages | `*.html` at repo root |
-| Content data (edit these to post) | `js/photos.js`, `js/books.js`, `js/pins.js`, `js/games.js`, `js/writing.js` |
-| Auto-generated, never hand-edit | `js/log.js`, `js/drafts.js` (Goodreads sync overwrites both) |
-| Renderers | `js/hobby.js` (front wall), `js/shelf.js` (books), `js/review.js` (nav/shell behavior), one `js/<name>.js` per collection |
-| Styles | `css/review.css` — all tokens live in `:root` here, and it is the ONLY stylesheet any page loads |
-| Media pipeline | `scripts/post.js`, `scripts/prep-media.js`, `scripts/sync-goodreads.py` |
-| CI | `.github/workflows/post-trip.yml`, `sync-goodreads.yml` |
+| 12 hand-maintained pages | `*.html` at repo root |
+| Content data (edit these to post) | `js/photos.js`, `js/pins.js`, `js/games.js`, `js/writing.js` |
+| Auto-generated | `js/photos.js` is rewritten by the poster from `photos/<slug>/trip.txt` — hand-edits to a posted trip get overwritten |
+| Renderers | `js/hobby.js` (front wall, galleries, experiences index), `js/review.js` (nav/shell behavior), one `js/<name>.js` per collection |
+| The page shell — head, nav, mobile menu, footer | `scripts/shell.js` — one definition, swept into every page. See below |
+| Styles | `css/review.css` — all tokens live in `:root` here, and every shelled page loads it and nothing else (`print.html` also loads `css/print.css`) |
+| Media pipeline | `scripts/post.js`, `scripts/prep-media.js` |
+| CI | `.github/workflows/post-trip.yml` |
 
 ## Conventions that matter
 
-**There is no templating, and the shell has forked into FIVE variants.** Nav,
-mobile menu, and footer markup is duplicated by hand, so any shell change is a
-multi-file sweep. Audited 2026-08-09:
+**The shell is generated. There is exactly one copy of the chrome and it is
+`scripts/shell.js`.** That file holds the `<head>`, the nav, the mobile menu
+and the footer, plus a `PAGES` manifest giving each page its title, meta
+description, canonical, which nav item is current, its scrolltitle, its body
+class and its script list. Run it to sweep all of that into every page:
 
-| Shell | Pages | What it has |
-|---|---|---|
-| **A — current** | index, experiences, feed, gallery | Full nav with the Experiences dropdown (`#navTrips` / `#menuTrips`), theme toggle, `© Cody Heart 2026` footer, `html.no-js.dark` |
-| **B — no trip menu** | about, dashboards, log, pins, writing | Experiences flattened to a plain link; no trip dropdown; `html.no-js` (light) |
-| **C — legacy** | books, bookstores + 5 city pages, games | No Experiences at all, **no theme toggle, no theme-init script**, no mobile close button, a different "Heart's Library" footer |
-| **D — intentional** | photos (redirect stub), post (noindex tool) | No shell by design. Do not "fix" these |
+```
+node scripts/shell.js            rewrite every page
+node scripts/shell.js --check    report drift, write nothing, exit 1 if any
+```
 
-A fifth variant existed until Aug 2026: `fiction.html` and `nonfiction.html`
-ran on a separate design system whose stylesheets had already been deleted, so
-they rendered as near-raw HTML. They were orphaned and are now deleted. Their
-book rows duplicated `js/books.js`, which is once again the only place a book
-lives.
+**Anything written between the fences is destroyed on the next run.** Each
+managed region is bracketed by sentinel comments — `<!--#shell:head-->` /
+`<!--/#shell:head-->`, and the same for `#shell:nav` (nav *and* mobile menu, one
+region) and `#shell:footer`. Everything outside them is the page's own content
+and is never touched. To change a nav link, the wordmark, the footer, a meta
+tag or the Elsewhere menu, edit `scripts/shell.js` and run it — never a `.html`
+file. (`swap()` also knows how to find un-fenced legacy markup by its landmarks
+and fence it in place; that first-run migration has already happened.)
 
-**`index.html` is NOT a copy-paste source.** It is the only page with
-`nav__wordmark`; all 19 other shelled pages use `nav__back` ("Home") plus a
-`nav__scrolltitle`. Copy the shell from a same-family page instead —
-`experiences.html` for family A, `about.html` for family B.
+The four hand-maintained shell variants that used to be documented here are
+gone. All 9 shelled pages get the same nav — including the Experiences dropdown
+(`#navTrips` / `#menuTrips`), which is why every one of them loads
+`js/photos.js` and `js/hobby.js` to fill it. `aria-current` follows the
+manifest's `current` key, so pages the nav doesn't link to (gallery, writing,
+pins, games, dashboards) correctly have none.
 
-**`aria-current="page"` only applies to pages the nav actually links to** —
-index (Photos), experiences, feed (Journal), about. Every other page has no
-matching nav item, so it correctly has none. Don't "fix" that.
+Three pages carry `shell: false` and render their own chrome by design:
+`photos.html` (redirect stub), `post.html` (the noindex phone composer) and
+`print.html` (the noindex scrapbook tool). They stay in the manifest only so
+the cache-stamp sweep still reaches them — in practice just `print.html`, the
+one of the three that links a stamped asset. Don't "fix" any of them.
 
-**Two naming registers, deliberately.** Photography pages title as
-"… — Cody Heart Photography" / "— Cody Heart"; books-wing pages title as
-"… — Heart's Library". Don't unify them.
+`nav__back` and `nav__wordmark` are gone. Every page now carries the same
+`.wordmark` — "Cody Heart" with the heart as the full stop — and it links home,
+so no page needs a bespoke back affordance. The `nav__scrolltitle` is an
+ordinary flex child between the wordmark and the links, not absolutely centred;
+see `css/review.css:386` for why.
 
-**Cache stamps.** Every `css`/`js` link carries `?v=YYYYMMDD-N` (currently
-`v=20260810-7`, 59 occurrences). When you change a `.css` or `.js` file, bump
-the stamp **on every page at once** or caches serve stale assets. `scripts/post.js`
-does this automatically for trip posts.
+**One naming register on the shelled pages.** Everything the shell touches
+titles "… — Cody Heart Photography" (index is the bare
+"Cody Heart Photography"), assembled from `SITE.suffix` in `scripts/shell.js`,
+so it cannot drift. The only survivors of the old second register are the three
+chrome-free pages, whose heads are hand-written: `post.html` and `print.html`
+say "— Heart's Library", `photos.html` says "— Cody Heart". The books wing that
+justified that register is gone; ask Cody before unifying them.
 
-**Theme.** `<html class="no-js dark">` plus an inline blocking script in `<head>`
-that reads `localStorage["hl-theme"]`, else computes sunrise/sunset to pick a
-theme. It must stay inline and blocking in `<head>` — deferring it causes a
-flash of the wrong theme. Colors come from tokens in `:root`; `html.dark` flips
-the scale. Don't hardcode hex for text/surface/border. The one intentional fixed
-color is `--heart: #E5484D` (the wordmark heart, inline in each page's nav SVG).
+**Cache stamps.** Every `css`/`js` link carries `?v=YYYYMMDD-N`, and
+`scripts/shell.js` writes it from the `STAMP` constant at the top of that file
+(currently `20260810-11`). Change a `.css` or `.js` file → bump `STAMP`, run
+`node scripts/shell.js`. The old "bump it on every page at once" chore is gone,
+and the `shell: false` pages are swept too.
+
+`shell.js` is the only thing that stamps. `post-trip.yml` used to `sed` the
+pages directly, which the next local run silently undid; it now calls
+`node scripts/shell.js --stamp <date>-<run number>`, and that flag rewrites the
+`STAMP` constant as well as the pages, so CI and the working tree can't drift
+apart. (`scripts/post.js` doesn't stamp at all; it only prints a reminder.)
+
+**Theme — three states.** `<html class="no-js dark">` plus an inline blocking
+script in `<head>` (`THEME_INIT` in `scripts/shell.js`) that reads
+`localStorage["hl-theme"]`; anything that isn't `"light"` or `"dark"` means
+**auto**, which computes sunrise/sunset. `html[data-theme]` records what was
+chosen (auto · light · dark), `html.dark` records what that resolves to and
+flips the token scale. Choosing auto **removes** the key, so the sun-driven
+default stays reachable. The bar carries one cycling glyph (`.theme-btn`,
+hidden below 768px); the mobile menu carries the labelled three-way
+(`.theme-pick`), because on phones the open overlay covers the bar. Both are
+wired by `setupTheme()` in `js/review.js`, which resolves the sun exactly as
+the head script does. The head script must stay inline and blocking in `<head>`
+— deferring it causes a flash of the wrong theme. Don't hardcode hex for
+text/surface/border. The one intentional fixed color is `--heart: #E5484D` in
+`:root`; the mark's paths fill with `currentColor`, and the only place the hex
+repeats is `images/mark.svg` (the aperture-heart favicon), which has no CSS.
 
 **Motion is CSS-only.** No GSAP, no ScrollTrigger, no CDN. Content must never be
 hidden waiting on JS — a previous JS-gated reveal stranded headings invisible
 when rAF stalled. Render content visible; enhance after.
 
-**Broken media degrades quietly.** Book covers fall back to a typeset "jacket"
-(`window.coverFallback`); broken feed images remove themselves. Preserve this —
-never let a broken URL show a broken-image icon.
+**Broken media degrades quietly.** Broken feed images remove themselves, and
+the About portrait drops its whole `<figure>`. Preserve this — never let a
+broken URL show a broken-image icon. (The old book-cover "jacket" fallback —
+`window.coverFallback` inline in every head, `sweepBrokenCovers` in
+`js/review.js` — is deleted, markup, script and CSS. Nothing calls it and
+nothing should bring it back.)
 
 **`photos.html` is an intentional redirect stub**, not a broken page. It forwards
 to `index.html` preserving `?trip=` deep links so old URLs keep working. Leave it.
@@ -97,20 +141,25 @@ after CI shrinks it. Fine for photos; trim 4K video before committing.
 
 `--sans` Geist · `--serif` **and** `--display` Cheltenham Classic · `--mono`
 Geist Mono. Cheltenham carries every serif role, display through caption —
-that decision is recorded at `css/review.css:179`.
+that decision is recorded at `css/review.css:181`.
 
 `fonts/` also holds Gooper, Instrument Serif, Sprig and Regards, and
 `css/review.css` still declares `@font-face` for them, but **no token points at
 any of them**. Two comments in that file (lines 7 and 95) still name Gooper and
-Sprig as the site serif and are simply out of date — the token block at line 179
+Sprig as the site serif and are simply out of date — the token block at line 181
 wins. Don't "restore" a font based on those comments.
 
 ## House style
 
-Cody's standing preferences, from `HANDOFF.md`: minimal italics, no stars UI
-(everything on the shelf is five stars), filters integrated into the list rather
-than a separate control, no search box, whitespace concentrated inside rows and
-cards rather than between them.
+Cody's standing preferences, from `HANDOFF.md`: minimal italics, no stars UI,
+filters integrated into the list rather than a separate control, no search box,
+whitespace concentrated inside rows and cards rather than between them.
 
 For prose written under Cody's name, match the voice already on the site — the
-existing review copy and trip notes are the reference.
+trip notes, the About essay, and the journal beats are the reference. Plain,
+concrete, understated; no marketing tone.
+
+The through-line for photography copy: the work is visual **and written**
+documentation of his life. Anything from a phone snapshot to a G Master lens
+counts — the point is to shoot it and to write down what happened, not the
+gear.

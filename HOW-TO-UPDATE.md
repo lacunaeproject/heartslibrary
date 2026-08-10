@@ -7,7 +7,6 @@ lives in **one plain data file** you edit to post. You never touch HTML or CSS:
 | Collection | Page | Edit this file |
 |---|---|---|
 | Photos | `index.html` (the wall) + `gallery.html?trip=<slug>` | `js/photos.js` (+ drop images in `photos/<trip>/`) |
-| Books (the shelf) | `books.html` | `js/books.js` |
 | Pins (articles) | `pins.html` | `js/pins.js` |
 | Writing | `writing.html` | `js/writing.js` |
 | Games | `games.html` | `js/games.js` |
@@ -19,10 +18,9 @@ keeps old links and `?trip=` deep links working. There's nothing to edit in it.
 
 **The Journal** (`feed.html`) is the thread of what you wrote from inside each
 experience: it renders the `beats` in `js/photos.js`, newest first. It is
-photography only — books, pins, games, and writing do not appear there.
+photography only — pins, games, and writing do not appear there.
 
-Feed imagery: book jackets are captured automatically by the sync (the
-`cover` field in js/log.js). Pins and games take an optional `image:` —
+Imagery elsewhere: pins and games take an optional `image:` —
 paste the article's social/OG image URL (or any local path) for pins, and
 for games a Steam header works great
 (`https://cdn.cloudflare.steamstatic.com/steam/apps/<appid>/header.jpg`).
@@ -112,37 +110,13 @@ sample trips in `js/photos.js` with your own and delete the folder when
 you're done with it. The pins, games, and writing files ship with clearly
 marked sample entries too.
 
-## Add a book
-
-1. Open `js/books.js`
-2. Copy any existing block between `{ ... },` in the `BOOKS` list
-3. Paste it where you want the book to appear (order on the page = order in the file)
-4. Change the fields:
-
-| Field | What it does |
-|---|---|
-| `title`, `author` | What they say |
-| `section` | `"Fiction"` or `"Nonfiction"` — controls which shelf group it sits in |
-| `tag`, `tagLabel` | The filter chip it belongs to. A brand-new tag makes a new chip automatically |
-| `cover` | Full URL to a cover image (a missing/broken cover renders as a clean typeset jacket, so nothing ever looks broken) |
-| `short` | The quick take shown on the shelf. Plain text or a little HTML (`<em>` etc.) |
-| `full` | A list of `"<p>...</p>"` paragraphs for the full review. **Currently not shown** — the Full-review toggle is retired for now, but the field is kept so it can come back |
-| `featured` | `true` puts it in the "★ Top ten" chip |
-| `shopName`, `shopHref` | The "Read at ..." credit inside the review (optional) |
-
-5. Save. Refresh the page. Done.
-
-## The to-be-read strip (retired)
-
-The "Up next" strip is currently off — its `UPNEXT` data still sits at the
-bottom of `js/books.js` but isn't rendered. To bring it back, restore the
-`upnext` section in `index.html` and its render block in `js/shelf.js`
-(both are in git history).
-
 ## Everything else
 
-- **Bookstores / Dashboards / About** are plain HTML pages (`bookstores.html`,
-  `dashboards.html`, `about.html`) — edit the text right in the file.
+- **Dashboards / About** are plain HTML pages (`dashboards.html`,
+  `about.html`) — edit the text right in the file.
+- The About-page portrait is `images/cody-portrait.jpg`. Swap the file to
+  change it; portrait-ish works best. If it ever goes missing the figure
+  removes itself rather than showing a broken image.
 - **Colors and fonts** are CSS variables at the top of `css/review.css`
   (`--foreground`, `--surface`, `--accent`, `--serif`, ...). They're copied
   from codyheart.design so the two sites stay in step — change once here,
@@ -150,60 +124,53 @@ bottom of `js/books.js` but isn't rendered. To bring it back, restore the
 - Hosting: it's a fully static site — drop the folder on GitHub Pages, Netlify,
   or any host. No build step.
 
-## Currently reading
+## Change the nav, a page title, or the footer
 
-**This one updates itself.** The `CURRENT` list in `js/books.js` is synced
-from your Goodreads "currently reading" shelf every 6 hours by a GitHub
-Action (`.github/workflows/sync-goodreads.yml`, which runs
-`scripts/sync-goodreads.py`). Just update Goodreads and the site follows.
+Everything around your content — the top nav, the phone menu, the footer, the
+wordmark, and the bits of each page's `<head>` that don't show (the title in the
+browser tab, the description Google prints, the picture that appears when a link
+is shared) — lives in **one file**: `scripts/shell.js`. Edit it, then run:
 
-**Currently not displayed** — the card was retired from the Shelf's hero.
-The data keeps syncing and the renderer in `js/shelf.js` is intact; to
-bring it back, add `<div id="currentlyReading" class="current-read">
-</div>` to `books.html`.
+```
+node scripts/shell.js
+```
 
-- Don't hand-edit `CURRENT` — the next sync overwrites it. To change what
-  shows, change the shelf on Goodreads.
-- To sync right now instead of waiting: GitHub → Actions → "Sync Goodreads"
-  → Run workflow. (Or run `python scripts/sync-goodreads.py` locally and
-  push.)
-- Subtitles ("Rise and Kill First: The Secret History of…") and series
-  markers are trimmed automatically so the card stays tidy.
-- Empty shelf on Goodreads = the callout quietly disappears. Nothing breaks.
-- Your photo on the Shelf is `images/cody-portrait.jpg` — it's the little
-  byline avatar under the deck, and hovering it zooms the full photo.
-  Swap the file to change it (portrait-ish works best; the tooltip crops
-  it 4:5, the circle crops near the top).
+and every page picks up the change at once. That's the place to go for a nav
+link, a page's title or description, the Elsewhere menu (Substack, Instagram,
+email), or the footer. `node scripts/shell.js --check` says whether any page has
+drifted, without changing anything.
 
-## Five-star reads → drafts
+**Don't fix the nav by hand in an `.html` file.** In each page the generated
+parts sit between marker comments:
 
-The same sync watches your "read" shelf. Rate a book **5 stars** on
-Goodreads and a pre-filled entry (title, author, cover, your Goodreads
-review text if you wrote one) lands in **`js/drafts.js`** on the next run.
+```
+<!--#shell:nav-->   ...the nav and the phone menu...   <!--/#shell:nav-->
+```
 
-That file is never loaded by the site — nothing is public until you act:
+Anything you type between a pair of those is wiped the next time the script
+runs. Everything outside them is the page's own content and is left alone — so
+editing the About essay or the Dashboards copy in place is still fine.
 
-1. Open `js/drafts.js`, pick a draft, fill in `section`, `tag`/`tagLabel`,
-   and `short`.
-2. Cut the block and paste it into the `BOOKS` list in `js/books.js`
-   wherever you want it on the page. Done.
+One more: if you ever change a file in `css/` or `js/`, bump `STAMP` near the
+top of `scripts/shell.js` and run it. That's the `?v=` on the end of every link,
+and without a fresh one anyone who's been to the site keeps the old file out of
+their browser's cache. (Posting a trip does this for you.)
 
-That's the whole job now. The old `fiction.html` / `nonfiction.html` pages
-kept their own hand-numbered copies of every book row, so adding a book used
-to mean editing them too and renumbering. They were deleted in Aug 2026 —
-`js/books.js` is the only place a book lives.
+## Make a scrapbook (print.html)
 
-Don't want one on the shelf? Delete the block and add its title to
-`DRAFT_SKIP` at the top of `js/drafts.js` so it isn't re-drafted.
-Only books finished after 29 Jul 2026 are picked up — the older backlog
-stays untouched.
+Open **`print.html`** — it's yours only, linked from nowhere and kept out of
+search. Tick the experiences you want, choose photos-and-writing or
+writing-only, pick Letter or A4, say whether you're printing one-sided or
+double-sided, and hit **Print / Save as PDF**. Every experience starts on a
+fresh sheet, and the bound edge holds an extra ¾ inch so a three-hole punch
+lands in the margin instead of in a photograph. Punch it, ring it, done.
 
-## The Log (log.html)
+In Chrome's print box leave Margins and Scale on **Default**, tick
+**Background graphics** so the rules and captions come through, and tick
+**Headers and footers** if you want page numbers. Printing everything at once
+is slow — Chrome loads all ninety-odd frames before the box even opens — so
+save it as a PDF and look at that before you commit a tray of paper.
 
-**Fully automatic.** `log.html` shows every book on your Goodreads "read"
-shelf — title, author, star rating, date finished, grouped by year. The
-sync rewrites `js/log.js` from the full shelf on every run; there is
-nothing to maintain. Five-star rows get their stars in the wordmark red.
-Mark a book read (or fix a rating) on Goodreads and the page follows.
-It's linked from the footer on every page, the "A library of one" note
-on the Shelf, and the mobile menus — deliberately not the main nav.
+If you want the photo files themselves rather than the printout, the page also
+writes you a PowerShell command that gathers the frames from whatever you
+ticked into one folder on the Desktop.

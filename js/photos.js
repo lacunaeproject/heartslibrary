@@ -506,7 +506,21 @@ window.TRIPS = [
          alt: "What it shows", caption: "Optional caption" }
      ] }
    ============================================================ */
-window.POSTS = [];
+window.POSTS = [
+  { time: "2026-08-11T19:40",
+    title: "The pizza",
+    at: "Emmy Squared, East Nashville",
+    say: "Detroit style, burnt cheese right to the edge of the pan. No photograph of it does anything for you, so here is the note instead." },
+
+  { time: "2026-08-10T08:15",
+    at: "Nashville",
+    say: "Started keeping these on my phone instead of in my head. Most of them are two sentences long. That seems to be the whole trick." },
+
+  { time: "2026-08-06T19:40",
+    at: "Shelby Park",
+    head: "Nothing on the card",
+    say: "Walked the greenway after work, shot maybe forty frames, kept none of them. Still glad I brought the camera. Some evenings that is the entire report." }
+];
 
 /* ============================================================
    MOMENTS — the rest of the record: shows seen, tickets held,

@@ -16,7 +16,7 @@ window.PINS = [
     source: "The Atlantic",
     year: "2014",
     url: "https://www.theatlantic.com/magazine/archive/2014/06/the-case-for-reparations/361631/",
-    note: "The piece that turns policy history into a moral ledger. Pairs with half the nonfiction shelf."
+    note: "The piece that turns policy history into a moral ledger. I have never been able to unread it."
   },
   {
     title: "The Really Big One",
