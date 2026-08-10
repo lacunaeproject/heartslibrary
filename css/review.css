@@ -512,17 +512,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   margin-top: 2px;
 }
 
-/* Reads at the same size as the rows above it — the experience rows
-   set their titles at 13/550, and the way out of the menu should not
-   look like a smaller class of thing than the way in. It keeps the
-   quieter ink, which is what marks it as the footer of the list
-   rather than another experience. */
-.menu-item--all {
-  justify-content: space-between;
-  font-size: 13px;
-  font-weight: 550;
-  color: var(--ink-55);
-  padding: 12px;
+/* The way through to the full ledger is a row like any other — tile,
+   title, line under it. It used to be small print set apart at the
+   bottom, which made the most useful link in the menu the least
+   prominent thing in it. Its tile takes the cover frames' rounded
+   square and holds a mark instead of a photograph, so it sits level
+   with the experiences above rather than trailing them. */
+.menu-item__tile--all {
+  border-radius: 14px;
+  corner-shape: squircle;
 }
 
 /* Duotone icons: grey by default, colored on row hover */
@@ -679,13 +677,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 .mobile-menu__triplist { gap: 2px; }
 .mobile-menu__triplist .mobile-menu__item { padding: 8px 12px; }
 .mobile-menu__triplist .mobile-menu__item .menu-item__tile { width: 42px; height: 42px; border-radius: 11px; }
-.mobile-menu__all {
-  justify-content: space-between;
-  font-size: 13px;
-  font-weight: 550;
-  color: var(--ink-55);
-}
-.mobile-menu__all:hover { color: var(--ink-85); }
+/* Same in the burger: the row carries a tile and reads like the
+   experiences above it, so it needs none of the small-print styling
+   it used to wear. */
 html.menu-locked, body.menu-locked { overflow: hidden; }
 /* and a flick inside the menu shouldn't hand the scroll onward */
 .mobile-menu__inner { overscroll-behavior: contain; }

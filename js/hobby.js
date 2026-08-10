@@ -938,6 +938,23 @@
         row("about.html", "About", "", false) +
         row("mailto:hello@heartslibrary.com", "Contact", "email", false);
     }
+    /* The way through to the full ledger wears a card like every other
+       row — the same rounded square as the cover frames, so it reads as
+       one of the options rather than a footnote underneath them. The
+       count comes from the data, so it stays true as experiences land. */
+    var oldest = (TRIPS[TRIPS.length - 1] || {}).posted || "";
+    var allDesc = TRIPS.length + (oldest ? ", back to " + oldest.slice(0, 4) : "");
+    var allCard =
+      '<div class="menu-item__tile menu-item__tile--all">' +
+        '<svg class="icon-duo" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+          '<rect class="duo-a" x="3" y="3" width="8.4" height="8.4" rx="2.4"/>' +
+          '<rect class="duo-b" x="12.6" y="3" width="8.4" height="8.4" rx="2.4"/>' +
+          '<rect class="duo-b" x="3" y="12.6" width="8.4" height="8.4" rx="2.4"/>' +
+          '<rect class="duo-a" x="12.6" y="12.6" width="8.4" height="8.4" rx="2.4"/>' +
+        "</svg></div>" +
+      '<div><span class="menu-item__title">See all experiences</span>' +
+      '<span class="menu-item__desc">' + esc(allDesc) + "</span></div>";
+
     /* The burger says the same thing the desktop menu does: the six
        newest wearing their cover frame, then the way to the rest.
        Both are built from the same data, so posting updates both. */
@@ -953,7 +970,7 @@
             '<span class="menu-item__desc">' + xpByline(t) + "</span></div></a>";
         }).join("") +
         '<a class="mobile-menu__item mobile-menu__all" href="experiences.html">' +
-          "See all experiences <span class=\"arrow\" aria-hidden=\"true\">→</span></a>";
+          allCard + "</a>";
     }
     /* The Trips dropdown in the top nav */
     var navTrips = document.getElementById("navTrips");
@@ -972,7 +989,7 @@
             '<span class="menu-item__desc">' + byline + "</span></div></a>";
         }).join("") +
         '<a class="menu-item menu-item--all" role="menuitem" href="experiences.html">' +
-          'See all experiences <span class="arrow" aria-hidden="true">→</span></a>';
+          allCard + "</a>";
     }
   }
 
