@@ -1,23 +1,25 @@
 # Updating Heart's Library
 
-Since the Aug 2026 pivot this is a hobbies site: the homepage is a hub
-(latest photos + the card catalog of drawers), and each collection lives in
-**one plain data file** you edit to post. You never touch HTML or CSS:
+Since the Aug 2026 pivot this is a photography-first site: the homepage is
+the **wall** (every frame flagged `best`, newest first), and each collection
+lives in **one plain data file** you edit to post. You never touch HTML or CSS:
 
 | Collection | Page | Edit this file |
 |---|---|---|
-| Photos | `photos.html` | `js/photos.js` (+ drop images in `photos/<trip>/`) |
+| Photos | `index.html` (the wall) + `gallery.html?trip=<slug>` | `js/photos.js` (+ drop images in `photos/<trip>/`) |
 | Books (the shelf) | `books.html` | `js/books.js` |
 | Pins (articles) | `pins.html` | `js/pins.js` |
 | Writing | `writing.html` | `js/writing.js` |
 | Games | `games.html` | `js/games.js` |
 
-Each file's header comment shows the exact fields. The hub's drawers and
-counts fill themselves from the same files, and the homepage's
-**Circulation Desk feed** merges everything into one thread: books come in
-automatically from the Goodreads log; photos, pins, games, and writing
-appear when their entry has a `posted: "YYYY-MM-DD"` date. No date, no
-feed bubble — so you control what surfaces.
+Each file's header comment shows the exact fields.
+
+`photos.html` still answers, but only as a forwarder to the homepage — it
+keeps old links and `?trip=` deep links working. There's nothing to edit in it.
+
+**The Journal** (`feed.html`) is the thread of what you wrote from inside each
+experience: it renders the `beats` in `js/photos.js`, newest first. It is
+photography only — books, pins, games, and writing do not appear there.
 
 Feed imagery: book jackets are captured automatically by the sync (the
 `cover` field in js/log.js). Pins and games take an optional `image:` —
@@ -60,7 +62,24 @@ A workflow (`.github/workflows/post-trip.yml`) does the rest.
    want the exact sort position. After that, blank lines separate
    **posts**. A `[bracketed]` line is the dateline. Filenames are media.
    Everything else is you talking — the first sentence becomes the
-   headline. Two spaces after a filename captions that one frame.
+   headline.
+
+   Two spaces after a filename describe that one frame:
+
+   ```
+   mcway.jpg  The cove, four minutes of light
+   mcway.jpg  [Sunlit falls dropping onto a sand cove]
+   mcway.jpg  Four minutes of light  [Sunlit falls onto sand]
+   ```
+
+   Plain text is a **caption** — printed under the frame, and used as
+   its alt text. Text in **[brackets]** is alt only: it describes the
+   picture for someone using a screen reader without putting a caption
+   on the page. Most frames want the bracket form — a wall of visible
+   captions isn't the look, but an undescribed photo isn't an option
+   either. A frame with neither falls back to the collection's name,
+   which reads identically on every frame and tells a blind visitor
+   nothing; the poster counts those and tells you how many.
 4. Commit. Within a couple of minutes the site is live.
 
 The workflow resizes photos to 1600px, transcodes clips to web MP4 at
@@ -92,8 +111,6 @@ whose slug you pass.
 sample trips in `js/photos.js` with your own and delete the folder when
 you're done with it. The pins, games, and writing files ship with clearly
 marked sample entries too.
-
-## Add a book
 
 ## Add a book
 
@@ -170,9 +187,11 @@ That file is never loaded by the site — nothing is public until you act:
    and `short`.
 2. Cut the block and paste it into the `BOOKS` list in `js/books.js`
    wherever you want it on the page. Done.
-3. Heads up: `fiction.html` and `nonfiction.html` keep their own static
-   copies of the book rows (numbered `№ 01`, `№ 02`, …) — if the book
-   belongs on one of those pages too, add a row there and renumber.
+
+That's the whole job now. The old `fiction.html` / `nonfiction.html` pages
+kept their own hand-numbered copies of every book row, so adding a book used
+to mean editing them too and renumbering. They were deleted in Aug 2026 —
+`js/books.js` is the only place a book lives.
 
 Don't want one on the shelf? Delete the block and add its title to
 `DRAFT_SKIP` at the top of `js/drafts.js` so it isn't re-drafted.

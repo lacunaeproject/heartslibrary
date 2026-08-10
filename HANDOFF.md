@@ -8,25 +8,37 @@ step, hosts anywhere (GitHub Pages, Netlify, any web server), or open
 ## What it is
 
 **Since Aug 2026 a photography-first site** — the photography wing
-(home, gallery pages, archive) runs DARK in park.photos' full register:
+(home, gallery pages, journal) runs DARK in park.photos' full register:
 near-black ground under a fixed film-grain wash (html.dark flips the
-token scale; grain is an SVG-noise overlay), Instrument Serif display
-type (self-hosted in fonts/), a two-row marquee of trip names and
-thumbs, and the gallery grid: big rounded trip covers (newest trip gets
-the wide tile), the title rising in on hover, each tile clicking through
-to that trip's gallery. The hobby wings survive one floor down, out of
-the global nav (which slims to Galleries · About · Elsewhere), reachable
-from the homepage's Rest-of-the-Library row and the footer. Every
-collection reads from one plain data file (see HOW-TO-UPDATE.md).
+token scale; grain is an SVG-noise overlay), self-hosted serif display
+type, and the wall of frames itself. The hobby wings survive one floor
+down, out of the global nav, reachable from the footer. Every collection
+reads from one plain data file (see HOW-TO-UPDATE.md).
 
-- **index.html** — hero + the gallery grid (`js/hobby.js` builds tiles
-  from `js/photos.js`) + background links + colophon.
-- **gallery.html?trip=<slug>** — one trip's gallery: crumb, title, note,
-  mono meta, photo grid, shared `<dialog>` lightbox, and a trail to the
+The global nav is **Photos · Experiences · Journal · About · Elsewhere**,
+where Experiences and Elsewhere are dropdowns; the Experiences menu is
+filled at runtime from `js/photos.js` (`#navTrips`, and `#menuTrips` on
+mobile).
+
+- **index.html** — the wall: every frame flagged `best: true`, newest
+  first, full-bleed (`#bestWall`, built by `js/hobby.js` from
+  `js/photos.js`), a frames/collections stat line, and the shared
+  `<dialog>` lightbox with a personal-use download.
+- **gallery.html?trip=<slug>** — one collection: crumb, title, note,
+  mono meta, photo grid, the same lightbox, and a trail to the
   other galleries.
-- **photos.html** — the archive: every trip on one page, same lightbox.
-  All photography ships with generated placeholder art in
-  `photos/placeholders/` until real rolls land.
+- **experiences.html** — the index of collections (`#experienceList`).
+- **feed.html — the Journal** — the thread of `beats` from
+  `js/photos.js`, newest first. Photography only; books, pins, games and
+  writing do not appear here.
+- **post.html** — a single journal post.
+- **photos.html** — not a page any more: a redirect stub that forwards to
+  `index.html` preserving `?trip=` deep links, so old URLs keep working.
+
+Real photography now ships in `photos/` (deadbeat-tour, sandiego-zoo,
+london-paris, fenway). The generated placeholder art in
+`photos/placeholders/` survives only for collections that have no real
+rolls yet — delete it as they land.
 - **books.html — The Shelf** (the old homepage). All 50 five-star reads
   rendered from `js/books.js`: Fiction and Nonfiction groups, one-line
   filter chips with overflow behind a "More" dropdown (bottom sheet on
@@ -49,14 +61,19 @@ collection reads from one plain data file (see HOW-TO-UPDATE.md).
 site that register comes from (andreavollendorf.com)** so the reading site
 reads as an extension of both:
 
-- Fonts (all self-hosted in fonts/, same files as the portfolio):
-  Geist Variable (body, 14px / weight 450 / 1.45rem line-height — the
-  reference's exact body setting), Gooper ×6 cuts (wordmark + all display
-  headings, weight 500), Geist Mono Variable (kickers, counts, meta labels).
-  Chrome runs quiet like the reference: 12px nav links and footer, 14px serif
-  wordmark, 280px dropdowns with 13/12px item type. Regards and Cheltenham
-  Classic are retired but their files stay in fonts/ — restore an @font-face
-  and point `--serif` at it to bring one back.
+- Fonts (all self-hosted in fonts/): Geist Variable (`--sans`; body, 14px /
+  weight 450 / 1.45rem line-height — the reference's exact body setting),
+  **Cheltenham Classic** (`--serif` AND `--display` — it carries every serif
+  role, display through caption), Geist Mono Variable (`--mono`; kickers,
+  counts, meta labels). Chrome runs quiet like the reference: 12px nav links
+  and footer, 14px serif wordmark, 280px dropdowns with 13/12px item type.
+  Gooper, Instrument Serif, Sprig and Regards still have `@font-face` blocks
+  and files in fonts/, but **nothing points at them** — they lost the
+  same-day tour recorded at `css/review.css:179` (Instrument unreadable at
+  small sizes, Sprig no, Gooper slabby and weak small). To bring one back,
+  point `--serif` at it. Two stale comments in review.css still name Gooper
+  (line 7) and Sprig (line 95) as the site serif; they are wrong — the token
+  block at line 179 is authoritative.
 - Tokens in `:root`, copied 1:1 from the portfolio: white ground,
   `--foreground:#171717`, the ink-opacity scale (`--ink-85` … `--ink-30`),
   `--surface:#f6f7f9` cards, `--border`, `--accent:#4c74ff`, the three
