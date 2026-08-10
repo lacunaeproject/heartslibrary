@@ -165,6 +165,7 @@
   --surface-hover: #f0f1f4;
   --border: rgba(0, 0, 0, .08);
   --accent: #4c74ff;
+  --selection: rgba(76, 116, 255, .18);
 
   --ink-85: rgba(0, 0, 0, .85);
   --ink-80: rgba(0, 0, 0, .8);
@@ -247,7 +248,7 @@ img { max-width: 100%; display: block; }
 ul, ol { list-style: none; }
 hr { border: 0; }
 
-::selection { background: rgba(76, 116, 255, .18); }
+::selection { background: var(--selection); }
 
 .visually-hidden {
   position: absolute; width: 1px; height: 1px;
@@ -263,7 +264,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 
 .skip {
   position: absolute; left: -9999px; top: 0;
-  background: var(--foreground); color: #fff;
+  background: var(--foreground); color: var(--background);
   padding: 8px 14px; border-radius: 0 0 8px 0;
   font-size: 13px; z-index: 100;
 }
@@ -271,7 +272,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 
 /* ---------- Shared micro-interactions (portfolio) ---------- */
 .link-hover { transition: color .15s ease, background-color .15s ease; }
-.link-hover:hover { color: rgba(0, 0, 0, .85); }
+.link-hover:hover { color: var(--ink-85); }
 .press-scale { transition: transform .1s; }
 .press-scale:active { transform: scale(.97); }
 /* A frame gives a little under the press, the way the reference's
@@ -426,7 +427,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   border-radius: 6px;
   transition: color .15s ease, background-color .15s ease;
 }
-.nav__link:hover { color: rgba(0, 0, 0, .85); background: var(--surface); }
+.nav__link:hover { color: var(--ink-85); background: var(--surface); }
 .nav__link[aria-current="page"], .nav__link.is-current { color: var(--ink-85); }
 .nav__link .chev {
   transition: transform .2s var(--ease-out-quart);
@@ -585,12 +586,20 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   background: var(--background);
   opacity: 0;
   pointer-events: none;
-  transition: opacity .15s var(--ease-out-quart);
+  /* visibility, not just opacity: a transparent overlay still keeps its
+     links in the tab order and still reports itself as an open
+     aria-modal dialog, so a keyboard user tabbing the header lands on
+     focus that is nowhere on screen — on desktop too, where the burger
+     is display:none but this container is not. Delayed to the end of
+     the fade so the transition still plays on the way out. */
+  visibility: hidden;
+  transition: opacity .15s var(--ease-out-quart), visibility 0s linear .15s;
 }
 .mobile-menu.is-open {
   opacity: 1;
   pointer-events: auto;
-  transition: opacity .2s var(--ease-out-quart);
+  visibility: visible;
+  transition: opacity .2s var(--ease-out-quart), visibility 0s;
 }
 .mobile-menu__inner {
   position: relative;
@@ -749,7 +758,7 @@ main { display: block; }
   row-gap: 16px;
   margin-top: 24px;
   padding-top: 20px;
-  border-top: 1px solid rgba(0, 0, 0, .06);
+  border-top: 1px solid var(--border);
 }
 @media (min-width: 640px) { .props { grid-template-columns: repeat(3, 1fr); } }
 .prop { display: flex; flex-direction: column; }
@@ -1451,7 +1460,7 @@ main { display: block; }
   font-size: 13px;
   font-weight: 500;
   color: var(--ink-65);
-  background: #fff;
+  background: var(--background);
   box-shadow: var(--shadow-raised);
   transition: color .15s ease, transform .1s;
 }
@@ -1785,11 +1794,11 @@ main { display: block; }
   border-radius: 999px;
   font-size: 13px;
   font-weight: 500;
-  background: rgba(0, 0, 0, .85);
-  color: #fff;
+  background: var(--ink-85);
+  color: var(--background);
   transition: background-color .15s ease, transform .1s;
 }
-.btn-open:hover { background: rgba(0, 0, 0, .75); }
+.btn-open:hover { background: var(--ink-78); }
 .btn-open:active { transform: scale(.97); }
 
 /* ============================================================
@@ -1903,7 +1912,7 @@ main { display: block; }
   gap: 16px;
   padding: 7px 0;
 }
-.atlas-row + .atlas-row { border-top: 1px solid rgba(0, 0, 0, .05); }
+.atlas-row + .atlas-row { border-top: 1px solid var(--border); }
 .atlas-when {
   font-family: var(--mono);
   font-size: 11px;
@@ -3971,6 +3980,12 @@ html.dark body {
   --surface: #161615;
   --surface-hover: #1F1F1D;
   --border: rgba(255, 255, 255, .1);
+  /* the light accent is #4c74ff, which goes muddy on near-black and
+     reads as off-palette; lift it rather than leaving links dim */
+  --accent: #8AA4FF;
+  /* .18 alpha over #0A0A0A is close enough to nothing that selecting
+     text looks like it failed */
+  --selection: rgba(138, 164, 255, .32);
   --ink-85: rgba(255, 255, 255, .92);
   --ink-80: rgba(255, 255, 255, .84);
   --ink-78: rgba(255, 255, 255, .8);
@@ -4031,8 +4046,15 @@ html.dark .link-row a {
   color: var(--ink-65);
 }
 html.dark .link-row a:hover { color: var(--ink-85); }
-html.dark .deck a, html.dark .colophon-note a {
+html.dark .deck a, html.dark .colophon-note a, html.dark .dash-note a {
   text-decoration-color: rgba(255, 255, 255, .3);
+}
+/* The library pages auto-darken after sunset, so their one-off light
+   colors need dark counterparts or they vanish into the ground. */
+html.dark .live-pill {
+  background: rgba(48, 164, 108, .16);
+  box-shadow: inset 0 0 0 1px rgba(48, 164, 108, .34);
+  color: #5BD99A;
 }
 html.dark .gcard::before { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1); }
 html.dark .w-pop { box-shadow: 0 4px 24px rgba(0, 0, 0, .6); }
