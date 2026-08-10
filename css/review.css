@@ -3613,9 +3613,9 @@ html.dark .live-sec { background: transparent; }
    out past the right margin beneath — as much of it as the page will
    hold, the rest a scroll away.
 
-   Everything sits grey until you arrive on a band, and then that
-   roll takes its colour and the name takes its ink. A page of grey
-   with one row lit is the whole idea.
+   The frames are in colour from the start — they're the reason
+   anyone came. It's the name that changes: grey until you arrive on
+   its band, then its own ink.
 
    All the way back, not just the current year: 2019 gets the same
    band as this August. Only the year heading marks which one is still
@@ -3653,7 +3653,10 @@ html.dark .live-sec { background: transparent; }
 .xp-band__name {
   display: block;
   font-family: 'Gooper', var(--serif);
+  /* Gooper ships a real Medium Italic at 500, so this is the drawn
+     italic and not a slanted upright */
   font-weight: 500;
+  font-style: italic;
   /* bigger than the 15px it started at, and a long way back from the
      48px it briefly reached — the name should carry the row without
      becoming the poster */
@@ -3666,10 +3669,13 @@ html.dark .live-sec { background: transparent; }
 .xp-band__meta {
   display: block;
   margin-top: 9px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  /* the date and the venue are the row's second line, not its fine
+     print — the body sans at reading size, sentence case, no tracking.
+     Mono and all-caps both made it look like a filing stamp. */
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 450;
+  letter-spacing: 0;
   color: var(--ink-30);
   transition: color .28s ease;
 }
@@ -3697,15 +3703,12 @@ html.dark .live-sec { background: transparent; }
   display: block;
   border-radius: 5px;
   background: var(--surface);
-  filter: grayscale(1);
-  transition: filter .45s var(--ease-out-quart);
 }
 .xp-band__soon {
   margin: 18px 0 0;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 450;
   color: var(--ink-30);
 }
 /* arriving on the band brings the whole row up out of the grey */
@@ -3716,8 +3719,6 @@ html.dark .live-sec { background: transparent; }
 .xp-band:focus-within .xp-band__meta { color: var(--ink-55); }
 .xp-band:hover .xp-band__go,
 .xp-band:focus-within .xp-band__go { color: var(--ink); transform: translateX(4px); }
-.xp-band:hover .xp-band__strip img,
-.xp-band:focus-within .xp-band__strip img { filter: grayscale(0); }
 .xp-band:nth-child(5n+1) { --ink: #C7502C; }
 .xp-band:nth-child(5n+2) { --ink: #A64A3F; }
 .xp-band:nth-child(5n+3) { --ink: #C13840; }
@@ -3729,9 +3730,8 @@ html.dark .xp-band:nth-child(5n+2) { --ink: #E08A78; }
 html.dark .xp-band:nth-child(5n+3) { --ink: #F26E75; }
 html.dark .xp-band:nth-child(5n+4) { --ink: #5FC6E0; }
 html.dark .xp-band:nth-child(5n+5) { --ink: #B49BE8; }
-/* a finger has no hover, so the roll arrives in colour on touch */
+/* a finger has no hover, so the name wears its ink from the start */
 @media (hover: none) {
-  .xp-band__strip img { filter: none; }
   .xp-band__name { color: var(--ink); }
 }
 /* The journal is one centered column at social-feed width — the
