@@ -203,6 +203,13 @@
 
   /* The one mark the library keeps: the wordmark heart. */
   --heart: #E5484D;
+
+  /* The journal post's own grey. It is NOT --surface: that is the site's
+     panel tint (#f6f7f9) and reads as almost-white behind a block of
+     text. This is the incoming-bubble grey from iOS Messages, which is
+     the register the journal is aiming at — enough darker that the post
+     is an object on the page rather than a faint tint of it. */
+  --bubble: #E9E9EB;
 }
 @media (min-width: 1024px) {
   :root { --gutter: 80px; }
@@ -2814,7 +2821,7 @@ html.dark body.feed-page { background: var(--background); }
   justify-content: space-between;
   gap: 18px;
   line-height: 1.3;
-  margin-bottom: 11px;
+  margin-bottom: 4px;
   scroll-margin-top: 92px;
 }
 /* A KICKER, NOT A TITLE. The dateline ran at the prose size in heavy
@@ -2863,7 +2870,7 @@ html.dark body.feed-page { background: var(--background); }
   max-width: 100%;
   padding: 18px var(--bubble-pad) 20px;
   border-radius: 16px;
-  background: var(--surface);
+  background: var(--bubble);
 }
 .bubble--media { display: block; }
 /* air between the writing and what was shot while it was written */
@@ -3367,6 +3374,9 @@ html.dark body {
   --foreground: #F5F5F3;
   --surface: #161615;
   --surface-hover: #1F1F1D;
+  /* iOS lifts the incoming bubble off the black rather than sinking it,
+     so this goes lighter than --surface, not darker */
+  --bubble: #2A2A2C;
   --border: rgba(255, 255, 255, .1);
   /* the light accent is #4c74ff, which goes muddy on near-black and
      reads as off-palette; lift it rather than leaving links dim */
