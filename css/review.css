@@ -512,11 +512,17 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   margin-top: 2px;
 }
 
+/* Reads at the same size as the rows above it — the experience rows
+   set their titles at 13/550, and the way out of the menu should not
+   look like a smaller class of thing than the way in. It keeps the
+   quieter ink, which is what marks it as the footer of the list
+   rather than another experience. */
 .menu-item--all {
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 550;
   color: var(--ink-55);
-  padding: 10px 12px;
+  padding: 12px;
 }
 
 /* Duotone icons: grey by default, colored on row hover */
