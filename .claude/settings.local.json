@@ -179,7 +179,25 @@
       "Bash(git merge *)",
       "Bash(git branch *)",
       "Bash(sed -n '/function loadTrips/,/^}/p' scripts/post.js)",
-      "Bash(sed -n '/function writeTrips/,/^}/p' scripts/post.js)"
+      "Bash(sed -n '/function writeTrips/,/^}/p' scripts/post.js)",
+      "Bash(curl -s \"https://api.github.com/repos/lacunaeproject/heartslibrary/actions/runs?per_page=4\")",
+      "Bash(curl -s -o /dev/null -w \"index.html      %{http_code}\\\\n\" https://heartslibrary.com/)",
+      "Bash(curl -s -o /dev/null -w \"fiction.html    %{http_code}\\\\n\" https://heartslibrary.com/fiction.html)",
+      "Bash(curl -s -o /dev/null -w \"experiences     %{http_code}\\\\n\" https://heartslibrary.com/experiences.html)",
+      "Bash(curl -s https://heartslibrary.com/?x=__TRACKED_VAR__)",
+      "Bash(curl *)",
+      "Bash(sed -n '/^\\\\.chip {/,/^}/p;/^\\\\.filter-pill {/,/^}/p' css/review.css)",
+      "Bash(sed -n '/^\\\\.xp-rows/,/^\\\\.xp-count/p' css/review.css)",
+      "Bash(sed -n '/^\\\\.log-year/,/^}/p' css/review.css)",
+      "Bash(sed -n '/^\\\\.accent/,/^}/p' css/review.css)",
+      "Bash(awk '/The year still being lived/,/^}$/' css/review.css)",
+      "Bash(sed -n '/^\\\\.page-head {/,/^}/p' css/review.css)",
+      "Bash(sed -n '/^\\\\.page-head\\\\.wall/,/^}/p' css/review.css)",
+      "Bash(sed -n '/^\\\\.stream-grid/,/^}/p' css/review.css)",
+      "Bash(sed -n '/^\\\\.shot {/,/^}/p' css/review.css)",
+      "Bash(sed -n '/^\\\\.shot-btn img/,/^}/p' css/review.css)",
+      "Bash(sed -n '/function shotHtml/,/^  }/p' js/hobby.js)",
+      "Bash(sed -n '/var bestWall = document.getElementById/,/^  }/p' js/hobby.js)"
     ]
   }
 }
