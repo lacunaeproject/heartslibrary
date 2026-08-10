@@ -711,18 +711,14 @@
        changed in January. The years under it stay plain rows — the
        contrast is the point, and it only works if it happens once. */
     var thisYear = String((TRIPS[0] || {}).posted || "").slice(0, 4);
-    /* Set like a Fillmore bill: the act with the most frames gets the
-       headline, everything else falls in behind it, and the ones with
-       no pictures yet are the support act in small type at the bottom
-       of the sheet. The billing is the data — nothing here is decided
-       by hand. Square-rooted so the headliner doesn't run off the
-       page when a year holds one enormous set and a dozen small ones. */
-    var loudMax = TRIPS.reduce(function (m, t) {
-      return String(t.posted || "").slice(0, 4) === thisYear
-        ? Math.max(m, (t.photos || []).length) : m;
-    }, 0);
-    var billSize = function (n) {
-      return 21 + (loudMax ? Math.round(33 * Math.sqrt(n / loudMax)) : 0);
+    /* The live year runs as a rail — three at a time, oversized, and
+       grey until you arrive on one. Same reel the galleries use, so it
+       inherits the arrows, the snapping and the end-stops. */
+    var xpArrow = function (cls, label, d) {
+      return '<button class="reel-arrow ' + cls + '" type="button" aria-label="' + label + '">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+        'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + d +
+        '"/></svg></button>';
     };
     var xhtml = "", xyear = null, xopen = "";
     TRIPS.forEach(function (t, i) {
@@ -733,17 +729,25 @@
         if (xopen) xhtml += xopen;
         xhtml += '<h2 class="log-year' + (loud ? " log-year--now" : "") + '">' +
           (loud ? '<span class="accent">' + esc(y) + "</span>" : esc(y)) + "</h2>";
-        xhtml += loud ? '<ul class="xp-bill">' : '<ol class="xp-rows">';
-        xopen = loud ? "</ul>" : "</ol>";
+        if (loud) {
+          xhtml += '<div class="reel xp-reel"><div class="reel-window">' +
+            xpArrow("reel-prev", "Previous experience", "M15 5l-7 7 7 7") +
+            xpArrow("reel-next", "Next experience", "M9 5l7 7-7 7") +
+            '<div class="reel-track">';
+          xopen = "</div></div></div>";
+        } else {
+          xhtml += '<ol class="xp-rows">';
+          xopen = "</ol>";
+        }
       }
       var n = (t.photos || []).length;
       var src = thumbSrc(t);
       if (loud) {
-        xhtml += '<li class="xp-act" style="--size:' + billSize(n) + 'px">' +
-          '<a class="xp-act__link" href="gallery.html?trip=' + esc(t.slug) + '">' +
-          esc(xpName(t)) +
-          (n ? '<span class="xp-act__n">' + n + "</span>" : "") +
-          "</a></li>";
+        xhtml += '<a class="xp-card" href="gallery.html?trip=' + esc(t.slug) + '">' +
+          '<span class="xp-card__name">' + esc(xpName(t)) + "</span>" +
+          '<span class="xp-card__meta">' +
+            (n ? n + (n === 1 ? " frame" : " frames") : "Not yet") + "</span>" +
+          "</a>";
         return;
       }
       xhtml += '<li class="xp-row"><a class="xp-link" href="gallery.html?trip=' + esc(t.slug) + '">' +

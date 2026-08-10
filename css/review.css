@@ -3658,85 +3658,85 @@ html.dark .live-sec { background: transparent; }
 }
 
 /* ---------- The year still being lived ----------
-   The filed years are a ledger and read like one. This one is the
-   bill in the window on Haight: a single block of hand-set lettering
-   packed to the edges, the act with the most frames taking the
-   headline and everything else falling in behind it. The billing is
-   the data — nothing here is sized by hand.
+   The filed years are a ledger and read like one. This year is set in
+   Gooper across the whole page — three names at a time, each one big
+   enough to be the only thing you look at, held in grey until you
+   arrive on it and it takes its colour. No cards, no frames around
+   it: the type is the thing.
 
-   Ink runs the house warms with two cool notes, and each name is
-   paired with the hue that fights it, so hovering brings up the
-   vibrating edge those posters were built on. It happens once, at the
-   top of the page; the ledger resumes underneath, and the contrast is
-   the whole point. */
+   It rides the galleries' reel, so the arrows, the snapping and the
+   end-stops come with it. The ledger underneath keeps a reading
+   measure; this doesn't. */
+/* the head sits at the gutter with the rail, not centred over it the
+   way a gallery's does — the type below starts at the page edge and
+   the title has to start there too */
+.xp-head {
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+.xp-head > * { max-width: 46rem; }
 .log-year--now {
   border-bottom: 0;
   padding-bottom: 0;
   font-size: 30px;
 }
-.xp-bill {
-  list-style: none;
-  margin: 4px 0 44px;
-  padding: 0;
-  line-height: 1.1;
-}
-/* inline, not a grid of boxes: the names fill each line the way a
-   poster fills its sheet, with no gutter left over anywhere */
-.xp-act {
-  display: inline;
+.xp-reel { margin: 10px 0 52px; }
+.xp-reel .reel-track { gap: 0; align-items: stretch; }
+.xp-card {
   --ink: var(--ink-85);
-  --buzz: var(--ink-45);
+  flex: 0 0 33.3333%;
+  min-width: 0;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 22px 28px 22px 0;
+  border-top: 1px solid var(--border);
+  transition: border-color .3s ease;
 }
-.xp-act__link {
-  font-family: var(--serif);
-  font-style: italic;
+.xp-card__name {
+  font-family: 'Gooper', var(--serif);
   font-weight: 500;
-  font-size: var(--size);
-  color: var(--ink);
-  transition: color .12s ease, text-shadow .12s ease;
-}
-/* hand-set, so no two names sit on quite the same baseline */
-.xp-act:nth-child(2n) .xp-act__link { display: inline-block; transform: translateY(-2px); }
-.xp-act:nth-child(3n) .xp-act__link { display: inline-block; transform: translateY(2px); }
-.xp-act:nth-child(5n) .xp-act__link { display: inline-block; transform: translateY(-1px); }
-/* Moscoso's trick — two hues of the same value laid over each other
-   so the edge between them refuses to hold still */
-.xp-act__link:hover {
-  color: var(--buzz);
-  text-shadow: 1px 0 var(--ink), -1px 0 var(--ink);
-}
-.xp-act + .xp-act::before {
-  content: "✶";
-  font-family: var(--sans);
-  font-size: 11px;
-  font-style: normal;
+  font-size: clamp(30px, 3.9vw, 62px);
+  line-height: .98;
+  letter-spacing: -.02em;
+  /* grey until arrived on — the whole rail reads as one flat field
+     and the one you're on is the only thing carrying colour */
   color: var(--ink-30);
-  padding: 0 .34em;
-  vertical-align: .32em;
+  transition: color .28s var(--ease-out-quart);
 }
-/* the frame count as a poster's fine print */
-.xp-act__n {
+.xp-card__meta {
   font-family: var(--mono);
-  font-style: normal;
-  font-size: 10px;
-  vertical-align: super;
-  margin-left: .14em;
-  color: var(--ink-40);
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-30);
+  transition: color .28s ease;
 }
-.xp-act:nth-child(5n+1) { --ink: #C7502C; --buzz: #1E7F9E; }
-.xp-act:nth-child(5n+2) { --ink: #A64A3F; --buzz: #3E7D6A; }
-.xp-act:nth-child(5n+3) { --ink: #C13840; --buzz: #2F6FA8; }
-.xp-act:nth-child(5n+4) { --ink: #1E7F9E; --buzz: #C7502C; }
-.xp-act:nth-child(5n+5) { --ink: #6B4F9E; --buzz: #C98A2E; }
-/* the same ten lifted off the near-black ground */
-html.dark .xp-act:nth-child(5n+1) { --ink: #F0855C; --buzz: #5FC6E0; }
-html.dark .xp-act:nth-child(5n+2) { --ink: #E08A78; --buzz: #6FC9AE; }
-html.dark .xp-act:nth-child(5n+3) { --ink: #F26E75; --buzz: #6FA8E8; }
-html.dark .xp-act:nth-child(5n+4) { --ink: #5FC6E0; --buzz: #F0855C; }
-html.dark .xp-act:nth-child(5n+5) { --ink: #B49BE8; --buzz: #E8C06A; }
-@media (prefers-reduced-motion: reduce) {
-  .xp-act__link { transform: none; }
-}
+.xp-card:hover .xp-card__name,
+.xp-card:focus-visible .xp-card__name { color: var(--ink); }
+.xp-card:hover .xp-card__meta,
+.xp-card:focus-visible .xp-card__meta { color: var(--ink-55); }
+.xp-card:hover, .xp-card:focus-visible { border-top-color: var(--ink); }
+.xp-card:nth-child(5n+1) { --ink: #C7502C; }
+.xp-card:nth-child(5n+2) { --ink: #A64A3F; }
+.xp-card:nth-child(5n+3) { --ink: #C13840; }
+.xp-card:nth-child(5n+4) { --ink: #1E7F9E; }
+.xp-card:nth-child(5n+5) { --ink: #6B4F9E; }
+/* the same five lifted off the near-black ground */
+html.dark .xp-card:nth-child(5n+1) { --ink: #F0855C; }
+html.dark .xp-card:nth-child(5n+2) { --ink: #E08A78; }
+html.dark .xp-card:nth-child(5n+3) { --ink: #F26E75; }
+html.dark .xp-card:nth-child(5n+4) { --ink: #5FC6E0; }
+html.dark .xp-card:nth-child(5n+5) { --ink: #B49BE8; }
+/* three across is a desktop count; the type would be oversized in
+   name only at phone widths */
+@media (max-width: 1000px) { .xp-card { flex-basis: 50%; } }
+@media (max-width: 640px)  { .xp-card { flex-basis: 82%; } }
+/* the ledger below keeps the reading measure the rail gives up */
+.xp-rows { max-width: 48rem; }
+.log-year:not(.log-year--now) { max-width: 48rem; }
 @media (max-width: 520px) {
   .xp-thumb { width: 46px; height: 46px; border-radius: 12px; }
   .xp-count { font-size: 10px; }
