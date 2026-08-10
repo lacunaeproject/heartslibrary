@@ -197,7 +197,8 @@
       "Bash(sed -n '/^\\\\.shot {/,/^}/p' css/review.css)",
       "Bash(sed -n '/^\\\\.shot-btn img/,/^}/p' css/review.css)",
       "Bash(sed -n '/function shotHtml/,/^  }/p' js/hobby.js)",
-      "Bash(sed -n '/var bestWall = document.getElementById/,/^  }/p' js/hobby.js)"
+      "Bash(sed -n '/var bestWall = document.getElementById/,/^  }/p' js/hobby.js)",
+      "Skill(update-config)"
     ]
   }
 }
