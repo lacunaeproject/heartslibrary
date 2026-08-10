@@ -3656,6 +3656,87 @@ html.dark .live-sec { background: transparent; }
   color: var(--ink-40);
   white-space: nowrap;
 }
+
+/* ---------- The year still being lived ----------
+   The filed years are a ledger and read like one. This one is the
+   bill in the window on Haight: a single block of hand-set lettering
+   packed to the edges, the act with the most frames taking the
+   headline and everything else falling in behind it. The billing is
+   the data — nothing here is sized by hand.
+
+   Ink runs the house warms with two cool notes, and each name is
+   paired with the hue that fights it, so hovering brings up the
+   vibrating edge those posters were built on. It happens once, at the
+   top of the page; the ledger resumes underneath, and the contrast is
+   the whole point. */
+.log-year--now {
+  border-bottom: 0;
+  padding-bottom: 0;
+  font-size: 30px;
+}
+.xp-bill {
+  list-style: none;
+  margin: 4px 0 44px;
+  padding: 0;
+  line-height: 1.1;
+}
+/* inline, not a grid of boxes: the names fill each line the way a
+   poster fills its sheet, with no gutter left over anywhere */
+.xp-act {
+  display: inline;
+  --ink: var(--ink-85);
+  --buzz: var(--ink-45);
+}
+.xp-act__link {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: var(--size);
+  color: var(--ink);
+  transition: color .12s ease, text-shadow .12s ease;
+}
+/* hand-set, so no two names sit on quite the same baseline */
+.xp-act:nth-child(2n) .xp-act__link { display: inline-block; transform: translateY(-2px); }
+.xp-act:nth-child(3n) .xp-act__link { display: inline-block; transform: translateY(2px); }
+.xp-act:nth-child(5n) .xp-act__link { display: inline-block; transform: translateY(-1px); }
+/* Moscoso's trick — two hues of the same value laid over each other
+   so the edge between them refuses to hold still */
+.xp-act__link:hover {
+  color: var(--buzz);
+  text-shadow: 1px 0 var(--ink), -1px 0 var(--ink);
+}
+.xp-act + .xp-act::before {
+  content: "✶";
+  font-family: var(--sans);
+  font-size: 11px;
+  font-style: normal;
+  color: var(--ink-30);
+  padding: 0 .34em;
+  vertical-align: .32em;
+}
+/* the frame count as a poster's fine print */
+.xp-act__n {
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 10px;
+  vertical-align: super;
+  margin-left: .14em;
+  color: var(--ink-40);
+}
+.xp-act:nth-child(5n+1) { --ink: #C7502C; --buzz: #1E7F9E; }
+.xp-act:nth-child(5n+2) { --ink: #A64A3F; --buzz: #3E7D6A; }
+.xp-act:nth-child(5n+3) { --ink: #C13840; --buzz: #2F6FA8; }
+.xp-act:nth-child(5n+4) { --ink: #1E7F9E; --buzz: #C7502C; }
+.xp-act:nth-child(5n+5) { --ink: #6B4F9E; --buzz: #C98A2E; }
+/* the same ten lifted off the near-black ground */
+html.dark .xp-act:nth-child(5n+1) { --ink: #F0855C; --buzz: #5FC6E0; }
+html.dark .xp-act:nth-child(5n+2) { --ink: #E08A78; --buzz: #6FC9AE; }
+html.dark .xp-act:nth-child(5n+3) { --ink: #F26E75; --buzz: #6FA8E8; }
+html.dark .xp-act:nth-child(5n+4) { --ink: #5FC6E0; --buzz: #F0855C; }
+html.dark .xp-act:nth-child(5n+5) { --ink: #B49BE8; --buzz: #E8C06A; }
+@media (prefers-reduced-motion: reduce) {
+  .xp-act__link { transform: none; }
+}
 @media (max-width: 520px) {
   .xp-thumb { width: 46px; height: 46px; border-radius: 12px; }
   .xp-count { font-size: 10px; }

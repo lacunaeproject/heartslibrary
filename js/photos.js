@@ -155,6 +155,7 @@ window.TRIPS = [
     posted: "2026-08-03",
     place: "Universal Studios Hollywood",
     short: "Universal Hollywood",
+    nav: "Universal Studios Hollywood",
     when: "2026",
     continent: "North America",
     photos: [
@@ -183,6 +184,7 @@ window.TRIPS = [
     posted: "2026-07-20",
     place: "David Geffen Galleries",
     short: "Geffen Galleries",
+    nav: "David Geffen Galleries",
     when: "2026",
     continent: "North America",
     photos: [
@@ -235,6 +237,7 @@ window.TRIPS = [
     posted: "2026-06-10",
     place: "Blue Whale Watching",
     short: "Blue Whales",
+    nav: "Blue Whale Watching",
     when: "2026",
     continent: "North America",
     photos: [
@@ -291,6 +294,7 @@ window.TRIPS = [
     posted: "2026-04-15",
     place: "Yankees vs. Rays",
     short: "Yankees",
+    nav: "Yankees vs. Rays",
     when: "2026",
     continent: "North America",
     photos: [
@@ -313,6 +317,7 @@ window.TRIPS = [
     posted: "2025-12-25",
     place: "Lakers vs. Rockets",
     short: "Lakers",
+    nav: "Lakers vs. Rockets",
     when: "December 2025",
     continent: "North America",
     photos: [
@@ -324,6 +329,7 @@ window.TRIPS = [
     posted: "2025-11-01",
     place: "Walt Disney World",
     short: "Disney World",
+    nav: "Walt Disney World",
     when: "2025",
     continent: "North America",
     photos: [
@@ -335,6 +341,7 @@ window.TRIPS = [
     posted: "2025-09-01",
     place: "Universal Studios Epic Universe+",
     short: "Epic Universe",
+    nav: "Universal Studios Epic Universe+",
     when: "2025",
     continent: "North America",
     photos: [
@@ -346,6 +353,7 @@ window.TRIPS = [
     posted: "2025-07-01",
     place: "Universal Studios Hollywood",
     short: "Universal Hollywood",
+    nav: "Universal Studios Hollywood",
     when: "2025",
     continent: "North America",
     photos: [
@@ -357,6 +365,7 @@ window.TRIPS = [
     posted: "2025-05-01",
     place: "Gatlinburg and Pigeon Forge",
     short: "Gatlinburg",
+    nav: "Gatlinburg and Pigeon Forge",
     when: "2025",
     continent: "North America",
     photos: [
@@ -390,6 +399,7 @@ window.TRIPS = [
     posted: "2024-04-01",
     place: "Disneyland and California Adventure",
     short: "Disneyland",
+    nav: "Disneyland and California Adventure",
     when: "2024",
     continent: "North America",
     photos: [
@@ -423,6 +433,7 @@ window.TRIPS = [
     posted: "2019-09-01",
     place: "Oregon and Colorado",
     short: "Oregon & Colorado",
+    nav: "Oregon and Colorado",
     when: "2019",
     continent: "North America",
     photos: [
@@ -434,6 +445,7 @@ window.TRIPS = [
     posted: "2019-07-01",
     place: "Sequoia National Park",
     short: "Sequoia",
+    nav: "Sequoia National Park",
     when: "2019",
     continent: "North America",
     photos: [
