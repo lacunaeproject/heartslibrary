@@ -242,8 +242,9 @@ function parseTrip(text, slug) {
       if (MEDIA_RE.test(head)) {
         const [file, ...rest] = row.split(/\s{2,}/);
         const frame = { file, caption: rest.join(" ").trim() };
-        if (directive === "highlights") frame.best = true;
-        else shots.push(photos.length);
+        /* a highlight belongs to the trip but to no post; whether it
+           also hangs on the home wall is the `best` flag, set by hand */
+        if (directive !== "highlights") shots.push(photos.length);
         photos.push(frame);
       } else {
         words.push(row);

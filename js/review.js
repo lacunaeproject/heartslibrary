@@ -40,6 +40,16 @@
      click / scroll, and the full-screen mobile menu.
      ---------------------------------------------------------- */
   function setupNav() {
+    /* The theme follows the sun until someone says otherwise; this
+       is the otherwise. The choice is stored, and each page's head
+       script re-applies it before paint. */
+    Array.prototype.forEach.call(document.querySelectorAll(".theme-toggle"), function (btn) {
+      btn.addEventListener("click", function () {
+        var dark = document.documentElement.classList.toggle("dark");
+        try { localStorage.setItem("hl-theme", dark ? "dark" : "light"); } catch (e) {}
+      });
+    });
+
     /* The bar stays put now — hiding it on scroll meant animating a
        transform on a blurred sticky element, which flickered over
        the photo wall. All that's left is the page name fading in
@@ -124,11 +134,17 @@
         mobile.classList.toggle("is-open", openState);
         burger.setAttribute("aria-expanded", String(openState));
         burger.setAttribute("aria-label", openState ? "Close menu" : "Open menu");
+        /* html is the scrolling element here, so locking body alone
+           leaves the page scrolling behind the open menu */
         document.body.classList.toggle("menu-locked", openState);
+        document.documentElement.classList.toggle("menu-locked", openState);
       };
       burger.addEventListener("click", function () {
         setMobile(!mobile.classList.contains("is-open"));
       });
+      /* the menu sits above the bar now, so it carries its own way out */
+      var closer = mobile.querySelector(".mobile-menu__close");
+      if (closer) closer.addEventListener("click", function () { setMobile(false); });
       document.addEventListener("keydown", function (e) {
         if (e.key === "Escape" && mobile.classList.contains("is-open")) { setMobile(false); burger.focus(); }
       });

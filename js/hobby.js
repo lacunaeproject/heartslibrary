@@ -124,8 +124,12 @@
     var n = Math.round(s);
     return Math.floor(n / 60) + ":" + String(n % 60).padStart(2, "0");
   }
-  /* Clips play themselves, muted and looping, whenever they're on
-     screen; a press on the speaker is what gives them sound. */
+  /* Clips play themselves only in the journal, where the page is a
+     feed and movement is the point. On an experience they hold still
+     under a play badge until you open them. */
+  var LIVE_VIDEO = /feed\.html$/i.test(location.pathname);
+  /* Clips that do run are muted and looping; a press on the speaker
+     is what gives them sound. */
   function playSafely(v) {
     var p = v.play();
     /* a browser that refuses autoplay rejects rather than throwing */
@@ -160,6 +164,7 @@
         });
       }, { threshold: 0.2 });
     }
+    if (!LIVE_VIDEO) return;
     Array.prototype.forEach.call(document.querySelectorAll(".vid"), function (el) {
       if (el.dataset.watched) return;
       el.dataset.watched = "1";
@@ -173,19 +178,26 @@
     /* A clip's own surface opens the viewer; only the speaker
        button swallows the press. */
     if (p.video) {
-      /* A clip runs itself, silently, on a loop — sound is a
-         deliberate press. Muted is what makes autoplay allowed at
-         all, so the speaker is the only control it needs. */
+      /* In the journal a clip runs itself, silently and looping, and
+         the speaker is the only control it needs. Everywhere else it
+         holds a frame under a play badge — #t=0.1 is what paints that
+         frame instead of a black box — and opens to play. */
+      var live = LIVE_VIDEO;
+      var speaker = '<button class="vid-mute" type="button" aria-label="Unmute the clip">' +
+        '<svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M17 9.5 22 15M22 9.5 17 15"/></svg>' +
+        '<svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M16 9a4 4 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11"/></svg>' +
+        "</button>";
+      var badge = '<span class="vid-badge" aria-hidden="true">' +
+        '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 6.5v11a1 1 0 0 0 1.5.87l9-5.5a1 1 0 0 0 0-1.74l-9-5.5A1 1 0 0 0 9 6.5Z"/></svg></span>';
       return '<figure class="shot shot--video' + wide + '">' +
-        '<div class="vid is-muted">' +
-          '<video src="' + esc(p.src) + '" playsinline preload="metadata" muted loop' +
+        '<div class="vid is-muted' + (live ? "" : " is-still") + '">' +
+          '<video src="' + esc(p.src) + (live ? "" : "#t=0.1") +
+          '" playsinline preload="metadata" muted loop' +
           (p.poster ? ' poster="' + esc(p.poster) + '"' : "") + ratio + "></video>" +
+          (live ? "" : badge) +
           '<button class="vid-open" type="button" aria-label="View larger: ' +
             esc(p.caption || t.place) + '" data-trip="' + esc(t.slug) + '" data-i="' + i + '"></button>' +
-          '<button class="vid-mute" type="button" aria-label="Unmute the clip">' +
-            '<svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M17 9.5 22 15M22 9.5 17 15"/></svg>' +
-            '<svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M16 9a4 4 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11"/></svg>' +
-          "</button>" +
+          (live ? speaker : "") +
           (p.seconds ? '<span class="vid-dur">' + clock(p.seconds) + "</span>" : "") +
         "</div>" +
         (p.caption
@@ -566,14 +578,25 @@
        was written and whatever came off the phone at the time.
        A new experience starts as the second half alone and grows
        the first when there's time at a computer. */
-    var picks = [];
-    (trip.photos || []).forEach(function (p, i) {
-      if (p.best) picks.push({ p: p, i: i });
-    });
     var beats = trip.beats || [];
+    /* Every clip the experience holds shows in Video, whether or not
+       a post also shows it — the post is the moment it went up, the
+       section is where you go to watch. Stills don't double up: the
+       wall takes the edited ones, the posts keep the rest. */
+    /* Highlights is the edited gallery: every still not already in a
+       post. Which of those also reach the home page is `best`. */
+    var inAPost = {};
+    beats.forEach(function (b) {
+      if (!b.photos) (b.shots || []).forEach(function (i) { inAPost[i] = true; });
+    });
+    var picks = [], clips = [];
+    (trip.photos || []).forEach(function (p, i) {
+      if (p.video) clips.push({ p: p, i: i });
+      else if (!inAPost[i]) picks.push({ p: p, i: i });
+    });
     /* nothing edited yet and nothing written either — show the roll
        rather than an empty page */
-    if (!picks.length && !beats.length) {
+    if (!picks.length && !clips.length && !beats.length) {
       (trip.photos || []).forEach(function (p, i) { picks.push({ p: p, i: i }); });
     }
 
@@ -582,7 +605,8 @@
     if (metaEl) {
       var n = (trip.photos || []).length;
       var bits = [xpByline(trip), n + (n === 1 ? " frame" : " frames")];
-      if (picks.length && picks.length !== n) bits.push(picks.length + " highlighted");
+      if (picks.length && picks.length !== n) bits.push(picks.length + " in the gallery");
+      if (clips.length) bits.push(clips.length + (clips.length === 1 ? " clip" : " clips"));
       if (beats.length) bits.push(beats.length + (beats.length === 1 ? " post" : " posts"));
       metaEl.textContent = bits.join(" · ");
     }
@@ -593,6 +617,17 @@
         return shotHtml(trip, en.p, en.i);
       }).join("");
       if (hiSec) hiSec.hidden = false;
+    }
+
+    /* The clips stand apart from the stills — they play themselves,
+       and a wall of moving frames would fight the photographs. */
+    var vidEl = document.getElementById("galleryClips");
+    var vidSec = document.getElementById("clipsSec");
+    if (vidEl && clips.length) {
+      vidEl.innerHTML = clips.map(function (en) {
+        return shotHtml(trip, en.p, en.i);
+      }).join("");
+      if (vidSec) vidSec.hidden = false;
     }
 
     /* the posts run forward here — an experience reads as it was
@@ -617,16 +652,6 @@
       reflow = setTimeout(settleReels, 150);
     });
 
-    /* Trail: every other gallery, in order */
-    var trail = document.getElementById("galleryTrail");
-    if (trail) {
-      trail.innerHTML = TRIPS.filter(function (t) { return t.slug !== trip.slug; })
-        .map(function (t) {
-          return '<a class="press-scale" href="gallery.html?trip=' + esc(t.slug) + '">' +
-            esc(xpName(t)) + ' <span class="arrow" aria-hidden="true">→</span></a>';
-        }).join("") +
-        '<a class="press-scale" href="index.html">Photography <span class="arrow" aria-hidden="true">→</span></a>';
-    }
   }
 
   /* ----------------------------------------------------------
@@ -900,12 +925,22 @@
         row("about.html", "About", "", false) +
         row("mailto:hello@heartslibrary.com", "Contact", "email", false);
     }
+    /* The burger says the same thing the desktop menu does: the six
+       newest wearing their cover frame, then the way to the rest.
+       Both are built from the same data, so posting updates both. */
     if (menuTrips) {
-      menuTrips.innerHTML = TRIPS.map(function (t) {
-        return '<a class="mobile-menu__trip" href="gallery.html?trip=' + esc(t.slug) + '">' +
-          '<span>' + esc(xpName(t)) + '</span>' +
-          '<span class="mobile-menu__trip-meta">' + esc(t.when) + " · " + (t.photos || []).length + "</span></a>";
-      }).join("");
+      menuTrips.innerHTML =
+        TRIPS.slice(0, 6).map(function (t) {
+          var src = thumbSrc(t);
+          return '<a class="mobile-menu__item" href="gallery.html?trip=' + esc(t.slug) + '">' +
+            '<div class="menu-item__tile menu-item__tile--photo">' +
+            (src ? '<img src="' + esc(src) + '" alt="" loading="lazy">' : "") +
+            "</div><div>" +
+            '<span class="menu-item__title">' + esc(xpName(t)) + "</span>" +
+            '<span class="menu-item__desc">' + xpByline(t) + "</span></div></a>";
+        }).join("") +
+        '<a class="mobile-menu__item mobile-menu__all" href="experiences.html">' +
+          "See all experiences <span class=\"arrow\" aria-hidden=\"true\">→</span></a>";
     }
     /* The Trips dropdown in the top nav */
     var navTrips = document.getElementById("navTrips");
