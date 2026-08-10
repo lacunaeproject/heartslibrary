@@ -2748,9 +2748,13 @@ html.dark body.feed-page { background: var(--background); }
   border: 0;
   overflow: visible;
 }
-/* on a phone the column is the page: edge to edge, corners off */
+/* On a phone the cards keep a small margin off the screen edge rather
+   than running out to it. Edge to edge was right when the column was
+   ONE surface holding every post — then the page and the column were
+   the same object. Now each post is its own card, and a card touching
+   both edges of the screen stops reading as a card. */
 @media (max-width: 640px) {
-  .posts { margin-inline: -24px; border-radius: 0; }
+  .journal { padding-left: 12px; padding-right: 12px; }
 }
 .feed-sentinel { height: 1px; }
 .noscript-note + .feed-sentinel { display: none; }
