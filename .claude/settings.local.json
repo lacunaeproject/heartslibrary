@@ -159,7 +159,24 @@
       "Bash(curl -s \"https://codyheart.design/css/site.css?v=36\")",
       "Bash(curl -s https://heartslibrary.com/index.html?z=__TRACKED_VAR__)",
       "Bash(curl -s \"https://heartslibrary.com/experiences.html\")",
-      "Bash(grep -vi '\\\\.jpg$')"
+      "Bash(grep -vi '\\\\.jpg$')",
+      "Bash(awk -F/ '{print $1}')",
+      "Bash(awk '{print $5, $9}')",
+      "Bash(grep -nE '\\(color|background|background-color|border|border-color|border-top|border-bottom|border-left|border-right|outline|fill|stroke|text-decoration-color|caret-color\\)[^;{]*:[^;{]*\\(#[0-9a-fA-F]{3,8}|rgba?\\\\\\(\\)' css/review.css)",
+      "Bash(grep -nE '\\(^|[;{ ]\\)\\(color|background|background-color|border|border-color|border-top|border-bottom|border-left|border-right|outline|text-decoration-color|box-shadow\\)\\\\s*:[^;}]*\\(#[0-9a-fA-F]{3,8}|rgba?\\\\\\(\\)' css/review.css)",
+      "Bash(grep -v '^\\\\s*$')",
+      "Bash(awk '/class=\"mobile-menu\"/,/<main|<\\\\/div>\\\\s*$/' books.html)",
+      "Bash(grep -v '^$')",
+      "Bash(awk 'BEGIN{split\\(\"222 250 274 310 328 348 476 752 809 895 965 1035 1051 1112 1125 1208 1228 1283 1304 1309 1327 1367 1454 1478 1582 1610 1618 1654 1661 1695 1788 1906 1930 1983 2043 2052 2059 2123 2138 2253 2268 2274 2335 2403 2446 2454 2465 2479 2490 2496 2608 2773 2861 2996 3042 3113 3133 3177 3202 3337 3502 3733 3753 3771 3835 4103 4116 4132 4144 4166\",T,\" \"\\);for\\(i in T\\)want[T[i]]=1} /\\\\{/{if\\($0 ~ /^[^ \\\\t}]/\\){sel=$0; sub\\(/\\\\{.*/,\"\",sel\\); selline=NR}} want[NR]{printf \"%5d  %-58s | %s\\\\n\", NR, substr\\(sel,1,58\\), substr\\($0,1,70\\)}' css/review.css)",
+      "PowerShell(Add-Type -AssemblyName System.Drawing; foreach \\($p in @\\(\"images\\\\cody-portrait.jpg\",\"photos\\\\deadbeat-tour\\\\dsc03638.jpg\"\\)\\) { $f = Join-Path \"C:\\\\Users\\\\Owner\\\\Documents\\\\heartslibrary\" $p; $i = [System.Drawing.Image]::FromFile\\($f\\); Write-Output \"$p  $\\($i.Width\\)x$\\($i.Height\\)\"; $i.Dispose\\(\\) })",
+      "Bash(git diff *)",
+      "Bash(awk 'NR>=2400 && NR<=3960' css/review.css)",
+      "Bash(git rm *)",
+      "Bash(curl -s \"http://localhost:8791/js/photos.js\")",
+      "Bash(curl -s \"http://localhost:8791/index.html\")",
+      "Bash(git checkout *)",
+      "Bash(git rev-list *)",
+      "Bash(git merge *)"
     ]
   }
 }
