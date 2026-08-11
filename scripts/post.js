@@ -58,12 +58,12 @@
    One more, optional:
      [camera]
      Sony RX100 VII
-   The body it was shot on, printed on the experience page next to
+   The body it was shot on, printed on the collection page next to
    the date and the place. It's there for the same reason the date
    is: the camera says as much about when this was as the year does.
    There is no [lens] — a lens dates nothing and read as a spec.
    NOTE ON [about]: it still parses and still writes `note:`, but no
-   page renders it any more. An experience page is the pictures and
+   page renders it any more. A collection page is the pictures and
    the few facts that fix them in time; what happened that day goes
    in the dated blocks, which become journal posts.
 
@@ -320,7 +320,7 @@ function serializeTrip(t) {
   out.push(`    posted: ${q(t.posted)},`);
   out.push(`    place: ${q(t.place)},`);
   out.push(`    short: ${q(t.short)},`);
-  /* Curation the site adds by hand — the experience's full billing,
+  /* Curation the site adds by hand — the collection's full billing,
      its venue, and which frames are highlights. This writer replaces
      the whole TRIPS array, so anything it forgets to print is lost
      from every trip, not just the one being posted. */

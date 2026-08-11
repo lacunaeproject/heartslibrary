@@ -27,10 +27,10 @@ fix the doc.
 
 | What | Where |
 |---|---|
-| 12 hand-maintained pages | `*.html` at repo root |
+| 13 hand-maintained pages | `*.html` at repo root |
 | Content data (edit these to post) | `js/photos.js`, `js/pins.js`, `js/games.js`, `js/writing.js` |
 | Auto-generated | `js/photos.js` is rewritten by the poster from `photos/<slug>/trip.txt` — hand-edits to a posted trip get overwritten |
-| Renderers | `js/hobby.js` (front wall, galleries, experiences index), `js/review.js` (nav/shell behavior), one `js/<name>.js` per collection |
+| Renderers | `js/hobby.js` (front wall, galleries, collections index), `js/review.js` (nav/shell behavior), one `js/<name>.js` per collection |
 | The page shell — head, nav, mobile menu, footer | `scripts/shell.js` — one definition, swept into every page. See below |
 | Styles | `css/review.css` — all tokens live in `:root` here, and every shelled page loads it and nothing else (`print.html` also loads `css/print.css`) |
 | Media pipeline | `scripts/post.js`, `scripts/prep-media.js` |
@@ -59,17 +59,18 @@ file. (`swap()` also knows how to find un-fenced legacy markup by its landmarks
 and fence it in place; that first-run migration has already happened.)
 
 The four hand-maintained shell variants that used to be documented here are
-gone. All 9 shelled pages get the same nav — including the Experiences dropdown
+gone. All 9 shelled pages get the same nav — including the Collections dropdown
 (`#navTrips` / `#menuTrips`), which is why every one of them loads
 `js/photos.js` and `js/hobby.js` to fill it. `aria-current` follows the
 manifest's `current` key, so pages the nav doesn't link to (gallery, writing,
 pins, games, dashboards) correctly have none.
 
-Three pages carry `shell: false` and render their own chrome by design:
-`photos.html` (redirect stub), `post.html` (the noindex phone composer) and
-`print.html` (the noindex scrapbook tool). They stay in the manifest only so
-the cache-stamp sweep still reaches them — in practice just `print.html`, the
-one of the three that links a stamped asset. Don't "fix" any of them.
+Four pages carry `shell: false` and render their own chrome by design:
+`photos.html` and `experiences.html` (redirect stubs), `post.html` (the
+noindex phone composer) and `print.html` (the noindex scrapbook tool). They
+stay in the manifest only so the cache-stamp sweep still reaches them — in
+practice just `print.html`, the one of the four that links a stamped asset.
+Don't "fix" any of them.
 
 `nav__back` and `nav__wordmark` are gone. Every page now carries the same
 `.wordmark` — "Cody Heart" with the heart as the full stop — and it links home,

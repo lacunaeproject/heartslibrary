@@ -53,7 +53,7 @@
       }
     }
 
-    /* Dropdowns (Experiences, Elsewhere) */
+    /* Dropdowns (Collections, Elsewhere) */
     Array.prototype.forEach.call(document.querySelectorAll(".nav__drop"), function (drop) {
       var btn = drop.querySelector("button");
       var menu = drop.querySelector(".nav__menu");

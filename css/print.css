@@ -220,7 +220,7 @@ body {
 .sheet { break-before: page; }
 .sheet[hidden] { display: none; }
 
-/* Cover + contents. Always the first sheet, so every experience
+/* Cover + contents. Always the first sheet, so every collection
    section can carry break-before without leaving a blank leaf. */
 .cover { margin: 0 0 10px; }
 .cover-title {
@@ -429,7 +429,7 @@ html.paper-a4 { --frame-max: 108mm; }
    @page block so an unsupported at-rule can't take the margins
    above down with it. */
 @page {
-  @bottom-left  { content: string(experience); font-family: 'Geist', sans-serif; font-size: 8pt; color: #777; }
+  @bottom-left  { content: string(collection); font-family: 'Geist', sans-serif; font-size: 8pt; color: #777; }
   @bottom-right { content: counter(page);      font-family: 'Geist', sans-serif; font-size: 8pt; color: #777; }
 }
-.exp-name { string-set: experience content(); }
+.exp-name { string-set: collection content(); }
