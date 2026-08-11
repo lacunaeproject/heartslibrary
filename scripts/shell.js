@@ -36,7 +36,7 @@ var fs = require("fs");
 var path = require("path");
 
 var ROOT = path.join(__dirname, "..");
-var STAMP = "20260810-12";
+var STAMP = "20260810-77";
 
 /* ------------------------------------------------------------------
    THE PAGES. Everything page-specific lives in this table — title,
@@ -124,28 +124,26 @@ var PAGES = {
 };
 
 /* ------------------------------------------------------------------
-   THE MARK. One heart path, two lockups:
-     · the wordmark  — "Cody Heart" with the heart as the full stop
-     · the aperture  — the same heart with a lens iris cut out of it,
-                       used where a square glyph is needed (favicon,
-                       print, social) and the name can't come along
+   THE MARK. One heart path, one lockup:
+     · the wordmark  — "Cody Heart", the heart leading the name
+   The aperture variant (the same heart with a lens iris cut out of it)
+   used to be built here as APERTURE_D and nothing ever referenced it;
+   images/mark.svg carries its own complete copy for the favicon.
    The path fills with currentColor so the colour comes from the
    --heart token, not a hex literal repeated in every file.
    ------------------------------------------------------------------ */
 var HEART_D = "M12.1 7.6C13.7 5 15.8 3.7 18 4.15 20.9 4.6 22.1 7.1 21.4 9.9 20.8 12.5 18 15.4 11.7 21.9 5.6 15.4 3.1 12.4 2.6 9.7 2 6.9 3.4 4.6 6 4.2 8.1 3.85 10.5 5 12.1 7.6Z";
-var APERTURE_D = HEART_D + "M12 9.35 15.9 11.6V16.1L12 18.35 8.1 16.1V11.6Z";
 
-/* The heart is set as the full stop after the name, so it has to sit
-   tight to the "T" and land on the baseline. That means the TIGHT
-   viewBox: the path only occupies x 2.46–21.6 / y 4.06–21.9, so a
-   `0 0 24 24` box carries about 2.4 units of dead padding on every
-   side. At 6px that padding plus the letter gap read as a detached
-   floating heart sitting under the line — which is exactly what it
-   looked like. Don't "tidy" this back to 0 0 24 24. */
+/* The heart LEADS the lockup now — it used to be the full stop after
+   the name. The TIGHT viewBox still matters: the path occupies only
+   x 2.46–21.6 / y 4.06–21.9, so a `0 0 24 24` box would carry about
+   2.4 units of dead padding on every side and the mark would sit
+   visually adrift from the type it introduces. Don't "tidy" it back
+   to 0 0 24 24. */
 function wordmark() {
   return '<a class="wordmark" href="index.html" aria-label="Cody Heart — home">' +
-    '<span class="wordmark__name">Cody Heart</span>' +
     '<svg class="wordmark__dot" viewBox="2.462 4.062 19.133 17.838" aria-hidden="true"><path fill="currentColor" d="' + HEART_D + '"/></svg>' +
+    '<span class="wordmark__name">Cody Heart</span>' +
     "</a>";
 }
 

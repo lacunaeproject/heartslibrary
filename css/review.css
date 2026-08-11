@@ -24,139 +24,41 @@
   font-family: 'Geist';
   src: url('../fonts/Geist-Variable.woff2') format('woff2');
   font-weight: 100 900; font-style: normal; font-display: swap;
-}
-@font-face {
+}@font-face {
   font-family: 'Geist Mono';
   src: url('../fonts/GeistMono-Variable.woff2') format('woff2');
   font-weight: 100 900; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Gooper';
-  src: url('../fonts/Gooper7-Regular-Trial.otf') format('opentype');
-  font-weight: 400; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Gooper';
-  src: url('../fonts/Gooper7-RegularItalic-Trial.otf') format('opentype');
-  font-weight: 400; font-style: italic; font-display: swap;
-}
-@font-face {
-  font-family: 'Gooper';
-  src: url('../fonts/Gooper7-Medium-Trial.otf') format('opentype');
-  font-weight: 500; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Gooper';
-  src: url('../fonts/Gooper7-MediumItalic-Trial.otf') format('opentype');
-  font-weight: 500; font-style: italic; font-display: swap;
-}
-@font-face {
-  font-family: 'Gooper';
-  src: url('../fonts/Gooper7-Bold-Trial.otf') format('opentype');
-  font-weight: 700; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Gooper';
-  src: url('../fonts/Gooper7-BoldItalic-Trial.otf') format('opentype');
-  font-weight: 700; font-style: italic; font-display: swap;
-}
-/* The expressive end of the family — page titles wear these */
-@font-face {
-  font-family: 'Gooper';
-  src: url('../fonts/Gooper7-Black-Trial.otf') format('opentype');
-  font-weight: 800; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Gooper';
-  src: url('../fonts/Gooper7-BlackItalic-Trial.otf') format('opentype');
-  font-weight: 800; font-style: italic; font-display: swap;
-}
-@font-face {
-  font-family: 'Gooper';
-  src: url('../fonts/Gooper7-Super-Trial.otf') format('opentype');
-  font-weight: 900; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Gooper';
-  src: url('../fonts/Gooper7-SuperItalic-Trial.otf') format('opentype');
-  font-weight: 900; font-style: italic; font-display: swap;
-}
+}/* The expressive end of the family — page titles wear these */
 /* The photography wing's display face — park.photos' serif. */
-@font-face {
-  font-family: 'Instrument Serif';
-  src: url('../fonts/InstrumentSerif-Regular.woff2') format('woff2');
-  font-weight: 400; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Instrument Serif';
-  src: url('../fonts/InstrumentSerif-Italic.woff2') format('woff2');
-  font-weight: 400; font-style: italic; font-display: swap;
-}
 /* Sprig — the serif the whole site wears now. Real weights exist,
    unlike Instrument, so bold settings render true. */
-@font-face {
-  font-family: 'Sprig';
-  src: url('../fonts/FAIRE-Sprig-Trial-Regular.woff2') format('woff2');
-  font-weight: 400; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Sprig';
-  src: url('../fonts/FAIRE-Sprig-Trial-RegularItalic.woff2') format('woff2');
-  font-weight: 400; font-style: italic; font-display: swap;
-}
-@font-face {
-  font-family: 'Sprig';
-  src: url('../fonts/FAIRE-Sprig-Trial-Medium.woff2') format('woff2');
-  font-weight: 500; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Sprig';
-  src: url('../fonts/FAIRE-Sprig-Trial-MediumItalic.woff2') format('woff2');
-  font-weight: 500; font-style: italic; font-display: swap;
-}
-@font-face {
-  font-family: 'Sprig';
-  src: url('../fonts/FAIRE-Sprig-Trial-Bold.woff2') format('woff2');
-  font-weight: 700; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Sprig';
-  src: url('../fonts/FAIRE-Sprig-Trial-BoldItalic.woff2') format('woff2');
-  font-weight: 700; font-style: italic; font-display: swap;
-}
 /* Cheltenham Classic, back from retirement — the portfolio's own
    serif, so the wings read as one family. */
+/* Recoleta — the display face for titles. Real cuts 300-900. */
 @font-face {
-  font-family: 'Cheltenham Classic';
-  src: url('../fonts/CheltenhamClassic.woff2') format('woff2');
+  font-family: 'Recoleta';
+  src: url('../fonts/Recoleta-Regular.woff2') format('woff2'),
+       url('../fonts/Recoleta-Regular.woff') format('woff');
   font-weight: 400; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Cheltenham Classic';
-  src: url('../fonts/CheltenhamClassicItalic.woff2') format('woff2');
-  font-weight: 400; font-style: italic; font-display: swap;
-}
-@font-face {
-  font-family: 'Cheltenham Classic';
-  src: url('../fonts/CheltenhamClassicMedium.woff2') format('woff2');
+}@font-face {
+  font-family: 'Recoleta';
+  src: url('../fonts/Recoleta-Medium.woff2') format('woff2'),
+       url('../fonts/Recoleta-Medium.woff') format('woff');
   font-weight: 500; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Cheltenham Classic';
-  src: url('../fonts/CheltenhamClassicMediumltalic.woff2') format('woff2');
-  font-weight: 500; font-style: italic; font-display: swap;
-}
-@font-face {
-  font-family: 'Cheltenham Classic';
-  src: url('../fonts/CheltenhamClassicBold.woff2') format('woff2');
+}@font-face {
+  font-family: 'Recoleta';
+  src: url('../fonts/Recoleta-SemiBold.woff2') format('woff2'),
+       url('../fonts/Recoleta-SemiBold.woff') format('woff');
+  font-weight: 600; font-style: normal; font-display: swap;
+}@font-face {
+  font-family: 'Recoleta';
+  src: url('../fonts/Recoleta-Bold.woff2') format('woff2'),
+       url('../fonts/Recoleta-Bold.woff') format('woff');
   font-weight: 700; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Cheltenham Classic';
-  src: url('../fonts/CheltenhamClassicBoldltalic.woff2') format('woff2');
-  font-weight: 700; font-style: italic; font-display: swap;
-}
-
+}/* Circular Std — Book / Medium / Bold / Black, with italics. */
+/* Roony — a handmade display face, bought for this site. woff2 with a
+   woff behind it, which is what the webfont licence ships. One weight;
+   there is no bolder cut to reach for. */
 /* ---------- Tokens (verbatim from codyheart.design) ---------- */
 :root {
   --background: #fff;
@@ -177,13 +79,59 @@
   --ink-40: rgba(0, 0, 0, .4);
   --ink-30: rgba(0, 0, 0, .3);
 
-  --sans: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* TYPE SCALE — one ladder, referenced by name. Sizes used to be
+     literals scattered across the sheet (11, 12.5, 13, 14, 22…), which
+     is how a system drifts: every new element picked a number that
+     looked right next to whatever it sat beside. These are the only
+     sizes the photography pages use; to make something bigger, move it
+     a step, don't invent a value.
+
+     Nudged up a step overall for readability — Circular's x-height sits
+     lower than Geist's, so the old 13/14px lines read smaller in it
+     than they measured. Roughly a 1.25 ratio above the base. */
+  /* SPACING SCALE. Same reasoning as the type ladder: the gaps around
+     titles were 16 / -2 / 14 / 4 — numbers picked one at a time.
+
+     The rule these encode is PROXIMITY. A byline belongs to the title
+     above it, so the gap inside that pair has to be visibly tighter
+     than the gap to whatever follows — otherwise the three lines read
+     as three separate things, which is exactly what was happening:
+     16px above the byline and 14px below it is no grouping at all.
+     Pairs get --space-2, the group gets --space-6 beneath it, and the
+     ratio does the work. */
+  --space-1: 4px;
+  --space-2: 6px;
+  --space-3: 10px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 36px;
+
+  --type-2xs: 12px;
+  --type-xs: 13px;
+  --type-sm: 14px;
+  --type-base: 15px;
+  --type-md: 17px;
+  --type-lg: 21px;
+  --type-xl: 26px;
+  --type-2xl: 33px;
+  --type-3xl: 46px;
+
+  --title-face: 'Recoleta', Georgia, serif;
+  --sans: 'Geist', system-ui, -apple-system, sans-serif;
   /* Cheltenham Classic carries every serif role — settled after a
      same-day tour: Instrument (unreadable small), Sprig (no), Gooper
      (slabby, weak at small sizes). One face, display through caption. */
-  --serif: 'Cheltenham Classic', Georgia, serif;
-  --display: 'Cheltenham Classic', Georgia, serif;
-  --mono: 'Geist Mono', ui-monospace, 'Cascadia Mono', monospace;
+  --serif: 'Geist', system-ui, -apple-system, sans-serif;
+  /* THE WORDMARK. It ran in Roony for a while; those files are no
+     longer in fonts/, so the declaration was resolving to Georgia on
+     every page — a silent fallback, which is the worst kind. It takes
+     the title face now. If Roony comes back, restore its @font-face
+     and point this at it: it has NO lowercase (its lowercase
+     codepoints are drawn as capitals), so it suits this all-caps
+     lockup and nothing else on the site. */
+  --wordmark-face: 'Geist Mono', ui-monospace, 'Cascadia Mono', monospace;
+  --display: 'Geist', system-ui, -apple-system, sans-serif;
+  --mono: 'Geist', system-ui, -apple-system, sans-serif;
 
   --ease: cubic-bezier(.25, .1, .25, 1);
   --ease-out-cubic: cubic-bezier(.215, .61, .355, 1);
@@ -203,6 +151,12 @@
 
   /* The one mark the library keeps: the wordmark heart. */
   --heart: #E5484D;
+
+  /* The lightbox mat. Light mode keeps the reference's white wall.
+     It is deliberately its own token and not --background: if the page
+     ground ever picks up a tint, the mat behind a photograph must not
+     follow it. */
+  --lb-mat: #fff;
 
   /* The journal post's own grey. It is NOT --surface: that is the site's
      panel tint (#f6f7f9) and reads as almost-white behind a block of
@@ -238,9 +192,14 @@ body {
   background: var(--background);
   color: var(--ink-80);
   font-family: var(--sans);
-  font-size: 14px;
+  font-size: var(--type-base);
   font-weight: 450;
-  line-height: 1.45rem;
+  /* UNITLESS. This was 1.45rem — a fixed 23.2px inherited by every
+     element regardless of its own size, so 24px headings got leading
+     smaller than their font (lines collided when they wrapped) and 9px
+     labels got 2.5x leading. 15px x 1.55 = 23.25px, so body copy is
+     unchanged to within a rounding error, but children now scale. */
+  line-height: 1.55;
   letter-spacing: -.005rem;
   -webkit-font-smoothing: antialiased;
   padding-bottom: env(safe-area-inset-bottom, 0);
@@ -272,8 +231,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 .skip {
   position: absolute; left: -9999px; top: 0;
   background: var(--foreground); color: var(--background);
-  padding: 8px 14px; border-radius: 0 0 8px 0;
-  font-size: 13px; z-index: 100;
+  /* inline-flex + min-height rather than more padding: this is the
+     first thing a keyboard or screen-reader user lands on, and it was
+     36px tall */
+  display: inline-flex; align-items: center; min-height: 44px;
+  padding: 0 var(--space-4); border-radius: 0 0 8px 0;
+  font-size: var(--type-xs); z-index: 100;
 }
 .skip:focus { left: 0; }
 
@@ -298,8 +261,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   .shot-btn:active, .frame-btn:active,
   .tile--video:active { transform: none; }
 }
-.img-hover { transition: opacity .15s ease; }
-.img-hover:hover { opacity: .9; }
 
 /* The heart beats on hover — the portfolio wordmark's pulse. */
 @keyframes heart-pulse {
@@ -313,7 +274,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 
 /* Emphasis spans in headings — the portfolio's petal-gradient
    italics, in the name's rose-brick → poppy. */
-.accent { font-style: italic; font-weight: 700; color: #D9603B; }
+.accent { /* Recoleta ships no italic and .page-head h1 sets font-synthesis:
+     none, which inherits — so this rendered upright anyway. The
+     gradient and the weight carry it. */ font-weight: 700; color: #D9603B; }
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
   .accent {
     background-image: linear-gradient(100deg, #A64A3F, #D9603B);
@@ -339,13 +302,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
    flickered badly. No transform, no promotion, and a background
    solid enough that the blur is a grace note rather than the thing
    keeping the type legible over photographs. */
+/* The bar scrolls away with the page. It used to stick, and the blur
+   and the near-opaque ground came with that: both existed so type
+   stayed legible over photographs passing underneath it. Nothing
+   passes underneath it now, so both go — a translucent ground over
+   nothing is just a slightly wrong white, and the blur was the one
+   thing on the site expensive enough to flicker over the full-bleed
+   wall. Solid background, no filter, no z-index race. */
 .nav {
-  position: sticky;
-  top: 0;
-  z-index: var(--z-nav);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  background-color: rgba(255, 255, 255, .92);
+  position: static;
+  background-color: var(--background);
 }
 
 .nav__inner {
@@ -365,35 +331,52 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
    hex literal in nine files. */
 .wordmark {
   display: inline-flex;
-  /* baseline, not flex-end: the heart is punctuation, so it sits ON
-     the line the letters sit on, not on the box's bottom edge */
-  align-items: baseline;
+  /* the heart leads now, so it centres on the type rather than sitting
+     on the baseline as punctuation did */
+  align-items: center;
   flex: none;
-  gap: .28em;
+  gap: .42em;
   line-height: 1;
   color: var(--foreground);
+  /* The mark itself is 14px tall — far under a finger. This gives it a
+     44px hit area without changing where anything sits, since the
+     pseudo-element is absolutely positioned and paints nothing. */
+  position: relative;
+}
+.wordmark::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
 }
 /* Set in the mono, uppercase — the register of a byline stamp or the
    margin of a contact sheet. The serif read as a book title, which is
    the wrong claim for a site that is documentation first. */
 .wordmark__name {
-  font-family: var(--mono);
-  font-size: 12.5px;
-  font-weight: 600;
+  font-family: var(--wordmark-face);
+  font-size: var(--type-sm);
+  /* one weight ships, so asking for 600 would only get 400 back */
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: .06em;
+  letter-spacing: .04em;
 }
 /* The SVG's own baseline is its bottom edge, so with the tight
    viewBox in scripts/shell.js this lands the heart exactly on the
    text baseline — no nudge needed. The old rule pushed it down 1.5px
    to compensate for padding that was inside the viewBox; both the
-   padding and the nudge are gone. Sized 6/6.4 to match the mono's
-   full stop rather than out-shout it. */
+   padding and the nudge are gone. */
 .wordmark__dot {
   display: block;
   flex: none;
-  width: 6.4px;
-  height: 6px;
+  /* Sized in em off the wordmark's own type so the mark tracks the
+     name, and pitched just over the cap height of the uppercase it
+     leads (~10px at 14px type). It was a 6px full stop when it sat
+     after the "t"; 1.5em made it taller than the whole wordmark. */
+  width: 0.9em;
+  height: 0.84em;
   color: var(--heart);
 }
 
@@ -409,12 +392,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   display: none;
   flex: 1 1 auto;
   min-width: 0;
-  margin: 0 16px;
+  margin: 0 var(--space-4);
   border: 0;
   background: none;
   font-family: inherit;
   text-align: center;
-  font-size: 13px;
+  font-size: var(--type-xs);
   font-weight: 550;
   color: var(--ink-85);
   opacity: 0;
@@ -425,14 +408,23 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}/* a 20px-tall button, and the only scroll-to-top on the page */
+.nav__scrolltitle { position: relative; }
+.nav__scrolltitle::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
 }
+
 .nav__scrolltitle.is-visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
 @media (min-width: 768px) { .nav__scrolltitle { display: block; } }
 
 .nav__links {
   display: none;
   align-items: center;
-  gap: 16px;
+  gap: var(--space-4);
   /* the links live on the right; the wordmark holds the left alone */
   margin-left: auto;
 }
@@ -440,18 +432,32 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 @media (min-width: 768px) { .nav__links { display: flex; } }
 
 .nav__link {
-  font-size: 12px;
+  font-size: var(--type-2xs);
   font-weight: 450;
   color: var(--ink-55);
   height: 32px;
   padding: 0 12px;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
   border-radius: 6px;
   transition: color .15s ease, background-color .15s ease;
 }
 .nav__link:hover { color: var(--ink-85); background: var(--surface); }
+/* THE BAR IS A TOUCH SURFACE TOO. The desktop nav appears at 768px,
+   which is a folding phone unfolded and every tablet in landscape —
+   fingers, not mice. The visible pill stays 32px; the pseudo-element
+   adds the missing 12px of hit area. The dropdown is positioned
+   against .nav__drop, not against the button, so making the button a
+   containing block does not move the menu. */
+.nav__link { position: relative; }
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
+}
 .nav__link[aria-current="page"], .nav__link.is-current { color: var(--ink-85); }
 .nav__link .chev {
   transition: transform .2s var(--ease-out-quart);
@@ -477,13 +483,20 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   opacity: 0;
   transform: translateY(-8px);
   pointer-events: none;
-  transition: opacity .15s var(--ease-out-quart);
+  /* visibility, not just opacity — exactly as .mobile-menu does below.
+     A transparent menu still keeps its links in the tab order, and the
+     shell marks it aria-hidden, so a keyboard user was tabbing through
+     up to ten invisible links that a screen reader had been told did
+     not exist. Delayed to the end of the fade so the exit still plays. */
+  visibility: hidden;
+  transition: opacity .15s var(--ease-out-quart), visibility 0s linear .15s;
 }
 .nav__menu.is-open {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
-  transition: opacity .2s var(--ease-out-quart), transform .2s var(--ease-out-quart);
+  visibility: visible;
+  transition: opacity .2s var(--ease-out-quart), transform .2s var(--ease-out-quart), visibility 0s;
 }
 .nav__menu-pad { padding: 8px; }
 
@@ -538,15 +551,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 }
 .menu-item__title {
   display: block;
-  font-size: 13px;
+  font-size: var(--type-xs);
   font-weight: 550;
   color: var(--ink-85);
   line-height: 1.25;
 }
 .menu-item__desc {
   display: block;
-  font-size: 12px;
-  color: var(--ink-45);
+  font-size: var(--type-2xs);
+  color: var(--ink-55);
   line-height: 1.25;
   margin-top: 2px;
 }
@@ -601,9 +614,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  margin-right: -8px;
+  /* 44x44 is the floor for a touch target (Apple HIG, WCAG 2.5.5) and
+     this is the only way into the nav on a phone. The negative margin
+     grew with the box so the glyph sits exactly where it did: the
+     optical inset is 44/2 - 10 = 12px, same as 40/2 - 8. */
+  width: 44px;
+  height: 44px;
+  margin-right: -var(--space-3);
   border-radius: 8px;
 }
 .nav__burger span {
@@ -660,10 +677,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 }
 .mobile-menu__close {
   position: absolute;
-  top: 16px;
-  right: 14px;
-  width: 40px;
-  height: 40px;
+  top: 14px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   border: 0;
   border-radius: 50%;
@@ -679,10 +696,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 .mobile-menu__close svg { width: 20px; height: 20px; }
 .mobile-menu__link {
   display: block;
-  font-size: 15px;
+  font-size: var(--type-base);
   font-weight: 500;
   color: var(--foreground);
-  padding: 9px 16px;
+  padding: 11px 16px;
   margin: 0 -16px 8px;
   border-radius: 8px;
   transition: background-color .15s ease;
@@ -693,21 +710,21 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   border-top: 1px solid var(--border);
 }
 .mobile-menu__label {
-  font-size: 14px;
+  font-size: var(--type-sm);
   font-weight: 550;
   letter-spacing: -.005em;
   color: var(--ink-78);
   margin-bottom: 12px;
 }
-.mobile-menu__section--theme { margin-top: 4px; }
-.mobile-menu__list { display: flex; flex-direction: column; margin-bottom: 16px; }
+.mobile-menu__section--theme { margin-top: var(--space-1); }
+.mobile-menu__list { display: flex; flex-direction: column; margin-bottom: var(--space-4); }
 .mobile-menu__item {
   display: flex;
   align-items: center;
   gap: 12px;
   border-radius: 8px;
-  padding: 10px 16px;
-  margin: 0 -16px;
+  padding: var(--space-3) var(--space-4);
+  margin: 0 -var(--space-4);
   transition: background-color .15s ease;
 }
 .mobile-menu__item:active { background: var(--surface-hover); }
@@ -730,8 +747,8 @@ html.menu-locked, body.menu-locked { overflow: hidden; }
 .wrap {
   max-width: 48rem;
   margin: 0 auto;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: var(--space-5);
+  padding-right: var(--space-5);
 }
 /* Full-bleed variant: the gallery walls run the whole viewport,
    sharing the nav's side gutters */
@@ -749,7 +766,9 @@ main { display: block; }
 .page-head {
   position: relative;
   padding-top: 32px;
-  padding-bottom: 8px;
+  /* the masthead's own group ends here — everything inside it pairs at
+     --space-2, and this is the step out to the page content */
+  padding-bottom: var(--space-6);
 }
 @media (min-width: 640px) { .page-head { padding-top: 80px; } }
 
@@ -758,36 +777,52 @@ main { display: block; }
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: .04em;
-  color: var(--ink-30);
+  color: var(--ink-55);
   font-weight: 500;
   margin-bottom: 12px;
 }
 .crumb .sep { margin: 0 2px; }
-.crumb a { transition: color .15s ease; }
+/* 11px type gives a 13px-tall link. Same invisible hit area as the
+   wordmark and the pills: the crumb keeps its size, the finger gets 44.
+   Only the height is expanded — the crumb is a horizontal run of links
+   and a wider box would overlap its neighbours. */
+.crumb a {
+  position: relative;
+  transition: color .15s ease;
+}
+.crumb a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
+}
 .crumb a:hover { color: var(--ink-65); }
 
 /* Page titles are the one place the site raises its voice: Gooper
    at its heaviest, in italic. Same size and face in both themes —
    the dark override that used to resize them is gone. */
 .page-head h1 {
-  font-family: 'Gooper', Georgia, serif;
-  font-style: italic;
-  font-weight: 800;
+  font-family: var(--title-face);
+  font-style: normal;
+  font-weight: 600;
   font-synthesis: none;
-  font-size: clamp(30px, 3.6vw, 44px);
+  font-size: clamp(var(--type-2xl), 3.6vw, var(--type-3xl));
   line-height: 1.06;
   letter-spacing: -.015em;
   color: var(--ink-85);
-  margin-bottom: 16px;
+  margin-bottom: var(--space-2);
 }
 
 .deck {
-  font-size: 14px;
+  font-size: var(--type-base);
   font-weight: 450;
   line-height: 1.45rem;
   letter-spacing: -.005em;
   color: var(--ink-80);
   max-width: 620px;
+  /* a step out from the title; the stats line below steps out again */
+  margin-top: var(--space-2);
 }
 
 /* Properties — the portfolio meta-grid */
@@ -795,8 +830,8 @@ main { display: block; }
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 32px;
-  row-gap: 16px;
-  margin-top: 24px;
+  row-gap: var(--space-4);
+  margin-top: var(--space-5);
   padding-top: 20px;
   border-top: 1px solid var(--border);
 }
@@ -806,18 +841,16 @@ main { display: block; }
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: .04em;
-  color: var(--ink-30);
+  color: var(--ink-55);
   font-weight: 500;
   margin-bottom: 2px;
 }
 .prop-value {
-  font-size: 14px;
+  font-size: var(--type-sm);
   font-weight: 450;
   line-height: 1.45;
   color: var(--ink-65);
 }
-
-.head-rule { display: none; }
 
 /* The circular portrait, riding the head's top-right corner */
 .author-avatar {
@@ -832,8 +865,6 @@ main { display: block; }
   opacity: 0;
   transition: opacity .3s var(--ease-out-quart);
 }
-.author-avatar.is-loaded { opacity: 1; }
-@media (min-width: 640px) { .author-avatar { top: 84px; } }
 
 /* ============================================================
    SECTION FURNITURE — labels with a hairline (portfolio)
@@ -842,10 +873,10 @@ main { display: block; }
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 24px;
+  margin-bottom: var(--space-5);
 }
 .rubric-label {
-  font-size: 13px;
+  font-size: var(--type-xs);
   font-weight: 550;
   letter-spacing: -.005em;
   color: var(--ink-78);
@@ -867,15 +898,14 @@ main { display: block; }
   font-weight: 500;
   letter-spacing: .08em;
   text-transform: uppercase;
-  color: var(--ink-40);
+  color: var(--ink-55);
 }
-.kicker--ink { color: var(--ink-55); }
 
 /* Shared by every list that renders from a data file. */
-.noscript-note { padding: 24px 0; color: var(--ink-55); }
+.noscript-note { padding: var(--space-5) 0; color: var(--ink-55); }
 
 /* --- Colophon + follow --- */
-.colophon-note { padding-top: 64px; padding-bottom: 24px; }
+.colophon-note { padding-top: 64px; padding-bottom: var(--space-5); }
 .colophon-note h2 {
   font-size: 24px;
   font-weight: 500;
@@ -884,7 +914,7 @@ main { display: block; }
   margin-bottom: 12px;
 }
 .colophon-note > p {
-  font-size: 14px;
+  font-size: var(--type-sm);
   line-height: 1.45rem;
   letter-spacing: -.005em;
   color: var(--ink-80);
@@ -902,11 +932,11 @@ main { display: block; }
 .link-row a {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-2);
   height: 32px;
   padding: 0 14px;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: var(--type-xs);
   font-weight: 500;
   color: var(--ink-65);
   background: #fff;
@@ -914,8 +944,20 @@ main { display: block; }
   transition: color .15s ease, transform .1s;
 }
 .link-row a:hover { color: var(--ink-85); }
+/* The pill is 32px because that is the shape Cody approved; the finger
+   needs 44. An absolutely-positioned pseudo-element adds the missing
+   12px of hit area above and below without changing the pill, the row
+   height, or anything else on the page. */
+.link-row a { position: relative; }
+.link-row a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
+}
 .link-row a:active { transform: scale(.97); }
-.link-row .arrow { color: var(--ink-30); transition: transform .2s var(--ease-out-quart); }
+.link-row .arrow { color: var(--ink-55); transition: transform .2s var(--ease-out-quart); }
 .link-row a:hover .arrow { transform: translateX(2px); }
 
 /* Count line closing a rendered list (pins.html) */
@@ -926,7 +968,7 @@ main { display: block; }
   font-size: 11px;
   letter-spacing: .04em;
   text-transform: uppercase;
-  color: var(--ink-40);
+  color: var(--ink-55);
 }
 .list-trailer .live { color: var(--ink-85); }
 
@@ -935,7 +977,7 @@ main { display: block; }
    ============================================================ */
 .dash-note {
   padding-top: 8px;
-  font-size: 14px;
+  font-size: var(--type-sm);
   line-height: 1.45rem;
   letter-spacing: -.005em;
   color: var(--ink-80);
@@ -944,8 +986,8 @@ main { display: block; }
 .statrow {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
-  margin: 16px 0;
+  gap: var(--space-4);
+  margin: var(--space-4) 0;
 }
 @media (min-width: 640px) { .statrow { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 900px) { .statrow { grid-template-columns: repeat(4, 1fr); } }
@@ -964,24 +1006,24 @@ main { display: block; }
   box-shadow: var(--shadow-flush);
 }
 .stat .figure {
-  font-size: 21px;
+  font-size: var(--type-lg);
   font-weight: 500;
   letter-spacing: -.01em;
   font-variant-numeric: tabular-nums;
   color: var(--ink-85);
-  margin-bottom: 4px;
+  margin-bottom: var(--space-1);
 }
-.stat .what { font-size: 13px; line-height: 1.45; color: var(--ink-50); }
+.stat .what { font-size: var(--type-xs); line-height: 1.45; color: var(--ink-55); }
 .stat .source {
-  margin-top: 10px;
+  margin-top: var(--space-3);
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: var(--type-2xs);
   font-weight: 500;
   letter-spacing: .06em;
   text-transform: uppercase;
-  color: var(--ink-30);
+  color: var(--ink-55);
 }
-.dash-body { margin-top: 24px; max-width: 620px; }
+.dash-body { margin-top: var(--space-5); max-width: 620px; }
 .dash-body .companion { margin-bottom: 8px; }
 .dash-body h2 {
   font-size: 24px;
@@ -990,10 +1032,10 @@ main { display: block; }
   color: var(--ink-85);
   margin-bottom: 12px;
 }
-.dash-body > p { font-size: 14px; line-height: 1.45rem; letter-spacing: -.005em; color: var(--ink-80); }
+.dash-body > p { font-size: var(--type-sm); line-height: 1.45rem; letter-spacing: -.005em; color: var(--ink-80); }
 .behind {
-  margin-top: 16px;
-  font-size: 13px;
+  margin-top: var(--space-4);
+  font-size: var(--type-xs);
   color: var(--ink-55);
   line-height: 1.6;
 }
@@ -1004,24 +1046,33 @@ main { display: block; }
   letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--ink-40);
-  margin-right: 6px;
+  margin-right: var(--space-2);
 }
-.behind .sep { color: var(--ink-30); margin: 0 4px; }
+.behind .sep { color: var(--ink-30); margin: 0 var(--space-1); }
 .btn-open {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-2);
   height: 32px;
   padding: 0 14px;
   margin-top: 20px;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: var(--type-xs);
   font-weight: 500;
   background: var(--ink-85);
   color: var(--background);
   transition: background-color .15s ease, transform .1s;
 }
 .btn-open:hover { background: var(--ink-78); }
+/* 32px pill, 44px target — see .link-row a for the reasoning */
+.btn-open { position: relative; }
+.btn-open::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 44px;
+  transform: translateY(-50%);
+}
 .btn-open:active { transform: scale(.97); }
 
 /* ============================================================
@@ -1029,43 +1080,15 @@ main { display: block; }
    ============================================================ */
 /* The portrait floats right inside the essay, the reference's
    about-page pattern; on phones it sits full-width up top. */
-.about-essay { padding-top: 16px; }
-.about-essay::after { content: ""; display: block; clear: both; }
-.portrait { margin: 0 0 24px; }
+.about-essay { padding-top: var(--space-4); }
+.portrait { margin: 0 0 var(--space-5); }
 @media (min-width: 640px) {
   .portrait { float: right; width: 38%; margin: 4px 0 16px 32px; }
 }
 .portrait .cover-clip { border-radius: 8px; overflow: hidden; position: relative; box-shadow: var(--shadow-flush); }
 .portrait img { width: 100%; object-fit: cover; }
-.portrait-clip { background: var(--surface); }
-.portrait-plate {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  color: var(--ink-30);
-}
 .portrait .portrait-clip { aspect-ratio: 540 / 655; }
-.portrait figcaption { margin-top: 8px; font-size: 12px; line-height: 1.5; color: var(--ink-40); }
-
-.about-essay h2 {
-  font-size: 24px;
-  font-weight: 500;
-  letter-spacing: -.01em;
-  color: var(--ink-85);
-  margin: 40px 0 12px;
-}
-.about-essay h2:first-child { margin-top: 0; }
-.about-essay p {
-  font-size: 14px;
-  font-weight: 450;
-  line-height: 1.45rem;
-  letter-spacing: -.005em;
-  color: var(--ink-80);
-  margin-bottom: 14px;
-}
+.portrait figcaption { margin-top: 8px; font-size: var(--type-2xs); line-height: 1.5; color: var(--ink-55); }
 .about-essay .lede { color: var(--ink-85); }
 
 .pull-quote {
@@ -1074,7 +1097,7 @@ main { display: block; }
   margin: 28px 0;
   background: var(--surface);
   border-radius: 8px;
-  padding: 24px;
+  padding: var(--space-5);
 }
 .pull-quote::after {
   content: "";
@@ -1084,7 +1107,7 @@ main { display: block; }
   pointer-events: none;
   box-shadow: var(--shadow-flush);
 }
-.pull-quote .ornament { display: block; font-size: 16px; color: var(--heart); margin-bottom: 10px; }
+.pull-quote .ornament { display: block; font-size: 16px; color: var(--heart); margin-bottom: var(--space-3); }
 .pull-quote blockquote {
   font-family: var(--serif);
   font-size: 19px;
@@ -1125,14 +1148,16 @@ main { display: block; }
   font-weight: 500;
   letter-spacing: .08em;
   text-transform: uppercase;
-  color: var(--ink-40);
-  margin-bottom: 6px;
+  /* --ink-40 measured 2.82:1 light / 3.83:1 dark on 10px text. --ink-55
+     is the quietest step that still clears AA (4.74 / 6.45). */
+  color: var(--ink-55);
+  margin-bottom: var(--space-2);
 }
 .atlas-row {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 16px;
+  gap: var(--space-4);
   padding: 7px 0;
 }
 .atlas-row + .atlas-row { border-top: 1px solid var(--border); }
@@ -1142,18 +1167,18 @@ main { display: block; }
   font-weight: 500;
   letter-spacing: .04em;
   text-transform: uppercase;
-  color: var(--ink-40);
+  color: var(--ink-55);
   white-space: nowrap;
 }
-.atlas-where { font-size: 14px; font-weight: 500; color: var(--ink-85); text-align: right; }
+.atlas-where { font-size: var(--type-sm); font-weight: 500; color: var(--ink-85); text-align: right; }
 
 .signoff {
   font-family: var(--serif);
   font-style: italic;
   font-weight: 500;
-  font-size: 17px;
+  font-size: var(--type-md);
   color: var(--ink-85);
-  margin-top: 24px;
+  margin-top: var(--space-5);
 }
 
 .about-essay a, .colophon-note a, .dash-note a, .deck a {
@@ -1179,9 +1204,9 @@ main { display: block; }
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 24px;
-  font-size: 12px;
-  color: var(--ink-50);
+  gap: var(--space-5);
+  font-size: var(--type-2xs);
+  color: var(--ink-55);
 }
 @media (min-width: 640px) {
   .footer__inner { flex-direction: row; align-items: center; }
@@ -1192,17 +1217,6 @@ main { display: block; }
   flex-wrap: wrap;
   gap: 8px 12px;
 }
-.footer__mark {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-family: var(--serif);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: -.01em;
-  color: var(--ink-85);
-}
-.footer__mark svg { display: block; position: relative; top: -.5px; }
 /* Four six-pointed stars — the Chicago wink, in the wordmark red */
 .footer__stars {
   color: var(--heart);
@@ -1210,9 +1224,20 @@ main { display: block; }
   letter-spacing: .5em;
   margin-right: -.5em;
 }
-.footer__links { display: flex; align-items: center; gap: 16px; }
-.footer__links a { transition: color .15s ease; }
-.footer__links a:hover { color: rgba(0, 0, 0, .85); }
+.footer__links { display: flex; align-items: center; gap: var(--space-4); }
+/* Padding out to 44px and pulling the same amount back in margin: the
+   target is a finger tall, the footer's height is untouched. */
+.footer__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-block: -12px;
+  transition: color .15s ease;
+}
+/* --ink-85 is exactly this rgba in light mode and flips to near-white
+   in dark. It was the literal, which meant hovering a footer link under
+   html.dark painted it near-black on the near-black ground. */
+.footer__links a:hover { color: var(--ink-85); }
 
 /* "Live" pill — the dashboards really are live apps */
 .live-pill {
@@ -1231,7 +1256,7 @@ main { display: block; }
   letter-spacing: 0;
   color: #1F7A4D;
   vertical-align: 4px;
-  margin-left: 10px;
+  margin-left: var(--space-3);
 }
 .live-dot {
   width: 6px;
@@ -1252,20 +1277,109 @@ main { display: block; }
    ============================================================ */
 .log-stats {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--type-2xs);
   text-transform: uppercase;
   letter-spacing: .04em;
-  color: var(--ink-40);
-  margin-top: 14px;
+  color: var(--ink-55);
+  margin-top: var(--space-2);
 }
-.log-year {
-  font-family: var(--serif);
-  font-size: 24px;
-  font-weight: 500;
-  color: var(--ink-85);
-  margin: 40px 0 4px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border);
+/* THE NAME, on an experience page, is set small — nearer a byline
+   than a masthead. Every other page keeps the full display size, and
+   should: on those the heading IS the page. Here the pictures are,
+   and a 44px black italic standing directly above the lead frame was
+   the loudest thing on a page whose whole argument is the photograph
+   underneath it. Both reference sites do the same — a photographer's
+   name set quietly and the work set large. */
+/* Small enough to be CONTEXT rather than a headline: on these pages
+   the name tells you what you're looking at and then gets out of the
+   way, the way a plate beside a print does. It went 44 → 28 → 18.
+
+   And NOT in Gooper. Every other page head is set in it — heavy,
+   italic, 800 — which is a display face doing display work at 44px.
+   Shrunk to 18 it stopped reading as a headline and started reading
+   as a dense little slab, fighting the clean mono line underneath.
+   This is Cheltenham, the site's own serif, upright at 500: a text
+   face at a text size, which is what a caption is. Real weights, so
+   `font-synthesis: none` has nothing to fake. */
+/* ONE FAMILY on the photography pages: the nav's Geist, top to
+   bottom. The full tour, so none of it gets retried — Gooper (a
+   display face doing display work, too dense once shrunk to a
+   caption), Cheltenham (right size, wrong voice), Instrument Serif
+   (ships ONE weight, 400, so its headings came out lighter than the
+   450 sans underneath them — an inverted hierarchy no size could fix,
+   because there is no heavier cut to reach for).
+
+   Geist is variable 100-900, so a heading is the same face as the line
+   below it carrying more weight. No second family, nothing to
+   harmonise, and weight is a dial rather than a shipped file.
+
+   Regards was tried late — the site's own former display serif, high
+   contrast, still sitting undeclared in fonts/. Too much at these
+   sizes. Roony was tried last, set in caps so its missing lowercase
+   couldn't bite: legible as two words in the wordmark, unreadable as
+   "TAME IMPALA: DEADBEAT TOUR WITH DJO", because an all-caps display
+   face has no word-shapes to scan by over a long string.
+
+   That is every face in fonts/. Geist holds the headings not because
+   it won on looks but because it is the only one that can: variable
+   weight, real lowercase, legible at 17px. A replacement has to clear
+   all three, and none of the others do.
+
+   Sits after `.page-head h1`, which is the same weight of selector,
+   so source order is what beats Gooper here. */
+.xp-head h1 {
+  font-family: var(--title-face);
+  font-style: normal;
+  font-weight: 600;
+  font-size: clamp(var(--type-xl), 2.4vw, var(--type-2xl));
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+/* the experience page's is a plate, not a masthead — smaller again */
+#galleryTitle {
+  font-size: var(--type-xl);
+  line-height: 1.25;
+  margin-bottom: 0;
+}
+/* An experience page's masthead is NOT the centred 640px column the
+   other page heads use. It sits on the page's own left edge — the
+   same `--gutter` the nav's wordmark and the wall's frames stand on —
+   so the title, the bar above it and the grid below it all share one
+   line down the page, and the lead frame is the only thing that
+   breaks out of it. */
+
+/* THE SHOOT'S DETAILS, on an experience page: when, where, how many
+   frames, what they were taken on. One run in one voice, because they
+   are one kind of thing.
+
+   It was briefly split — the date large and full-ink here, the counts
+   small and grey in a .log-stats line under the note — and the masthead
+   then ran display-italic, big mono, serif, small mono down four
+   consecutive lines. Four treatments for a name, a sentence and a set
+   of facts. The facts are the facts; they get one size.
+
+   A step up from .log-stats (12.5 against 11, ink-55 against ink-40)
+   because on this page the line is doing real work rather than
+   counting things — the date in it is what makes the page a record of
+   a day. It is not doing enough work to shout. */
+/* The page's two faces and no third one: Cheltenham above for the
+   name, the nav's Geist here for the facts. This line was set in the
+   mono for a while, on the theory that a date and a camera are data —
+   but it sat under a serif title on a page with no other mono on it,
+   so it read as a stray voice rather than a register. Same sans as
+   the bar at the top of the page.
+
+   Not uppercased either. It carries equipment, and equipment names
+   are case-carrying — "100-400mm f/4.5-5.6" is a convention, not
+   decoration, and caps mangle it rather than merely shouting it. */
+.xp-when {
+  font-family: var(--sans);
+  font-size: var(--type-sm);
+  font-weight: 450;
+  letter-spacing: 0;
+  line-height: 1.5;
+  color: var(--ink-55);
+  margin: var(--space-4) 0 var(--space-6);
 }
 
 /* ============================================================
@@ -1280,28 +1394,6 @@ main { display: block; }
 /* Section heads in park's display voice, shared by the continents
    ledger and the trips wall */
 .sec-head { margin-top: clamp(64px, 9vw, 110px); }
-.sec-head h2 {
-  font-family: var(--display);
-  font-weight: 400;
-  font-synthesis: none;
-  font-size: clamp(28px, 3.4vw, 42px);
-  line-height: 1.1;
-  letter-spacing: -.005em;
-  color: var(--ink-85);
-}
-.sec-sub {
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.6;
-  color: var(--ink-55);
-  max-width: 480px;
-}
-.sec-head--row {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-}
 
 /* ============================================================
    COLOUR THEME — three states, one control
@@ -1323,7 +1415,7 @@ main { display: block; }
   flex: none;
   width: 32px;
   height: 32px;
-  margin-left: 6px;
+  margin-left: var(--space-2);
   border: 0;
   border-radius: 50%;
   background: transparent;
@@ -1333,12 +1425,23 @@ main { display: block; }
   align-items: center;
   justify-content: center;
   transition: background-color .15s ease, color .15s ease;
+}/* 32px glyph, 44px target. The 6px left margin absorbs the expansion
+   on that side exactly, and the button is last in the bar so the right
+   side grows into the nav's own gutter — it overlaps no neighbour. */
+.theme-btn { position: relative; }
+.theme-btn::after {
+  content: "";
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 44px; height: 44px;
+  transform: translate(-50%, -50%);
 }
+
 .theme-btn:hover { background: var(--surface-hover); color: var(--ink-85); }
 .theme-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 /* the burger pulls itself 8px into the gutter; at desktop widths the
    glyph is the last item in the bar and needs the same optical hug */
-@media (min-width: 768px) { .theme-btn { margin-right: -6px; } }
+@media (min-width: 768px) { .theme-btn { margin-right: -var(--space-2); } }
 /* below the burger breakpoint the picker in the menu takes over */
 @media (max-width: 767.98px) { .theme-btn { display: none; } }
 
@@ -1366,13 +1469,13 @@ html[data-theme="dark"]  .theme-i--moon { opacity: 1; transform: none; }
 }
 .theme-pick__opt {
   flex: 1;
-  height: 38px;
+  height: 44px;
   border: 0;
   border-radius: 999px;
   background: transparent;
   color: var(--ink-55);
   font-family: inherit;
-  font-size: 13px;
+  font-size: var(--type-xs);
   font-weight: 500;
   letter-spacing: -.005rem;
   cursor: pointer;
@@ -1406,8 +1509,6 @@ html.theme-anim .mobile-menu__inner {
    filter pills swap the view.
    ============================================================ */
 .places-sec { padding-top: 0; }
-.sec-head--center { text-align: center; }
-.sec-head--center .sec-sub { margin-left: auto; margin-right: auto; }
 /* Section furniture inside the main pane, vollendorf's register */
 .sec-label {
   display: flex;
@@ -1416,7 +1517,7 @@ html.theme-anim .mobile-menu__inner {
   margin-top: clamp(72px, 9vw, 110px);
 }
 .sec-label span {
-  font-size: 13px;
+  font-size: var(--type-xs);
   font-weight: 550;
   letter-spacing: -.005em;
   color: var(--ink-85);
@@ -1428,43 +1529,13 @@ html.theme-anim .mobile-menu__inner {
   height: 1px;
   background: var(--border);
 }
-.sec-label + .sec-sub { margin-top: 16px; }
-.filter-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 8px;
-  margin-top: 18px;
-}
-.filter-pill {
-  padding: 8px 16px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: transparent;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  color: var(--ink-55);
-  cursor: pointer;
-  transition: color .15s ease, border-color .15s ease, background-color .15s ease;
-}
-.filter-pill:hover { color: var(--ink-85); }
+.sec-label + .sec-sub { margin-top: var(--space-4); }
 .filter-pill.is-active {
   background: #17170F;
   border-color: transparent;
   color: #FBF9F0;
 }
 html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
-.places-cloud {
-  margin-top: clamp(26px, 3.4vw, 44px);
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
-  column-gap: clamp(22px, 2.6vw, 44px);
-  row-gap: clamp(14px, 2vw, 26px);
-}
 .place {
   display: inline-flex;
   align-items: center;
@@ -1506,7 +1577,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 .place-tag {
   align-self: flex-start;
   margin-top: clamp(4px, .8vw, 12px);
-  padding: 4px 10px;
+  padding: var(--space-1) var(--space-3);
   border: 1px solid var(--border);
   border-radius: 999px;
   font-family: var(--mono);
@@ -1529,16 +1600,6 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 .place-in { animation: place-pop .45s var(--ease-out-quart) both; }
 @media (prefers-reduced-motion: reduce) {
   .place-in { animation: none; }
-}
-
-.gallery-cols {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(16px, 1.5vw, 24px);
-  margin-top: 28px;
-}
-@media (min-width: 560px) {
-  .gallery-cols { grid-template-columns: repeat(2, 1fr); }
 }
 .gcard {
   position: relative;
@@ -1593,7 +1654,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 }
 .gcard-meta {
   display: block;
-  font-size: 13px;
+  font-size: var(--type-xs);
   font-weight: 450;
   color: rgba(255, 255, 255, .82);
   margin-top: 1px;
@@ -1611,7 +1672,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: var(--type-base);
   box-shadow: 0 2px 12px rgba(0, 0, 0, .18);
   opacity: 0;
   transform: translateY(6px);
@@ -1644,12 +1705,11 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 /* Photography pages run wide: a small left column and as much room for
    frames as the window will give. Only the feed is capped, below. */
 .studio { padding: 0 clamp(20px, 2vw, 36px); }
-.studio-main { min-width: 0; }
 .studio-main .colophon-note h2 {
   font-family: var(--display);
   font-weight: 400;
   font-synthesis: none;
-  font-size: 21px;
+  font-size: var(--type-lg);
   letter-spacing: -.005em;
 }
 .studio-main .wall {
@@ -1658,38 +1718,6 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   max-width: none;
 }
 .studio-main .wrap { max-width: none; }
-.studio-side { display: none; }
-.studio-main .stream-sec { padding-top: 26px; }
-.studio-main .page-head { padding-top: 26px; padding-bottom: 14px; }
-@media (min-width: 900px) {
-  .studio {
-    display: grid;
-    grid-template-columns: minmax(250px, 300px) 1fr;
-    column-gap: clamp(32px, 3vw, 56px);
-    align-items: start;
-  }
-  .studio-side {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    height: 100svh;
-    display: flex;
-    flex-direction: column;
-    padding: 30px 8px 26px 12px;
-  }
-  .studio-main .stream-head { display: none; }
-}
-/* The feed is the one page that reads rather than looks, so it keeps
-   the capped column and, once there's room, an empty gutter mirroring
-   the nav so the cards land on the middle of the page. Has to follow
-   the rule above or it loses on source order. */
-.studio--read { max-width: 1080px; margin-inline: auto; }
-@media (min-width: 1240px) {
-  .studio--read {
-    max-width: 1420px;
-    grid-template-columns: minmax(250px, 300px) minmax(0, 1fr) minmax(0, 300px);
-  }
-}
 /* The vertical nav carries two things and nothing else: the mark
    up top, then the galleries, Everything down to the oldest. Rows
    take the menu's tile hover — a rounded rectangle sitting a step
@@ -1741,27 +1769,6 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   height: 1px;
   background: var(--border);
 }
-.side-mark {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  padding-left: 10px;
-  gap: .4em;
-  font-family: var(--display);
-  font-weight: 500;
-  font-synthesis: none;
-  font-size: 16px;
-  line-height: 1.2;
-  letter-spacing: -.005em;
-  color: var(--ink-85);
-}
-.side-mark svg { width: .72em; height: .68em; flex: none; }
-@media (hover: hover) and (pointer: fine) {
-  .side-mark:hover svg { animation: heart-pulse 1.3s ease-in-out infinite; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .side-mark:hover svg { animation: none; }
-}
 /* The statement, vollendorf's hero pattern at sidebar scale: a
    quiet serif line with a smaller sans line beneath */
 .side-state {
@@ -1775,32 +1782,8 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   color: var(--ink-85);
   max-width: 24ch;
 }
-.side-tag {
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.55;
-  color: var(--ink-55);
-  max-width: 30ch;
-}
-.side-links {
-  margin-top: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 16px;
-  font-size: 12px;
-  font-weight: 450;
-  color: var(--ink-55);
-}
-.side-trips {
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-y: auto;
-  margin-top: 28px;
-  padding-right: 8px;
-  scrollbar-width: thin;
-}
 .side-name {
-  font-size: 13px;
+  font-size: var(--type-xs);
   font-weight: 550;
   line-height: 1.4;
   letter-spacing: -.005em;
@@ -1811,24 +1794,6 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 .side-trip.is-active .side-name { color: var(--ink-85); }
 /* The ledger inside the burger menu on small screens */
 .mobile-menu__triplist { display: flex; flex-direction: column; }
-.mobile-menu__trip {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 9px 0;
-  font-size: 16px;
-  font-weight: 550;
-  color: var(--ink-85);
-}
-.mobile-menu__trip-meta {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: var(--ink-40);
-  white-space: nowrap;
-}
 
 /* ============================================================
    THE STREAM — the wall of every frame: masonry columns per
@@ -1836,19 +1801,12 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
    the photos, and a lightbox
    ============================================================ */
 .stream-sec { padding-top: clamp(40px, 6vw, 72px); }
-.stream-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 6px;
-}
 .stream-head .photo-stats {
   margin: 0;
   padding: 0;
   border: 0;
 }
-.roll { padding-top: 10px; }
+.roll { padding-top: var(--space-3); }
 .roll-head {
   display: flex;
   align-items: baseline;
@@ -1888,19 +1846,18 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-size: 13px;
+  font-size: var(--type-xs);
   font-weight: 450;
   color: var(--ink-55);
   transition: color .15s ease;
 }
-.back-link:hover { color: var(--ink-85); }
 .back-link .arrow { transition: transform .25s var(--ease-out-quart); }
 .back-link:hover .arrow { transform: translateX(-3px); }
 /* ============================================================
    THE FEED — what I'm up to. One card a post, newest first, the
    photographs tiled inside it rather than running the page.
    ============================================================ */
-.feed-list { display: flex; flex-direction: column; gap: 16px; padding-bottom: 60px; }
+.feed-list { display: flex; flex-direction: column; gap: var(--space-4); padding-bottom: 60px; }
 .card {
   padding: 18px 20px 20px;
   border: 1px solid var(--border);
@@ -1911,41 +1868,6 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 @media (hover: hover) and (pointer: fine) {
   .card:hover { border-color: var(--ink-30); }
 }
-/* Headline and date on one baseline; the date holds the right
-   edge even when a post has no headline */
-.card-top {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-.card-top .card-head { margin: 0; }
-.card-top .card-when { margin-left: auto; }
-.card-where {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: -.005em;
-  color: var(--ink-85);
-}
-.card-where:hover { color: #E5484D; }
-.card-when { font-size: 12px; color: var(--ink-40); white-space: nowrap; }
-.card-at { margin: 0 0 4px; font-size: 12.5px; font-weight: 600; color: var(--ink-55); }
-.card-head {
-  margin: 0 0 8px;
-  font-family: var(--display);
-  font-weight: 700;
-  font-synthesis: none;
-  font-size: clamp(19px, 1.9vw, 23px);
-  line-height: 1.2;
-  letter-spacing: -.01em;
-  color: var(--ink-85);
-}
-.card-say {
-  margin: 0;
-  font-size: 15.5px;
-  line-height: 1.55;
-  color: var(--ink-78);
-}
 /* The tiles: one full width in its own orientation, two abreast as
    an upright pair, three as a tall beside a stacked pair, four
    square. Fixed ratios so a card never stretches to whatever shape
@@ -1953,17 +1875,11 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 .tiles {
   display: grid;
   gap: clamp(4px, 0.4vw, 5px);
-  margin-top: 10px;
+  margin-top: var(--space-3);
   border-radius: 20px;
   overflow: hidden;
 }
-.tiles--1 { grid-template-columns: 1fr; aspect-ratio: 3 / 2; }
-.tiles--1.tiles--tall { aspect-ratio: 4 / 5; }
-.tiles--1.tiles--square { aspect-ratio: 1 / 1; }
-.tiles--2 { grid-template-columns: 1fr 1fr; aspect-ratio: 3 / 2; }
-.tiles--3 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; aspect-ratio: 2 / 1.4; }
 .tiles--3 .tile:first-child { grid-row: span 2; }
-.tiles--4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; aspect-ratio: 1 / 1; }
 .tiles .tile { position: relative; margin: 0; min-height: 0; overflow: hidden; }
 /* scoped under .tiles to outrank the .shot-btn rules further down the
    file, which otherwise win on source order and give every tile its own
@@ -1991,26 +1907,6 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 @media (hover: hover) and (pointer: fine) {
   .tiles .tile-btn:hover img { transform: scale(1.03); }
 }
-.tile-play {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: rgba(20, 20, 20, .6);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-.tile-play svg { width: 22px; height: 22px; margin-left: 2px; }
-.tile--video { cursor: pointer; }
-.tile--video.is-playing .tile-play,
-.tile--video.is-playing .tile-dur { display: none; }
 /* the clip's length, burned quietly into the corner */
 .tile-dur {
   position: absolute;
@@ -2038,7 +1934,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   -webkit-backdrop-filter: blur(6px);
   color: #fff;
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: var(--type-2xs);
   font-weight: 500;
   pointer-events: none;
 }
@@ -2093,48 +1989,73 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   display: block;
   margin-top: 8px;
   font-family: var(--serif);
-  font-size: 14px;
+  font-size: var(--type-sm);
   line-height: 1.45;
   color: var(--ink-55);
 }
-.shot-credit { margin-left: 8px; font-size: 12px; color: var(--ink-40); }
-/* The wall is uniform: upright 3:4 tiles on fixed rows, and a
-   landscape frame lies across two of them — same row height, two
-   tracks wide, which lands its crop near 3:2. Rows have to be an
-   explicit height for a spanning tile to sit flush with its
-   neighbours, so the column count is stepped by CONTAINER width
-   (the homepage wall lives beside a sidebar, so the viewport is
-   the wrong ruler — the parents carry container-type) and the row
-   height is derived from the track via cqi. dense backfills the
-   hole when a wide frame won't fit at the end of a row. */
-#photoStream,
-.roll { container-type: inline-size; }
+.shot-credit { margin-left: 8px; font-size: var(--type-2xs); color: var(--ink-55); }
+/* `.roll` used to carry `container-type: inline-size` so the wall
+   could step its columns by container width. Nothing queries it any
+   more — the wall steps by viewport (see below) and no rule in the
+   sheet uses a cq unit — so the containment came out with it. It went
+   briefly back on for a left-hand nav rail, which would have made the
+   viewport a lie; that rail was reverted and so was this. */
 /* ---------- The wall, and every experience's gallery ----------
-   Square corners and a lot of air. The frames are not cropped to a
-   common shape any more — each one keeps the proportions it was shot
-   at, and the grid is built to make that look deliberate rather than
-   ragged.
+   Square corners and a lot of air, after franzgruenewald.com. Every
+   frame fills its whole column in one of two boxes — 4:5 upright,
+   5:4 landscape — and is centre-cropped to fill it. The shape is read
+   off what was shot, in js/hobby.js, so nothing is tagged by hand.
 
-   Two rules do the work. Widths come from `--fw`, set per frame in
-   js/hobby.js as the square root of its aspect: an upright and a
-   landscape end up covering the same area, so neither one takes the
-   page. And the cells centre on their row, which is what turns
-   mismatched heights into a stagger instead of a mess.
+   Two rules do the work. The two heights are what keep the wall from
+   reading as a rank of identical stamps; and the cells centre on
+   their row, which turns that difference into a stagger rather than a
+   ragged top edge. A landscape frame sits inset among uprights —
+   shorter, starting lower and ending higher — and that is the look.
+
+   This REPLACED a scheme that kept every frame at the proportions it
+   was shot at and sized it by area (`--fw`, since deleted). The
+   frames are cropped now. That is the trade the reference makes and
+   it was taken deliberately — don't "restore" the old behaviour on
+   the strength of the no-crop principle alone.
+
+   The column count steps by VIEWPORT, not by container. It used to
+   step by container because the wall once sat beside a sidebar; both
+   walls now run the full width with only the nav's gutters beside
+   them, so the viewport is the honest ruler and these are the
+   reference's own breakpoints.
 
    No titles under the frames. The picture is the whole message. */
 .stream-grid {
-  --wall-cols: 4;
+  --wall-cols: 1;
   display: grid;
   grid-template-columns: repeat(var(--wall-cols), minmax(0, 1fr));
   align-items: center;
-  justify-items: center;
-  /* the air is the point — rows breathe harder than columns */
-  gap: clamp(38px, 5vw, 96px) clamp(24px, 3.2vw, 64px);
+  /* The gap GROWS rather than steps. It used to be 32px, then jump to
+     80px at 1024 on the same pixel the columns went 2 → 4 and the page
+     gutter went 24 → 80: three discontinuities at once, which took the
+     photographs from 465px wide at 1023 down to 153px at 1024. A
+     1024px laptop showed smaller pictures than an 884px folding phone.
+     Interpolating the gap removes one of the three, and the column
+     ladder below removes the second. */
+  gap: clamp(32px, 4.2vw, 80px);
   padding-bottom: clamp(52px, 6vw, 104px);
 }
+/* THE COLUMN LADDER climbs one step at a time — 1, 2, 3, 4, 5 — and
+   never 2 → 4. Adding a column costs roughly n/(n+1) of the frame's
+   width, so a single step is a 33% dip at worst and the frames grow
+   back before the next one. Skipping a step doubles that in one pixel.
+   Measured widths at the sizes that matter: 360 → 312, 884 (Z Fold
+   open) → 402, 1024 → 416, 1440 → 275, 1920 → 288, 2560 → 416. The
+   frames stay in a 260–480 band from tablet up instead of collapsing
+   to thumbnails in the middle of the range. Check that band again if
+   you move a breakpoint or the gutter. */
+@media (min-width: 768px)  { .stream-grid { --wall-cols: 2; } }
+@media (min-width: 1152px) { .stream-grid { --wall-cols: 3; } }
+@media (min-width: 1440px) { .stream-grid { --wall-cols: 4; } }
+@media (min-width: 1920px) { .stream-grid { --wall-cols: 5; } }
 .stream-grid .shot {
   margin: 0;
-  width: var(--fw, 100%);
+  width: 100%;
 }
 .stream-grid .shot-btn,
 .stream-grid .vid {
@@ -2144,25 +2065,110 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   corner-shape: normal;
   background: none;
 }
+/* The two boxes. Giving the picture inside a definite width AND a
+   definite height is also what makes the per-frame aspect-ratio the
+   renderer writes inline go inert — an inline style can only be
+   beaten by !important, but a ratio simply stops applying once
+   neither dimension is left to it. */
+.stream-grid .shot--tall .shot-btn,
+.stream-grid .shot--tall .vid { aspect-ratio: 4 / 5; }
+.stream-grid .shot--wide .shot-btn,
+.stream-grid .shot--wide .vid { aspect-ratio: 5 / 4; }
 /* the flush inset ring belonged to the rounded tile; a square frame
    sits on the page unaided */
 .stream-grid .shot-btn::after { display: none; }
-/* each frame at its own shape — the inline aspect-ratio the renderer
-   writes is left to resolve the height */
 .stream-grid .shot-btn img,
 .stream-grid .vid video {
   width: 100%;
-  height: auto;
-  object-fit: fill;
+  height: 100%;
+  object-fit: cover;
 }
 .stream-grid .shot-cap { display: none; }
-@container (width < 1000px) { .stream-grid { --wall-cols: 3; } }
-@container (width < 720px)  { .stream-grid { --wall-cols: 2; } }
-/* one column on a phone, and the frames run the full measure there —
-   holding an upright to 60% of a 340px screen helps nobody */
-@container (width < 560px) {
-  .stream-grid { --wall-cols: 1; gap: clamp(28px, 9vw, 48px); }
-  .stream-grid .shot { width: 100%; }
+/* THE LEAD AND ITS PLATE. The frame is capped by HEIGHT and keeps its
+   own proportions, so its width is whatever its shape makes it — it
+   can never line up with a grid that runs gutter to gutter. Rather
+   than fight that, the title and the date sit under it and take that
+   same width: `fit-content` shrinks the figure to the picture, so the
+   plate's left edge IS the picture's left edge, and the pair centres
+   on the page as one object. A print with its label.
+
+   Every part of the chain has to be fit-content or the button's
+   `width: 100%` blows it back out to the full measure.
+
+   The height is the definite dimension and the ratio supplies the
+   width. Don't set both to auto: the renderer's inline aspect-ratio
+   then has nothing to resolve against and the frame collapses to zero
+   before the picture loads. */
+.xp-lead {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+}
+.xp-lead .shot,
+.xp-lead .shot-btn {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0;
+  border-radius: 0;
+  background: none;
+}
+.xp-lead .shot-btn::after { display: none; }
+.xp-lead .shot-btn img {
+  display: block;
+  width: auto;
+  height: min(64vh, 640px);
+  max-width: 100%;
+  object-fit: contain;
+}
+.xp-lead .shot-cap { display: none; }
+/* The plate sits ABOVE the frame and takes its width, so the name and
+   the date hang off the picture's own left edge rather than the
+   page's. It is set small on purpose: it introduces the frame under
+   it and must not out-shout it. `figcaption` is allowed to be either
+   the first or the last child of a figure — first, here. */
+/* Three classes on purpose. `.page-head.xp-head` carries the page's
+   gutter padding and sits later in this file, so a two-class rule
+   here loses to it and the plate hangs 80px off the picture's edge.
+   Out-weigh it rather than depend on order. */
+.xp-lead__plate .page-head.xp-head {
+  padding: 0 0 12px;
+  max-width: none;
+  margin: 0;
+  /* centred ON the picture, not flush to its left edge — the figure
+     is already the picture's width, so centring here centres against
+     the frame itself. `.page-head.wall` sets left, and this rule
+     out-weighs it. */
+  text-align: center;
+}
+/* The plate zeroed the padding `.page-head` normally brings, which is
+   what used to hold the masthead off the bar — so the room above the
+   lead is set here instead. */
+/* HELD-OPEN SLOTS. 23 of the 27 experiences are logged but not yet
+   edited, so most of these pages have no frames at all. They keep the
+   page's shape rather than collapsing to a title on white — a blank
+   where the lead goes and a wall of blanks under it.
+
+   Flat and inert, deliberately. The experiences index made the same
+   call in the same words: nothing is loading here and nothing is
+   about to, so a shimmering skeleton would be a lie about the state
+   of the page. These are just quiet grey rectangles, and the note
+   under the plate says in words that the pictures aren't up yet. */
+.xp-blank {
+  display: block;
+  background: var(--surface);
+}
+.xp-blank--lead {
+  width: min(66vw, 780px);
+  max-width: 100%;
+  height: min(64vh, 640px);
+}
+.stream-grid .shot.xp-blank { width: 100%; margin: 0; }
+.stream-grid .shot.xp-blank.xp-blank--tall { aspect-ratio: 4 / 5; }
+.stream-grid .shot.xp-blank.xp-blank--wide { aspect-ratio: 5 / 4; }
+
+#leadSec {
+  padding-top: clamp(34px, 5.5vw, 84px);
+  margin-bottom: clamp(30px, 4vw, 56px);
 }
 .shot { margin: 0 0 clamp(12px, 1.2vw, 18px); break-inside: avoid; }
 .shot-btn {
@@ -2202,11 +2208,14 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   background: rgba(10, 10, 10, .52);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, .9);
+  /* the nav's sans, not the mono — and not shouted. What sits in here
+     is a caption, a sentence about the frame, and uppercased mono made
+     a sentence read like a serial number. */
+  font-family: var(--sans);
+  font-size: var(--type-xs);
+  font-weight: 450;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, .92);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2236,16 +2245,29 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
    The wall below it still runs edge to edge. */
 .page-head.wall {
   max-width: 640px;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: var(--space-5);
+  padding-right: var(--space-5);
   margin-left: auto;
   margin-right: auto;
   text-align: left;
 }
+/* An experience page's masthead is NOT the centred 640px column above.
+   It sits on the page's own left edge — the same `--gutter` the nav's
+   wordmark and the wall's frames stand on — so the title, the bar
+   above it and the grid below all share one line down the page.
+   It has to live HERE, after `.page-head.wall`: both selectors carry
+   the same weight, so source order is the only thing deciding it. */
+.page-head.xp-head {
+  max-width: none;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+  margin-left: 0;
+  margin-right: 0;
+}
 /* When and where, under the title — the same line the nav menu
    shows, set in Gooper upright so the slab answers the italic. */
 .xp-byline {
-  font-family: 'Gooper', Georgia, serif;
+  font-family: var(--sans);
   font-style: normal;
   font-weight: 500;
   font-synthesis: none;
@@ -2253,7 +2275,11 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   line-height: 1.35;
   letter-spacing: -.005em;
   color: var(--ink-55);
-  margin: -6px 0 14px;
+  /* No negative compensator. This carried -6px to claw back against a
+     16px margin on the title above it; that margin is now --space-2, so
+     the -6 collapsed the pair to a 0px gap and left the line below it
+     closer to the essay than to its own masthead. */
+  margin: 0 0 var(--space-2);
 }
 /* The frames used to carry a "Highlights" label and its hairline.
    The page is one experience and the pictures are the first thing on
@@ -2285,7 +2311,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 .clip-row {
   display: flex;
   flex-wrap: wrap;
-  gap: clamp(10px, 1.2vw, 16px);
+  gap: clamp(var(--space-3), 1.2vw, var(--space-4));
 }
 .clip-row .shot { margin: 0; }
 .clip-row .vid { width: min(320px, 72vw); }
@@ -2298,16 +2324,17 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 .footer__inner { justify-content: center; }
 .footer__left {
   display: block;
-  font-size: 12px;
-  color: var(--ink-45);
+  font-size: var(--type-2xs);
+  color: var(--ink-55);
 }
 /* ABOUT — the masthead column the rest of the site uses, and the
    essay running under it at reading width. */
 .about-read { max-width: 640px; }
 .about-read h2 {
-  margin: clamp(34px, 4vw, 52px) 0 12px;
-  font-family: 'Gooper', Georgia, serif;
-  font-style: italic;
+  margin: clamp(34px, 4vw, 52px) 0 var(--space-2);
+  font-family: var(--sans);
+  /* Geist has no italic cut and synthesis is off here */
+  font-style: normal;
   font-weight: 800;
   font-synthesis: none;
   font-size: clamp(21px, 2.2vw, 27px);
@@ -2316,15 +2343,15 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   color: var(--ink-85);
 }
 .about-read p {
-  margin: 0 0 14px;
+  margin: 0 0 var(--space-4);
   font-size: 16px;
   line-height: 1.62;
   color: var(--ink-78);
 }
-.about-read .lede { font-size: 17px; color: var(--ink-85); }
+.about-read .lede { font-size: var(--type-md); color: var(--ink-85); }
 .about-read a { text-decoration: underline; text-decoration-color: var(--border); }
 .about-read a:hover { text-decoration-color: currentColor; }
-.about-portrait { margin: 0 0 6px; }
+.about-portrait { margin: 0 0 var(--space-2); }
 .about-portrait img {
   /* height:auto or the browser lays the frame out from the width and
      height attributes, and a wrong pair there stretches the picture */
@@ -2340,7 +2367,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   font-size: 11px;
   letter-spacing: .04em;
   text-transform: uppercase;
-  color: var(--ink-40);
+  color: var(--ink-55);
 }
 .about-read .pull-quote {
   /* the library-era plate is gone; a rule down the side is enough */
@@ -2354,7 +2381,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 }
 .about-read .pull-quote blockquote {
   margin: 0;
-  font-family: 'Gooper', Georgia, serif;
+  font-family: var(--sans);
   font-style: italic;
   font-weight: 500;
   font-size: clamp(18px, 1.9vw, 22px);
@@ -2363,8 +2390,8 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 }
 .about-read .pull-quote figcaption {
   margin-top: 8px;
-  font-size: 13px;
-  color: var(--ink-45);
+  font-size: var(--type-xs);
+  color: var(--ink-55);
 }
 .about-read .signoff { margin-top: 22px; color: var(--ink-55); }
 .about-reach { padding-bottom: clamp(40px, 6vw, 72px); }
@@ -2393,132 +2420,133 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 /* every band brings its own rule on top, so a second one under the
    year heading would just double it. Scoped to the index so the log's
    year headings keep theirs. */
-#experienceList .log-year {
-  border-bottom: 0;
-  padding-bottom: 2px;
-}
-.log-year--now { font-size: 30px; }
-.xp-bands { margin: 6px 0 44px; }
-.xp-band {
-  --ink: var(--ink-85);
-  border-top: 1px solid var(--border);
-  padding: 20px 0 26px;
-  transition: border-color .3s ease;
-}
-.xp-band__head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 24px;
-}
-.xp-band__name {
-  display: block;
-  font-family: 'Gooper', var(--serif);
-  /* Gooper ships a real Medium Italic at 500, so this is the drawn
-     italic and not a slanted upright */
-  font-weight: 500;
-  font-style: italic;
-  /* bigger than the 15px it started at, and a long way back from the
-     48px it briefly reached — the name should carry the row without
-     becoming the poster */
-  font-size: clamp(17px, 1.45vw, 23px);
-  line-height: 1.1;
+/* ============================================================
+   THE LEDGER — the index of every experience.
+
+   NOT a grid. The front wall already is one, and repeating it here
+   would make this page a second homepage wearing a different hat.
+   This is a dated list instead: the year carries the structure, each
+   experience is one ruled row, and a single frame rides along as
+   evidence rather than a whole roll of them.
+
+   Every row wears the experience page's own plate — the name in
+   Cheltenham over a line of facts in the nav's sans — so the index
+   and the page it opens read as one thing. Two faces on the whole
+   page and no third.
+
+   WHAT THIS REPLACED. Bands: a name in heavy Gooper italic set at
+   ink-30, a horizontal roll of every frame running off the right
+   edge, and a rotating five-colour ink per row. The roll was the
+   problem — 23 of the 27 experiences have no frames yet, so the page
+   was mostly grey rectangles, and the ones that did have frames
+   showed the same pictures the experience page shows. One frame per
+   row says the same thing and leaves the page quiet.
+   ============================================================ */
+/* THE YEAR IS THE PAGE'S SPINE. It stands in its own column, set
+   large and light, and STICKS while its own experiences scroll past —
+   so the thing you are always looking at is when. That is the whole
+   argument of the site: these pictures are how a place was on a day,
+   and the day is what makes them worth keeping.
+
+   Sticky inside the grid item means it releases at the end of its own
+   era rather than running the length of the page, so 2026 hands over
+   to 2025 as you reach it. Below 900px there is no room for a column,
+   so it becomes an ordinary heading above its rows. */
+.xp-era { display: block; }
+.xp-era__year {
+  font-family: var(--title-face);
+  font-style: normal;
+  font-weight: 600;
+  /* a step below the page title, which it matched exactly at every
+     width under 1083px — same face, same weight, same size, so the
+     page had one level where it needed two */
+  font-size: var(--type-lg);
+  line-height: 1;
   letter-spacing: -.01em;
-  color: var(--ink-30);
-  transition: color .28s var(--ease-out-quart);
+  /* 21px is under the 24px large-text threshold, so this needs the full
+     4.5:1; --ink-45 measured 3.35:1. Still reads as secondary. */
+  color: var(--ink-55);
+  margin: clamp(30px, 3.4vw, 48px) 0 6px;
 }
-.xp-band__meta {
-  display: block;
-  margin-top: 9px;
-  /* the date and the venue are the row's second line, not its fine
-     print — the body sans at reading size, sentence case, no tracking.
-     Mono and all-caps both made it look like a filing stamp. */
-  font-family: var(--sans);
-  font-size: 14px;
-  font-weight: 450;
-  letter-spacing: 0;
-  color: var(--ink-30);
-  transition: color .28s ease;
-}
-.xp-band__go {
-  flex: none;
-  margin-top: 4px;
-  color: var(--ink-30);
-  transition: color .28s ease, transform .28s var(--ease-out-quart);
-}
-.xp-band__go svg { width: 22px; height: 22px; display: block; }
-/* the roll runs off the right edge; it keeps scrolling past the page */
-.xp-band__strip {
+/* The year sits ABOVE its experiences, not beside them. It spent a
+   version in a column of its own down the left — set large and pinned,
+   riding along while its rows scrolled — which cost the rows about
+   230px of measure and gave it back nothing: a year is a divider, and a
+   divider only has to say where the section starts. Above, small, and
+   the frames get the width instead. */
+
+.xp-row {
   display: flex;
-  gap: 8px;
-  margin-top: 18px;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scrollbar-width: none;
+  align-items: center;
+  gap: clamp(16px, 2.4vw, 40px);
+  /* the air sits inside the row, not between rows — house rule */
+  padding: clamp(14px, 1.5vw, 22px) 0;
+  border-top: 1px solid var(--border);
+  text-decoration: none;
+  color: inherit;
 }
-.xp-band__strip::-webkit-scrollbar { display: none; }
-/* Height is fixed and width follows the shape. That only works from
-   the first paint if the shape is known before the bytes are — which
-   is why the renderer writes width/height attributes off the data.
-   Without them Chrome falls back to its 300×150 default object size,
-   so every frame not yet in reserved a 252px slot at 2:1 and then
-   jumped to its real width on load; the tail of a long roll sat
-   empty grey until you scrolled it into view. */
-.xp-band__strip img {
+/* the words take a fixed narrow column so every row's frames start on
+   the same line down the page */
+.xp-row__text {
   flex: none;
-  height: clamp(84px, 8.6vw, 126px);
-  width: auto;
+  width: clamp(150px, 19vw, 250px);
+  min-width: 0;
+}
+.xp-row__name {
   display: block;
-  border-radius: 5px;
-  background: var(--surface);
+  font-family: var(--title-face);
+  font-style: normal;
+  font-weight: 500;
+  font-size: var(--type-md);
+  line-height: 1.25;
+  color: var(--ink-85);
+  transition: color .2s ease;
 }
-/* SLOTS. An experience is logged when it happens; its photographs
-   can arrive years later, or never. A row with none yet holds the
-   slots open rather than trailing off into white — the same height
-   as a frame, at two of the shapes a frame comes in, flat and inert.
-   Nothing shimmers: a shimmer promises something is on its way, and
-   these are waiting on Cody, not on the network. (Which is also why
-   there is no motion here for prefers-reduced-motion to turn off.) */
-.xp-band__strip--empty { overflow: hidden; }
-.xp-slot {
+.xp-row__meta {
+  display: block;
+  margin-top: var(--space-2);
+  font-family: var(--sans);
+  font-size: var(--type-xs);
+  font-weight: 450;
+  color: var(--ink-55);
+}
+/* HEIGHT is fixed and width follows each frame's own shape, so a run of
+   mixed uprights and landscapes still lines up top and bottom. Anything
+   past the edge of the measure simply clips — the row is a glimpse of
+   the set, not the set. */
+.xp-row__frames {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  gap: clamp(var(--space-2), 0.7vw, var(--space-3));
+  overflow: hidden;
+}
+.xp-row__frame {
   flex: none;
-  height: clamp(84px, 8.6vw, 126px);
-  aspect-ratio: 3 / 4;
-  border-radius: 5px;
+  height: clamp(88px, 9vw, 130px);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
   background: var(--surface);
-  box-shadow: inset 0 0 0 1px var(--border);
 }
-.xp-slot:nth-child(3n + 2) { aspect-ratio: 3 / 2; }
-/* the roll trails off rather than stopping dead — five solid blocks
-   a row, twenty rows down a page that is mostly still waiting, would
-   be a wall of grey where the writing should be */
-.xp-slot:nth-child(2) { opacity: .8; }
-.xp-slot:nth-child(3) { opacity: .6; }
-.xp-slot:nth-child(4) { opacity: .42; }
-.xp-slot:nth-child(5) { opacity: .26; }
-/* arriving on the band brings the whole row up out of the grey */
-.xp-band:hover, .xp-band:focus-within { border-top-color: var(--ink); }
-.xp-band:hover .xp-band__name,
-.xp-band:focus-within .xp-band__name { color: var(--ink); }
-.xp-band:hover .xp-band__meta,
-.xp-band:focus-within .xp-band__meta { color: var(--ink-55); }
-.xp-band:hover .xp-band__go,
-.xp-band:focus-within .xp-band__go { color: var(--ink); transform: translateX(4px); }
-.xp-band:nth-child(5n+1) { --ink: #C7502C; }
-.xp-band:nth-child(5n+2) { --ink: #A64A3F; }
-.xp-band:nth-child(5n+3) { --ink: #C13840; }
-.xp-band:nth-child(5n+4) { --ink: #1E7F9E; }
-.xp-band:nth-child(5n+5) { --ink: #6B4F9E; }
-/* the same five lifted off the near-black ground */
-html.dark .xp-band:nth-child(5n+1) { --ink: #F0855C; }
-html.dark .xp-band:nth-child(5n+2) { --ink: #E08A78; }
-html.dark .xp-band:nth-child(5n+3) { --ink: #F26E75; }
-html.dark .xp-band:nth-child(5n+4) { --ink: #5FC6E0; }
-html.dark .xp-band:nth-child(5n+5) { --ink: #B49BE8; }
-/* a finger has no hover, so the name wears its ink from the start */
-@media (hover: none) {
-  .xp-band__name { color: var(--ink); }
+.xp-row__frame--wide { aspect-ratio: 5 / 4; }
+.xp-row__frame img,
+.xp-row__frame .xp-blank {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
+/* on a phone the words go above the run rather than beside it */
+@media (max-width: 700px) {
+  .xp-row { display: block; }
+  .xp-row__text { width: auto; margin-bottom: var(--space-3); }
+  .xp-row__frames { overflow-x: auto; scrollbar-width: none; }
+  .xp-row__frames::-webkit-scrollbar { display: none; }
+}
+@media (hover: hover) and (pointer: fine) {
+  .xp-row:hover .xp-row__name { color: var(--heart); }
+}
+
 /* ============================================================
    THE JOURNAL — short posts, newest first.
 
@@ -2570,9 +2598,9 @@ html.dark body.feed-page { background: var(--background); }
 .journal {
   max-width: 648px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 var(--space-5);
 }
-.journal .page-head { padding-bottom: 18px; }
+.journal .page-head { padding-bottom: var(--space-6); }
 /* The masthead wears the face; the deck says what a post is before
    the reader has scrolled to one. */
 /* The masthead stacks and centres: the face on top, the title under
@@ -2584,13 +2612,13 @@ html.dark body.feed-page { background: var(--background); }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: var(--space-5);
 }
 .journal-head h1 { margin: 0; }
 .journal-deck {
-  margin: 14px auto 0;
+  margin: var(--space-2) auto 0;
   max-width: 46ch;
-  font-size: 15px;
+  font-size: var(--type-base);
   line-height: 1.6;
   color: var(--ink-55);
 }
@@ -2699,8 +2727,19 @@ html.dark body.feed-page { background: var(--background); }
   justify-content: space-between;
   gap: 18px;
   line-height: 1.3;
-  margin-bottom: 4px;
-  scroll-margin-top: 92px;
+  /* 18px tall, which misses even the 24px floor of WCAG 2.5.8. The
+     padding buys the height and the negative margin gives it back, so
+     nothing moves. Deliberately 24 and NOT 44: this is a permalink to
+     the post's own anchor, and a 44px band would hang 13px down over
+     the post's words and take taps meant for them — the head is first
+     in the card, so the body paints on top and wins the overlap, but
+     the top edge would still swallow them. A self-link is not worth
+     that trade. */
+  padding-block: 3px;
+  margin: -3px 0 1px;
+  /* the bar was sticky when this was written and is static now, so a
+     permalink was landing 92px of empty space above the post */
+  scroll-margin-top: var(--space-4);
 }
 /* A KICKER, NOT A TITLE. The dateline ran at the prose size in heavy
    ink, which made it the loudest thing in the post — a headline over
@@ -2718,7 +2757,7 @@ html.dark body.feed-page { background: var(--background); }
    under it. */
 .post__title {
   min-width: 0;
-  font-size: 14px;
+  font-size: var(--type-sm);
   font-weight: 650;
   letter-spacing: -.01em;
   color: var(--foreground);
@@ -2730,10 +2769,10 @@ html.dark body.feed-page { background: var(--background); }
 .post__date {
   /* never shrinks — the title gives way first */
   flex: none;
-  font-size: 12px;
+  font-size: var(--type-2xs);
   font-weight: 500;
   letter-spacing: .005em;
-  color: var(--ink-40);
+  color: var(--ink-55);
 }
 .post__head:hover .post__title { color: var(--heart); }
 
@@ -2754,12 +2793,12 @@ html.dark body.feed-page { background: var(--background); }
 /* air between the writing and what was shot while it was written */
 .post__say + .media { margin-top: 14px; }
 .post__say {
-  font-size: 15px;
+  font-size: var(--type-base);
   line-height: 1.55;
   color: var(--ink-78);
   letter-spacing: -.003em;
 }
-.post__say + .post__say { margin-top: 10px; }
+.post__say + .post__say { margin-top: var(--space-3); }
 
 /* ---------- MEDIA, wherever prose is the point ----------
    ONE item sits in the column, capped by HEIGHT so a portrait can't
@@ -2788,7 +2827,7 @@ figure.one .frame {
 }
 figure.one figcaption {
   margin-top: 9px;
-  font-size: 13px;
+  font-size: var(--type-xs);
   line-height: 1.5;
   color: var(--ink-55);
   max-width: 60ch;
@@ -2796,7 +2835,7 @@ figure.one figcaption {
 
 .strip {
   display: flex;
-  gap: 10px;
+  gap: var(--space-3);
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
@@ -2898,7 +2937,7 @@ html.dark .frame { background: var(--surface-hover); }
 .archive__year { display: flex; align-items: center; gap: 7px; }
 .archive__y {
   flex: none;
-  padding-left: 4px;
+  padding-left: var(--space-1);
   font-family: var(--mono);
   font-size: 10.5px;
   font-weight: 500;
@@ -2909,7 +2948,7 @@ html.dark .frame { background: var(--surface-hover); }
   flex: none;
   display: flex;
   align-items: baseline;
-  gap: 6px;
+  gap: var(--space-2);
   padding: 6px 13px;
   border-radius: 999px;
   border: 1px solid var(--border);
@@ -2923,7 +2962,7 @@ html.dark .frame { background: var(--surface-hover); }
 }
 html.dark .archive__row { background: var(--surface); }
 .archive__row:hover { color: var(--foreground); background: var(--surface-hover); }
-.archive__n { font-family: var(--mono); font-size: 10.5px; color: var(--ink-40); }
+.archive__n { font-family: var(--mono); font-size: 10.5px; color: var(--ink-55); }
 /* the live month is named by weight and by the count going red — the
    same red the wordmark keeps, and the only colour on the page */
 .archive__row.is-active { color: var(--foreground); font-weight: 600; }
@@ -2934,46 +2973,15 @@ html.dark .archive__row { background: var(--surface); }
    sibling column, so it takes no card of its own. */
 @media (max-width: 640px) {
   /* out to the gutter, so the row can be scrolled edge to edge */
-  .archive { margin-inline: -24px; }
-  .archive__in { padding-inline: 24px; }
+  .archive { margin-inline: -var(--space-5); }
+  .archive__in { padding-inline: var(--space-5); }
 }
 /* The sidebar's quiet rows sit a breath below the main four */
 .side-gap { height: 18px; }
 /* Home: the summary column — posts read at feed width, the shelf
    is a short row of covers */
 .home-sec { margin-top: clamp(30px, 4vw, 48px); }
-.feed-list--home { max-width: 680px; }
-.link-row--more { margin-top: 16px; }
-.home-shelf {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
-  gap: 18px;
-  max-width: 680px;
-}
-.home-book { display: block; }
-.home-book img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 2 / 3;
-  object-fit: cover;
-  border-radius: 10px;
-  background: var(--surface);
-  box-shadow: var(--shadow-flush);
-}
-.home-book-title {
-  display: block;
-  margin-top: 8px;
-  font-size: 13px;
-  font-weight: 550;
-  line-height: 1.3;
-  color: var(--ink-85);
-}
-.home-book-meta {
-  display: block;
-  margin-top: 2px;
-  font-size: 12px;
-  color: var(--ink-45);
-}
+.link-row--more { margin-top: var(--space-4); }
 .photo-stats {
   padding: 20px 0 8px;
   margin-top: 40px;
@@ -2982,36 +2990,58 @@ html.dark .archive__row { background: var(--surface); }
   font-size: 11px;
   letter-spacing: .04em;
   text-transform: uppercase;
-  color: var(--ink-40);
+  color: var(--ink-55);
 }
 
-/* THE VIEWER — the reference's shape: a solid black field, the
-   photograph filling the height of it edge to edge with no frame
-   of its own, a close in the top-left corner and an arrow centred
-   on each side. The caption and the download stay, quietly, since
-   the frames here are meant to be taken. */
+/* THE VIEWER — franzgruenewald.com's, in its light state: a plain
+   white field with one bar across the top and nothing else on it.
+   The experience's name and the frame's number sit at the left of
+   that bar, the controls at the right, all of it bare text and a
+   bare glyph — no pills, no round buttons, no arrows down the sides.
+   The picture itself is the next button, and the set loops.
+
+   The margin is thin on purpose (48px over, 16px either side, the
+   reference's own figures): the frame is meant to be as large as the
+   screen allows, and the white round it is a mat, not a border. The
+   caption and the download are ours and have no counterpart there —
+   they stay because the frames here are meant to be read and taken,
+   but they keep the same quiet register as everything else. */
 .lightbox {
   margin: 0;
   padding: 0;
   border: 0;
-  width: 100vw;
+  /* 100vw counts the scrollbar, so the mat used to hang a dozen-odd
+     pixels off the right of the client area and take that much of the
+     picture with it. Percentages resolve against the viewport proper
+     for a fixed box, which is what the reference's inset-0 does. */
+  width: 100%;
   max-width: none;
   height: 100vh;
   height: 100dvh;
   max-height: none;
-  /* White, and the same white in either theme. Opening a frame is
-     stepping up to a print on a gallery wall — the mat is white
-     there because everything else is a claim about the picture.
-     The dark wing is the room; this is the wall. */
-  background: #fff;
-  /* the margin is what does the work: nothing crops, nothing touches
-     an edge, and the frame is the only thing in the room */
-  padding: clamp(26px, 5.5vw, 104px);
+  /* The mat follows the theme. It used to be #fff in both, on the
+     argument that opening a frame is stepping up to a print on a wall
+     — but a white flash is the wrong answer at night, and every viewer
+     people actually use (Photos, Lightroom, Lightbox) goes dark with
+     the room. Light keeps the reference's white wall; dark drops to
+     the page's own ground so the frame is the only lit thing.
+     Both values live in --lb-mat, set once per theme. */
+  background: var(--lb-mat);
+  /* the reference's own inset — enough over the top to clear the bar,
+     barely any at the sides, so the picture gets the screen */
+  padding: 48px 16px;
   box-sizing: border-box;
   cursor: zoom-out;
   overflow: hidden;
 }
+/* The two mat values are repeated here rather than read from --lb-mat.
+   ::backdrop only began inheriting from its originating element in
+   Chrome 122 / Safari 17.4; on anything older var(--lb-mat) is invalid
+   at computed-value time and the backdrop falls back to transparent,
+   which flashes the page through during the open. Keep these two in
+   step with --lb-mat above. */
 .lightbox::backdrop { background: #fff; }
+html.dark .lightbox::backdrop { background: #111110; }
 .lightbox figure {
   margin: 0;
   height: 100%;
@@ -3031,125 +3061,140 @@ html.dark .archive__row { background: var(--surface); }
   background: none;
 }
 .lb-video[hidden] { display: none; }
+/* The picture takes the whole padded box and is contained inside it,
+   so the white still runs all the way round whatever shape the frame
+   is — but the ELEMENT reaches the edges, which is what lets a click
+   anywhere on the mat move to the next frame rather than only a click
+   that lands on the picture itself. */
 .lightbox img {
   display: block;
-  width: auto;
-  height: auto;
-  /* fits the padded box rather than filling the viewport, so the
-     white runs all the way round whatever shape the frame is */
+  width: 100%;
+  height: 100%;
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
   border-radius: 0;
-}
-.lb-round {
-  position: fixed;
-  width: 42px;
-  height: 42px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  /* quiet ink on the white mat — the controls are there when looked
-     for and never compete with the frame */
-  background: rgba(0, 0, 0, .05);
-  color: #171717;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color .15s ease, opacity .15s ease;
 }
-@media (hover: hover) and (pointer: fine) {
-  .lb-round:not(:disabled):hover { background: rgba(0, 0, 0, .11); }
-}
-.lb-close { top: 20px; left: 20px; z-index: 3; }
-.lb-close svg { width: 18px; height: 18px; }
-/* Moving through a set: arrows on a pointer, a thumb flick on touch,
-   arrow keys on a desk. Hidden entirely when there's only one frame. */
-.lb-arrow {
-  top: 50%;
-  transform: translateY(-50%);
-  display: none;
-}
-.lightbox.has-set .lb-arrow { display: flex; }
-.lb-arrow svg { width: 20px; height: 20px; }
-.lb-arrow:disabled { opacity: .25; cursor: default; }
-.lb-prev { left: 20px; }
-.lb-next { right: 20px; }
-.lightbox-tally {
+.lightbox:not(.has-set) img { cursor: default; }
+/* THE BAR. One row across the top, transparent, no rule under it:
+   the name at the left with the count beside it on the same baseline,
+   the things you can do at the right. The reference carries the
+   project's name and a zero-padded count here and nothing else. */
+/* THE BAR HAS TO FIT INSIDE THE MAT'S TOP INSET — 48px — or it sits
+   on the picture. It is 12 + 20 + 12 = 44px: the padding either side
+   of the tallest thing in it, which is the close glyph's 20px box.
+   The bar's own line-height is set here because the page's inherited
+   one is nearly 2, which alone made the row 62px and put 14px of
+   chrome over the top of every frame. Change any of the three and
+   check the sum still clears 48. */
+.lb-bar {
   position: fixed;
-  top: 26px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .06em;
-  color: rgba(0, 0, 0, .45);
-  display: none;
-}
-.lightbox.has-set .lightbox-tally { display: block; }
-@media (max-width: 620px) {
-  .lb-round { width: 38px; height: 38px; }
-  .lb-close, .lightbox-tally { top: 14px; }
-  .lb-close { left: 14px; }
-  .lb-prev { left: 10px; }
-  .lb-next { right: 10px; }
-}
-.lightbox-cap {
-  position: fixed;
+  top: 0;
   left: 0;
   right: 0;
-  bottom: 22px;
-  padding: 0 76px;
-  text-align: center;
-  font-size: 13px;
-  color: rgba(0, 0, 0, .55);
-  pointer-events: none;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: 12px 20px;
+  font-size: var(--type-xs);
+  line-height: 1.25;
+  cursor: default;
 }
-.lightbox-bar { position: fixed; top: 20px; right: 20px; z-index: 3; }
-.lightbox-dl {
+.lb-bar__side {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+  min-width: 0;
+}
+.lb-bar__side--end { align-items: center; gap: 18px; flex: none; }
+.lb-title {
+  color: var(--ink-80);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* zero-padded and tabular, so the number doesn't shuffle its
+   neighbours as it counts up */
+.lb-count {
+  flex: none;
+  font-size: var(--type-2xs);
+  color: var(--ink-55);
+  font-variant-numeric: tabular-nums;
+}
+.lightbox:not(.has-set) .lb-count { display: none; }
+.lb-close {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  height: 36px;
-  padding: 0 16px;
-  border-radius: 50px;
-  background: rgba(0, 0, 0, .05);
-  color: #171717;
-  font-size: 13px;
-  font-weight: 550;
+  justify-content: center;
+  /* 44px of hit area, pulled back with negative margin so the bar's
+     height is unchanged — this is the only way out of a full-screen
+     dialog whose entire picture surface advances instead of closing. */
+  width: 44px;
+  height: 44px;
+  margin: -12px -12px -12px 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-80);
   cursor: pointer;
-  transition: background-color .15s ease;
+  transition: opacity .15s ease;
 }
-.lightbox-dl:hover { background: rgba(0, 0, 0, .11); }
-.lightbox-dl small { font-weight: 450; opacity: .7; font-size: 12px; }
-/* on a phone the terms would run into the counter — the rule is
-   stated on the pages themselves too */
+.lb-close svg { width: 14px; height: 14px; display: block; }
+@media (hover: hover) and (pointer: fine) {
+  .lb-close:hover { opacity: .55; }
+}
 @media (max-width: 620px) {
-  .lightbox-dl { height: 32px; padding: 0 13px; font-size: 12.5px; }
+  .lb-bar { padding: 10px 14px; font-size: var(--type-2xs); }
+  .lb-bar__side { gap: var(--space-3); }
+  .lb-bar__side--end { gap: 12px; }
+}
+/* Nothing is set under the picture. There was a `.lightbox-cap` here
+   carrying the frame's words; the viewer holds the photograph and the
+   bar and nothing else now, and the figcaption came out of the three
+   pages that had it. */
+/* the download sits in the bar now; nothing carries a filled pill in
+   this viewer, so it reads as the plain word it is */
+.lightbox-dl {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: 0;
+  background: none;
+  color: var(--ink-80);
+  font-size: var(--type-2xs);
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity .15s ease;
+}
+.lightbox-dl:hover { background: none; opacity: .55; }
+.lightbox-dl small { font-weight: 450; color: var(--ink-55); font-size: var(--type-2xs); }
+/* on a phone the terms would crowd the close — the rule is stated on
+   the pages themselves too */
+@media (max-width: 620px) {
   .lightbox-dl small { display: none; }
-  .lightbox-cap { padding: 0 18px; bottom: 16px; font-size: 12.5px; }
 }
 
 /* The house rule, stated wherever photos can be downloaded */
 .dl-note {
   margin-top: 14px;
-  font-size: 13px;
+  font-size: var(--type-xs);
   line-height: 1.6;
   color: var(--ink-40);
   max-width: 560px;
 }
-.dl-note a { color: var(--ink-55); text-decoration: underline; text-underline-offset: 3px; }
-.dl-note a:hover { color: var(--ink-85); }
 
 /* ============================================================
    PINS — the pinboard rows (the bookstore-row register)
    ============================================================ */
-.pins { padding-top: 8px; margin-top: 24px; }
+.pins { padding-top: 8px; margin-top: var(--space-5); }
 .pin { padding: 18px 0; border-top: 1px solid var(--border); }
 .pin-title {
   font-family: var(--serif);
-  font-size: 17px;
+  font-size: var(--type-md);
   font-weight: 500;
   letter-spacing: -.005em;
   color: var(--ink-85);
@@ -3158,32 +3203,32 @@ html.dark .archive__row { background: var(--surface); }
 .pin-title:hover { color: var(--accent); }
 .pin-title .arrow {
   font-size: .7em;
-  color: var(--ink-30);
+  color: var(--ink-55);
   display: inline-block;
   transition: transform .2s var(--ease-out-quart), color .15s ease;
 }
 .pin-title:hover .arrow { transform: translate(2px, -2px); color: var(--accent); }
 .pin-meta {
-  margin-left: 10px;
+  margin-left: var(--space-3);
   font-family: var(--mono);
   font-size: 10px;
   font-weight: 500;
   letter-spacing: .06em;
   text-transform: uppercase;
-  color: var(--ink-40);
+  color: var(--ink-55);
   white-space: nowrap;
 }
-.pin-note { margin-top: 6px; font-size: 14px; line-height: 1.5; color: var(--ink-65); max-width: 620px; }
+.pin-note { margin-top: var(--space-2); font-size: var(--type-sm); line-height: 1.5; color: var(--ink-65); max-width: 620px; }
 
 /* ============================================================
    GAMES — now playing / finished / shelved
    ============================================================ */
 .game-group { padding-top: 40px; }
-.game { padding: 16px 0; border-top: 1px solid var(--border); }
-.game-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.game { padding: var(--space-4) 0; border-top: 1px solid var(--border); }
+.game-head { display: flex; align-items: baseline; gap: var(--space-3); flex-wrap: wrap; }
 .game-title {
   font-family: var(--serif);
-  font-size: 17px;
+  font-size: var(--type-md);
   font-weight: 500;
   letter-spacing: -.005em;
   color: var(--ink-85);
@@ -3207,10 +3252,10 @@ html.dark .archive__row { background: var(--surface); }
   margin-left: auto;
   font-family: var(--mono);
   font-size: 11px;
-  color: var(--ink-30);
+  color: var(--ink-55);
   white-space: nowrap;
 }
-.game-note { margin-top: 6px; font-size: 14px; line-height: 1.5; color: var(--ink-65); max-width: 620px; }
+.game-note { margin-top: var(--space-2); font-size: var(--type-sm); line-height: 1.5; color: var(--ink-65); max-width: 620px; }
 .game-group .rubric-label .live-pill { vertical-align: 1px; margin-left: 8px; }
 
 /* ============================================================
@@ -3219,7 +3264,7 @@ html.dark .archive__row { background: var(--surface); }
 .pieces { padding-top: 8px; }
 .piece { padding: 40px 0 8px; }
 .piece + .piece { border-top: 1px solid var(--border); }
-.piece .kicker { margin-bottom: 6px; }
+.piece .kicker { margin-bottom: var(--space-2); }
 .piece h2 {
   font-size: 24px;
   font-weight: 500;
@@ -3227,9 +3272,9 @@ html.dark .archive__row { background: var(--surface); }
   color: var(--ink-85);
   margin-bottom: 8px;
 }
-.piece-deck { font-size: 14px; line-height: 1.5; color: var(--ink-55); margin-bottom: 14px; max-width: 620px; }
+.piece-deck { font-size: var(--type-sm); line-height: 1.5; color: var(--ink-55); margin-bottom: 14px; max-width: 620px; }
 .piece-body {
-  font-size: 14px;
+  font-size: var(--type-sm);
   font-weight: 450;
   line-height: 1.45rem;
   letter-spacing: -.005em;
@@ -3250,6 +3295,10 @@ html.dark::-webkit-scrollbar-thumb:hover { background-color: rgba(255, 255, 255,
 html.dark body {
   --background: #0A0A0A;
   --foreground: #F5F5F3;
+  /* The frame should be the only lit thing in the room. Slightly above
+     --background so a photograph with true blacks still has an edge
+     rather than bleeding into the mat. */
+  --lb-mat: #111110;
   --surface: #161615;
   --surface-hover: #1F1F1D;
   /* iOS lifts the incoming bubble off the black rather than sinking it,
@@ -3314,7 +3363,9 @@ html.dark body::after {
   html.dark body::after { animation: none; inset: 0; }
 }
 /* Literal-color components that the tokens don't reach */
-html.dark .nav { background-color: rgba(10, 10, 10, .92); }
+/* the bar takes the page's own ground in either theme now that it no
+   longer floats over anything — the dark translucency went with the
+   sticky positioning that needed it */
 html.dark .menu-item__tile { background: #1F1F1D; }
 html.dark .rubric::after { background: rgba(255, 255, 255, .12); }
 html.dark .link-row a {
@@ -3347,48 +3398,6 @@ html.dark .w-pop { box-shadow: 0 4px 24px rgba(0, 0, 0, .6); }
 @media (min-width: 900px) {
   body.studio-page .nav { display: none; }
 }
-.darkhero {
-  text-align: center;
-}
-.darkhero-frame {
-  position: relative;
-  overflow: hidden;
-  min-height: 100vh;
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: var(--surface);
-}
-.darkhero-bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 62%;
-}
-.darkhero-frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background:
-    radial-gradient(58% 50% at 50% 48%, rgba(10, 10, 10, .6), rgba(10, 10, 10, 0) 82%),
-    linear-gradient(to top,
-      rgba(10, 10, 10, .52),
-      rgba(10, 10, 10, .18) 24%,
-      rgba(10, 10, 10, .18) 78%,
-      rgba(10, 10, 10, .38));
-  pointer-events: none;
-}
-.darkhero-inner {
-  position: relative;
-  z-index: 2;
-  margin: 0 auto;
-  max-width: 920px;
-  padding: 24px;
-}
 /* Hero photo meta, park's corners: the year bottom-left, where it
    was taken bottom-right with the state flag */
 .hero-year {
@@ -3396,81 +3405,11 @@ html.dark .w-pop { box-shadow: 0 4px 24px rgba(0, 0, 0, .6); }
   bottom: 26px;
   left: clamp(20px, 3vw, 40px);
   z-index: 2;
-  font-size: 14px;
+  font-size: var(--type-sm);
   font-weight: 550;
   color: rgba(255, 255, 255, .92);
   text-shadow: 0 1px 12px rgba(0, 0, 0, .5);
 }
-.photo-tag {
-  position: absolute;
-  bottom: 22px;
-  right: clamp(20px, 3vw, 40px);
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 550;
-  color: rgba(255, 255, 255, .92);
-  text-shadow: 0 1px 12px rgba(0, 0, 0, .5);
-  white-space: nowrap;
-}
-.photo-tag svg { flex: none; border-radius: 2px; box-shadow: 0 1px 6px rgba(0, 0, 0, .35); }
-@media (max-width: 900px) {
-  .hero-year { display: none; }
-  .photo-tag { bottom: auto; right: auto; top: 80px; left: 20px; }
-}
-.darkhero h1 {
-  font-family: var(--display);
-  font-weight: 400;
-  font-synthesis: none;
-  font-size: clamp(46px, 7vw, 84px);
-  line-height: 1.02;
-  letter-spacing: 0;
-  color: #FBF9F0;
-  text-wrap: balance;
-  margin: 0 auto;
-  max-width: 900px;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, .65), 0 2px 48px rgba(0, 0, 0, .55);
-}
-.darkhero .h1-heart svg { width: .3em; height: .29em; margin-left: .08em; }
-.darkhero-sub {
-  margin: 16px auto 0;
-  max-width: 520px;
-  font-size: 15px;
-  line-height: 1.65;
-  color: rgba(255, 255, 255, .92);
-  text-wrap: pretty;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, .7), 0 1px 28px rgba(0, 0, 0, .5);
-}
-.darkhero-sub a {
-  color: rgba(255, 255, 255, .95);
-  font-weight: 500;
-  text-decoration: underline;
-  text-decoration-color: rgba(255, 255, 255, .4);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  transition: color .15s ease;
-}
-.darkhero-sub a:hover { color: #fff; }
-.darkhero-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 30px;
-  height: 44px;
-  padding: 0 22px;
-  border-radius: 50px;
-  background: #FBF9F0;
-  color: #131313;
-  font-size: 14px;
-  font-weight: 550;
-  transition: transform .2s var(--ease-out-quart), background-color .15s ease;
-}
-.darkhero-cta:hover { background: #fff; transform: translateY(-1px); }
-.darkhero-cta:active { transform: scale(.97); }
-.darkhero .hero-byline { justify-content: center; margin-top: 22px; }
-
 
 /* ============================================================
    MOTION HELPERS — CSS-only. The page head rises once on
@@ -3489,9 +3428,6 @@ html.dark .w-pop { box-shadow: 0 4px 24px rgba(0, 0, 0, .6); }
 .page-head > *:nth-child(3), .page-head .hero-main > *:nth-child(3) { animation-delay: .14s; }
 .page-head > *:nth-child(4), .page-head .hero-main > *:nth-child(4) { animation-delay: .21s; }
 .page-head > *:nth-child(n+5), .page-head .hero-main > *:nth-child(n+5) { animation-delay: .28s; }
-
-/* Filtering: class + attribute both win over any display rule */
-.is-hidden { display: none !important; }
 [hidden] { display: none !important; }
 
 @media (prefers-reduced-motion: reduce) {

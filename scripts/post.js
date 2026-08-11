@@ -55,6 +55,17 @@
    edited later — they belong to the trip and hang on the wall,
    but to no post, so they never repeat what you put up from your
    phone at the time.
+   One more, optional:
+     [camera]
+     Sony RX100 VII
+   The body it was shot on, printed on the experience page next to
+   the date and the place. It's there for the same reason the date
+   is: the camera says as much about when this was as the year does.
+   There is no [lens] — a lens dates nothing and read as a spec.
+   NOTE ON [about]: it still parses and still writes `note:`, but no
+   page renders it any more. An experience page is the pictures and
+   the few facts that fix them in time; what happened that day goes
+   in the dated blocks, which become journal posts.
 
    Pass --dry to print the entry instead of writing it.
    ============================================================ */
@@ -227,7 +238,7 @@ function parseTrip(text, slug) {
     .map(b => b.trim()).filter(Boolean);
 
   const photos = [], beats = [];
-  let post = null, note = "";
+  let post = null, note = "", camera = "";
   const open = () => { post = {}; beats.push(post); return post; };
 
   for (const block of blocks) {
@@ -242,7 +253,10 @@ function parseTrip(text, slug) {
            are the frames edited afterwards — they belong to the trip
            but to no post, which is the split the pages now make. */
         const only = bits.length === 1 ? bits[0].toLowerCase() : "";
-        if (only === "about" || only === "highlights") { directive = only; continue; }
+        if (only === "about" || only === "highlights" || only === "camera") {
+          directive = only;
+          continue;
+        }
         /* [Encore], [2026-08-08T21:47], or [Encore · 2026-08-08T21:47] */
         for (const bit of bits) {
           if (/^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2})?$/.test(bit)) time = bit.replace(" ", "T");
@@ -276,6 +290,9 @@ function parseTrip(text, slug) {
       }
     }
     if (directive === "about") { note = words.join(" "); continue; }
+    /* What it was shot on. A period detail, like the date: "Sony
+       RX100 VII" says as much about when this was as August does. */
+    if (directive === "camera") { camera = words.join(" "); continue; }
     if (directive === "highlights") continue;
     if (!shots.length && !words.length && !stamp && !time) continue;
 
@@ -289,7 +306,7 @@ function parseTrip(text, slug) {
     if (words.length) post.say = post.say ? post.say + " " + words.join(" ") : words.join(" ");
     if (shots.length) post.shots = (post.shots || []).concat(shots);
   }
-  return { slug, place, short, when, continent, posted, note, photos, beats };
+  return { slug, place, short, when, continent, posted, note, camera, photos, beats };
 }
 
 /* ---------- serialising back into photos.js, in the house style ---------- */
@@ -313,6 +330,7 @@ function serializeTrip(t) {
   if (t.continent) out.push(`    continent: ${q(t.continent)},`);
   if (t.cover) out.push(`    cover: ${q(t.cover)},`);
   if (t.note) out.push(`    note: ${q(t.note)},`);
+  if (t.camera) out.push(`    camera: ${q(t.camera)},`);
   out.push("    photos: [");
   out.push(t.photos.map(p => {
     let row = `      { src: ${q(p.src)}`;
@@ -434,6 +452,7 @@ function main() {
   if (prior) {
     if (prior.nav && !trip.nav) trip.nav = prior.nav;
     if (prior.loc && !trip.loc) trip.loc = prior.loc;
+    if (prior.camera && !trip.camera) trip.camera = prior.camera;
     const wasBest = {};
     (prior.photos || []).forEach(p => { if (p.best) wasBest[p.src] = true; });
     trip.photos.forEach(p => { if (wasBest[p.src]) p.best = true; });

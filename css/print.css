@@ -21,41 +21,47 @@
    ============================================================ */
 
 /* ---------- Faces (same files as the rest of the site) ---------- */
+/* Recoleta — the site's title face, so the printed sheet matches
+   the screen. This sheet used to declare Cheltenham Classic; those
+   files are no longer in fonts/, so everything it set in --serif was
+   silently printing as Georgia. */
+@font-face {
+  font-family: 'Recoleta';
+  src: url('../fonts/Recoleta-Regular.woff2') format('woff2'),
+       url('../fonts/Recoleta-Regular.woff') format('woff');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Recoleta';
+  src: url('../fonts/Recoleta-Medium.woff2') format('woff2'),
+       url('../fonts/Recoleta-Medium.woff') format('woff');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Recoleta';
+  src: url('../fonts/Recoleta-SemiBold.woff2') format('woff2'),
+       url('../fonts/Recoleta-SemiBold.woff') format('woff');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Recoleta';
+  src: url('../fonts/Recoleta-Bold.woff2') format('woff2'),
+       url('../fonts/Recoleta-Bold.woff') format('woff');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
 @font-face {
   font-family: 'Geist';
   src: url('../fonts/Geist-Variable.woff2') format('woff2');
   font-weight: 100 900; font-style: normal; font-display: swap;
-}
-@font-face {
+}@font-face {
   font-family: 'Geist Mono';
   src: url('../fonts/GeistMono-Variable.woff2') format('woff2');
   font-weight: 100 900; font-style: normal; font-display: swap;
 }
-@font-face {
-  font-family: 'Cheltenham Classic';
-  src: url('../fonts/CheltenhamClassic.woff2') format('woff2');
-  font-weight: 400; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Cheltenham Classic';
-  src: url('../fonts/CheltenhamClassicItalic.woff2') format('woff2');
-  font-weight: 400; font-style: italic; font-display: swap;
-}
-@font-face {
-  font-family: 'Cheltenham Classic';
-  src: url('../fonts/CheltenhamClassicMedium.woff2') format('woff2');
-  font-weight: 500; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: 'Cheltenham Classic';
-  src: url('../fonts/CheltenhamClassicBold.woff2') format('woff2');
-  font-weight: 700; font-style: normal; font-display: swap;
-}
-
 /* ---------- Tokens — one fixed light scale, no dark variant ---------- */
 :root {
   --sans: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --serif: 'Cheltenham Classic', Georgia, serif;
+  --serif: 'Recoleta', Georgia, serif;
   --mono: 'Geist Mono', ui-monospace, 'Cascadia Mono', monospace;
 
   --paper: #fff;

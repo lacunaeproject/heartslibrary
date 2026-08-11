@@ -78,6 +78,45 @@ A workflow (`.github/workflows/post-trip.yml`) does the rest.
    either. A frame with neither falls back to the collection's name,
    which reads identically on every frame and tells a blind visitor
    nothing; the poster counts those and tells you how many.
+
+   **Which half of the site a block feeds.** One file, two
+   destinations, and it's worth knowing which is which before you
+   start typing:
+
+   | Block | Goes to |
+   |---|---|
+   | `[Encore · 2026-08-09T00:07]` + words + files | a **journal** post — the day as it happened |
+   | `[highlights]` | frames on the experience wall, belonging to no post |
+   | `[camera]` / `[lens]` | the detail line on the **experience** page |
+   | `[about]` | nothing, currently — see below |
+
+   The rule: **an experience page is the pictures.** Its only text is
+   the title and one line of facts — when, where, what it was shot on.
+   Anything narrative — how you got the tickets, what the evening was
+   like — goes in a dated block and becomes a journal post. The test
+   for a sentence is whether the photographs could have told you it
+   themselves. If they could, cut it. If they couldn't and it's a fact
+   about the place that will expire, it belongs on the experience
+   page. If they couldn't and it's a story, it's journal.
+
+   `[about]` predates that split. It still parses and still writes a
+   `note:` onto the collection, but no page shows it any more. The
+   four collections that already have one keep it; nothing is lost if
+   you want it back.
+
+   ```
+   [camera]
+   Sony RX100 VII
+
+   [lens]
+   24-200mm f/2.8-4.5
+   ```
+
+   Both optional, both printed after the date and the place. They're
+   there for the same reason the date is: the body and the glass date
+   a picture nearly as well as the year does, and an experience page
+   exists to say *this is how it was then*. Leave either out and the
+   line simply doesn't mention it.
 4. Commit. Within a couple of minutes the site is live.
 
 The workflow resizes photos to 1600px, transcodes clips to web MP4 at

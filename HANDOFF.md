@@ -191,3 +191,112 @@ next `node scripts/shell.js`.
   entirely** (Aug 2026), leaving photography plus a few side pages. Cody's
   standing preferences: minimal italics, no stars UI, filters integrated
   into the list, no search box, whitespace concentrated inside rows/cards.
+- **The wall crops to two boxes now, after franzgruenewald.com.** Every frame
+  fills its whole column in either a 4:5 upright or a 5:4 landscape, centre
+  cropped, and the shape is read off what was shot so nothing has to be tagged
+  by hand. It replaced a scheme that kept each frame at the proportions it was
+  shot at and sized it by area (`--fw`, the square root of its aspect), which
+  held an upright back to about 60% of its column. The two heights are what
+  keep the new wall from reading as a rank of identical stamps, and
+  `align-items: center` turns that difference into a stagger: a landscape frame
+  sits inset among uprights, shorter, starting lower and ending higher. The
+  crop is a real trade and it was taken deliberately — don't restore the old
+  behaviour on the strength of a no-crop principle alone. Nothing is lost from
+  the photograph itself: the lightbox still opens the whole frame, and the clip
+  row is untouched, since both sit outside `.stream-grid`. The column count
+  went to 1 · 2 · 4 · 5 at 768 · 1024 · 1536 with gutters of 32 · 32 · 80 · 96,
+  and it steps by VIEWPORT rather than container width — the wall once sat
+  beside a sidebar, that sidebar is gone, and `container-type` came off `.roll`
+  with the last `@container` rule.
+- **The type system was rebuilt around three faces, after trying nine.**
+  Recoleta carries every page title and the ledger's years and names;
+  Geist carries everything else — `--sans`, `--serif`, `--display` and
+  `--mono` all point at it; Roony carries the wordmark and nothing else.
+  The brief that settled it was "decorative but not overpowering," which
+  is what Recoleta does and what the alternatives each failed at from a
+  different direction. The recurring trap, worth stating once: **a face
+  that ships a single weight cannot hold a heading**, because the
+  heading ends up lighter than the sans beneath it and no size fixes an
+  inverted hierarchy. That killed Instrument Serif outright and is why
+  Geist — variable 100–900 — held everything alone for a stretch.
+  Gooper read as a dense slab once shrunk to caption size; Cheltenham
+  had the range and the wrong voice; Sprig was the best of the rejects
+  and is a Trial file; Circular Std ran the whole site for one iteration
+  and is a one-token swap back; Regards was too much; Roony has no
+  lowercase at all — its lowercase codepoints are drawn as capitals, so
+  mixed-case set in it reads "ThE ExpErIENCEs." Every one of those is
+  recorded in the token block in `css/review.css` so the tour doesn't
+  get walked again.
+
+  Sizes moved onto a ladder at the same time — `--type-2xs` (12px)
+  through `--type-3xl` (46px), about 1.25 above a 15px base — because
+  the sheet had accumulated 11, 12.5, 13, 14, 22 as literals chosen
+  against whatever each element happened to sit beside. The photography
+  pages use nothing but the ladder. (Superseded by the 2026-08-10
+  breakpoint sweep below: every literal that already matched a step has
+  since been swapped site-wide, and the spacing scale's gaps are
+  recorded as an open decision.)
+
+  The `@font-face` blocks for Cheltenham, Gooper, Sprig and Instrument
+  Serif were **deleted**, not merely unreferenced. Gooper and Sprig were
+  `-Trial` files being served from a live site, and deleting the
+  declarations is the thing that actually stopped that. Recoleta, Roony
+  and Circular are commercial; the web licences want confirming before
+  any of this ships. (Since then only **Recoleta** remains — Roony,
+  Circular and the rest were removed from `fonts/` entirely, so Recoleta
+  is the only licence still to confirm. Its eight referenced files were
+  untracked by git until 2026-08-10, which would have shipped the site
+  with every title in Georgia.)
+
+- **2026-08-10, the breakpoint-and-accessibility sweep.** Four things
+  that were wrong at sizes nobody had opened the site at.
+
+  *The wall collapsed in the middle of its own range.* `.stream-grid`
+  went 2 columns → 4 columns at 1024px, on the same pixel its gap went
+  32 → 80 and the page gutter went 24 → 80. Three discontinuities at
+  once: photographs measured 465px wide at 1023px and **153px at
+  1024px**, a 67% drop, so a 1024px laptop showed smaller pictures than
+  an 884px folding phone and the wall got worse as the screen got
+  bigger. Fixed by climbing one column at a time (768/1152/1440/1920)
+  and interpolating the gap with `clamp()`. Adding a column inherently
+  costs n/(n+1) of the width, so the dip is now 37% at worst and the
+  frames recover before the next step. The frames stay in a 260–480px
+  band from tablet up.
+
+  *The lightbox ignored the theme.* It was `#fff` in both modes on the
+  argument that a print hangs on a white wall. That argument loses to
+  the fact that opening a photograph at night flashed a white screen,
+  and every viewer people actually use goes dark with the room. Now
+  `--lb-mat`. The dark value is `#111110` rather than the page's
+  `#0A0A0A` so a photograph with true blacks still has an edge. A
+  `#171717` focus-ring override existed only because the mat was white
+  under `html.dark`; it is gone.
+
+  *Contrast failed in both modes.* A pass over all 9 pages in both
+  themes — compositing alpha properly, not eyeballing — found five
+  colours under WCAG AA: `.atlas-label` and `.atlas-when` at 2.82:1
+  light / 3.83:1 dark, `.xp-era__year` at 3.35:1, and the `.arrow`
+  glyphs at 2.11:1, which is effectively invisible. All moved to
+  `--ink-55`, the quietest step that clears 4.5:1 in both themes. A
+  sixth, `.footer__links a:hover`, was the literal `rgba(0,0,0,.85)`
+  with no dark override — hovering a footer link under `html.dark`
+  painted it near-black on the near-black ground.
+
+  *Touch targets were 32px and under.* Including the wordmark, at 14px
+  tall, which is the only way home. The fix is an invisible
+  `::after` on each control rather than a bigger control, so Cody's
+  approved shapes are untouched; a hit test confirmed no expanded area
+  steals its neighbour's clicks. `.post__head` was deliberately taken to
+  24px and not 44 — it is a permalink, and a 44px band reaches down over
+  the post's own words.
+
+  Two things were verified rather than assumed. The 121 literal→token
+  swaps were checked by diffing 21 computed properties on all 3,097
+  elements across 9 pages at two widths (zero differences) — the first
+  attempt at that check used a whole-page style hash that turned out to
+  be non-deterministic, reporting "everything changed" on a control run
+  with no edits at all. And the spacing ladder was **left alone**: 172
+  literals don't land on a step and they cluster on 12/8/20/14/18, which
+  means the scale is drawn too sparse for the design rather than the
+  design being sloppy. Snapping them would be a visible change in 172
+  places. That decision is still open; the counts are in `CLAUDE.md`.

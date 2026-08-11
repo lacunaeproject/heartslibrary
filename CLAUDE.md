@@ -87,7 +87,7 @@ justified that register is gone; ask Cody before unifying them.
 
 **Cache stamps.** Every `css`/`js` link carries `?v=YYYYMMDD-N`, and
 `scripts/shell.js` writes it from the `STAMP` constant at the top of that file
-(currently `20260810-11`). Change a `.css` or `.js` file → bump `STAMP`, run
+(currently `20260810-76`). Change a `.css` or `.js` file → bump `STAMP`, run
 `node scripts/shell.js`. The old "bump it on every page at once" chore is gone,
 and the `shell: false` pages are swept too.
 
@@ -124,6 +124,42 @@ broken URL show a broken-image icon. (The old book-cover "jacket" fallback —
 `js/review.js` — is deleted, markup, script and CSS. Nothing calls it and
 nothing should bring it back.)
 
+**The wall's column ladder climbs one step at a time.** `.stream-grid`
+goes 1 → 2 → 3 → 4 → 5 columns at 768 / 1152 / 1440 / 1920, and the gap
+INTERPOLATES (`clamp(32px, 4.2vw, 80px)`) instead of stepping. It used to
+go 2 → 4 at 1024 on the same pixel the gap jumped 32 → 80 and the page
+gutter jumped 24 → 80: three discontinuities at once, which took the
+photographs from 465px wide at 1023px to **153px at 1024px**. A 1024px
+laptop showed smaller pictures than an 884px folding phone. Adding a
+column costs about n/(n+1) of the frame's width, so one step is a 33% dip
+at worst and the frames grow back before the next one — skipping a step
+doubles that in a single pixel. Measured widths: 360 → 312, 884 → 399,
+1024 → 411, 1440 → 275, 1920 → 288, 2560 → 416. **If you move a
+breakpoint or the gutter, re-measure and keep the frames in the 260–480
+band from tablet up.**
+
+**Touch targets are 44px, and most of them are invisible.** The bar's
+links and pills are 32px because that is the shape Cody approved, so the
+missing height is added with an absolutely-positioned `::after` that
+paints nothing — see `.wordmark`, `.nav__link`, `.theme-btn`,
+`.link-row a`, `.btn-open`, `.crumb a`, `.nav__scrolltitle`. The visual
+design is unchanged and the finger gets its 44px. Two things to know:
+the desktop nav appears at 768px, which is **a folding phone unfolded and
+every tablet in landscape** — fingers, not mice, so the bar is a touch
+surface too; and `.post__head` is deliberately 24px (the WCAG 2.5.8
+floor) and NOT 44, because it is a permalink to the post's own anchor and
+a 44px band would hang down over the post's words and take taps meant for
+them. If you add a control, check it at 320/390/768/884 before shipping.
+
+**The lightbox follows the theme.** It was `#fff` in both, which meant a
+white flash at night; the mat is `--lb-mat` now (white in light, `#111110`
+in dark — just above the page ground so a photograph with true blacks
+still has an edge). `::backdrop` repeats the two literals on purpose:
+it only began inheriting from its originating element in Chrome 122, and
+on anything older `var()` there computes to transparent and the page
+flashes through. All the bar's chrome is on ink tokens, so the old
+`#171717` focus-ring hack is gone.
+
 **`photos.html` is an intentional redirect stub**, not a broken page. It forwards
 to `index.html` preserving `?trip=` deep links so old URLs keep working. Leave it.
 
@@ -139,15 +175,59 @@ after CI shrinks it. Fine for photos; trim 4K video before committing.
 
 ## Type
 
-`--sans` Geist · `--serif` **and** `--display` Cheltenham Classic · `--mono`
-Geist Mono. Cheltenham carries every serif role, display through caption —
-that decision is recorded at `css/review.css:181`.
+Three faces, each with one job:
 
-`fonts/` also holds Gooper, Instrument Serif, Sprig and Regards, and
-`css/review.css` still declares `@font-face` for them, but **no token points at
-any of them**. Two comments in that file (lines 7 and 95) still name Gooper and
-Sprig as the site serif and are simply out of date — the token block at line 181
-wins. Don't "restore" a font based on those comments.
+| Token | Face | Used for |
+|---|---|---|
+| `--title-face` | **Recoleta** | every `.page-head h1`, the ledger's years and row names |
+| `--sans` `--serif` `--display` `--mono` | **Geist** | everything else — all four tokens point at the same family |
+| `--wordmark-face` | **Geist Mono** | the wordmark, and nothing else |
+
+Recoleta is decorative but not loud, which is the brief it was picked
+against. Geist is variable 100–900, so weight is a dial rather than a
+shipped file — the constraint that eliminated most of the alternatives.
+
+**Only four Recoleta faces are declared: 400, 500, 600, 700.** A runtime
+sweep of every page at two widths found the site renders 500, 600 and 700
+and nothing else; 400 is kept as the family's natural base for prose that
+has not been written yet. The Light (300) and Black (900) `@font-face`
+blocks were deleted — nothing used them and each one was two more files
+that had to ship. If you set a Recoleta weight outside 400–700, add the
+face or the browser will synthesise it.
+
+**Recoleta is commercial and its files are NOT covered by anything else in
+this repo.** They were untracked for a while, which is a live trap: `git
+add -u` stages only tracked files, so a commit could ship the CSS and the
+pages without the fonts and every title on heartslibrary.com would render
+in Georgia. The eight referenced files are now tracked. If you add a
+weight, `git add` the file explicitly and check it with:
+
+```
+git ls-files fonts/ | grep Recoleta
+```
+
+`fonts/` also holds **RecoletaAlt**, which nothing declares or references
+— it is the alternate-glyph cut, kept but unused. Cheltenham Classic,
+Gooper, Sprig, Instrument Serif, Circular Std, Regards and Roony are all
+gone: declarations deleted AND files removed from disk. Don't restore any
+of them from git history unless Cody asks. (Gooper and Sprig were `-Trial`
+files being served from a live site; that is what closed it.)
+
+**Sizes come off a ladder**, `--type-2xs` (12px) through `--type-3xl`
+(46px), roughly a 1.25 ratio above a 15px base. To make something bigger,
+move it a step — don't invent a value. Every literal `font-size` that
+already landed on a ladder step has been swapped to its token (49 of
+them), verified by comparing 21 computed properties on all 3,097 elements
+across all 9 pages at two widths: zero differences.
+
+**The spacing scale does not yet cover the design.** `--space-1..6` is
+4/6/10/16/24/36, and 72 literals that matched a step were swapped onto it
+the same way. But 172 spacing literals do NOT land on any step, and they
+cluster hard: 12px (27 uses), 8px (24), 20px (15), 14px (12), 18px (9).
+Those are not sloppiness, they are the design — the ladder was drawn too
+sparse to express it. **Do not "fix" them by snapping to the nearest
+step**; that is a visible change in 172 places. Either widen the scale to
+include 8/12/20 or leave the literals alone. This is an open decision.
 
 ## House style
 

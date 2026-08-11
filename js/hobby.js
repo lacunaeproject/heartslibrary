@@ -64,27 +64,12 @@
       when: "", photos: p.photos || []
     });
   }
-  /* How many posts the journal holds: one per outing that was written
-     from, plus every standalone entry. A trip's beats are passages of
-     ONE post now, not posts of their own. */
-  function postCount() {
-    return TRIPS.filter(function (t) { return (t.beats || []).length; }).length + POSTS.length;
-  }
-
   function allPhotos() {
     var out = [];
     TRIPS.forEach(function (t) {
       (t.photos || []).forEach(function (p) { out.push({ trip: t, photo: p }); });
     });
     return out;
-  }
-  /* Highlights: the lead frames of every trip, so each one stays
-     represented on the homepage. Raise this to show more per trip;
-     the full set always lives on the trip's own gallery page. */
-  var HIGHLIGHTS_PER_TRIP = 3;
-  function highlights(t) { return (t.photos || []).slice(0, HIGHLIGHTS_PER_TRIP); }
-  function highlightCount() {
-    return TRIPS.reduce(function (n, t) { return n + highlights(t).length; }, 0);
   }
   function cover(t) {
     var ps = t.photos || [];
@@ -115,19 +100,20 @@
   /* "August 5, 2026 @ Bridgestone Arena" — the same line in the
      nav menu and on the experiences index; a count stands in when
      an experience never said where it was */
+  /* A `when` of just a year means the posted date is a sort key
+     holding the given order, not a day this happened on. Print the
+     year it claims rather than the date it was filed under, or the
+     page invents a Tuesday in November that nobody went anywhere on. */
+  function xpStamp(t) {
+    var yearOnly = /^\d{4}$/.test(String(t.when || "").trim());
+    return (!yearOnly && longDate(t.posted)) || esc(t.when);
+  }
+
   function xpByline(t) {
     var n = (t.photos || []).length;
-    /* A `when` of just a year means the posted date is a sort key
-       holding the given order, not a day this happened on. Print the
-       year it claims rather than the date it was filed under, or the
-       page invents a Tuesday in November that nobody went anywhere on. */
-    var yearOnly = /^\d{4}$/.test(String(t.when || "").trim());
-    var stamp = (!yearOnly && longDate(t.posted)) || esc(t.when);
-    return stamp +
+    return xpStamp(t) +
       (t.loc ? " @ " + esc(t.loc) : " · " + n + (n === 1 ? " frame" : " frames"));
   }
-  var STAMP_MONTHS = ["Jan.", "Feb.", "March", "April", "May", "June",
-                      "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
   var LONG_MONTHS = ["January", "February", "March", "April", "May", "June",
                      "July", "August", "September", "October", "November", "December"];
   /* "August 5, 2026" from a posted date, for bylines */
@@ -150,13 +136,6 @@
     var day = SHORT_MONTHS[Number(m[2]) - 1] + " " + Number(m[3]);
     return Number(m[1]) === new Date().getFullYear() ? day : day + ", " + m[1];
   }
-  /* The date a post went up. The hour still lives in the data —
-     it keeps the sort honest — but the card shows only the day. */
-  function stampText(s) {
-    var m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2}))?$/);
-    if (!m) return s;
-    return STAMP_MONTHS[Number(m[2]) - 1] + " " + Number(m[3]);
-  }
   function clock(s) {
     var n = Math.round(s);
     return Math.floor(n / 60) + ":" + String(n % 60).padStart(2, "0");
@@ -175,20 +154,20 @@
      as a pill that only shows on hover. An experience's own wall takes
      it — the writing there is half the point of the page. The front
      wall doesn't: there the picture is the whole message. */
-  function shotHtml(t, p, i, capped) {
+  function shotHtml(t, p, i, capped, lead) {
     var ratio = p.w && p.h ? ' style="aspect-ratio:' + Number(p.w) + "/" + Number(p.h) + '"' : "";
-    /* Equal area, not equal width: a frame's width is the square root
-       of its aspect, so an upright and a landscape end up covering the
-       same amount of paper and neither one dominates the wall. 3:2
-       lands on the full column; everything narrower steps back from
-       it. The wall is the only grid that reads this — everywhere else
-       the variable goes unused. */
-    var fw = "";
-    if (p.w && p.h) {
-      var pct = 100 * Math.sqrt((Number(p.w) / Number(p.h)) / 1.5);
-      fw = ' style="--fw:' + Math.round(Math.max(54, Math.min(100, pct))) + '%"';
-    }
-    var wide = "";
+    /* Every frame fills its whole column on the wall, in one of two
+       boxes: uprights and squares take the 4:5, anything wider takes
+       the 5:4. The shape is read off what was shot rather than tagged
+       by hand, and a frame that never recorded its size falls to the
+       upright, which is the commoner of the two. The wall is the only
+       grid that reads these classes — in the clip row and the
+       lightbox they go unused.
+
+       This replaced `--fw`, which sized each frame by the square root
+       of its aspect so an upright and a landscape covered equal area.
+       Nothing reads that variable now. */
+    var wide = p.w && p.h && Number(p.w) > Number(p.h) ? " shot--wide" : " shot--tall";
     /* A clip's own surface opens the viewer; only the speaker
        button swallows the press. */
     if (p.video) {
@@ -197,14 +176,14 @@
          play in the viewer. */
       var badge = '<span class="vid-badge" aria-hidden="true">' +
         '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 6.5v11a1 1 0 0 0 1.5.87l9-5.5a1 1 0 0 0 0-1.74l-9-5.5A1 1 0 0 0 9 6.5Z"/></svg></span>';
-      return '<figure class="shot shot--video' + wide + '"' + fw + '>' +
+      return '<figure class="shot shot--video' + wide + '">' +
         '<div class="vid">' +
           '<video src="' + esc(p.src) + '#t=0.1' +
           '" playsinline preload="metadata" muted' +
           (p.poster ? ' poster="' + esc(p.poster) + '"' : "") + ratio + "></video>" +
           badge +
           '<button class="vid-open" type="button" aria-label="View larger: ' +
-            esc(p.caption || t.place) + '" data-trip="' + esc(t.slug) + '" data-i="' + i + '"></button>' +
+            esc(p.alt || p.caption || t.place) + '" data-trip="' + esc(t.slug) + '" data-i="' + i + '"></button>' +
           (p.seconds ? '<span class="vid-dur">' + clock(p.seconds) + "</span>" : "") +
         "</div>" +
         (p.caption
@@ -220,9 +199,18 @@
       ? '<span class="shot-pill">' + esc(p.caption) + "</span>" : "";
     var cap = p.caption && capped
       ? '<figcaption class="shot-cap">' + esc(p.caption) + "</figcaption>" : "";
-    return '<figure class="shot' + wide + '"' + fw + '>' +
-      '<button class="shot-btn" type="button" data-trip="' + esc(t.slug) + '" data-i="' + i + '" aria-label="View larger: ' + esc(p.caption || t.place) + '">' +
-      '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '" loading="lazy"' + ratio + ">" +
+    return '<figure class="shot' + wide + (lead ? " shot--lead" : "") + '">' +
+      /* A button's children are presentational, so the <img alt> below
+         never reaches a screen reader — the tile's name is this label
+         and nothing else. Most frames carry no caption but every one
+         carries a written alt, so the alt leads: otherwise a reader
+         hears the trip name a dozen times in a row. */
+      '<button class="shot-btn" type="button" data-trip="' + esc(t.slug) + '" data-i="' + i + '" aria-label="View larger: ' + esc(p.alt || p.caption || t.place) + '">' +
+      /* the lead is the first thing on the page and above the fold on
+         every screen — it is fetched outright rather than lazily, so
+         the page doesn't open on an empty box */
+      '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '" ' +
+      (lead ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"') + ratio + ">" +
       pill + "</button>" + cap + "</figure>";
   }
 
@@ -232,6 +220,18 @@
      a thumb. Entries carry their own trip, so the best-of wall can
      page straight across events. */
   var lb = { list: [], at: 0 };
+
+  function pad2(n) { return (n < 10 ? "0" : "") + n; }
+
+  /* The set loops. A click on the last frame comes round to the first
+     rather than stopping dead, which is what the reference viewer
+     does and what keeps the picture-as-next-button honest — there is
+     no disabled state to see, so there must be no dead end to hit. */
+  function lbStep(dlg, delta) {
+    var n = lb.list.length;
+    if (!n) return;
+    lbShow(dlg, ((lb.at + delta) % n + n) % n);
+  }
 
   function lbShow(dlg, k) {
     if (k < 0 || k >= lb.list.length) return;
@@ -257,19 +257,20 @@
       img.src = p.src;
     }
     img.alt = p.alt || "";
-    /* a standalone post has no place or date to add */
-    var where = [xpName(lb.trip), lb.trip.when].filter(Boolean).join(", ");
-    dlg.querySelector(".lightbox-cap").textContent =
-      (p.caption ? p.caption + (where ? " — " : "") : "") + where;
+    /* Nothing is written under the picture. The viewer used to carry
+       the frame's caption there, and before that the caption plus the
+       experience and its date; the reference shows the photograph and
+       the bar and nothing else, and that is the whole of it now. The
+       words are not lost — they are on the wall's hover pill, in the
+       alt text, and on the experience's own page. */
+    var title = dlg.querySelector(".lb-title");
+    if (title) title.textContent = xpName(lb.trip);
     var dl = dlg.querySelector(".lightbox-dl");
     if (dl) dl.href = p.src;
     var many = lb.list.length > 1;
     dlg.classList.toggle("has-set", many);
-    var tally = dlg.querySelector(".lightbox-tally");
-    if (tally) tally.textContent = many ? (k + 1) + " / " + lb.list.length : "";
-    var prev = dlg.querySelector(".lb-prev"), next = dlg.querySelector(".lb-next");
-    if (prev) prev.disabled = k === 0;
-    if (next) next.disabled = k === lb.list.length - 1;
+    var count = dlg.querySelector(".lb-count");
+    if (count) count.textContent = many ? pad2(k + 1) + "/" + pad2(lb.list.length) : "";
   }
 
   function bindLightbox() {
@@ -278,23 +279,38 @@
 
     /* the close, arrows and tally live here rather than in every
        page's markup */
-    if (!dlg.querySelector(".lb-prev")) {
-      var round = function (cls, label, d) {
-        return '<button class="lb-round ' + cls + '" type="button" aria-label="' + label + '">' +
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
-          'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + d +
-          '"/></svg></button>';
-      };
+    if (!dlg.querySelector(".lb-bar")) {
       var fig = dlg.querySelector("figure");
       if (fig && !fig.querySelector(".lb-video")) {
         fig.insertAdjacentHTML("afterbegin",
           '<video class="lb-video" playsinline loop controls hidden></video>');
       }
-      dlg.insertAdjacentHTML("beforeend",
-        round("lb-close", "Close", "M6 6l12 12M18 6L6 18") +
-        round("lb-arrow lb-prev", "Previous frame", "M15 5l-7 7 7 7") +
-        round("lb-arrow lb-next", "Next frame", "M9 5l7 7-7 7") +
-        '<span class="lightbox-tally"></span>');
+      /* One bar across the top: which experience this is and where you
+         are in it on the left, what you can do with the frame on the
+         right. The side arrows are gone — the picture is the next
+         button — and so is the centred tally, which the count in the
+         bar replaces. */
+      dlg.insertAdjacentHTML("afterbegin",
+        '<header class="lb-bar">' +
+          '<span class="lb-bar__side">' +
+            '<span class="lb-title"></span>' +
+            '<span class="lb-count"></span>' +
+          '</span>' +
+          '<span class="lb-bar__side lb-bar__side--end">' +
+            '<button class="lb-close" type="button" aria-label="Close image viewer">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" ' +
+              'stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>' +
+            '</button>' +
+          '</span>' +
+        "</header>");
+      /* the download had a fixed corner of its own; it belongs in the
+         bar beside the close, so the pages' markup keeps the link and
+         the viewer decides where it sits */
+      var end = dlg.querySelector(".lb-bar__side--end");
+      var dl = dlg.querySelector(".lightbox-dl");
+      var dlWrap = dlg.querySelector(".lightbox-bar");
+      if (dl && end) end.insertBefore(dl, end.firstChild);
+      if (dlWrap) dlWrap.remove();
     }
 
     document.addEventListener("click", function (e) {
@@ -307,7 +323,13 @@
          whole journal post or a whole note — passages and all, so a
          post's frames read as one roll even when its beats carried
          their own — else the grid the frame shares. */
-      var box = btn.closest(".post, .stream-grid");
+      /* A page can name the set explicitly. The experience page needs
+         it: its lead frame sits outside the grid, so without this the
+         lead would open as a set of one and the wall as another.
+         Checked FIRST and separately — `closest` with both in one
+         selector would return the nearer `.stream-grid` and the
+         wrapper would never win. */
+      var box = btn.closest("[data-lbset]") || btn.closest(".post, .stream-grid");
       if (box) {
         lb.list = Array.prototype.map.call(box.querySelectorAll("[data-trip][data-i]"), function (b) {
           return { t: tripBySlug(b.getAttribute("data-trip")), i: Number(b.getAttribute("data-i")) };
@@ -326,12 +348,16 @@
 
     dlg.addEventListener("click", function (e) {
       if (e.target.closest(".lightbox-dl")) return;
-      var arrow = e.target.closest(".lb-arrow");
-      if (arrow) {
-        e.stopPropagation();
-        lbShow(dlg, lb.at + (arrow.classList.contains("lb-next") ? 1 : -1));
-        return;
-      }
+      if (e.target.closest(".lb-close")) { dlg.close(); return; }
+      /* the bar is chrome, not a way out — a press that lands on the
+         name or the count should do nothing at all */
+      if (e.target.closest(".lb-bar")) return;
+      /* a clip owns its surface: its own controls are sitting on it */
+      if (e.target.closest(".lb-video")) return;
+      /* THE PICTURE IS THE NEXT BUTTON. It reaches the edges of the
+         mat, so anywhere on the white counts — but only when there is
+         somewhere to go; a lone frame still closes on a press. */
+      if (e.target.closest("img") && lb.list.length > 1) { lbStep(dlg, 1); return; }
       dlg.close();
     });
     dlg.addEventListener("close", function () {
@@ -341,8 +367,8 @@
 
     document.addEventListener("keydown", function (e) {
       if (!dlg.open) return;
-      if (e.key === "ArrowRight") lbShow(dlg, lb.at + 1);
-      if (e.key === "ArrowLeft") lbShow(dlg, lb.at - 1);
+      if (e.key === "ArrowRight") lbStep(dlg, 1);
+      if (e.key === "ArrowLeft") lbStep(dlg, -1);
     });
 
     /* a thumb flick, the way you'd move through an album */
@@ -356,7 +382,7 @@
       x0 = null;
       if (Math.abs(dx) < 45) return;
       e.stopPropagation();
-      lbShow(dlg, lb.at + (dx < 0 ? 1 : -1));
+      lbStep(dlg, dx < 0 ? 1 : -1);
     });
   }
   /* A strip of frames used to be a "reel": a track with hover arrows,
@@ -390,107 +416,7 @@
   bindLightbox();
   sweepBrokenFrames();
 
-  /* ----------------------------------------------------------
-     HOMEPAGE — the gallery wall: big rounded-rectangle covers,
-     two across, title on hover, clicking through to the
-     gallery. Static tiles in index.html are only a no-JS
-     fallback.
-     ---------------------------------------------------------- */
-  var grid = document.getElementById("galleryGrid");
-  if (grid && TRIPS.length) {
-    grid.innerHTML = TRIPS.map(function (t, i) {
-      var c = cover(t);
-      if (!c) return "";
-      return '<a class="gcard" href="gallery.html?trip=' + esc(t.slug) + '">' +
-        '<img src="' + esc(c.src) + '" alt="' + esc(t.place) + '"' + (i < 3 ? "" : ' loading="lazy"') + ">" +
-        '<span class="gcard-label">' + esc(t.place) +
-          '<span class="gcard-meta">' + esc(t.when) + " · " + (t.photos || []).length + " frames</span></span>" +
-        '<span class="gcard-go" aria-hidden="true">→</span></a>';
-    }).join("");
-  }
 
-  /* ----------------------------------------------------------
-     WHERE I'VE BEEN — the filterable cloud: trips, shows, and
-     what's next, set in the display serif. Views: this year /
-     past trips / up next / seven continents. Deep-linkable via
-     ?view=year|past|next|seven.
-     ---------------------------------------------------------- */
-  var cloud = document.getElementById("placesCloud");
-  var filters = document.getElementById("placesFilters");
-  if (cloud && TRIPS.length) {
-    var MOMENTS = window.MOMENTS || [];
-    var CONTINENTS = ["North America", "South America", "Europe", "Africa", "Asia", "Oceania", "Antarctica"];
-    var byCont = {};
-    TRIPS.forEach(function (t) {
-      if (!t.continent) return;
-      (byCont[t.continent] = byCont[t.continent] || []).push(t);
-    });
-    var seen = CONTINENTS.filter(function (c) { return byCont[c]; }).length;
-    var countEl = document.getElementById("continentCount");
-    if (countEl) countEl.textContent = seen + " of 7";
-
-    function tripItem(t) {
-      return { name: t.short || t.place, date: t.posted || "",
-               href: "gallery.html?trip=" + t.slug, thumb: (cover(t) || {}).src };
-    }
-    function momentItem(m) {
-      return { name: m.name, date: m.date || "",
-               badge: m.type === "trip" ? "→" : "♪",
-               tag: m.planned ? "up next" : (m.type === "event" ? "show" : "") };
-    }
-    function byDate(a, b) { return (a.date || "").localeCompare(b.date || ""); }
-    function view(name) {
-      if (name === "past") return TRIPS.map(tripItem);
-      if (name === "next")
-        return MOMENTS.filter(function (m) { return m.planned; }).map(momentItem).sort(byDate);
-      if (name === "seven")
-        return CONTINENTS.map(function (c) {
-          var trips = byCont[c] || [];
-          if (!trips.length) return { name: c, tag: "not yet", dim: true };
-          return { name: c, thumb: (cover(trips[0]) || {}).src,
-                   href: "gallery.html?trip=" + trips[0].slug,
-                   tag: trips.length + (trips.length === 1 ? " trip" : " trips") };
-        });
-      /* default "year": places and shows, in calendar order */
-      var yr = String(new Date().getFullYear());
-      return TRIPS.filter(function (t) { return (t.posted || "").slice(0, 4) === yr; }).map(tripItem)
-        .concat(MOMENTS.filter(function (m) { return (m.date || "").slice(0, 4) === yr; }).map(momentItem))
-        .sort(byDate);
-    }
-    function itemHtml(it) {
-      var inner =
-        (it.thumb ? '<img class="place-thumb" src="' + esc(it.thumb) + '" alt="" loading="lazy">'
-          : (it.badge ? '<span class="place-badge" aria-hidden="true">' + esc(it.badge) + "</span>" : "")) +
-        '<span class="place-name">' + esc(it.name) + "</span>" +
-        (it.tag ? '<span class="place-tag">' + esc(it.tag) + "</span>" : "");
-      var cls = "place place-in" + (it.dim ? " place--soon" : "");
-      if (it.href) return '<a class="' + cls + ' press-scale" href="' + esc(it.href) + '">' + inner + "</a>";
-      return '<span class="' + cls + '">' + inner + "</span>";
-    }
-    function render(name) {
-      cloud.innerHTML = view(name).map(itemHtml).join("");
-      Array.prototype.forEach.call(cloud.children, function (el, i) {
-        el.style.animationDelay = (i * 45) + "ms";
-      });
-      if (filters) {
-        Array.prototype.forEach.call(filters.querySelectorAll("[data-view]"), function (b) {
-          var on = b.getAttribute("data-view") === name;
-          b.classList.toggle("is-active", on);
-          b.setAttribute("aria-pressed", on ? "true" : "false");
-        });
-      }
-    }
-    var initial = "";
-    try { initial = new URLSearchParams(location.search).get("view") || ""; } catch (e) {}
-    if (["year", "past", "next", "seven"].indexOf(initial) < 0) initial = "year";
-    render(initial);
-    if (filters) {
-      filters.addEventListener("click", function (e) {
-        var b = e.target.closest("[data-view]");
-        if (b) render(b.getAttribute("data-view"));
-      });
-    }
-  }
 
   /* ----------------------------------------------------------
      GALLERY page — one trip, from ?trip=<slug>
@@ -509,19 +435,20 @@
     if (navTitle) navTitle.textContent = xpName(trip);
     var crumbEl = document.getElementById("crumbTrip");
     if (crumbEl) crumbEl.textContent = xpName(trip);
-    var noteEl = document.getElementById("galleryNote");
-    if (noteEl) {
-      /* hidden when absent, or the empty paragraph still holds its margin */
-      noteEl.textContent = trip.note || "";
-      noteEl.hidden = !trip.note;
-    }
+    /* NO PROSE ON AN EXPERIENCE PAGE. The line that used to sit under
+       the title said why the day happened — "bought the tickets for
+       Djo months ago" — which is the evening, not the room. The
+       evening has a home and it is the journal; what belongs here is
+       the pictures and the few facts that fix them in time.
+
+       `[about]` still parses and trips still carry `note`, so nothing
+       written has been thrown away. Nothing on this page reads it. */
     /* An experience has two halves, and they weigh the same. The
        FRAMES are the pictures, edited and chosen after the fact.
        The NOTES are what was written from inside it, and whatever
        came off the phone at the time. A new experience often starts
        as notes alone and grows its frames when there's time at a
        computer; either half on its own is still the record. */
-    var beats = trip.beats || [];
     /* Every clip the experience holds shows in Video, whether or not
        a post also shows it — the post is the moment it went up, the
        section is where you go to watch. Stills don't double up: the
@@ -538,16 +465,79 @@
       else picks.push({ p: p, i: i });
     });
 
-    /* the small line carries when and where alongside the counts */
-    var metaEl = document.getElementById("galleryMeta");
-    if (metaEl) {
-      var n = (trip.photos || []).length;
-      /* the byline already counts the frames when an experience never
-         said where it was — saying it twice read as a stutter */
-      var bits = [xpByline(trip)];
-      if (trip.loc) bits.push(n + (n === 1 ? " frame" : " frames"));
-      if (clips.length) bits.push(clips.length + (clips.length === 1 ? " clip" : " clips"));
-      metaEl.textContent = bits.join(" · ");
+    /* THE DETAILS OF THE SHOOT, on one line and in one voice: when,
+       where, what on. They are all the same kind of fact and they
+       belong together.
+
+       This was briefly two lines — the date set large in mono directly
+       under the title, the counts small and grey below the note — which
+       put four different typographic treatments in four consecutive
+       lines and read as though the date and the camera were unrelated
+       to each other. They aren't. The date still leads the run, because
+       it is the one that makes the page a record rather than an album,
+       but it leads it at the same size as everything beside it.
+
+       The counts came out after that. How many frames there are is
+       something you can see by scrolling, and it described the page
+       rather than the day — which is the opposite of what this line is
+       for. The experiences index still counts them, because there the
+       count is how you tell the collections apart. */
+    var whenEl = document.getElementById("galleryWhen");
+    if (whenEl) {
+      var facts = [xpStamp(trip)];
+      if (trip.loc) facts.push(esc(trip.loc));
+      /* No lens. A body dates a picture — "Sony RX100 VII" will read
+         as a period detail soon enough, the same way the year does —
+         but a lens designation dates nothing and runs to thirty-odd
+         characters of product name, which unbalanced the plate and
+         read as a spec sheet in either case. The camera stays because
+         it is a fact about when; the glass was a fact about kit. */
+      if (trip.camera) facts.push(esc(trip.camera));
+      whenEl.innerHTML = facts.join(" · ");
+    }
+
+    /* THE LEAD, AND ITS PLATE. One frame runs large above the grid so
+       the page has a way in, and the title and date sit directly under
+       it, aligned to ITS edges rather than the page's.
+
+       That pairing is the whole fix. The lead is centred and capped —
+       it keeps its own proportions, so its width is whatever its shape
+       makes it, and it cannot line up with a grid that runs gutter to
+       gutter. Left on its own it read as floating. Given the plate to
+       stand on, the two become one object: a print with its label. The
+       grid keeps the page's left edge; the lead keeps its own.
+
+       Which frame is not a new decision: the first flagged `best` in
+       trip.txt, the edit already made at posting time. It is pulled
+       OUT of the grid so it doesn't appear twice, and the lightbox
+       set is rooted on the [data-lbset] wrapper that holds both, so
+       paging still runs lead-then-wall in one sequence. */
+    var leadEl = document.getElementById("galleryLead");
+    var leadSec = document.getElementById("leadSec");
+    if (leadEl) {
+      if (picks.length) {
+        var leadIdx = 0;
+        picks.some(function (en, k) {
+          if (en.p.best) { leadIdx = k; return true; }
+          return false;
+        });
+        var leadEntry = picks.splice(leadIdx, 1)[0];
+        leadEl.innerHTML = shotHtml(trip, leadEntry.p, leadEntry.i, false, true);
+      } else {
+        /* Most experiences are logged long before their photographs
+           exist. Such a page holds the same shape open rather than
+           collapsing to a title on white — a blank standing where the
+           lead will go, so the plate has something to sit on and every
+           experience page reads the same whether or not it has been
+           edited yet. Flat and inert: nothing is loading here and
+           nothing is about to, so it must not shimmer like it is. */
+        leadEl.innerHTML = '<span class="xp-blank xp-blank--lead" aria-hidden="true"></span>';
+      }
+      /* one title on the page, moved under the frame it belongs to */
+      var plate = document.getElementById("leadPlate");
+      var head = document.querySelector(".xp-head");
+      if (plate && head) plate.appendChild(head);
+      leadSec.hidden = false;
     }
 
     var framesSec = document.getElementById("framesSec");
@@ -558,6 +548,15 @@
            hover pill and in the lightbox, same as the front wall */
         return shotHtml(trip, en.p, en.i, false);
       }).join("");
+      if (framesSec) framesSec.hidden = false;
+    } else if (!clips.length) {
+      /* the wall held open the same way, in the two shapes it uses */
+      var slots = "";
+      for (var b = 0; b < 10; b++) {
+        slots += '<span class="shot xp-blank ' +
+          (b % 3 === 1 ? "xp-blank--wide" : "xp-blank--tall") + '" aria-hidden="true"></span>';
+      }
+      galleryShots.innerHTML = slots;
       if (framesSec) framesSec.hidden = false;
     }
 
@@ -572,8 +571,13 @@
       if (vidSec) vidSec.hidden = false;
     }
 
-    /* the notes run forward here — an experience reads as it was
-       lived, not newest first like the journal */
+    /* `emptyEl` was READ HERE WITHOUT EVER BEING DECLARED. Reading an
+       undeclared name is a ReferenceError, so this line threw on every
+       single experience page and took the rest of the module with it —
+       which is why the Experiences dropdown and the mobile menu's list
+       of experiences, both built further down, were empty on every one
+       of them. Declare it. */
+    var emptyEl = document.getElementById("galleryEmpty");
     if (emptyEl && !picks.length && !clips.length) emptyEl.hidden = false;
   }
 
@@ -609,71 +613,94 @@
      ---------------------------------------------------------- */
   var xpList = document.getElementById("experienceList");
   if (xpList && TRIPS.length) {
-    /* Every experience gets a band: its name across the page, the
-       byline under it, and its own roll running off the right edge —
-       grey until the band is arrived on. The live year is marked at
-       its heading only; the rows themselves read the same all the way
-       back, because an experience from 2019 is not a lesser thing than
-       one from this August. */
-    var thisYear = String((TRIPS[0] || {}).posted || "").slice(0, 4);
+    /* THE LEDGER. Not a grid of tiles — that is the front wall's job,
+       and doing it twice would make this page a second homepage. This
+       is a dated list: the year carries the structure, each experience
+       is one ruled row, and one frame rides along as evidence.
+
+       Every row wears the same plate as the experience page it opens:
+       the name in Cheltenham over a line of facts in the nav's sans.
+       Same two faces, same order, so the index and the page read as
+       one thing rather than two designs.
+
+       Rows with nothing shot yet keep a blank in the frame slot for
+       the same reason the pages do — flat and inert, because nothing
+       is loading and nothing is about to. */
     var xhtml = "", xyear = null, xopen = "";
     TRIPS.forEach(function (t) {
       var y = String(t.posted || "").slice(0, 4) || "Undated";
       if (y !== xyear) {
         xyear = y;
         if (xopen) xhtml += xopen;
-        var live = y === thisYear;
-        xhtml += '<h2 class="log-year' + (live ? " log-year--now" : "") + '">' +
-          (live ? '<span class="accent">' + esc(y) + "</span>" : esc(y)) + "</h2>";
-        xhtml += '<div class="xp-bands">';
-        xopen = "</div>";
+        xhtml += '<section class="xp-era">' +
+          '<h2 class="xp-era__year">' + esc(y) + "</h2>" +
+          '<div class="xp-era__rows">';
+        xopen = "</div></section>";
       }
-      var n = (t.photos || []).length;
-      /* a clip has no still to contribute, so it sits out of the roll */
       var stills = (t.photos || []).filter(function (p) { return !p.video; });
-      /* Every frame declares its box before it arrives. The roll sets
-         a height and lets width follow the shape, so without w/h the
-         browser has nothing to size the slot with until the bytes
-         land — which is what left the right-hand end of a row empty
-         and then shoved it about as the pictures came in. The first
-         two are fetched outright: a row is never blank on arrival. */
-      var strip = stills.map(function (p, si) {
-        var box = p.w && p.h
-          ? ' width="' + Number(p.w) + '" height="' + Number(p.h) + '"'
-          : "";
-        return '<img src="' + esc(p.src) + '" alt=""' + box +
-          ' loading="' + (si < 2 ? "eager" : "lazy") + '" decoding="async">';
-      }).join("");
-      /* An experience is logged when it happens; the photographs can
-         arrive years later. A row with none yet holds its slots open
-         — flat, inert blocks, no shimmer, because nothing is loading
-         and nothing is about to. The byline beside them already says
-         0 frames, so the slots need no caption of their own. */
-      var slots = "";
-      if (!stills.length) {
-        for (var k = 0; k < 5; k++) slots += '<span class="xp-slot"></span>';
-        slots = '<div class="xp-band__strip xp-band__strip--empty" aria-hidden="true">' +
-          slots + "</div>" +
-          '<p class="visually-hidden">' +
-          (n ? "Only a clip from this one so far — no still photographs yet."
-             : "No photographs from this one yet.") + "</p>";
+      /* the frame it leads with is the frame its own page leads with */
+      var lead = stills.filter(function (p) { return p.best; })[0] || stills[0];
+
+      /* The year is the heading, so the row says the day and drops it.
+         An experience that only ever claimed a year says nothing here
+         rather than repeating the heading back. */
+      var yearOnly = /^\d{4}$/.test(String(t.when || "").trim());
+      var day = yearOnly ? "" : String(longDate(t.posted) || "").replace(/,\s*\d{4}$/, "");
+      var n = stills.length;
+      var nclips = (t.photos || []).length - n;
+      var facts = [];
+      if (day) facts.push(day);
+      if (t.loc) facts.push(esc(t.loc));
+      /* An experience can have come back as a clip and nothing else —
+         Fenway did. Saying "no frames yet" of a page that has a video
+         on it is simply untrue, so count what is actually there. */
+      if (n) facts.push(n + (n === 1 ? " frame" : " frames"));
+      else if (nclips) facts.push(nclips + (nclips === 1 ? " clip" : " clips"));
+      else facts.push("no frames yet");
+
+      /* THE PHOTOGRAPHS CARRY THE ROW. Text is a narrow column on the
+         left; the frames take everything else. One thumbnail beside a
+         name made this an index with a picture stuck to it — the point
+         of the page is the work, so the work gets the measure.
+
+         Ten are laid out and the run simply clips at the edge of the
+         measure, so it fills the width on any screen rather than
+         running out on a wide one. Each takes one of the wall's own two
+         boxes so the index speaks the same language: wider than tall
+         gets the 5:4, the rest the 4:5. Height is fixed and width
+         follows the shape, so a mixed run still lines up top and
+         bottom.
+
+         An experience with nothing shot yet holds ten slots open in
+         the same rhythm. Flat and inert — nothing is loading — but the
+         row keeps its shape, so the page reads the same whether the
+         pictures have been edited yet or not. */
+      var shots = stills.slice(0, 10);
+      var frames = "";
+      if (shots.length) {
+        frames = shots.map(function (sp) {
+          var wide = sp.w && sp.h && Number(sp.w) > Number(sp.h);
+          return '<span class="xp-row__frame' + (wide ? " xp-row__frame--wide" : "") + '">' +
+            '<img src="' + esc(sp.src) + '" alt="" loading="lazy" decoding="async"></span>';
+        }).join("");
+      } else {
+        for (var q = 0; q < 10; q++) {
+          frames += '<span class="xp-row__frame' + (q % 3 === 1 ? " xp-row__frame--wide" : "") +
+            '"><span class="xp-blank" aria-hidden="true"></span></span>';
+        }
       }
-      xhtml += '<section class="xp-band">' +
-        '<a class="xp-band__head" href="gallery.html?trip=' + esc(t.slug) + '">' +
-          '<span class="xp-band__text">' +
-            '<span class="xp-band__name">' + esc(xpName(t)) + "</span>" +
-            '<span class="xp-band__meta">' + xpByline(t) + "</span>" +
-          "</span>" +
-          '<span class="xp-band__go" aria-hidden="true">' +
-            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
-            'stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>' +
-          "</span>" +
-        "</a>" +
-        (strip ? '<div class="xp-band__strip">' + strip + "</div>" : slots) +
-        "</section>";
+
+      xhtml += '<a class="xp-row" href="gallery.html?trip=' + esc(t.slug) + '">' +
+        '<span class="xp-row__text">' +
+          '<span class="xp-row__name">' + esc(xpName(t)) + "</span>" +
+          '<span class="xp-row__meta">' + facts.join(" · ") + "</span>" +
+        "</span>" +
+        '<span class="xp-row__frames">' + frames + "</span>" +
+        "</a>";
     });
     if (xopen) xhtml += xopen;
     xpList.innerHTML = xhtml;
+
     var xpStats = document.getElementById("experienceStats");
     if (xpStats) {
       xpStats.textContent = TRIPS.length + " experiences · " +
@@ -683,32 +710,6 @@
 
   /* The experiences on the front page: one ruled row each into
      its own page, where any frame goes. (Data still says TRIPS.) */
-  var eventList = document.getElementById("eventList");
-  if (eventList && TRIPS.length) {
-    eventList.innerHTML = TRIPS.map(function (t) {
-      var n = (t.photos || []).length;
-      return '<a class="roll-head" href="gallery.html?trip=' + esc(t.slug) + '">' +
-        '<span class="roll-place">' + esc(t.nav || t.place) + '</span>' +
-        '<span class="roll-meta">' + esc(t.when) + " · " + n + (n === 1 ? " frame" : " frames") + "</span>" +
-        '<span class="roll-go" aria-hidden="true">→</span></a>';
-    }).join("");
-  }
-  /* The sidebar stat rows */
-  (function () {
-    var els = document.querySelectorAll("[data-stat]");
-    if (!els.length || !TRIPS.length) return;
-    var conts = {};
-    TRIPS.forEach(function (t) { if (t.continent) conts[t.continent] = true; });
-    var map = {
-      frames: String(allPhotos().length),
-      trips: String(TRIPS.length),
-      continents: Object.keys(conts).length + " of 7"
-    };
-    Array.prototype.forEach.call(els, function (el) {
-      var k = el.getAttribute("data-stat");
-      if (map[k] != null) el.textContent = map[k];
-    });
-  })();
 
   /* ==========================================================
      WHAT A FRAME DOES WHERE THE WRITING IS THE POINT.
@@ -771,7 +772,7 @@
       : "";
     return '<button class="frame-btn" type="button" data-trip="' + esc(t.slug) +
       '" data-i="' + i + '" aria-label="View larger: ' +
-      esc(p.caption || p.alt || xpName(t) || "frame") + '"' + fit + ">" +
+      esc(p.alt || p.caption || xpName(t) || "frame") + '"' + fit + ">" +
       '<img class="frame" data-kind="' + k + '" src="' + esc(p.src) + '" alt="' +
       esc(p.alt || "") + '"' + box + ' loading="lazy" decoding="async"></button>';
   }
@@ -1128,52 +1129,13 @@
     }
   }
 
-  /* ----------------------------------------------------------
-     HIGHLIGHTS — the homepage: the lead frames of every trip on
-     one uniform wall, newest first, no separators. The trip a
-     frame belongs to shows up in its caption and its lightbox.
-     ---------------------------------------------------------- */
-  var photoStream = document.getElementById("photoStream");
-  if (photoStream && TRIPS.length) {
-    var reel = [];
-    TRIPS.forEach(function (t) {
-      /* i is the index into t.photos, which is what the lightbox
-         resolves — highlights are the leading slice, so it lines up */
-      highlights(t).forEach(function (p, i) { reel.push(shotHtml(t, p, i)); });
-    });
-    photoStream.innerHTML = '<div class="stream-grid">' + reel.join("") + "</div>";
-
-    var homeStats = highlightCount() + " highlights · " + TRIPS.length + " trips · newest first";
-    Array.prototype.forEach.call(document.querySelectorAll(".photo-stats"), function (el) {
-      el.textContent = homeStats;
-    });
-  }
 
   /* ----------------------------------------------------------
      THE LEDGER — two pillars and the quiet rows. Photos is the
      front door; the events live as chips on the wall, not here.
      ---------------------------------------------------------- */
-  var sideTrips = document.getElementById("sideTrips");
   var menuTrips = document.getElementById("menuTrips");
-  if ((sideTrips || menuTrips) && TRIPS.length) {
-    var onBlog = /feed\.html$/i.test(location.pathname);
-    if (sideTrips) {
-      var row = function (href, name, meta, active) {
-        return '<a class="side-trip' + (active ? " is-active" : "") + '" href="' + href + '">' +
-          '<span class="side-name">' + name + "</span>" +
-          (meta ? '<span class="side-trip-meta">' + meta + "</span>" : "") + "</a>";
-      };
-      var keepers = 0;
-      TRIPS.forEach(function (t) {
-        (t.photos || []).forEach(function (p) { if (p.best) keepers++; });
-      });
-      sideTrips.innerHTML =
-        row("index.html", "Photos", keepers + " keepers", !onBlog) +
-        row("feed.html", "Journal", postCount() + " posts", onBlog) +
-        '<div class="side-gap" aria-hidden="true"></div>' +
-        row("about.html", "About", "", false) +
-        row("mailto:hello@heartslibrary.com", "Contact", "email", false);
-    }
+  if (menuTrips && TRIPS.length) {
     /* The way through to the full ledger wears a card like every other
        row — the same rounded square as the cover frames, so it reads as
        one of the options rather than a footnote underneath them. The

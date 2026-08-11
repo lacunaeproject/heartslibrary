@@ -67,6 +67,7 @@ window.TRIPS = [
     when: "August 2026",
     continent: "North America",
     note: "Bought the tickets for Djo months ago and found out that night he was opening for Tame Impala. Shot both sets from the floor.",
+    camera: "Sony RX100 VII",
     photos: [
       { src: "photos/deadbeat-tour/dsc03659.jpg", w: 1200, h: 1600, alt: "Purple haze washes a round stage as the guitarist walks toward the crowd" },
       { src: "photos/deadbeat-tour/dsc03676.jpg", w: 1200, h: 1600, alt: "Warm amber light on the singer at the mic, bandmates clustered right" },
@@ -158,6 +159,7 @@ window.TRIPS = [
     nav: "Universal Studios Hollywood",
     when: "2026",
     continent: "North America",
+    camera: "Sony RX100 VII",
     photos: [
 
     ]
@@ -213,6 +215,7 @@ window.TRIPS = [
     continent: "North America",
     cover: "photos/sandiego-zoo/web/grizzly-2.jpg",
     note: "Went for the zoo and basically never left it — most of a day with the big cats and the orangutans.",
+    camera: "Sony A7CR",
     photos: [
       { src: "photos/sandiego-zoo/web/cheetah-2.jpg", best: true, w: 1600, h: 1067, alt: "A cheetah in profile, close up", caption: "The ambassador cheetah, in profile" },
       { src: "photos/sandiego-zoo/web/panda.jpg", best: true, w: 1139, h: 1600, alt: "A giant panda eating bamboo", caption: "Lunch, taken seriously" },
@@ -356,6 +359,7 @@ window.TRIPS = [
     nav: "Universal Studios Hollywood",
     when: "2025",
     continent: "North America",
+    camera: "Sony RX100 VII",
     photos: [
 
     ]

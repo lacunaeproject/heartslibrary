@@ -34,10 +34,17 @@
     if (nav) {
       var title = nav.querySelector(".nav__scrolltitle");
       if (title) {
-        title.classList.toggle("is-visible", window.scrollY > 200);
-        window.addEventListener("scroll", function () {
-          title.classList.toggle("is-visible", window.scrollY > 200);
-        }, { passive: true });
+        /* It is a <button>, so while it sits at opacity 0 waiting to be
+           scrolled into view it still takes a tab stop — the first one
+           on every page, landing on nothing a sighted keyboard user can
+           see. Take it out of the order until it is actually shown. */
+        var showTitle = function () {
+          var on = window.scrollY > 200;
+          title.classList.toggle("is-visible", on);
+          title.tabIndex = on ? 0 : -1;
+        };
+        showTitle();
+        window.addEventListener("scroll", showTitle, { passive: true });
       }
       if (title) {
         title.addEventListener("click", function () {
