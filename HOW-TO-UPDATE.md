@@ -17,7 +17,7 @@ Each file's header comment shows the exact fields.
 keeps old links and `?trip=` deep links working. There's nothing to edit in it.
 
 **The Journal** (`feed.html`) is the thread of what you wrote from inside each
-experience: it renders the `beats` in `js/photos.js`, newest first. It is
+collection: it renders the `beats` in `js/photos.js`, newest first. It is
 photography only — pins, games, and writing do not appear there.
 
 Imagery elsewhere: pins and games take an optional `image:` —
@@ -86,17 +86,17 @@ A workflow (`.github/workflows/post-trip.yml`) does the rest.
    | Block | Goes to |
    |---|---|
    | `[Encore · 2026-08-09T00:07]` + words + files | a **journal** post — the day as it happened |
-   | `[highlights]` | frames on the experience wall, belonging to no post |
-   | `[camera]` / `[lens]` | the detail line on the **experience** page |
+   | `[highlights]` | frames on the collection wall, belonging to no post |
+   | `[camera]` / `[lens]` | the detail line on the **collection** page |
    | `[about]` | nothing, currently — see below |
 
-   The rule: **an experience page is the pictures.** Its only text is
+   The rule: **a collection page is the pictures.** Its only text is
    the title and one line of facts — when, where, what it was shot on.
    Anything narrative — how you got the tickets, what the evening was
    like — goes in a dated block and becomes a journal post. The test
    for a sentence is whether the photographs could have told you it
    themselves. If they could, cut it. If they couldn't and it's a fact
-   about the place that will expire, it belongs on the experience
+   about the place that will expire, it belongs on the collection
    page. If they couldn't and it's a story, it's journal.
 
    `[about]` predates that split. It still parses and still writes a
@@ -114,7 +114,7 @@ A workflow (`.github/workflows/post-trip.yml`) does the rest.
 
    Both optional, both printed after the date and the place. They're
    there for the same reason the date is: the body and the glass date
-   a picture nearly as well as the year does, and an experience page
+   a picture nearly as well as the year does, and a collection page
    exists to say *this is how it was then*. Leave either out and the
    line simply doesn't mention it.
 4. Commit. Within a couple of minutes the site is live.
@@ -198,9 +198,9 @@ their browser's cache. (Posting a trip does this for you.)
 ## Make a scrapbook (print.html)
 
 Open **`print.html`** — it's yours only, linked from nowhere and kept out of
-search. Tick the experiences you want, choose photos-and-writing or
+search. Tick the collections you want, choose photos-and-writing or
 writing-only, pick Letter or A4, say whether you're printing one-sided or
-double-sided, and hit **Print / Save as PDF**. Every experience starts on a
+double-sided, and hit **Print / Save as PDF**. Every collection starts on a
 fresh sheet, and the bound edge holds an extra ¾ inch so a three-hole punch
 lands in the margin instead of in a photograph. Punch it, ring it, done.
 

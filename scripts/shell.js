@@ -36,7 +36,7 @@ var fs = require("fs");
 var path = require("path");
 
 var ROOT = path.join(__dirname, "..");
-var STAMP = "20260811-9";
+var STAMP = "20260811-17";
 
 /* ------------------------------------------------------------------
    THE PAGES. Everything page-specific lives in this table — title,
@@ -51,7 +51,12 @@ var SITE = {
   email: "hello@heartslibrary.com",
   instagram: "codynheart",
   substack: "codyheart",
-  ogImage: "photos/deadbeat-tour/dsc03638.jpg",
+  /* The site-wide social card. It points at a real file on disk and
+     nothing checks that for you — the previous one (dsc03638.jpg) was
+     deleted in a prune and every page went on advertising it, which
+     breaks link previews everywhere while the site itself looks fine.
+     If you delete frames, grep for this path. */
+  ogImage: "photos/deadbeat-tour/DSC03865.jpg",
   ogImageW: 1600,
   ogImageH: 1200
 };
@@ -59,21 +64,21 @@ var SITE = {
 var PAGES = {
   "index.html": {
     title: "Cody Heart Photography",
-    desc: "Cody Heart's photography — every frame on one wall, experience by experience, plus a running journal. Photos free to download for personal use.",
+    desc: "Cody Heart's photography — every frame on one wall, collection by collection, plus a running journal. Photos free to download for personal use.",
     canonical: "/",
-    current: "photos",
+    current: "selected",
     scripts: ["photos", "hobby"]
   },
-  "experiences.html": {
-    title: "Experiences",
-    desc: "Every experience Cody Heart has photographed, newest first — what it was, when it was, and what came back on the card.",
-    current: "experiences",
-    scrolltitle: "Experiences",
+  "collections.html": {
+    title: "Collections",
+    desc: "Every collection Cody Heart has photographed, newest first — what it was, when it was, and what came back on the card.",
+    current: "collections",
+    scrolltitle: "Collections",
     scripts: ["photos", "hobby"]
   },
   "gallery.html": {
     title: "The gallery",
-    desc: "One experience, all of it — the frames and the notes written while it was going on.",
+    desc: "One collection, all of it — the frames and the notes written while it was going on.",
     scrolltitle: "The gallery",
     scripts: ["photos", "hobby"]
   },
@@ -119,6 +124,7 @@ var PAGES = {
 
   /* Chrome-free by design — listed so the stamp sweep still finds them. */
   "photos.html": { shell: false },
+  "experiences.html": { shell: false },
   "post.html": { shell: false },
   "print.html": { shell: false }
 };
@@ -190,8 +196,8 @@ function themePicker() {
    cannot overlap by construction; it just ellipsizes.
    ------------------------------------------------------------------ */
 var NAV_LINKS = [
-  { key: "photos", label: "Photos", href: "index.html" },
-  { key: "experiences", label: "Experiences", href: "experiences.html", menu: "trips" },
+  { key: "selected", label: "Selected", href: "index.html" },
+  { key: "collections", label: "Collections", href: "collections.html", menu: "trips" },
   { key: "journal", label: "Journal", href: "feed.html" },
   { key: "about", label: "About", href: "about.html" }
 ];
@@ -239,7 +245,7 @@ function nav(page) {
       return '<div class="nav__drop">' +
         '<button class="nav__link link-hover press-scale" aria-expanded="false" aria-haspopup="true" aria-controls="menu-trips"' + current + ">" + l.label + CHEV + "</button>" +
         '<div class="nav__menu" id="menu-trips" role="menu" aria-hidden="true">' +
-        '<div class="nav__menu-pad" id="navTrips"><a class="menu-item menu-item--all" role="menuitem" href="experiences.html"><div><span class="menu-item__title">All experiences</span></div></a></div>' +
+        '<div class="nav__menu-pad" id="navTrips"><a class="menu-item menu-item--all" role="menuitem" href="collections.html"><div><span class="menu-item__title">All collections</span></div></a></div>' +
         "</div></div>";
     }
     return '<a class="nav__link link-hover" href="' + l.href + '"' + current + ">" + l.label + "</a>";
@@ -277,7 +283,7 @@ function mobileMenu() {
     "      " + themePicker() + "\n" +
     "    </div>\n" +
     '    <div class="mobile-menu__section">\n' +
-    '      <p class="mobile-menu__label">Experiences</p>\n' +
+    '      <p class="mobile-menu__label">Collections</p>\n' +
     '      <div class="mobile-menu__triplist" id="menuTrips"></div>\n' +
     "    </div>\n" +
     '    <div class="mobile-menu__section">\n' +

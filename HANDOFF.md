@@ -16,10 +16,20 @@ outright later that month; a few side pages survive out of the global
 nav. Every collection reads from one plain data file (see
 HOW-TO-UPDATE.md).
 
-The global nav is **Photos · Experiences · Journal · About · Elsewhere**,
-where Experiences and Elsewhere are dropdowns; the Experiences menu is
+The global nav is **Selected · Collections · Journal · About · Elsewhere**,
+where Collections and Elsewhere are dropdowns; the Collections menu is
 filled at runtime from `js/photos.js` (`#navTrips`, and `#menuTrips` on
 mobile).
+
+The first two are the edit and the archive, and the words are load-bearing:
+**Selected** is the front wall, which shows only frames flagged `best: true`
+(`bestPhotos()` in `js/hobby.js` — its own comment calls them the keepers);
+**Collections** is everything, grouped by outing. It used to be called
+Photos, which on a photography site distinguished nothing from anything —
+both pages are photographs, so the pair read as two words for one idea.
+"Home" was considered and rejected: the wordmark already links home from
+every page, so a nav item for it would be a second control doing the first
+one's job.
 
 - **index.html** — the wall: every frame flagged `best: true`, newest
   first, full-bleed (`#bestWall`, built by `js/hobby.js` from
@@ -28,7 +38,7 @@ mobile).
 - **gallery.html?trip=<slug>** — one collection: crumb, title, note,
   mono meta, photo grid, the same lightbox, and a trail to the
   other galleries.
-- **experiences.html** — the index of collections (`#experienceList`).
+- **collections.html** — the index of collections (`#experienceList`).
 - **feed.html — the Journal** — one post per note, newest first, each a
   grey card on the white page carrying its own header (`loc`/`at` as the
   title, then a dot, then the date as MM/DD/YY), the words, and the
@@ -47,6 +57,13 @@ mobile).
   `photos/<slug>/trip.txt` with a GitHub token. Noindex, linked from nowhere.
 - **photos.html** — not a page any more: a redirect stub that forwards to
   `index.html` preserving `?trip=` deep links, so old URLs keep working.
+- **experiences.html** — the same thing: the index was renamed Collections in
+  Aug 2026, and this stub forwards to `collections.html` (query and hash
+  preserved) so anything already pointing at the old address still lands. The
+  word changed everywhere it was user-visible; the internal identifiers did
+  not — `#experienceList`, `#experienceStats`, the `.xp-*` classes, `TRIPS`,
+  `#navTrips` and `menu-trips` all keep their old names on purpose, since
+  renaming them is churn with regression risk and nobody sees them.
 
 Real photography now ships in `photos/` (deadbeat-tour, sandiego-zoo,
 london-paris, fenway). The generated placeholder art in
@@ -60,7 +77,7 @@ rolls yet — delete it as they land.
   stays put now (hiding it on scroll meant transforming a blurred sticky
   element over the photo wall, which flickered); wordmark left, the page name
   fading in beside it once you're past the masthead, links right, duotone-tile
-  dropdowns for Experiences and Elsewhere, burger below 768px onto a
+  dropdowns for Collections and Elsewhere, burger below 768px onto a
   full-screen overlay menu. It is generated — `scripts/shell.js` holds the only
   copy of the head, nav, menu and footer and sweeps it into every page; the
   regions are fenced with `<!--#shell:…-->` comments and anything hand-written
@@ -126,13 +143,33 @@ next `node scripts/shell.js`.
 ## Provenance / decisions log (short)
 
 - All prose is Cody's own, carried over from the original heartslibrary.com.
-- The About-page portrait is `images/cody-portrait.jpg`; if it is missing
-  the `<figure>` removes itself rather than showing a broken image.
+  The About page was rewritten in Aug 2026 to lead with the camera rather
+  than the career (see below), but the argument in "Why this site" and the
+  pull-quote are still his, near-verbatim.
+- **The About page carries seven photographs, from `images/self/`.** They are
+  the masthead frame (`.about-portrait`), two two-ups (`.about-pair`) and
+  full-column frames between sections (`.about-figure`); all three share one
+  block of rules so the treatment can't land on some and miss the others. The
+  prose was cut to about two thirds of its old length at the same time — the
+  pictures carry the page and the writing is caption-length around them.
+  `.about-read h2` moved off bold Geist onto `--title-face` at 600, the same
+  face and weight as every `.page-head h1`; Recoleta only declares 400–700, so
+  don't push that weight higher without adding the face.
+  Every frame keeps the `onerror` that removes its whole `<figure>` rather
+  than showing a broken image. Two decisions worth keeping:
+  **the frames are square** (`border-radius: 0`), matching the wall — a
+  radius crops the corners of a picture composed to its edges and reads it
+  as a card; and **only the two-up forces a ratio** (`aspect-ratio: 3/4`
+  with `object-fit: cover`, inside the `min-width: 600px` query), because
+  side-by-side frames of different shapes put their captions on different
+  lines. The single frames are never cropped, and below 600px the pair
+  stacks and the crop lifts. The old `images/cody-portrait.jpg` is no longer
+  referenced; it is byte-identical to `images/self/me-monet.web.jpg`.
 - **The shell was consolidated into `scripts/shell.js` (Aug 2026).** There is
   no templating on this site and no build step, so the `<head>`, the nav, the
   mobile menu and the footer were duplicated by hand in every page — and, as
   hand-duplicated markup does, they drifted into four variants: some pages
-  carried the Experiences dropdown, others had flattened it to a plain link,
+  carried the Collections dropdown, others had flattened it to a plain link,
   one had no theme control and no theme-init script at all, and the footers
   disagreed about what the site was called. Every change to the chrome was a
   multi-file sweep, and every sweep left one page behind. The markup now lives
@@ -146,11 +183,11 @@ next `node scripts/shell.js`.
   `nav__back` ("Home") was retired — the wordmark is on every page now and
   links home, so the name appears everywhere instead of only on the front door,
   and the heart comes from the `--heart` token rather than a hex literal
-  repeated in nine files. The Experiences menu being universal is why every
+  repeated in nine files. The Collections menu being universal is why every
   shelled page now loads `js/photos.js` and `js/hobby.js`.
 - **The scroll-title stopped colliding with the nav links.** It had been
   absolutely positioned at `left:50%` while the link row was right-aligned and
-  grew leftward, so on any page whose links were wide enough — experiences.html
+  grew leftward, so on any page whose links were wide enough — collections.html
   at every width from 768px to about 1100px — the page name was drawn straight
   through them, half over and half under, and swallowed their clicks. It is an
   ordinary flex child between the wordmark and the links now: it cannot overlap

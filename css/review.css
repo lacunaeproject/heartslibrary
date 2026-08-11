@@ -383,7 +383,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 /* The page name, fading in once you're past the masthead. It used to
    be absolutely positioned at left:50% while the link row was right-
    aligned and grew leftward, so on any page with a wide enough nav —
-   experiences.html at every width from 768px to about 1100px — the
+   collections.html at every width from 768px to about 1100px — the
    title was drawn straight through the links, half over and half
    under them, and swallowed their clicks. As an ordinary flex child
    between the wordmark and the links it cannot overlap by
@@ -521,7 +521,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   box-shadow: var(--shadow-flush);
 }
 .menu-item__tile svg { width: 28px; height: 28px; display: block; }
-/* Experiences in the dropdown wear a cover frame — a mini wall tile,
+/* Collections in the dropdown wear a cover frame — a mini wall tile,
    same continuous-corner language at menu scale — and their menu
    runs wider than the plain one, because a row here carries a whole
    billing ("Tame Impala: Deadbeat Tour with Djo") over a byline with
@@ -541,7 +541,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   object-fit: cover;
   display: block;
 }
-/* An experience whose only frame is a clip has no still to wear.
+/* A collection whose only frame is a clip has no still to wear.
    The tile holds the slot open instead of showing the white ground
    the duotone icons are drawn on — which on a dark page read as a
    lit square with nothing in it. */
@@ -569,7 +569,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
    bottom, which made the most useful link in the menu the least
    prominent thing in it. Its tile takes the cover frames' rounded
    square and holds a mark instead of a photograph, so it sits level
-   with the experiences above rather than trailing them. */
+   with the collections above rather than trailing them. */
 .menu-item__tile--all {
   border-radius: 14px;
   corner-shape: squircle;
@@ -730,12 +730,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 .mobile-menu__item:active { background: var(--surface-hover); }
 .mobile-menu__item .menu-item__tile { width: 44px; height: 44px; }
 .mobile-menu__item .menu-item__tile svg { width: 24px; height: 24px; }
-/* the burger's experience list, matching the desktop menu */
+/* the burger's collection list, matching the desktop menu */
 .mobile-menu__triplist { gap: 2px; }
 .mobile-menu__triplist .mobile-menu__item { padding: 8px 12px; }
 .mobile-menu__triplist .mobile-menu__item .menu-item__tile { width: 42px; height: 42px; border-radius: 11px; }
 /* Same in the burger: the row carries a tile and reads like the
-   experiences above it, so it needs none of the small-print styling
+   collections above it, so it needs none of the small-print styling
    it used to wear. */
 html.menu-locked, body.menu-locked { overflow: hidden; }
 /* and a flick inside the menu shouldn't hand the scroll onward */
@@ -1272,7 +1272,7 @@ main { display: block; }
 
 /* ============================================================
    YEAR RULES — a mono stat line under a page head, and the
-   serif year headings the experiences index groups by
+   serif year headings the collections index groups by
    (js/hobby.js; #experienceList restyles .log-year below).
    ============================================================ */
 .log-stats {
@@ -1283,7 +1283,7 @@ main { display: block; }
   color: var(--ink-55);
   margin-top: var(--space-2);
 }
-/* THE NAME, on an experience page, is set small — nearer a byline
+/* THE NAME, on a collection page, is set small — nearer a byline
    than a masthead. Every other page keeps the full display size, and
    should: on those the heading IS the page. Here the pictures are,
    and a 44px black italic standing directly above the lead frame was
@@ -1335,20 +1335,20 @@ main { display: block; }
   line-height: 1.2;
   letter-spacing: 0;
 }
-/* the experience page's is a plate, not a masthead — smaller again */
+/* the collection page's is a plate, not a masthead — smaller again */
 #galleryTitle {
   font-size: var(--type-xl);
   line-height: 1.25;
   margin-bottom: 0;
 }
-/* An experience page's masthead is NOT the centred 640px column the
+/* A collection page's masthead is NOT the centred 640px column the
    other page heads use. It sits on the page's own left edge — the
    same `--gutter` the nav's wordmark and the wall's frames stand on —
    so the title, the bar above it and the grid below it all share one
    line down the page, and the lead frame is the only thing that
    breaks out of it. */
 
-/* THE SHOOT'S DETAILS, on an experience page: when, where, how many
+/* THE SHOOT'S DETAILS, on a collection page: when, where, how many
    frames, what they were taken on. One run in one voice, because they
    are one kind of thing.
 
@@ -2000,7 +2000,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
    sheet uses a cq unit — so the containment came out with it. It went
    briefly back on for a left-hand nav rail, which would have made the
    viewport a lie; that rail was reverted and so was this. */
-/* ---------- The wall, and every experience's gallery ----------
+/* ---------- The wall, and every collection's gallery ----------
    Square corners and a lot of air, after franzgruenewald.com. Every
    frame fills its whole column in one of two boxes — 4:5 upright,
    5:4 landscape — and is centre-cropped to fill it. The shape is read
@@ -2143,12 +2143,12 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 /* The plate zeroed the padding `.page-head` normally brings, which is
    what used to hold the masthead off the bar — so the room above the
    lead is set here instead. */
-/* HELD-OPEN SLOTS. 23 of the 27 experiences are logged but not yet
+/* HELD-OPEN SLOTS. 23 of the 27 collections are logged but not yet
    edited, so most of these pages have no frames at all. They keep the
    page's shape rather than collapsing to a title on white — a blank
    where the lead goes and a wall of blanks under it.
 
-   Flat and inert, deliberately. The experiences index made the same
+   Flat and inert, deliberately. The collections index made the same
    call in the same words: nothing is loading here and nothing is
    about to, so a shimmering skeleton would be a lie about the state
    of the page. These are just quiet grey rectangles, and the note
@@ -2236,7 +2236,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
    4px above every other item in the bar. */
 /* The photos page opens on the wall itself — no masthead, frames
    straight under the bar. It keeps the same gutter as an
-   experience's wall so the two pages line up edge for edge. */
+   collection's wall so the two pages line up edge for edge. */
 .wall-bleed { padding: 0 var(--gutter); }
 .wall-bleed .roll { padding-top: clamp(5px, 0.55vw, 8px); }
 .wall-bleed .stream-grid { padding-bottom: 0; }
@@ -2251,7 +2251,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   margin-right: auto;
   text-align: left;
 }
-/* An experience page's masthead is NOT the centred 640px column above.
+/* A collection page's masthead is NOT the centred 640px column above.
    It sits on the page's own left edge — the same `--gutter` the nav's
    wordmark and the wall's frames stand on — so the title, the bar
    above it and the grid below all share one line down the page.
@@ -2282,7 +2282,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   margin: 0 0 var(--space-2);
 }
 /* The frames used to carry a "Highlights" label and its hairline.
-   The page is one experience and the pictures are the first thing on
+   The page is one collection and the pictures are the first thing on
    it — nothing needed announcing. All the label left behind is the
    air it held between the masthead and the first frame. */
 #framesSec .roll { padding-top: clamp(20px, 2.4vw, 34px); }
@@ -2332,10 +2332,13 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 .about-read { max-width: 640px; }
 .about-read h2 {
   margin: clamp(34px, 4vw, 52px) 0 var(--space-2);
-  font-family: var(--sans);
-  /* Geist has no italic cut and synthesis is off here */
+  /* Recoleta, the same face and weight as every .page-head h1, so the
+     section titles sit in the site's title register rather than being
+     bold body text. Only 400–700 are declared — do not go past 700 here
+     or the browser synthesises the weight. */
+  font-family: var(--title-face);
   font-style: normal;
-  font-weight: 800;
+  font-weight: 600;
   font-synthesis: none;
   font-size: clamp(21px, 2.2vw, 27px);
   line-height: 1.15;
@@ -2351,23 +2354,56 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 .about-read .lede { font-size: var(--type-md); color: var(--ink-85); }
 .about-read a { text-decoration: underline; text-decoration-color: var(--border); }
 .about-read a:hover { text-decoration-color: currentColor; }
+/* The essay's photographs. Three placements — the masthead frame, a
+   two-up, and a full-column frame between sections — but one set of
+   rules, so a change to the treatment cannot land on some of them and
+   miss the others. */
 .about-portrait { margin: 0 0 var(--space-2); }
-.about-portrait img {
+.about-figure { margin: clamp(26px, 3vw, 38px) 0; }
+.about-pair figure { margin: 0; }
+.about-portrait img,
+.about-figure img,
+.about-pair img {
   /* height:auto or the browser lays the frame out from the width and
      height attributes, and a wrong pair there stretches the picture */
   width: 100%;
   height: auto;
-  border-radius: 20px;
+  /* Square, like the wall. A radius crops the corners of a frame that
+     was composed to its edges, and it reads the picture as a card. */
+  border-radius: 0;
   display: block;
   background: var(--surface);
 }
-.about-portrait figcaption {
+.about-portrait figcaption,
+.about-figure figcaption,
+.about-pair figcaption {
   margin-top: 9px;
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: .04em;
   text-transform: uppercase;
   color: var(--ink-55);
+}
+/* Two frames side by side. Stacked until the column is wide enough
+   that halving it still leaves a photograph rather than a thumbnail —
+   at 600px the column is 552 and each frame lands at 262, just inside
+   the 260–480 band the wall is held to. */
+.about-pair {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  margin: clamp(26px, 3vw, 38px) 0;
+}
+@media (min-width: 600px) {
+  .about-pair { grid-template-columns: 1fr 1fr; }
+  /* Side by side the two frames have to agree on a shape, or their
+     bottoms and their captions land on different lines. 3:4 is what
+     three of the four photographs on this page already are, so only
+     the odd one gets touched. Unlike a corner radius — which crops
+     every frame whether or not you meant it — this is one deliberate
+     ratio for one row, and the single frames above and below keep
+     whatever shape they were shot at. */
+  .about-pair img { aspect-ratio: 3 / 4; object-fit: cover; }
 }
 .about-read .pull-quote {
   /* the library-era plate is gone; a rule down the side is enough */
@@ -2395,8 +2431,8 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 }
 .about-read .signoff { margin-top: 22px; color: var(--ink-55); }
 .about-reach { padding-bottom: clamp(40px, 6vw, 72px); }
-/* ---------- The experiences index ----------
-   Every experience is a band: its name across the page in Gooper, the
+/* ---------- The collections index ----------
+   Every collection is a band: its name across the page in Gooper, the
    byline under it, an arrow at the far edge, and its own roll running
    out past the right margin beneath — as much of it as the page will
    hold, the rest a scroll away.
@@ -2421,15 +2457,15 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
    year heading would just double it. Scoped to the index so the log's
    year headings keep theirs. */
 /* ============================================================
-   THE LEDGER — the index of every experience.
+   THE LEDGER — the index of every collection.
 
    NOT a grid. The front wall already is one, and repeating it here
    would make this page a second homepage wearing a different hat.
    This is a dated list instead: the year carries the structure, each
-   experience is one ruled row, and a single frame rides along as
+   collection is one ruled row, and a single frame rides along as
    evidence rather than a whole roll of them.
 
-   Every row wears the experience page's own plate — the name in
+   Every row wears the collection page's own plate — the name in
    Cheltenham over a line of facts in the nav's sans — so the index
    and the page it opens read as one thing. Two faces on the whole
    page and no third.
@@ -2437,13 +2473,13 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
    WHAT THIS REPLACED. Bands: a name in heavy Gooper italic set at
    ink-30, a horizontal roll of every frame running off the right
    edge, and a rotating five-colour ink per row. The roll was the
-   problem — 23 of the 27 experiences have no frames yet, so the page
+   problem — 23 of the 27 collections have no frames yet, so the page
    was mostly grey rectangles, and the ones that did have frames
-   showed the same pictures the experience page shows. One frame per
+   showed the same pictures the collection page shows. One frame per
    row says the same thing and leaves the page quiet.
    ============================================================ */
 /* THE YEAR IS THE PAGE'S SPINE. It stands in its own column, set
-   large and light, and STICKS while its own experiences scroll past —
+   large and light, and STICKS while its own collections scroll past —
    so the thing you are always looking at is when. That is the whole
    argument of the site: these pictures are how a place was on a day,
    and the day is what makes them worth keeping.
@@ -2468,7 +2504,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   color: var(--ink-55);
   margin: clamp(30px, 3.4vw, 48px) 0 6px;
 }
-/* The year sits ABOVE its experiences, not beside them. It spent a
+/* The year sits ABOVE its collections, not beside them. It spent a
    version in a column of its own down the left — set large and pinned,
    riding along while its rows scrolled — which cost the rows about
    230px of measure and gave it back nothing: a year is a divider, and a
@@ -2553,7 +2589,7 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
    WHAT THIS REPLACED. The journal used to be a THREAD: every
    note was its own row, and a run of rows from one outing was
    drawn as a "chain" hanging off a connector rail with a node
-   per post, each row re-introducing the same experience, venue
+   per post, each row re-introducing the same collection, venue
    and date the reader had just read. A note is still one post —
    posting cheaply and often is the point — but the chain, the
    rail and the per-row header line are gone, and a same-day run
@@ -2995,7 +3031,7 @@ html.dark .archive__row { background: var(--surface); }
 
 /* THE VIEWER — franzgruenewald.com's, in its light state: a plain
    white field with one bar across the top and nothing else on it.
-   The experience's name and the frame's number sit at the left of
+   The collection's name and the frame's number sit at the left of
    that bar, the controls at the right, all of it bare text and a
    bare glyph — no pills, no round buttons, no arrows down the sides.
    The picture itself is the next button, and the set loops.

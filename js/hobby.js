@@ -16,9 +16,9 @@
       .replace(/"/g, "&quot;");
   }
   var TRIPS = window.TRIPS || [];
-  /* Most experiences are logged before their photographs exist — the
+  /* Most collections are logged before their photographs exist — the
      list goes back to 2019 and the camera does not. Those empty slots
-     belong on experiences.html, which is the ledger and says "0
+     belong on collections.html, which is the ledger and says "0
      frames" plainly; they do not belong in the nav or the burger,
      where every row wears a cover frame and an empty one would just
      be a blank tile. */
@@ -42,7 +42,7 @@
     return TRIPS.filter(function (t) { return t.slug === slug; })[0];
   }
   /* A post can carry its own frames — what came off the phone while
-     it was happening — instead of pointing into the experience's
+     it was happening — instead of pointing into the collection's
      edited set. They travel as a synthetic trip so the tiles and
      the lightbox treat them like any other set. */
   function beatSet(trip, b, key) {
@@ -54,7 +54,7 @@
     });
     return { trip: t, shots: b.photos.map(function (_, i) { return i; }) };
   }
-  /* A standalone journal entry belongs to no experience, so it gets a
+  /* A standalone journal entry belongs to no collection, so it gets a
      synthetic trip of its own — nowhere to click through to, but the
      lightbox can page its frames like any other set. */
   function postTrip(p, i) {
@@ -79,15 +79,15 @@
     }
     return ps[0] || null;
   }
-  /* What an experience is called, everywhere it's named: the full
+  /* What a collection is called, everywhere it's named: the full
      billing when it has one ("Tame Impala: Deadbeat Tour with
      Djo"), else the short name, else the title. */
   function xpName(t) {
     return t.nav || t.short || t.place || "";
   }
-  /* An experience's face: its stated cover, else the first frame
+  /* A collection's face: its stated cover, else the first frame
      that isn't a clip, else a clip's poster if it has one. An
-     experience whose only frame is a video and whose video has no
+     collection whose only frame is a video and whose video has no
      poster has no face at all, and says so with an empty tile
      rather than a white square. */
   function thumbSrc(t) {
@@ -98,8 +98,8 @@
     return "";
   }
   /* "August 5, 2026 @ Bridgestone Arena" — the same line in the
-     nav menu and on the experiences index; a count stands in when
-     an experience never said where it was */
+     nav menu and on the collections index; a count stands in when
+     a collection never said where it was */
   /* A `when` of just a year means the posted date is a sort key
      holding the given order, not a day this happened on. Print the
      year it claims rather than the date it was filed under, or the
@@ -151,7 +151,7 @@
     if (p && p.catch) p.catch(function () {});
   }
   /* `capped` asks for the caption as text under the frame rather than
-     as a pill that only shows on hover. An experience's own wall takes
+     as a pill that only shows on hover. A collection's own wall takes
      it — the writing there is half the point of the page. The front
      wall doesn't: there the picture is the whole message. */
   function shotHtml(t, p, i, capped, lead) {
@@ -259,10 +259,10 @@
     img.alt = p.alt || "";
     /* Nothing is written under the picture. The viewer used to carry
        the frame's caption there, and before that the caption plus the
-       experience and its date; the reference shows the photograph and
+       collection and its date; the reference shows the photograph and
        the bar and nothing else, and that is the whole of it now. The
        words are not lost — they are on the wall's hover pill, in the
-       alt text, and on the experience's own page. */
+       alt text, and on the collection's own page. */
     var title = dlg.querySelector(".lb-title");
     if (title) title.textContent = xpName(lb.trip);
     var dl = dlg.querySelector(".lightbox-dl");
@@ -285,7 +285,7 @@
         fig.insertAdjacentHTML("afterbegin",
           '<video class="lb-video" playsinline loop controls hidden></video>');
       }
-      /* One bar across the top: which experience this is and where you
+      /* One bar across the top: which collection this is and where you
          are in it on the left, what you can do with the frame on the
          right. The side arrows are gone — the picture is the next
          button — and so is the centred tally, which the count in the
@@ -323,7 +323,7 @@
          whole journal post or a whole note — passages and all, so a
          post's frames read as one roll even when its beats carried
          their own — else the grid the frame shares. */
-      /* A page can name the set explicitly. The experience page needs
+      /* A page can name the set explicitly. The collection page needs
          it: its lead frame sits outside the grid, so without this the
          lead would open as a set of one and the wall as another.
          Checked FIRST and separately — `closest` with both in one
@@ -430,7 +430,7 @@
     document.title = xpName(trip) + " — Cody Heart Photography";
     var tEl = document.getElementById("galleryTitle");
     if (tEl) tEl.textContent = xpName(trip);
-    /* the bar's scroll-title carries the experience's full billing */
+    /* the bar's scroll-title carries the collection's full billing */
     var navTitle = document.querySelector(".nav__scrolltitle");
     if (navTitle) navTitle.textContent = xpName(trip);
     var crumbEl = document.getElementById("crumbTrip");
@@ -443,13 +443,13 @@
 
        `[about]` still parses and trips still carry `note`, so nothing
        written has been thrown away. Nothing on this page reads it. */
-    /* An experience has two halves, and they weigh the same. The
+    /* A collection has two halves, and they weigh the same. The
        FRAMES are the pictures, edited and chosen after the fact.
        The NOTES are what was written from inside it, and whatever
-       came off the phone at the time. A new experience often starts
+       came off the phone at the time. A new collection often starts
        as notes alone and grows its frames when there's time at a
        computer; either half on its own is still the record. */
-    /* Every clip the experience holds shows in Video, whether or not
+    /* Every clip the collection holds shows in Video, whether or not
        a post also shows it — the post is the moment it went up, the
        section is where you go to watch. Stills don't double up: the
        wall takes the edited ones, the posts keep the rest. */
@@ -480,7 +480,7 @@
        The counts came out after that. How many frames there are is
        something you can see by scrolling, and it described the page
        rather than the day — which is the opposite of what this line is
-       for. The experiences index still counts them, because there the
+       for. The collections index still counts them, because there the
        count is how you tell the collections apart. */
     var whenEl = document.getElementById("galleryWhen");
     if (whenEl) {
@@ -524,11 +524,11 @@
         var leadEntry = picks.splice(leadIdx, 1)[0];
         leadEl.innerHTML = shotHtml(trip, leadEntry.p, leadEntry.i, false, true);
       } else {
-        /* Most experiences are logged long before their photographs
+        /* Most collections are logged long before their photographs
            exist. Such a page holds the same shape open rather than
            collapsing to a title on white — a blank standing where the
            lead will go, so the plate has something to sit on and every
-           experience page reads the same whether or not it has been
+           collection page reads the same whether or not it has been
            edited yet. Flat and inert: nothing is loading here and
            nothing is about to, so it must not shimmer like it is. */
         leadEl.innerHTML = '<span class="xp-blank xp-blank--lead" aria-hidden="true"></span>';
@@ -573,9 +573,9 @@
 
     /* `emptyEl` was READ HERE WITHOUT EVER BEING DECLARED. Reading an
        undeclared name is a ReferenceError, so this line threw on every
-       single experience page and took the rest of the module with it —
-       which is why the Experiences dropdown and the mobile menu's list
-       of experiences, both built further down, were empty on every one
+       single collection page and took the rest of the module with it —
+       which is why the Collections dropdown and the mobile menu's list
+       of collections, both built further down, were empty on every one
        of them. Declare it. */
     var emptyEl = document.getElementById("galleryEmpty");
     if (emptyEl && !picks.length && !clips.length) emptyEl.hidden = false;
@@ -601,7 +601,7 @@
     var picks = bestPhotos();
     bestWall.innerHTML = '<div class="stream-grid">' +
       picks.map(function (en) { return shotHtml(en.t, en.p, en.i); }).join("") + "</div>";
-    var statsText = picks.length + " keepers · " + TRIPS.length + " experiences · newest first";
+    var statsText = picks.length + " keepers · " + TRIPS.length + " collections · newest first";
     Array.prototype.forEach.call(document.querySelectorAll(".photo-stats"), function (el) {
       el.textContent = statsText;
     });
@@ -615,10 +615,10 @@
   if (xpList && TRIPS.length) {
     /* THE LEDGER. Not a grid of tiles — that is the front wall's job,
        and doing it twice would make this page a second homepage. This
-       is a dated list: the year carries the structure, each experience
+       is a dated list: the year carries the structure, each collection
        is one ruled row, and one frame rides along as evidence.
 
-       Every row wears the same plate as the experience page it opens:
+       Every row wears the same plate as the collection page it opens:
        the name in Cheltenham over a line of facts in the nav's sans.
        Same two faces, same order, so the index and the page read as
        one thing rather than two designs.
@@ -642,7 +642,7 @@
       var lead = stills.filter(function (p) { return p.best; })[0] || stills[0];
 
       /* The year is the heading, so the row says the day and drops it.
-         An experience that only ever claimed a year says nothing here
+         A collection that only ever claimed a year says nothing here
          rather than repeating the heading back. */
       var yearOnly = /^\d{4}$/.test(String(t.when || "").trim());
       var day = yearOnly ? "" : String(longDate(t.posted) || "").replace(/,\s*\d{4}$/, "");
@@ -651,7 +651,7 @@
       var facts = [];
       if (day) facts.push(day);
       if (t.loc) facts.push(esc(t.loc));
-      /* An experience can have come back as a clip and nothing else —
+      /* A collection can have come back as a clip and nothing else —
          Fenway did. Saying "no frames yet" of a page that has a video
          on it is simply untrue, so count what is actually there. */
       if (n) facts.push(n + (n === 1 ? " frame" : " frames"));
@@ -671,11 +671,20 @@
          follows the shape, so a mixed run still lines up top and
          bottom.
 
-         An experience with nothing shot yet holds ten slots open in
+         A collection with nothing shot yet holds ten slots open in
          the same rhythm. Flat and inert — nothing is loading — but the
          row keeps its shape, so the page reads the same whether the
-         pictures have been edited yet or not. */
-      var shots = stills.slice(0, 10);
+         pictures have been edited yet or not.
+
+         The run OPENS on `lead` — the same frame the collection's own
+         page leads with — and the rest follow in their posted order.
+         This used to be computed and then thrown away: the row just
+         sliced the first ten, so a collection whose chosen frame sat
+         further down led the index with whatever happened to be first,
+         usually a journal beat rather than the edit. Rows whose lead is
+         already the first still are unaffected. */
+      var shots = (lead ? [lead].concat(stills.filter(function (p) { return p !== lead; }))
+                        : stills).slice(0, 10);
       var frames = "";
       if (shots.length) {
         frames = shots.map(function (sp) {
@@ -703,19 +712,19 @@
 
     var xpStats = document.getElementById("experienceStats");
     if (xpStats) {
-      xpStats.textContent = TRIPS.length + " experiences · " +
+      xpStats.textContent = TRIPS.length + " collections · " +
         allPhotos().length + " frames · newest first";
     }
   }
 
-  /* The experiences on the front page: one ruled row each into
+  /* The collections on the front page: one ruled row each into
      its own page, where any frame goes. (Data still says TRIPS.) */
 
   /* ==========================================================
      WHAT A FRAME DOES WHERE THE WRITING IS THE POINT.
 
      Two places on this site put photographs under prose: a post
-     in the journal and a note on an experience's page. They are
+     in the journal and a note on a collection's page. They are
      deliberately different objects — a post is one of forty and
      has to say which outing it came from; a note sits on a page
      whose masthead already said all that — but a photograph must
@@ -815,11 +824,11 @@
      THE JOURNAL — one post per outing, newest first.
 
      WHAT THIS REPLACED. The journal used to be a THREAD: every
-     beat of every experience was its own row, hairlined off from
-     the one above, and a run of rows from one experience was
+     beat of every collection was its own row, hairlined off from
+     the one above, and a run of rows from one collection was
      drawn as a chain hanging off a connector rail. Three notes
      written across one afternoon in San Diego came out as three
-     orphans, each re-introducing the same experience, the same
+     orphans, each re-introducing the same collection, the same
      venue and the same date to the reader who had just read it.
 
      An outing is one thing, so it is now one POST. Its beats are
@@ -896,7 +905,7 @@
     /* AT LEAST ONE OF. A post is valid with frames, or with words, or
        both — it is never required to have both. What it may not be is
        neither: an outing that was logged and then never written from
-       and never shot is an experience, not a post, and it belongs on
+       and never shot is a collection, not a post, and it belongs on
        the index rather than as an empty card here. */
     out = out.filter(function (e) {
       return e.passages.some(function (p) { return p.say || p.shots.length; });
@@ -921,7 +930,7 @@
 
          title:  what you wrote, if you wrote one     ← wins
          at:     a standalone post's own line
-         loc:    the venue of the experience it belongs to
+         loc:    the venue of the collection it belongs to
          date:   nothing else to say, so the date leads
 
        Falling back this way means old entries keep the venue they had
@@ -952,11 +961,11 @@
        the sentence above it happened to be */
     var body = '<div class="bubble' + (frames ? " bubble--media" : "") + '">' +
       head + words + frames + "</div>";
-    /* No tail. A post used to end with a row pointing at the experience
+    /* No tail. A post used to end with a row pointing at the collection
        it came from — cover thumb, label, name, chevron. It was the
        heaviest thing in the post and it repeated on every one of them,
        so a page of short entries read as a list of adverts for pages
-       elsewhere. The nav's Experiences menu already goes there, and the
+       elsewhere. The nav's Collections menu already goes there, and the
        post itself is the point. */
     return '<article class="post">' + body + "</article>";
   }
@@ -1139,7 +1148,7 @@
     /* The way through to the full ledger wears a card like every other
        row — the same rounded square as the cover frames, so it reads as
        one of the options rather than a footnote underneath them. The
-       count comes from the data, so it stays true as experiences land. */
+       count comes from the data, so it stays true as collections land. */
     var oldest = (TRIPS[TRIPS.length - 1] || {}).posted || "";
     var allDesc = TRIPS.length + (oldest ? ", back to " + oldest.slice(0, 4) : "");
     var allCard =
@@ -1150,7 +1159,7 @@
           '<rect class="duo-b" x="3" y="12.6" width="8.4" height="8.4" rx="2.4"/>' +
           '<rect class="duo-a" x="12.6" y="12.6" width="8.4" height="8.4" rx="2.4"/>' +
         "</svg></div>" +
-      '<div><span class="menu-item__title">See all experiences</span>' +
+      '<div><span class="menu-item__title">See all collections</span>' +
       '<span class="menu-item__desc">' + esc(allDesc) + "</span></div>";
 
     /* The burger says the same thing the desktop menu does: the six
@@ -1168,14 +1177,14 @@
             '<span class="menu-item__title">' + esc(xpName(t)) + "</span>" +
             '<span class="menu-item__desc">' + xpByline(t) + "</span></div></a>";
         }).join("") +
-        '<a class="mobile-menu__item mobile-menu__all" href="experiences.html">' +
+        '<a class="mobile-menu__item mobile-menu__all" href="collections.html">' +
           allCard + "</a>";
     }
     /* The Trips dropdown in the top nav */
     var navTrips = document.getElementById("navTrips");
     if (navTrips) {
       /* the six newest, each wearing its cover frame; the rest live
-         behind "See all experiences" */
+         behind "See all collections" */
       navTrips.innerHTML =
         withFrames.slice(0, 6).map(function (t) {
           var src = thumbSrc(t);
@@ -1188,7 +1197,7 @@
             '<span class="menu-item__title">' + esc(xpName(t)) + "</span>" +
             '<span class="menu-item__desc">' + byline + "</span></div></a>";
         }).join("") +
-        '<a class="menu-item menu-item--all" role="menuitem" href="experiences.html">' +
+        '<a class="menu-item menu-item--all" role="menuitem" href="collections.html">' +
           allCard + "</a>";
     }
   }

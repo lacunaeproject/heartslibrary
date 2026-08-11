@@ -8,8 +8,8 @@
 <!-- Family D: a private tool. No shell, no nav, no footer, and no
      theme init — this page is white paper on purpose. The data comes
      straight from the live file; css/print.css is the only stylesheet. -->
-<link rel="stylesheet" href="css/print.css?v=20260811-9">
-<script defer src="js/photos.js?v=20260811-9"></script>
+<link rel="stylesheet" href="css/print.css?v=20260811-17">
+<script defer src="js/photos.js?v=20260811-17"></script>
 </head>
 <body>
 
@@ -82,7 +82,7 @@
       lives in a folder under <code>photos/</code> in this repository. Paste
       the whole block below into <b>PowerShell</b> and it collects the frames
       from everything you've ticked into one folder on your Desktop, sorted
-      by experience.
+      by collection.
     </p>
     <pre class="cmd" id="cmd"></pre>
     <p>
@@ -284,7 +284,7 @@
       '<h1 class="cover-title">A scrapbook</h1>' +
       '<p class="cover-sub">Cody Heart &middot; printed ' +
         MONTHS[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear() +
-        " &middot; " + list.length + (list.length === 1 ? " experience" : " experiences") +
+        " &middot; " + list.length + (list.length === 1 ? " collection" : " collections") +
         (frames ? " &middot; " + frames + (frames === 1 ? " frame" : " frames") : "") +
       "</p>" +
       (list.length
@@ -349,7 +349,7 @@
   function buildCmd(list) {
     var root = repoRoot();
     var lines = [
-      "# Collects the frames from the ticked experiences into one folder",
+      "# Collects the frames from the ticked collections into one folder",
       "# on your Desktop. Paste the whole block into PowerShell.",
       "",
       root ? "$repo = " + psq(root)
@@ -402,9 +402,9 @@
     });
 
     els.summary.innerHTML = "<b>" + list.length +
-      (list.length === 1 ? "</b> experience" : "</b> experiences") +
+      (list.length === 1 ? "</b> collection" : "</b> collections") +
       ", <b>" + frames + "</b> " + (frames === 1 ? "frame" : "frames") +
-      (empties ? ". " + empties + (empties === 1 ? " ticked experience has" : " ticked experiences have") +
+      (empties ? ". " + empties + (empties === 1 ? " ticked collection has" : " ticked collections have") +
                  " nothing written down yet and won't print." : ".");
 
     els.warn.hidden = frames < 40;
@@ -418,7 +418,7 @@
     els.go.disabled = list.length === 0;
     els.cmd.textContent = list.length
       ? buildCmd(list)
-      : "# Tick at least one experience above.";
+      : "# Tick at least one collection above.";
     els.said.textContent = "";
   }
 
