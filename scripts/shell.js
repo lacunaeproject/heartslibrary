@@ -36,7 +36,7 @@ var fs = require("fs");
 var path = require("path");
 
 var ROOT = path.join(__dirname, "..");
-var STAMP = "20260811-17";
+var STAMP = "20260811-10";
 
 /* ------------------------------------------------------------------
    THE PAGES. Everything page-specific lives in this table — title,
