@@ -2116,7 +2116,17 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 .xp-lead .shot-btn img {
   display: block;
   width: auto;
-  height: min(64vh, 640px);
+  /* Was min(64vh, 640px). The bar, #leadSec's padding-top and the
+     plate carrying the name and date take ~274px above the frame, so
+     74vh puts its foot just past the fold — 6px over on a 1030px
+     screen, ~66px on an 800px one. That is deliberate and is the whole
+     margin available: the title stays on screen (it is what makes the
+     frame a print with a label rather than a hero image) while the
+     foot of the picture hangs below the fold and pulls you into the
+     wall under it. Going higher starts pushing the title off, which is
+     the thing this layout exists to prevent. The px half stops a tall
+     desktop monitor rendering it enormous. */
+  height: min(74vh, 860px);
   max-width: 100%;
   object-fit: contain;
 }
@@ -2157,10 +2167,13 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   display: block;
   background: var(--surface);
 }
+/* Held open at the lead's own size, or the page visibly changes shape
+   when the pictures land. Tracks .xp-lead .shot-btn img above — if you
+   move one, move both. */
 .xp-blank--lead {
-  width: min(66vw, 780px);
+  width: min(66vw, 1048px);
   max-width: 100%;
-  height: min(64vh, 640px);
+  height: min(74vh, 860px);
 }
 .stream-grid .shot.xp-blank { width: 100%; margin: 0; }
 .stream-grid .shot.xp-blank.xp-blank--tall { aspect-ratio: 4 / 5; }

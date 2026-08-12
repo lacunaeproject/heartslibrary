@@ -626,37 +626,51 @@
        Rows with nothing shot yet keep a blank in the frame slot for
        the same reason the pages do — flat and inert, because nothing
        is loading and nothing is about to. */
-    var xhtml = "", xyear = null, xopen = "";
-    TRIPS.forEach(function (t) {
-      var y = String(t.posted || "").slice(0, 4) || "Undated";
-      if (y !== xyear) {
-        xyear = y;
-        if (xopen) xhtml += xopen;
-        xhtml += '<section class="xp-era">' +
-          '<h2 class="xp-era__year">' + esc(y) + "</h2>" +
-          '<div class="xp-era__rows">';
-        xopen = "</div></section>";
-      }
+    /* ONE CONTINUOUS LIST, not year sections. The index used to break
+       into <section class="xp-era"> per year with the year as an h2.
+       That structure only reads as structure when the years are full;
+       against a list this size it turned into headings standing over
+       one or two rows, and it framed the page as a record of years —
+       including the ones with nothing in them — rather than a list of
+       work. Newest first still carries the chronology. */
+    /* THE FEATURED COLLECTION. One trip carries `featured: true` in
+       js/photos.js and sorts to the top of the list. It is an ordinary
+       row — same size, same treatment — it just goes first, ahead of
+       the newest-first order the rest keep. `featured` is editorial,
+       like `best`; scripts/post.js prints it back out so a re-post
+       cannot drop it, and nothing breaks if no trip carries it. */
+    function rowFacts(t, stills) {
+      var yearOnly = /^\d{4}$/.test(String(t.when || "").trim());
+      var day = yearOnly ? esc(String(t.when).trim()) : (longDate(t.posted) || "");
+      var n = stills.length, nclips = (t.photos || []).length - n, f = [];
+      if (day) f.push(day);
+      if (t.loc) f.push(esc(t.loc));
+      if (n) f.push(n + (n === 1 ? " frame" : " frames"));
+      else if (nclips) f.push(nclips + (nclips === 1 ? " clip" : " clips"));
+      else f.push("no frames yet");
+      return f;
+    }
+
+    var xhtml = "";
+    /* A copy — TRIPS is shared with the front wall and the nav menu,
+       and sorting it in place would reorder those too. */
+    var ordered = TRIPS.slice().sort(function (a, b) {
+      return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
+    });
+
+    ordered.forEach(function (t) {
       var stills = (t.photos || []).filter(function (p) { return !p.video; });
       /* the frame it leads with is the frame its own page leads with */
       var lead = stills.filter(function (p) { return p.best; })[0] || stills[0];
 
-      /* The year is the heading, so the row says the day and drops it.
-         A collection that only ever claimed a year says nothing here
-         rather than repeating the heading back. */
-      var yearOnly = /^\d{4}$/.test(String(t.when || "").trim());
-      var day = yearOnly ? "" : String(longDate(t.posted) || "").replace(/,\s*\d{4}$/, "");
-      var n = stills.length;
-      var nclips = (t.photos || []).length - n;
-      var facts = [];
-      if (day) facts.push(day);
-      if (t.loc) facts.push(esc(t.loc));
-      /* A collection can have come back as a clip and nothing else —
-         Fenway did. Saying "no frames yet" of a page that has a video
-         on it is simply untrue, so count what is actually there. */
-      if (n) facts.push(n + (n === 1 ? " frame" : " frames"));
-      else if (nclips) facts.push(nclips + (nclips === 1 ? " clip" : " clips"));
-      else facts.push("no frames yet");
+      /* The row carries the whole date now. It used to drop the year
+         and, for a collection that only ever claimed one, say nothing
+         at all — both because the year sat in a heading directly above
+         it. With the headings gone that leaves rows reading "Bridgestone
+         Arena · 24 frames" with no date anywhere, so the year comes
+         back: the full date when there is one, the bare year when the
+         collection only ever claimed a year. */
+      var facts = rowFacts(t, stills);
 
       /* THE PHOTOGRAPHS CARRY THE ROW. Text is a narrow column on the
          left; the frames take everything else. One thumbnail beside a
@@ -707,7 +721,6 @@
         '<span class="xp-row__frames">' + frames + "</span>" +
         "</a>";
     });
-    if (xopen) xhtml += xopen;
     xpList.innerHTML = xhtml;
 
     var xpStats = document.getElementById("experienceStats");

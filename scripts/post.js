@@ -326,6 +326,9 @@ function serializeTrip(t) {
      from every trip, not just the one being posted. */
   if (t.nav) out.push(`    nav: ${q(t.nav)},`);
   if (t.loc) out.push(`    loc: ${q(t.loc)},`);
+  /* Which collection leads the index. Editorial, set by hand here the
+     way `best` is, and printed back out so a re-post doesn't drop it. */
+  if (t.featured) out.push("    featured: true,");
   out.push(`    when: ${q(t.when)},`);
   if (t.continent) out.push(`    continent: ${q(t.continent)},`);
   if (t.cover) out.push(`    cover: ${q(t.cover)},`);
@@ -453,6 +456,7 @@ function main() {
     if (prior.nav && !trip.nav) trip.nav = prior.nav;
     if (prior.loc && !trip.loc) trip.loc = prior.loc;
     if (prior.camera && !trip.camera) trip.camera = prior.camera;
+    if (prior.featured) trip.featured = true;
     const wasBest = {};
     (prior.photos || []).forEach(p => { if (p.best) wasBest[p.src] = true; });
     trip.photos.forEach(p => { if (wasBest[p.src]) p.best = true; });
