@@ -1,0 +1,172 @@
+<!doctype html>
+<html class="no-js dark" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Sketch — collections + journal merged</title>
+<script>(function(){var d=document.documentElement,s=null;try{s=localStorage.getItem("hl-theme")}catch(e){}if(s!=="dark"&&s!=="light")s="auto";d.setAttribute("data-theme",s);var k;if(s==="auto"){var t=new Date(),r=Math.PI/180,y=Math.floor((t-new Date(t.getFullYear(),0,0))/864e5),q=23.45*Math.sin(r*(360/365)*(284+y)),c=(Math.cos(90.833*r)-Math.sin(39*r)*Math.sin(q*r))/(Math.cos(39*r)*Math.cos(q*r)),H=Math.acos(Math.max(-1,Math.min(1,c)))/r/15,j=new Date(t.getFullYear(),0,1).getTimezoneOffset(),n=t.getTimezoneOffset()<j?13:12,h=t.getHours()+t.getMinutes()/60;k=h<n-H||h>n+H}else{k=s==="dark"}d.classList.toggle("dark",k)})();</script>
+<link rel="stylesheet" href="css/review.css">
+<style>
+/* SKETCH-ONLY CHROME. None of this belongs on the site — it is the
+   control bar for comparing the merge rules, and it is styled loudly
+   on purpose so it can never be mistaken for the design. */
+.sk-bar {
+  position: sticky; top: 0; z-index: 40;
+  background: var(--bg); border-bottom: 2px dashed var(--heart);
+  padding: 12px var(--gutter, 24px);
+  display: flex; flex-wrap: wrap; gap: 16px; align-items: center;
+  font: 500 12px/1.4 var(--mono, monospace); color: var(--ink-2, inherit);
+}
+.sk-bar b { color: var(--heart); font-weight: 700; letter-spacing: .04em; }
+.sk-bar label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.sk-note { max-width: 46rem; margin: 0; opacity: .75; }
+.sk-count { margin-left: auto; opacity: .6; }
+#feedList, #experienceList { display: none; }
+/* the collection card's head links out, so give it the affordance the
+   note cards don't need */
+.post__head[data-coll]::before {
+  content: ""; position: absolute; inset: 0;
+}
+</style>
+</head>
+<body class="feed-page">
+
+<div class="sk-bar">
+  <b>SKETCH</b>
+  <label><input type="radio" name="rule" value="posted" checked> date&nbsp;=&nbsp;<code>posted</code></label>
+  <label><input type="radio" name="rule" value="beats"> date&nbsp;=&nbsp;newest&nbsp;note</label>
+  <label><input type="checkbox" id="fold"> fold outings that already have notes</label>
+  <span class="sk-count" id="skCount"></span>
+</div>
+
+<main id="main">
+<div class="journal">
+  <section class="page-head">
+    <h1>Out shooting.</h1>
+    <p class="sk-note">One column. Note cards are rendered by the real
+    <code>js/hobby.js</code>; collection cards are built here from the same
+    <code>window.TRIPS</code>, in the post card's own material. A zero-frame
+    slot would be dropped — none exist today, but the ledger is built to
+    hold them, so the merge needs a rule.</p>
+  </section>
+  <div class="posts" id="merged"></div>
+</div>
+
+<!-- staging: hobby.js fills these, we harvest and re-sort -->
+<div class="posts" id="feedList"></div>
+<div id="experienceList"></div>
+
+<dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+  <figure><img src="" alt=""></figure>
+  <div class="lightbox-bar">
+    <a class="lightbox-dl press-scale" href="" download>Download <small>· personal use only</small></a>
+  </div>
+</dialog>
+</main>
+
+<script src="js/photos.js"></script>
+<script src="js/hobby.js"></script>
+<script>
+(function () {
+  "use strict";
+  var TRIPS = window.TRIPS || [];
+  var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+  /* "Aug 9" — the journal's own dateline shape */
+  function shortDate(d) {
+    var m = String(d || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return String(d || "");
+    return MONTHS[Number(m[2]) - 1] + " " + Number(m[3]);
+  }
+  function xpName(t) { return t.nav || t.place || t.short || t.slug; }
+  function newestBeat(t) {
+    return (t.beats || []).reduce(function (best, b) {
+      return b.time && b.time > best ? b.time : best;
+    }, "");
+  }
+
+  /* ---- harvest the real note cards ---- */
+  var items = [];
+  Array.prototype.forEach.call(document.querySelectorAll("#feedList .post"), function (n) {
+    var head = n.querySelector(".post__head");
+    var m = String((head && head.id) || "").match(/^post-(\d{4}-\d{2}-\d{2})/);
+    var slug = String((head && head.id) || "").replace(/^post-\d{4}-\d{2}-\d{2}-?/, "").replace(/-\d+$/, "");
+    items.push({ kind: "note", node: n, date: m ? m[1] : "", slug: slug });
+  });
+  var noteSlugs = {};
+  items.forEach(function (it) { if (it.slug) noteSlugs[it.slug] = true; });
+
+  /* ---- build a collection card in the post card's material ---- */
+  function collCard(t) {
+    var shots = (t.photos || []).filter(function (p) { return !p.video; });
+    if (!shots.length) return null;
+    var lead = shots.filter(function (p) { return p.best; })[0] || shots[0];
+    var run = [lead].concat(shots.filter(function (p) { return p !== lead; })).slice(0, 8);
+    var figs = run.map(function (p) {
+      var i = (t.photos || []).indexOf(p);
+      var box = (p.w && p.h) ? ' width="' + p.w + '" height="' + p.h + '"' : "";
+      return "<figure>" +
+        '<button class="frame-btn" type="button" data-trip="' + esc(t.slug) + '" data-i="' + i +
+        '" aria-label="View larger: ' + esc(p.alt || xpName(t)) + '">' +
+        '<img class="frame" data-kind="photo" src="' + esc(p.src) + '" alt="' + esc(p.alt || "") +
+        '"' + box + ' loading="lazy" decoding="async"></button></figure>';
+    }).join("");
+
+    var n = shots.length;
+    var art = document.createElement("article");
+    art.className = "post";
+    art.innerHTML = '<div class="bubble bubble--media">' +
+      '<a class="post__head" data-coll="1" href="gallery.html?trip=' + esc(t.slug) + '">' +
+        '<span class="post__title">' + esc(xpName(t)) + "</span>" +
+        '<span class="post__date">' + esc(shortDate(t.posted)) + " · " + n +
+          (n === 1 ? " frame" : " frames") + " →</span>" +
+      "</a>" +
+      '<div class="media"><div class="strip">' + figs + "</div></div>" +
+      "</div>";
+    return art;
+  }
+
+  TRIPS.forEach(function (t) {
+    var node = collCard(t);
+    if (!node) return;
+    items.push({ kind: "coll", node: node, trip: t, date: t.posted || "", slug: t.slug });
+  });
+
+  /* ---- sort + draw ---- */
+  function keyFor(it, rule) {
+    if (it.kind === "note") return it.date;
+    if (rule === "beats") return (newestBeat(it.trip) || "").slice(0, 10) || it.date;
+    return it.date;
+  }
+  var col = document.getElementById("merged");
+  var countEl = document.getElementById("skCount");
+
+  function draw() {
+    var rule = document.querySelector('input[name="rule"]:checked').value;
+    var fold = document.getElementById("fold").checked;
+    var list = items.filter(function (it) {
+      return !(fold && it.kind === "coll" && noteSlugs[it.slug]);
+    });
+    list.sort(function (a, b) {
+      var ka = keyFor(a, rule), kb = keyFor(b, rule);
+      return ka < kb ? 1 : ka > kb ? -1 : 0;
+    });
+    col.innerHTML = "";
+    list.forEach(function (it) { col.appendChild(it.node); });
+    var notes = list.filter(function (i) { return i.kind === "note"; }).length;
+    countEl.textContent = list.length + " cards — " + notes + " notes, " +
+      (list.length - notes) + " collections";
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="rule"], #fold'),
+    function (el) { el.addEventListener("change", draw); });
+  draw();
+})();
+</script>
+</body>
+</html>
