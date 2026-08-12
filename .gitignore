@@ -1,0 +1,14 @@
+# Camera originals for the August San Diego Zoo edit.
+#
+# The site serves the 1600px versions under photos/sandiego-zoo/web/. These
+# Lightroom exports run 5–58 MB each (~352 MB for the batch) and git keeps
+# whatever it is given at full size forever, so they stay on disk only.
+#
+# Deliberately scoped to this one folder. A blanket DSC*.jpg rule would make
+# post-trip.yml silently skip camera originals dropped into a NEW trip folder,
+# which is the one path that genuinely needs them committed — CI resizes from
+# what it finds in the repo.
+#
+# The earlier zoo originals here are already tracked and stay that way;
+# ignoring a tracked file does nothing.
+photos/sandiego-zoo/DSC*.jpg
