@@ -237,11 +237,6 @@ window.TRIPS = [
       { src: "photos/sandiego-zoo/web/orang-1.jpg", w: 1087, h: 1600, alt: "An orangutan behind glass", caption: "Watching us watching him" },
       { src: "photos/sandiego-zoo/web/orang-3.jpg", w: 1172, h: 1600, alt: "An orangutan in profile", caption: "Deep in thought" },
       { src: "photos/sandiego-zoo/web/snake.jpg", w: 968, h: 1600, alt: "A snake in the reptile house", caption: "The reptile house regular" },
-      /* The August edit — a second day at the zoo, on the A7CR. These are
-         the only frames on the front wall right now; the earlier keepers
-         above were stood down rather than deleted, so re-flagging one is
-         a one-word change. Appended rather than inserted on purpose:
-         `beats` below index into this array by position. */
       { src: "photos/sandiego-zoo/web/panda-2.jpg", best: true, w: 1600, h: 1280, alt: "A giant panda chewing a bamboo stalk, seen through bamboo leaves", caption: "Eating the thing he's hiding behind" },
       { src: "photos/sandiego-zoo/web/guenon.jpg", best: true, w: 1280, h: 1600, alt: "A red-tailed guenon with its tongue sticking out", caption: "Tongue out, opinion registered" },
       { src: "photos/sandiego-zoo/web/colobus.jpg", best: true, w: 1600, h: 1280, alt: "An Angolan colobus monkey, a long white mantle framing a dark face", caption: "All that hair, and a face somewhere in it" },
