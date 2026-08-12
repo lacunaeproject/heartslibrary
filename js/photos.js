@@ -99,20 +99,84 @@ window.TRIPS = [
     ]
   },
   {
-    slug: "universal-hollywood-2026",
+    slug: "universal-hollywood",
     posted: "2026-08-03",
     place: "Universal Studios Hollywood",
     short: "Universal Hollywood",
-    nav: "Universal Studios Hollywood",
     when: "2026",
     continent: "North America",
-    camera: "Sony RX100 VII",
     photos: [
-
+      { src: "photos/universal-hollywood/DSC02722.jpg", w: 1200, h: 1600, alt: "Hogsmeade's snow-capped roofs under a blown-out sun, the castle spires beyond" },
+      { src: "photos/universal-hollywood/DSC02723.jpg", w: 1200, h: 1600, alt: "The same street a moment later, visitors crossing the cobbles under icicled eaves" },
+      { src: "photos/universal-hollywood/DSC02737.jpg", w: 1600, h: 1200, alt: "Looking down the Starway's glass tunnel, escalators running to the lower lot" },
+      { src: "photos/universal-hollywood/DSC02770.jpg", w: 1600, h: 1200, alt: "A backlot gas station set — Frank's Automotive, Gasoline & Oil — under hard blue sky" },
+      { src: "photos/universal-hollywood/DSC02796.jpg", w: 1600, h: 1200, alt: "The Jaws shark lunging out of the green lagoon beside the tram" },
+      { src: "photos/universal-hollywood/DSC02800.jpg", w: 1600, h: 1200, alt: "Close on the shark's head streaming water, teeth bared over green water" },
+      { src: "photos/universal-hollywood/DSC02815.jpg", w: 1200, h: 1600, alt: "Water bursting across the tram window, the flash-flood set smeared to abstraction" },
+      { src: "photos/universal-hollywood/DSC02817.jpg", w: 1200, h: 1600, alt: "The same wall of water, control panels and warning signs dissolving behind it" },
+      { src: "photos/universal-hollywood/DSC02830.jpg", w: 1200, h: 1600, alt: "The Jaws shark strung up by the tail on the Amity dock, a HOTEL sign behind" },
+      { src: "photos/universal-hollywood/DSC02843.jpg", w: 1200, h: 1600, alt: "The Bates Motel sign against blue sky, the house standing on the hill behind the fence" },
+      { src: "photos/universal-hollywood/DSC02852.jpg", w: 1600, h: 1200, alt: "Rows of seats in the torn-open 747 wreck set, purple fuselage peeled back" },
+      { src: "photos/universal-hollywood/DSC02867.jpg", w: 1600, h: 1200, alt: "A white horse prop upended on a pickup roof under pines" },
+      { src: "photos/universal-hollywood/DSC02871.jpg", w: 1200, h: 1600, alt: "Looking up at a giant inflatable cowboy moored over the Jupiter's Claim rooftops" },
+      { src: "photos/universal-hollywood/DSC02872.jpg", w: 1200, h: 1600, alt: "The same inflatable from the boardwalk, bunting strung across the western storefronts" },
+      { src: "photos/universal-hollywood/DSC02873.jpg", w: 1200, h: 1600, alt: "Two cowboy mannequins sitting out on a saloon porch under star-spangled bunting" },
+      { src: "photos/universal-hollywood/DSC02874.jpg", w: 1200, h: 1600, alt: "The inflatable rising over Dusty's Candy Bowl, pennants strung across the sand" },
+      { src: "photos/universal-hollywood/DSC02875.jpg", w: 1200, h: 1600, alt: "The Sundae Saloon facade in hard sun, a figure seated either side of the doors" },
+      { src: "photos/universal-hollywood/DSC02877.jpg", w: 1200, h: 1600, alt: "The inflatable's face and sheriff's star seen over the Licorice Rope sign" },
+      { src: "photos/universal-hollywood/DSC02881.jpg", w: 1200, h: 1600, alt: "Parker's leather shop on the boardwalk, hats and bags hung along the porch" },
+      { src: "photos/universal-hollywood/DSC02887.jpg", w: 1200, h: 1600, alt: "A deflated yellow inflatable collapsed into the grass beside a fence" },
+      { src: "photos/universal-hollywood/DSC02890.jpg", w: 1600, h: 1200, alt: "The Star Lasso Experience sign under the splintered timber of the ride structure" },
+      { src: "photos/universal-hollywood/DSC02914.jpg", w: 1200, h: 1600, alt: "Concrete steps switchbacking up a planted bank in flat midday sun" },
+      { src: "photos/universal-hollywood/DSC02920.jpg", w: 1600, h: 1200, alt: "The Studio Tour arch under palms, the wait time board reading ten minutes" },
+      { src: "photos/universal-hollywood/DSC02930.jpg", w: 1600, h: 1200, alt: "Coaster cars banked over the Lower Lot arch against blue sky" },
+      { src: "photos/universal-hollywood/DSC02934.jpg", w: 1200, h: 1600, alt: "Dr. Nick's shingle hanging from a saw blade outside the Springfield clinic" },
+      { src: "photos/universal-hollywood/DSC02935.jpg", w: 1200, h: 1600, alt: "The same sign closer — \"If you can put it in, we can take it out\"" },
+      { src: "photos/universal-hollywood/DSC02936.jpg", w: 1200, h: 1600, alt: "Moe's in relief letters, the painted Springfield backdrop rising behind the roofline" },
+      { src: "photos/universal-hollywood/DSC02957.jpg", w: 1200, h: 1600, alt: "The WaterWorld entrance built from corrugated scrap, a queue filing under the sign" },
+      { src: "photos/universal-hollywood/DSC03004.jpg", w: 1200, h: 1600, alt: "A WaterWorld performer in netted rags leaning on a pole, looking straight out" },
+      { src: "photos/universal-hollywood/DSC03008.jpg", w: 1200, h: 1600, alt: "The same performer hosing the front row, a man in an LA cap taking it full in the face" },
+      { src: "photos/universal-hollywood/DSC03024.jpg", w: 1200, h: 1600, alt: "The performer grinning with both hands on his head, the crowd's hands up in front of him" },
+      { src: "photos/universal-hollywood/DSC03027.jpg", w: 1200, h: 1600, alt: "Arms flung wide on the dock, the whole scrap-metal set and lagoon behind him" },
+      { src: "photos/universal-hollywood/DSC03029.jpg", w: 1200, h: 1600, alt: "Leaning down over the rail to work the crowd, hands raised all along the front row" },
+      { src: "photos/universal-hollywood/DSC03035.jpg", w: 1200, h: 1600, alt: "Standing alone against the lagoon, pointing straight down the lens" },
+      { src: "photos/universal-hollywood/DSC03039.jpg", w: 1200, h: 1600, alt: "Sitting on the dock edge with one knee up, looking out over the water" },
+      { src: "photos/universal-hollywood/DSC03056.jpg", w: 1600, h: 1200, alt: "Arms clasped overhead on the dock, rows of heads and caps filling the foreground" },
+      { src: "photos/universal-hollywood/DSC03063.jpg", w: 1200, h: 1600, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03074.jpg", w: 1200, h: 1600, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03079.jpg", w: 1200, h: 1600, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03080.jpg", w: 1200, h: 1600, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03081.jpg", w: 1200, h: 1600, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03083.jpg", w: 1200, h: 1600, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03086.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03087.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03090.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03104.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03111.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03112.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03113.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03119.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03123.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03124.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03126.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03128.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03131.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03133.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03136.jpg", w: 1234, h: 1600, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03139.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03149.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03153.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03161.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03176.jpg", w: 1600, h: 901, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03180.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03182.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03198.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03202.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" },
+      { src: "photos/universal-hollywood/DSC03205.jpg", w: 1600, h: 1200, alt: "Universal Studios Hollywood" }
     ]
   },
   {
-    slug: "fenway",
+    slug: "dodgers-redsox",
     posted: "2026-08-01",
     place: "Dodgers vs. Redsox",
     short: "Dodgers",
@@ -122,33 +186,30 @@ window.TRIPS = [
     continent: "North America",
     note: "They won it at home in the bottom of the ninth. Everyone stood up at once and I got about six seconds of it.",
     photos: [
-      { src: "photos/fenway/redsox-win.mp4", w: 1080, h: 1920, video: true, seconds: 5.9, alt: "The moment it landed", caption: "The moment it landed" }
+      { src: "photos/dodgers-redsox/redsox-win.mp4", w: 1080, h: 1920, video: true, seconds: 5.9, alt: "The moment it landed", caption: "The moment it landed" },
+      { src: "photos/dodgers-redsox/DSC03490.jpg", w: 802, h: 1080, alt: "A Dodgers pitcher set at the belt against a wall of green outfield" },
+      { src: "photos/dodgers-redsox/DSC03498.jpg", w: 1600, h: 1200, alt: "A lone infielder crossing the dirt at second, the outfield running out empty above him" },
+      { src: "photos/dodgers-redsox/DSC03524.jpg", w: 1600, h: 1200, alt: "A runner breaking down the line as the infield shifts to meet the throw" },
+      { src: "photos/dodgers-redsox/DSC03528.jpg", w: 1600, h: 1200, alt: "The same play a beat later, a broadcast camera swinging in over the baseline" },
+      { src: "photos/dodgers-redsox/DSC03530.jpg", w: 1200, h: 1600, alt: "Dodger Stadium wide from the reserve level, the San Gabriels standing behind the pavilion" },
+      { src: "photos/dodgers-redsox/DSC03538.jpg", w: 1206, h: 1600, alt: "The Dodgers starter at the top of his motion, glove at his chin on the mound" },
+      { src: "photos/dodgers-redsox/DSC03565.jpg", w: 1200, h: 1600, alt: "A Dodgers batter set in the box from high above, catcher and umpire crouched behind" },
+      { src: "photos/dodgers-redsox/DSC03566.jpg", w: 1200, h: 1600, alt: "The same at-bat, the bat cocked as the pitch comes in" },
+      { src: "photos/dodgers-redsox/DSC03567.jpg", w: 1200, h: 1600, alt: "Contact — the bat through the zone and the ball just off it" },
+      { src: "photos/dodgers-redsox/DSC03568.jpg", w: 1200, h: 1600, alt: "Ohtani following the ball out of the box, catcher and umpire still down behind him" },
+      { src: "photos/dodgers-redsox/DSC03573.jpg", w: 1200, h: 1600, alt: "Ohtani standing up on second after a double, a Boston infielder and the umpire either side" },
+      { src: "photos/dodgers-redsox/DSC03576.jpg", w: 1600, h: 1200, alt: "Ohtani taking his lead off second, the Red Sox infielder holding the bag" },
+      { src: "photos/dodgers-redsox/DSC03582.jpg", w: 1600, h: 1200, alt: "A Dodgers runner sliding into second ahead of the tag, the umpire running in on the call" },
+      { src: "photos/dodgers-redsox/DSC03588.jpg", w: 1600, h: 1200, alt: "The 2025 World Champions pennant flying beside the flag over the Uniqlo Field sign" },
+      { src: "photos/dodgers-redsox/DSC03595.jpg", w: 1600, h: 1200, alt: "Dodger Stadium wide from the loge on a clear evening, the San Gabriels behind the pavilion" },
+      { src: "photos/dodgers-redsox/DSC03597.jpg", w: 1200, h: 1600, alt: "The reserve level packed and leaning in, the pavilions and the hills beyond" },
+      { src: "photos/dodgers-redsox/DSC03615.jpg", w: 1600, h: 1200, alt: "A Dodgers infielder alone on the dirt waiting on the pitch, umpire down the line" },
+      { src: "photos/dodgers-redsox/DSC03617.jpg", w: 1154, h: 1600, alt: "The same fielder closer, head down and glove hanging, a wall of green behind" },
+      { src: "photos/dodgers-redsox/IMG_3232.jpg", w: 1200, h: 1600, alt: "A fan in a Bauer 27 jersey riding the escalator up into the park" },
+      { src: "photos/dodgers-redsox/IMG_3238.jpg", w: 1200, h: 1600, alt: "The bobblehead at the gate — \"Welcome to Dodger Stadium!\" — Dodger Dogs behind" }
     ],
     beats: [
       { at: "Bottom of the ninth", say: "They won it at home. Everyone around me stood up at the same time and I got about six seconds of it before my hands were shaking too much to hold the phone still.", shots: [0] }
-    ]
-  },
-  {
-    slug: "geffen-galleries",
-    posted: "2026-07-20",
-    place: "David Geffen Galleries",
-    short: "Geffen Galleries",
-    nav: "David Geffen Galleries",
-    when: "2026",
-    continent: "North America",
-    photos: [
-
-    ]
-  },
-  {
-    slug: "sea-world",
-    posted: "2026-07-10",
-    place: "Sea World",
-    short: "Sea World",
-    when: "2026",
-    continent: "North America",
-    photos: [
-
     ]
   },
   {
@@ -158,6 +219,7 @@ window.TRIPS = [
     short: "San Diego",
     nav: "San Diego Zoo",
     loc: "San Diego, CA",
+    featured: true,
     when: "June 2026",
     continent: "North America",
     cover: "photos/sandiego-zoo/web/grizzly-2.jpg",
@@ -183,18 +245,6 @@ window.TRIPS = [
     ]
   },
   {
-    slug: "blue-whale-watching",
-    posted: "2026-06-10",
-    place: "Blue Whale Watching",
-    short: "Blue Whales",
-    nav: "Blue Whale Watching",
-    when: "2026",
-    continent: "North America",
-    photos: [
-
-    ]
-  },
-  {
     slug: "monet-giverny",
     posted: "2026-05-20",
     place: "Claude Monet’s House and Garden",
@@ -212,160 +262,47 @@ window.TRIPS = [
     ]
   },
   {
-    slug: "paris",
-    posted: "2026-05-15",
-    place: "Paris",
-    short: "Paris",
-    when: "2026",
-    continent: "Europe",
-    photos: [
-
-    ],
-    beats: [
-      { at: "Paris", say: "Two cities, one carry-on. Gold hour on the Seine, then a tabac in the 7th where nobody minded the camera at all." }
-    ]
-  },
-  {
-    slug: "london",
-    posted: "2026-05-10",
-    place: "London",
-    short: "London",
-    when: "2026",
-    continent: "Europe",
-    photos: [
-
-    ],
-    beats: [
-      { at: "London", say: "Fog on the Thames every single morning, which felt like a cliché right up until I was standing in it. The Barbican in rain is the best building I've ever pointed a camera at." }
-    ]
-  },
-  {
-    slug: "yankees-rays",
-    posted: "2026-04-15",
-    place: "Yankees vs. Rays",
-    short: "Yankees",
-    nav: "Yankees vs. Rays",
-    when: "2026",
+    slug: "new-york",
+    posted: "2023-06-01",
+    place: "New York",
+    short: "New York",
+    when: "2023",
     continent: "North America",
     photos: [
-
-    ]
-  },
-  {
-    slug: "chicago-2026",
-    posted: "2026-03-10",
-    place: "Chicago",
-    short: "Chicago",
-    when: "2026",
-    continent: "North America",
-    photos: [
-
-    ]
-  },
-  {
-    slug: "lakers-rockets",
-    posted: "2025-12-25",
-    place: "Lakers vs. Rockets",
-    short: "Lakers",
-    nav: "Lakers vs. Rockets",
-    when: "December 2025",
-    continent: "North America",
-    photos: [
-
-    ]
-  },
-  {
-    slug: "walt-disney-world",
-    posted: "2025-11-01",
-    place: "Walt Disney World",
-    short: "Disney World",
-    nav: "Walt Disney World",
-    when: "2025",
-    continent: "North America",
-    photos: [
-
-    ]
-  },
-  {
-    slug: "epic-universe",
-    posted: "2025-09-01",
-    place: "Universal Studios Epic Universe+",
-    short: "Epic Universe",
-    nav: "Universal Studios Epic Universe+",
-    when: "2025",
-    continent: "North America",
-    photos: [
-
-    ]
-  },
-  {
-    slug: "universal-hollywood-2025",
-    posted: "2025-07-01",
-    place: "Universal Studios Hollywood",
-    short: "Universal Hollywood",
-    nav: "Universal Studios Hollywood",
-    when: "2025",
-    continent: "North America",
-    camera: "Sony RX100 VII",
-    photos: [
-
-    ]
-  },
-  {
-    slug: "gatlinburg-pigeon-forge",
-    posted: "2025-05-01",
-    place: "Gatlinburg and Pigeon Forge",
-    short: "Gatlinburg",
-    nav: "Gatlinburg and Pigeon Forge",
-    when: "2025",
-    continent: "North America",
-    photos: [
-
-    ]
-  },
-  {
-    slug: "denver",
-    posted: "2024-10-01",
-    place: "Denver",
-    short: "Denver",
-    when: "2024",
-    continent: "North America",
-    photos: [
-
-    ]
-  },
-  {
-    slug: "scotland",
-    posted: "2024-07-01",
-    place: "Scotland",
-    short: "Scotland",
-    when: "2024",
-    continent: "Europe",
-    photos: [
-
-    ]
-  },
-  {
-    slug: "disneyland-california-adventure",
-    posted: "2024-04-01",
-    place: "Disneyland and California Adventure",
-    short: "Disneyland",
-    nav: "Disneyland and California Adventure",
-    when: "2024",
-    continent: "North America",
-    photos: [
-
-    ]
-  },
-  {
-    slug: "massachusetts",
-    posted: "2022-06-01",
-    place: "Massachusetts",
-    short: "Massachusetts",
-    when: "2022",
-    continent: "North America",
-    photos: [
-
+      { src: "photos/new-york/0FF93CB6-99CC-4437-8B65-83CBD1A5F279.jpg", w: 1280, h: 1600, alt: "A long-haired dachshund held up over a Manhattan crosswalk, plaid collar and tags" },
+      { src: "photos/new-york/172FB1FD-4A1B-4090-B0F2-862A5250AEB1.jpg", w: 642, h: 1141, alt: "A man walking two small dogs down a Hudson Yards sidewalk under an orange sunset" },
+      { src: "photos/new-york/DSC02718.jpg", w: 1200, h: 1600, alt: "A bronze rearing horse in banded plate, shot from below against flat blue sky" },
+      { src: "photos/new-york/IMG_0460-2.jpg", w: 1200, h: 1600, alt: "The Met's facade and reflecting pool on a clear afternoon, people scattered on the steps" },
+      { src: "photos/new-york/IMG_0461-2.jpg", w: 1200, h: 1600, alt: "A woman in a mint sweatshirt and sunglasses sitting on the Met's steps in the sun" },
+      { src: "photos/new-york/IMG_0812.jpg", w: 1200, h: 1600, alt: "Yankee Stadium's limestone corner and gold lettering against blue sky" },
+      { src: "photos/new-york/IMG_0817.jpg", w: 1200, h: 1600, alt: "Yankee Stadium under piled cloud, both teams lined up along the baselines" },
+      { src: "photos/new-york/IMG_0844.jpg", w: 1600, h: 1200, alt: "Yankee Stadium from behind the net, flags and lights running along the frieze" },
+      { src: "photos/new-york/IMG_1124.jpg", w: 1600, h: 1200, alt: "Two people leaning together in a window booth at night, park lights behind the glass" },
+      { src: "photos/new-york/IMG_3824.jpg", w: 1200, h: 1600, alt: "A UPS driver holding a long-haired dachshund up to the wheel of his truck" },
+      { src: "photos/new-york/IMG_3828.jpg", w: 1200, h: 1600, alt: "The same driver laughing open-mouthed, the dachshund tucked under his arm" },
+      { src: "photos/new-york/IMG_4416.jpg", w: 1341, h: 1600, alt: "A Nets guard sizing up a Bucks defender at the top of the key, Barclays packed behind" },
+      { src: "photos/new-york/IMG_4458.jpg", w: 1200, h: 1600, alt: "A Bucks forward rising to dunk two-handed, the shot clock reading 45 above the rim" },
+      { src: "photos/new-york/IMG_4513.jpg", w: 1200, h: 1600, alt: "A doorman in a grey suit holding a cream dachshund puppy, a beagle on the step below" },
+      { src: "photos/new-york/IMG_4783.jpg", w: 593, h: 881, alt: "A selfie in a knit beanie holding a black-and-tan dachshund against a rain-streaked window" },
+      { src: "photos/new-york/IMG_4907.jpg", w: 1200, h: 1600, alt: "A gravel path running between green benches in a shaded city garden" },
+      { src: "photos/new-york/IMG_4941.jpg", w: 1600, h: 1200, alt: "Midtown from above the tunnel approach, buses queued on the ramps below" },
+      { src: "photos/new-york/IMG_5014.jpg", w: 1200, h: 1600, alt: "A cream dachshund puppy held up under the Hudson Boulevard East street sign" },
+      { src: "photos/new-york/IMG_5016.jpg", w: 1200, h: 1600, alt: "Yankee Stadium's Gate 6 at golden hour, the crowd queued behind the barriers" },
+      { src: "photos/new-york/IMG_5018.jpg", w: 1600, h: 1200, alt: "Yankee Stadium under heavy evening cloud, the frieze lights burning along the rim" },
+      { src: "photos/new-york/IMG_5043.jpg", w: 1600, h: 1200, alt: "Midtown towers catching low gold light beneath a bank of blue cloud" },
+      { src: "photos/new-york/IMG_5060.jpg", w: 1078, h: 1600, alt: "A boy crouching to pet a cream dachshund puppy on the waterfront at sunset" },
+      { src: "photos/new-york/IMG_5081.jpg", w: 1200, h: 1600, alt: "Sunset burning straight down an avenue between glass towers" },
+      { src: "photos/new-york/IMG_5114.jpg", w: 1200, h: 1600, alt: "Midtown at dusk from above the highway ramps, a dark tower centre frame" },
+      { src: "photos/new-york/IMG_5229.jpg", w: 1200, h: 1600, alt: "A tower going up in scaffolding and crane light at blue hour, a traffic sign in the foreground" },
+      { src: "photos/new-york/IMG_5230.jpg", w: 1200, h: 1600, alt: "Low sun lighting the faces of Midtown towers under a bank of storm cloud" },
+      { src: "photos/new-york/IMG_5353.jpg", w: 1600, h: 1200, alt: "A whole apartment's furniture stacked on the kerb — sofa, mattress, boxes — beside a parked car" },
+      { src: "photos/new-york/IMG_5545.jpg", w: 1027, h: 1600, alt: "A fisheye from a high balcony, Midtown curving away under an evening sky" },
+      { src: "photos/new-york/IMG_5609.jpg", w: 1200, h: 1600, alt: "A selfie from below in a beanie and check-lined coat, a glass tower rising behind" },
+      { src: "photos/new-york/IMG_6122.jpg", w: 1200, h: 1600, alt: "The Christmas tree outside the Stock Exchange on Broad Street, flags along the facade" },
+      { src: "photos/new-york/IMG_7169.jpg", w: 1200, h: 1600, alt: "A rapper in a leather jacket at the mic under purple light, chain swinging" },
+      { src: "photos/new-york/IMG_7171.jpg", w: 1200, h: 1600, alt: "The same performer with one arm thrown up, green light overhead, keyboardist behind" },
+      { src: "photos/new-york/IMG_7191.jpg", w: 1200, h: 1600, alt: "Close on the performer between verses in a Yankees cap, purple curtain behind" },
+      { src: "photos/new-york/IMG_8225.jpg", w: 1290, h: 1600, alt: "A woman resting her cheek on her hand in a string-lit courtyard, smiling at the camera" }
     ]
   },
   {
@@ -376,64 +313,41 @@ window.TRIPS = [
     when: "2019",
     continent: "North America",
     photos: [
-
-    ]
-  },
-  {
-    slug: "oregon-colorado",
-    posted: "2019-09-01",
-    place: "Oregon and Colorado",
-    short: "Oregon & Colorado",
-    nav: "Oregon and Colorado",
-    when: "2019",
-    continent: "North America",
-    photos: [
-
-    ]
-  },
-  {
-    slug: "sequoia-national-park",
-    posted: "2019-07-01",
-    place: "Sequoia National Park",
-    short: "Sequoia",
-    nav: "Sequoia National Park",
-    when: "2019",
-    continent: "North America",
-    photos: [
-
-    ]
-  },
-  {
-    slug: "dollywood",
-    posted: "2019-05-01",
-    place: "Dollywood",
-    short: "Dollywood",
-    when: "2019",
-    continent: "North America",
-    photos: [
-
-    ]
-  },
-  {
-    slug: "chicago-2019",
-    posted: "2019-04-01",
-    place: "Chicago",
-    short: "Chicago",
-    when: "2019",
-    continent: "North America",
-    photos: [
-
-    ]
-  },
-  {
-    slug: "mexico",
-    posted: "2019-02-01",
-    place: "Mexico",
-    short: "Mexico",
-    when: "2019",
-    continent: "North America",
-    photos: [
-
+      { src: "photos/salt-lake-city/24401611-45A8-4AF1-BE19-7F5CD1A89558.jpg", w: 1600, h: 1200, alt: "A band of sunset burning under heavy cloud over the valley, snow on the range at left" },
+      { src: "photos/salt-lake-city/46B89C2D-AE24-4249-A535-5DEA4A04EF18.jpg", w: 1440, h: 756, alt: "The range in silhouette against a green-to-orange dusk, city lights strung along the valley floor" },
+      { src: "photos/salt-lake-city/66A572C5-E8DF-4E8A-8CD9-4655A4B6007D.jpg", w: 1440, h: 753, alt: "The bobsled track at Utah Olympic Park under piled cloud, snow-covered ranges beyond" },
+      { src: "photos/salt-lake-city/7536D9CB-E9E8-4696-B2DE-6F4FB20B5870.jpg", w: 1280, h: 1600, alt: "A lion in profile against snow, its mane lit warm" },
+      { src: "photos/salt-lake-city/89838BF3-A65D-4D9C-B6DC-EAEDA1A456E7.jpg", w: 1600, h: 838, alt: "Dusk over the valley from the foothills, a construction crane against the last orange light" },
+      { src: "photos/salt-lake-city/ACCC6595-CD50-4118-83AB-FECA32AD7BBB.jpg", w: 1600, h: 1200, alt: "Utah Olympic Park's track winding down the hillside under a wide cloud sky" },
+      { src: "photos/salt-lake-city/IMG_3528.jpg", w: 1200, h: 1600, alt: "The Red Iguana's neon sign at dusk, snow banked along an empty sidewalk" },
+      { src: "photos/salt-lake-city/IMG_3533.jpg", w: 1200, h: 1600, alt: "Looking up at the Red Iguana sign in falling snow, a queue waiting beneath it" },
+      { src: "photos/salt-lake-city/IMG_3544.jpg", w: 1200, h: 1600, alt: "Inside the Tabernacle, the organ's gold pipes above rows of empty pews" },
+      { src: "photos/salt-lake-city/IMG_3550.jpg", w: 1200, h: 1600, alt: "Looking straight up into the Conference Center's stained-glass skylights" },
+      { src: "photos/salt-lake-city/IMG_3556.jpg", w: 1600, h: 1200, alt: "Temple Square under snow from above, the temple's spires against a white sky" },
+      { src: "photos/salt-lake-city/IMG_3584.jpg", w: 1196, h: 1600, alt: "A lion's face filling the frame, scarred muzzle and pale eyes" },
+      { src: "photos/salt-lake-city/IMG_3600.jpg", w: 1200, h: 1600, alt: "A lioness lying on cracked stone in the snow, looking straight into the camera" },
+      { src: "photos/salt-lake-city/IMG_3684.jpg", w: 1200, h: 1600, alt: "The Union Pacific neon sign burning against a black night" },
+      { src: "photos/salt-lake-city/IMG_3754.jpg", w: 1600, h: 392, alt: "A wide panorama of the snowed-in valley under flat grey cloud" },
+      { src: "photos/salt-lake-city/IMG_3942.jpg", w: 1200, h: 1600, alt: "A U.S. Olympic Training Site marker standing against deep blue winter sky" },
+      { src: "photos/salt-lake-city/IMG_3993.jpg", w: 1600, h: 514, alt: "Panorama from the Olympic Park deck, a child in a pink hat at the far right" },
+      { src: "photos/salt-lake-city/IMG_3999.jpg", w: 1200, h: 1600, alt: "The 2002 Olympic snowflake mounted on a concrete gateway against blue sky and cumulus" },
+      { src: "photos/salt-lake-city/IMG_4011.jpg", w: 1600, h: 1200, alt: "Park City's snowed-in bowl from above, a road switchbacking down through it" },
+      { src: "photos/salt-lake-city/IMG_4016.jpg", w: 1600, h: 1200, alt: "A ridge of snowed aspens under towering cloud, the Olympic Park buildings below" },
+      { src: "photos/salt-lake-city/IMG_4110.jpg", w: 1200, h: 1600, alt: "The Utah State Capitol lit gold beneath a deep blue evening sky" },
+      { src: "photos/salt-lake-city/IMG_4122.jpg", w: 1200, h: 1600, alt: "An empty downtown street on a bright cold morning, snow on the Wasatch beyond" },
+      { src: "photos/salt-lake-city/IMG_4151.jpg", w: 1202, h: 1600, alt: "Cody in a black jacket squinting into low winter sun, a snowbank behind him" },
+      { src: "photos/salt-lake-city/IMG_4153.jpg", w: 1200, h: 1600, alt: "A small waterfall running into a half-frozen pond, snow banked around the rocks" },
+      { src: "photos/salt-lake-city/IMG_4157.jpg", w: 1200, h: 1600, alt: "A creek running fast between snowy banks under bare trees" },
+      { src: "photos/salt-lake-city/IMG_4160.jpg", w: 1200, h: 1600, alt: "A cleared path running under a tunnel of bare branches, snow banked either side" },
+      { src: "photos/salt-lake-city/IMG_4164.jpg", w: 1200, h: 1600, alt: "A glass curtain wall reflecting the valley and the mountains beyond" },
+      { src: "photos/salt-lake-city/IMG_4185.jpg", w: 1200, h: 1600, alt: "The snow-covered Wasatch front standing over the edge of the city, deep blue sky" },
+      { src: "photos/salt-lake-city/IMG_4194.jpg", w: 1200, h: 1600, alt: "Downtown seen from the foothills, dry winter grass in the foreground" },
+      { src: "photos/salt-lake-city/IMG_4213.jpg", w: 1200, h: 1600, alt: "A magpie perched on a bare sapling against the snowed Wasatch" },
+      { src: "photos/salt-lake-city/IMG_4217.jpg", w: 1200, h: 1600, alt: "Alpenglow catching the top of the range at dusk, the city dark below" },
+      { src: "photos/salt-lake-city/IMG_4304.jpg", w: 1600, h: 689, alt: "Panorama of the valley at last light, an orange band along the whole horizon" },
+      { src: "photos/salt-lake-city/IMG_4308.jpg", w: 1600, h: 552, alt: "The same valley minutes later, a construction crane black against the orange" },
+      { src: "photos/salt-lake-city/IMG_4316.jpg", w: 1600, h: 1200, alt: "City lights spread under a green-to-orange afterglow, the far range in silhouette" },
+      { src: "photos/salt-lake-city/IMG_4322.jpg", w: 1200, h: 1600, alt: "A crane standing black against a green and orange sunset over the valley" }
     ]
   }
 ];

@@ -66,7 +66,8 @@ one's job.
   renaming them is churn with regression risk and nobody sees them.
 
 Real photography now ships in `photos/` (deadbeat-tour, sandiego-zoo,
-london-paris, fenway). The generated placeholder art in
+london-paris, dodgers-redsox, new-york,
+salt-lake-city, universal-hollywood). The generated placeholder art in
 `photos/placeholders/` survives only for collections that have no real
 rolls yet — delete it as they land.
 - **pins.html / writing.html / games.html** — pinboard of articles, own
