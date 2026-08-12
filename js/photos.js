@@ -79,7 +79,7 @@ window.TRIPS = [
       { src: "photos/deadbeat-tour/DSC03881.jpg", w: 1200, h: 1600, alt: "Blurred amber crowd tiers and a handmade sign, camera shake smearing everything" },
       { src: "photos/deadbeat-tour/DSC03946.jpg", w: 1200, h: 1600, alt: "Teal and violet beams above screens relaying an overhead shot" },
       { src: "photos/deadbeat-tour/DSC03950.jpg", w: 1200, h: 1600, alt: "A guitarist walks through green-tinged haze, warm lamps behind" },
-      { src: "photos/deadbeat-tour/DSC04021.jpg", best: true, w: 1600, h: 1200, alt: "A single amber shaft cuts to the stage below monochrome screens and packed seats" },
+      { src: "photos/deadbeat-tour/DSC04021.jpg", w: 1600, h: 1200, alt: "A single amber shaft cuts to the stage below monochrome screens and packed seats" },
       { src: "photos/deadbeat-tour/DSC04039.jpg", w: 1600, h: 1200, alt: "Blurred dark frame, smeared red and blue light, a figure barely readable" },
       { src: "photos/deadbeat-tour/DSC04044.jpg", w: 1600, h: 1200, alt: "Side-lit on the video wall, a figure plays a keyboard in darkness" },
       { src: "photos/deadbeat-tour/DSC04063.jpg", w: 1081, h: 1600, alt: "Motion-blurred figure with raised arm, blown-out white light and streaking colored bulbs" },
@@ -226,17 +226,38 @@ window.TRIPS = [
     note: "Went for the zoo and basically never left it — most of a day with the big cats and the orangutans.",
     camera: "Sony A7CR",
     photos: [
-      { src: "photos/sandiego-zoo/web/cheetah-2.jpg", best: true, w: 1600, h: 1067, alt: "A cheetah in profile, close up", caption: "The ambassador cheetah, in profile" },
-      { src: "photos/sandiego-zoo/web/panda.jpg", best: true, w: 1139, h: 1600, alt: "A giant panda eating bamboo", caption: "Lunch, taken seriously" },
+      { src: "photos/sandiego-zoo/web/cheetah-2.jpg", w: 1600, h: 1067, alt: "A cheetah in profile, close up", caption: "The ambassador cheetah, in profile" },
+      { src: "photos/sandiego-zoo/web/panda.jpg", w: 1139, h: 1600, alt: "A giant panda eating bamboo", caption: "Lunch, taken seriously" },
       { src: "photos/sandiego-zoo/web/grizzly.jpg", w: 1059, h: 1600, alt: "A grizzly bear against dark wet rock", caption: "Grizzly against the wet rock" },
-      { src: "photos/sandiego-zoo/web/grizzly-2.jpg", best: true, w: 1059, h: 1600, alt: "A close-up of a grizzly bear resting its chin on a rock", caption: "Chin on the rock" },
-      { src: "photos/sandiego-zoo/web/orang-2.jpg", best: true, w: 1173, h: 1600, alt: "An orangutan looking into the camera", caption: "The old man of the canopy" },
-      { src: "photos/sandiego-zoo/web/bear_looking.jpg", best: true, w: 1600, h: 1067, alt: "A bear glancing over its shoulder", caption: "Caught looking" },
+      { src: "photos/sandiego-zoo/web/grizzly-2.jpg", w: 1059, h: 1600, alt: "A close-up of a grizzly bear resting its chin on a rock", caption: "Chin on the rock" },
+      { src: "photos/sandiego-zoo/web/orang-2.jpg", w: 1173, h: 1600, alt: "An orangutan looking into the camera", caption: "The old man of the canopy" },
+      { src: "photos/sandiego-zoo/web/bear_looking.jpg", w: 1600, h: 1067, alt: "A bear glancing over its shoulder", caption: "Caught looking" },
       { src: "photos/sandiego-zoo/web/camels.jpg", w: 1600, h: 1067, alt: "Camels standing in bright sun", caption: "Camels in the noon sun" },
       { src: "photos/sandiego-zoo/web/cheetah-1.jpg", w: 1165, h: 1600, alt: "A cheetah at rest", caption: "Spots at rest" },
       { src: "photos/sandiego-zoo/web/orang-1.jpg", w: 1087, h: 1600, alt: "An orangutan behind glass", caption: "Watching us watching him" },
       { src: "photos/sandiego-zoo/web/orang-3.jpg", w: 1172, h: 1600, alt: "An orangutan in profile", caption: "Deep in thought" },
-      { src: "photos/sandiego-zoo/web/snake.jpg", w: 968, h: 1600, alt: "A snake in the reptile house", caption: "The reptile house regular" }
+      { src: "photos/sandiego-zoo/web/snake.jpg", w: 968, h: 1600, alt: "A snake in the reptile house", caption: "The reptile house regular" },
+      /* The August edit — a second day at the zoo, on the A7CR. These are
+         the only frames on the front wall right now; the earlier keepers
+         above were stood down rather than deleted, so re-flagging one is
+         a one-word change. Appended rather than inserted on purpose:
+         `beats` below index into this array by position. */
+      { src: "photos/sandiego-zoo/web/panda-2.jpg", best: true, w: 1600, h: 1280, alt: "A giant panda chewing a bamboo stalk, seen through bamboo leaves", caption: "Eating the thing he's hiding behind" },
+      { src: "photos/sandiego-zoo/web/guenon.jpg", best: true, w: 1280, h: 1600, alt: "A red-tailed guenon with its tongue sticking out", caption: "Tongue out, opinion registered" },
+      { src: "photos/sandiego-zoo/web/colobus.jpg", best: true, w: 1600, h: 1280, alt: "An Angolan colobus monkey, a long white mantle framing a dark face", caption: "All that hair, and a face somewhere in it" },
+      { src: "photos/sandiego-zoo/web/gorilla.jpg", best: true, w: 1600, h: 1280, alt: "A gorilla sitting among green fronds, looking up and away from the camera", caption: "Looking at something well past me" },
+      { src: "photos/sandiego-zoo/web/orang-4.jpg", best: true, w: 1202, h: 1600, alt: "A close view of an orangutan's face in profile", caption: "Close enough to count the grey" },
+      { src: "photos/sandiego-zoo/web/binturong.jpg", best: true, w: 1600, h: 1280, alt: "A binturong facing the camera, long white whiskers fanned out", caption: "The binturong, awake for once" },
+      { src: "photos/sandiego-zoo/web/rhino-2.jpg", best: true, w: 1600, h: 1280, alt: "The head and armoured shoulder folds of an Indian rhinoceros", caption: "Plate armour, worn in" },
+      { src: "photos/sandiego-zoo/web/cheetah-paw.jpg", best: true, w: 1600, h: 1067, alt: "A keeper's hand holding a cheetah's front paw", caption: "The handshake" },
+      { src: "photos/sandiego-zoo/web/cheetah-3.jpg", best: true, w: 1242, h: 1600, alt: "A cheetah facing the camera, tear lines running from its eyes", caption: "Straight down the lens" },
+      { src: "photos/sandiego-zoo/web/mandrill.jpg", best: true, w: 1167, h: 1600, alt: "A mandrill's face, red and blue ridges along the muzzle", caption: "The best face in the park" },
+      { src: "photos/sandiego-zoo/web/mountain-lion.jpg", best: true, w: 1280, h: 1600, alt: "A mountain lion with its mouth open, teeth showing", caption: "Mid-complaint" },
+      { src: "photos/sandiego-zoo/web/elephant.jpg", best: true, w: 1600, h: 1280, alt: "An elephant tossing hay over its head with its trunk", caption: "Hay everywhere, entirely on purpose" },
+      { src: "photos/sandiego-zoo/web/camel.jpg", best: true, w: 1600, h: 1280, alt: "A camel's head in profile against a dusty enclosure", caption: "Profile, and unbothered" },
+      { src: "photos/sandiego-zoo/web/meerkat.jpg", best: true, w: 1280, h: 1600, alt: "A meerkat standing upright, looking off to one side", caption: "On watch, as advertised" },
+      { src: "photos/sandiego-zoo/web/grizzly-3.jpg", best: true, w: 1600, h: 1280, alt: "A grizzly bear facing the camera against a black background", caption: "Out of the dark" },
+      { src: "photos/sandiego-zoo/web/grizzly-4.jpg", best: true, w: 1280, h: 1600, alt: "A close profile of a grizzly bear's face", caption: "Every hair of him" }
     ],
     beats: [
       { at: "Balboa Park", say: "Went for the zoo and basically never left it.", shots: [0, 1, 2] },
@@ -255,7 +276,7 @@ window.TRIPS = [
     continent: "Europe",
     note: "Took the train out from Paris to see the pond. Expected to be underwhelmed and wasn't.",
     photos: [
-      { src: "photos/london-paris/web/monet-pond.jpg", best: true, w: 1200, h: 1600, alt: "Water lilies on Monet's pond at Giverny, clouds reflected in the water", caption: "Monet's pond, Giverny" }
+      { src: "photos/london-paris/web/monet-pond.jpg", w: 1200, h: 1600, alt: "Water lilies on Monet's pond at Giverny, clouds reflected in the water", caption: "Monet's pond, Giverny" }
     ],
     beats: [
       { at: "Giverny", say: "Went to Monet's pond expecting to be underwhelmed. Wasn't.", shots: [0] }
