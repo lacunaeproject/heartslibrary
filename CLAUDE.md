@@ -27,7 +27,9 @@ fix the doc.
 
 | What | Where |
 |---|---|
-| 13 hand-maintained pages | `*.html` at repo root |
+| 15 hand-maintained pages | `*.html` at repo root |
+| One generated page per collection | `<slug>.html` at repo root — **generated, never hand-edit** |
+| Generated, not pages | `sitemap.xml`, `robots.txt`, `feed.xml` |
 | Content data (edit these to post) | `js/photos.js`, `js/pins.js`, `js/games.js`, `js/writing.js` |
 | Auto-generated | `js/photos.js` is rewritten by the poster from `photos/<slug>/trip.txt` — hand-edits to a posted trip get overwritten |
 | Renderers | `js/hobby.js` (front wall, galleries, collections index), `js/review.js` (nav/shell behavior), one `js/<name>.js` per collection |
@@ -65,6 +67,16 @@ gone. All 9 shelled pages get the same nav — including the Collections dropdow
 manifest's `current` key, so pages the nav doesn't link to (gallery, writing,
 pins, games, dashboards) correctly have none.
 
+`shell.js` also writes the three files that aren't pages — `sitemap.xml`,
+`robots.txt` and `feed.xml` (the journal's RSS, assembled from the same
+posts `feed.html` renders). They live there because generating them needs
+the full page list plus the photo data, and this is the only thing that has
+both; a second enumeration of the site elsewhere would be free to disagree
+with this one. `--check` covers them, so CI fails on a stale sitemap the
+same way it fails on stale chrome. **The RSS item anchors must match
+`anchorFor()` in `js/hobby.js`** — they're the same permalinks, and if the
+two drift every subscriber's read state breaks.
+
 Four pages carry `shell: false` and render their own chrome by design:
 `photos.html` and `experiences.html` (redirect stubs), `post.html` (the
 noindex phone composer) and `print.html` (the noindex scrapbook tool). They
@@ -88,7 +100,7 @@ justified that register is gone; ask Cody before unifying them.
 
 **Cache stamps.** Every `css`/`js` link carries `?v=YYYYMMDD-N`, and
 `scripts/shell.js` writes it from the `STAMP` constant at the top of that file
-(currently `20260813-17`). Change a `.css` or `.js` file → bump `STAMP`, run
+(currently `20260813-18`). Change a `.css` or `.js` file → bump `STAMP`, run
 `node scripts/shell.js`. The old "bump it on every page at once" chore is gone,
 and the `shell: false` pages are swept too.
 
@@ -171,6 +183,46 @@ flashes through. All the bar's chrome is on ink tokens, so the old
 
 **`photos.html` is an intentional redirect stub**, not a broken page. It forwards
 to `index.html` preserving `?trip=` deep links so old URLs keep working. Leave it.
+
+**Every collection is a real page, generated.** `scripts/shell.js` reads
+`js/photos.js` and emits `<slug>.html` at the repo root for each trip,
+carrying its own title, description, canonical and **its own lead frame as
+the og:image**. Before this (Aug 13 2026) all seven collections were
+`gallery.html?trip=<slug>` — one file, so one title and one hardcoded share
+image for all of them, and a canonical telling Google they were one page.
+None of that is fixable from `js/hobby.js`; a crawler is served HTML and
+does not run the script that would fix the tags.
+
+Three things about them:
+
+- **Root, not `collections/<slug>.html`.** Photo `src` values in
+  `js/photos.js` are document-relative and `js/hobby.js` passes them
+  through unchanged, so from a subdirectory every image 404s. The escapes
+  are `<base href="../">`, which also sends the `#main` skip link off the
+  page, or rewriting srcs at runtime on every render path. Flat is cheaper.
+  The cost is a shared namespace with the hand-maintained pages, so
+  `shell.js` **exits 2** if a trip slug collides with one.
+- **Their body is `gallery.html`'s body**, read at run time rather than
+  copied into the generator, so the two cannot drift. Change the collection
+  layout by editing `gallery.html`.
+- **They are rebuilt whole every run**, fences and all — unlike the
+  hand-maintained pages, where only the fenced regions are touched. Nothing
+  you type into one survives. Renaming a `photos/` folder orphans the old
+  page; the run prints `ORPHAN` beside it but **never deletes** it.
+
+`gallery.html` still renders from `?trip=` so old links work, and is
+`noindex` because whatever it renders duplicates one of the real pages.
+`js/hobby.js` resolves the collection from `<meta name="hl-trip">` first
+and the query string second.
+
+**`404.html` is the one page with root-relative links.** GitHub Pages serves
+that single file at whatever path was missing, so a relative `css/review.css`
+in it resolves against a directory that doesn't exist. It carries
+`prefix: "/"` in the manifest, which `P()` applies to every href the chrome
+writes, and `<meta name="hl-base">`, which `js/hobby.js` applies to every
+href *it* writes (the nav's collection list). It is also the one page you
+cannot check by opening it off the disk — serve the repo over HTTP instead.
+Everything else stays relative, because opening a page from disk has to work.
 
 ## Posting a trip (the short version)
 

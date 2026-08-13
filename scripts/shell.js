@@ -36,7 +36,16 @@ var fs = require("fs");
 var path = require("path");
 
 var ROOT = path.join(__dirname, "..");
-var STAMP = "20260813-17";
+var STAMP = "20260813-18";
+
+/* Every link the chrome writes goes through P(). It is "" for the whole
+   site, because every page lives at the repo root and a relative href
+   is what lets you open one off the disk. 404.html sets it to "/": that
+   file is served at whatever path was missing, so relative links there
+   resolve against a directory that does not exist. Set per page, just
+   before that page's chrome is generated. */
+var PREFIX = "";
+function P(rel) { return PREFIX + rel; }
 
 /* ------------------------------------------------------------------
    THE PAGES. Everything page-specific lives in this table — title,
@@ -76,10 +85,17 @@ var PAGES = {
     scrolltitle: "Collections",
     scripts: ["photos", "hobby"]
   },
+  /* Kept working, deliberately not indexed. Every collection now has a
+     real page of its own, so this one's only job is that links posted
+     before they existed — gallery.html?trip=slug — still land somewhere
+     right. Whatever it renders is by definition a duplicate of one of
+     those pages, so it stays out of the index and out of the sitemap
+     while staying perfectly usable for a human who follows an old link. */
   "gallery.html": {
     title: "The gallery",
     desc: "One collection, all of it — the frames and the notes written while it was going on.",
     scrolltitle: "The gallery",
+    noindex: true,
     scripts: ["photos", "hobby"]
   },
   "feed.html": {
@@ -122,12 +138,142 @@ var PAGES = {
     scripts: ["photos", "hobby"]
   },
 
+  "colophon.html": {
+    title: "Colophon",
+    desc: "How this site is built — the typefaces, the lack of a build step, and what you may do with the photographs on it.",
+    scrolltitle: "Colophon",
+    scripts: ["photos", "hobby"]
+  },
+
+  /* THE 404. GitHub Pages serves this file at whatever path was asked
+     for, which is the one thing that makes it different from every
+     other page here: at /some/deep/thing a relative "css/review.css"
+     resolves to /some/deep/css/review.css and the page arrives naked.
+     So this is the ONE page whose links are root-relative — see
+     `prefix` below. It is also the one page you cannot check by
+     double-clicking it, because file:// has no root. */
+  "404.html": {
+    title: "Not found",
+    desc: "That page isn't here.",
+    scrolltitle: "Not found",
+    prefix: "/",
+    noindex: true,
+    scripts: ["photos", "hobby"]
+  },
+
   /* Chrome-free by design — listed so the stamp sweep still finds them. */
-  "photos.html": { shell: false },
-  "experiences.html": { shell: false },
-  "post.html": { shell: false },
-  "print.html": { shell: false }
+  "photos.html": { shell: false, noindex: true },
+  "experiences.html": { shell: false, noindex: true },
+  "post.html": { shell: false, noindex: true },
+  "print.html": { shell: false, noindex: true }
 };
+
+/* ------------------------------------------------------------------
+   THE COLLECTION PAGES, one per trip, generated.
+
+   WHY THESE EXIST. Every collection used to be gallery.html?trip=slug
+   — seven collections behind one file, so they shared one <title>, one
+   description, one canonical and one og:image. Pasted into iMessage or
+   Instagram or a Substack post, all seven previewed as the same
+   hardcoded concert photo with the title "The gallery", and the
+   canonical told Google the seven were one page. None of that is
+   fixable from js/hobby.js: a crawler reads the HTML it is served and
+   does not run the script that would fix the tags.
+
+   So the poster's data becomes pages. Each trip gets <slug>.html at the
+   REPO ROOT with its own title, description, canonical and its own lead
+   frame as the share image.
+
+   ROOT, not collections/<slug>.html, and that is deliberate. Photo
+   `src` values in js/photos.js are document-relative ("photos/x/y.jpg")
+   and js/hobby.js hands them to every page unchanged; from a
+   subdirectory every one of them would 404. The fixes for that are
+   <base href="../">, which also redirects the "#main" skip link off the
+   page, or rewriting srcs at runtime on every render path. Both are
+   worse than a flat namespace. The cost of root is that a trip could be
+   slugged "about" and clobber a real page, so `claim()` below refuses.
+
+   These files are GENERATED IN FULL on every run, fences and body
+   alike — hand-edit one and the next run eats it. Their body is
+   gallery.html's body, read at run time rather than copied here, so the
+   layout cannot drift between the two.
+   ------------------------------------------------------------------ */
+function loadPhotoData() {
+  var sandbox = { window: {} };
+  var src = fs.readFileSync(path.join(ROOT, "js", "photos.js"), "utf8");
+  new Function("window", src)(sandbox.window);
+  return { trips: sandbox.window.TRIPS || [], posts: sandbox.window.POSTS || [] };
+}
+
+var DATA = loadPhotoData();
+
+/* the same name the nav, the index and the page itself use */
+function xpName(t) { return t.nav || t.short || t.place || ""; }
+
+/* the frame the collection leads with, which is also the frame its
+   share card should be — the same choice js/hobby.js makes */
+function leadFrame(t) {
+  var stills = (t.photos || []).filter(function (p) { return !p.video; });
+  return stills.filter(function (p) { return p.best; })[0] || stills[0] || null;
+}
+
+function collectionDesc(t) {
+  var n = (t.photos || []).filter(function (p) { return !p.video; }).length;
+  var bits = [xpName(t)];
+  var tail = [];
+  if (n) tail.push(n + (n === 1 ? " frame" : " frames"));
+  if (t.when) tail.push(t.when);
+  if (t.loc) tail.push(t.loc);
+  return bits.join("") + " — " + (tail.length ? tail.join(", ") + ". " : "") +
+    "Photographs by Cody Heart, free to download for personal use.";
+}
+
+/* gallery.html IS the template: everything between the nav fence and
+   the footer fence, verbatim, with the one heading that is knowable
+   ahead of time filled in so the page says the collection's name
+   before any script runs. */
+var GALLERY_BODY = (function () {
+  var raw = fs.readFileSync(path.join(ROOT, "gallery.html"), "utf8").replace(/\r\n/g, "\n");
+  var a = raw.indexOf("<!--/#shell:nav-->");
+  var b = raw.indexOf("<!--#shell:footer-->");
+  if (a < 0 || b < 0) throw new Error("gallery.html has no shell fences to take a body from");
+  return raw.slice(a + "<!--/#shell:nav-->".length, b).replace(/^\n+|\n+$/g, "");
+})();
+
+/* what line endings this checkout uses, for files we create from
+   nothing — gallery.html stands in for the tree */
+var TREE_CRLF = fs.readFileSync(path.join(ROOT, "gallery.html"), "utf8").indexOf("\r\n") !== -1;
+
+function collectionBody(t) {
+  return GALLERY_BODY.replace(
+    /(<h1 id="galleryTitle">)[\s\S]*?(<\/h1>)/,
+    "$1" + esc(xpName(t)) + "$2"
+  );
+}
+
+DATA.trips.forEach(function (t) {
+  if (!t.slug) return;
+  var file = t.slug + ".html";
+  if (PAGES[file]) {
+    console.error('refusing to generate ' + file + ': the trip slug "' + t.slug +
+      '" collides with a hand-maintained page. Rename the folder in photos/.');
+    process.exit(2);
+  }
+  var lead = leadFrame(t);
+  PAGES[file] = {
+    title: xpName(t),
+    desc: collectionDesc(t),
+    scrolltitle: xpName(t),
+    scripts: ["photos", "hobby"],
+    generated: true,
+    trip: t.slug,
+    lastmod: t.posted || "",
+    ogImage: lead ? lead.src : null,
+    ogImageW: lead ? lead.w : null,
+    ogImageH: lead ? lead.h : null,
+    body: collectionBody(t)
+  };
+});
 
 /* ------------------------------------------------------------------
    THE MARK. One heart path, one lockup:
@@ -147,7 +293,7 @@ var HEART_D = "M12.1 7.6C13.7 5 15.8 3.7 18 4.15 20.9 4.6 22.1 7.1 21.4 9.9 20.8
    visually adrift from the type it introduces. Don't "tidy" it back
    to 0 0 24 24. */
 function wordmark() {
-  return '<a class="wordmark" href="index.html" aria-label="Cody Heart — home">' +
+  return '<a class="wordmark" href="' + P("index.html") + '" aria-label="Cody Heart — home">' +
     '<svg class="wordmark__dot" viewBox="2.462 4.062 19.133 17.838" aria-hidden="true"><path fill="currentColor" d="' + HEART_D + '"/></svg>' +
     '<span class="wordmark__name">Cody Heart</span>' +
     "</a>";
@@ -252,10 +398,10 @@ function nav(page) {
       return '<div class="nav__drop">' +
         '<button class="nav__link link-hover press-scale" aria-expanded="false" aria-haspopup="true" aria-controls="menu-trips"' + current + ">" + l.label + CHEV + "</button>" +
         '<div class="nav__menu" id="menu-trips" role="menu" aria-hidden="true">' +
-        '<div class="nav__menu-pad" id="navTrips"><a class="menu-item menu-item--all" role="menuitem" href="collections.html"><div><span class="menu-item__title">All collections</span></div></a></div>' +
+        '<div class="nav__menu-pad" id="navTrips"><a class="menu-item menu-item--all" role="menuitem" href="' + P("collections.html") + '"><div><span class="menu-item__title">All collections</span></div></a></div>' +
         "</div></div>";
     }
-    return '<a class="nav__link link-hover" href="' + l.href + '"' + current + ">" + l.label + "</a>";
+    return '<a class="nav__link link-hover" href="' + P(l.href) + '"' + current + ">" + l.label + "</a>";
   }).join("");
 
   return '<nav class="nav" aria-label="Main navigation">\n' +
@@ -278,7 +424,7 @@ function mobileMenu() {
     '  <div class="mobile-menu__inner">\n' +
     '    <button class="mobile-menu__close" type="button" aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>\n' +
     NAV_LINKS.map(function (l) {
-      return '    <a class="mobile-menu__link" href="' + l.href + '">' + l.label + "</a>\n";
+      return '    <a class="mobile-menu__link" href="' + P(l.href) + '">' + l.label + "</a>\n";
     }).join("") +
     /* The bar's glyph sits underneath the open overlay, so the menu
        carries the control itself — and with room for labels it offers
@@ -305,7 +451,7 @@ function footer() {
   return '<footer class="footer">\n' +
     '  <div class="footer__inner">\n' +
     '    <span class="footer__left">© Cody Heart ' + new Date().getFullYear() + "</span>\n" +
-    '    <span class="footer__links"><a class="link-hover" href="https://instagram.com/' + SITE.instagram + '" target="_blank" rel="noopener noreferrer">Instagram</a><a class="link-hover" href="mailto:' + SITE.email + '">Contact</a></span>\n' +
+    '    <span class="footer__links"><a class="link-hover" href="' + P("colophon.html") + '">Colophon</a><a class="link-hover" href="https://instagram.com/' + SITE.instagram + '" target="_blank" rel="noopener noreferrer">Instagram</a><a class="link-hover" href="mailto:' + SITE.email + '">Contact</a></span>\n' +
     "  </div>\n" +
     "</footer>";
 }
@@ -332,31 +478,53 @@ function head(file, page) {
   var full = page.canonical === "/" ? page.title : page.title + " — " + SITE.suffix;
   var url = SITE.origin + (page.canonical === "/" ? "/" : "/" + file);
   var v = "?v=" + STAMP;
+  /* A collection advertises its OWN lead frame; everything else falls
+     back to the site card. This is the whole point of the per-slug
+     pages — a crawler never runs js/hobby.js, so if the tag isn't in
+     the file it is served, the share card is wrong. */
+  var img = page.ogImage || SITE.ogImage;
+  var imgW = page.ogImage ? page.ogImageW : SITE.ogImageW;
+  var imgH = page.ogImage ? page.ogImageH : SITE.ogImageH;
+  var imgAlt = page.trip
+    ? "A frame from " + page.title + ", photographed by Cody Heart"
+    : "A frame from Cody Heart’s photography";
 
   var out = [];
   out.push('<meta charset="utf-8">');
   out.push('<meta name="viewport" content="width=device-width, initial-scale=1">');
   out.push("<title>" + esc(full) + "</title>");
   out.push('<meta name="description" content="' + esc(page.desc) + '">');
+  if (page.noindex) out.push('<meta name="robots" content="noindex, follow">');
   out.push('<link rel="canonical" href="' + url + '">');
-  out.push('<link rel="icon" href="images/mark.svg" type="image/svg+xml">');
+  out.push('<link rel="icon" href="' + P("images/mark.svg") + '" type="image/svg+xml">');
+  /* so a reader that lands on any page can find the journal */
+  out.push('<link rel="alternate" type="application/rss+xml" title="' +
+    esc(SITE.suffix + " — Journal") + '" href="' + P("feed.xml") + '">');
   out.push('<meta property="og:type" content="website">');
   out.push('<meta property="og:site_name" content="' + SITE.suffix + '">');
   out.push('<meta property="og:title" content="' + esc(full) + '">');
   out.push('<meta property="og:description" content="' + esc(page.desc) + '">');
   out.push('<meta property="og:url" content="' + url + '">');
-  out.push('<meta property="og:image" content="' + SITE.origin + "/" + SITE.ogImage + '">');
-  out.push('<meta property="og:image:width" content="' + SITE.ogImageW + '">');
-  out.push('<meta property="og:image:height" content="' + SITE.ogImageH + '">');
-  out.push('<meta property="og:image:alt" content="A frame from Cody Heart’s photography">');
+  out.push('<meta property="og:image" content="' + SITE.origin + "/" + img + '">');
+  if (imgW) out.push('<meta property="og:image:width" content="' + imgW + '">');
+  if (imgH) out.push('<meta property="og:image:height" content="' + imgH + '">');
+  out.push('<meta property="og:image:alt" content="' + esc(imgAlt) + '">');
   out.push('<meta name="twitter:card" content="summary_large_image">');
+  /* Which collection this page is. js/hobby.js reads it instead of
+     ?trip= when it's here, which is what lets a static page render the
+     right set without a query string. */
+  if (page.trip) out.push('<meta name="hl-trip" content="' + esc(page.trip) + '">');
+  /* js/hobby.js writes hrefs of its own — the nav's collection list,
+     the index rows — and on a prefixed page they need the same prefix
+     the chrome got. This is how it finds out. */
+  if (PREFIX) out.push('<meta name="hl-base" content="' + esc(PREFIX) + '">');
   out.push(THEME_INIT);
-  out.push('<link rel="stylesheet" href="css/review.css' + v + '">');
-  out.push('<script defer src="js/review.js' + v + '"></script>');
+  out.push('<link rel="stylesheet" href="' + P("css/review.css") + v + '">');
+  out.push('<script defer src="' + P("js/review.js") + v + '"></script>');
   (page.scripts || []).slice().sort(function (a, b) {
     return SCRIPT_SRC[a].rank - SCRIPT_SRC[b].rank;
   }).forEach(function (s) {
-    out.push('<script defer src="' + SCRIPT_SRC[s].src + v + '"></script>');
+    out.push('<script defer src="' + P(SCRIPT_SRC[s].src) + v + '"></script>');
   });
   return out.join("\n");
 }
@@ -413,19 +581,44 @@ if (si !== -1) {
   if (!CHECK) fs.writeFileSync(self, bumped);
 }
 
+/* A generated page has no hand-written part, so it is built whole
+   rather than patched through the fences. It still carries them: the
+   --check path and every other reader treats it like any other page. */
+function generatedPage(file, page) {
+  return "<!DOCTYPE html>\n" +
+    '<html lang="en" class="no-js">\n' +
+    "<head>\n" +
+    fence("head", head(file, page)) + "</head>\n" +
+    "<body>\n\n" +
+    '<a class="skip" href="#main">Skip to content</a>\n' +
+    fence("nav", nav(page) + "\n" + mobileMenu()) + "\n\n" +
+    page.body + "\n" +
+    fence("footer", footer()) + "\n" +
+    "</body>\n</html>\n";
+}
+
 Object.keys(PAGES).forEach(function (file) {
   var page = PAGES[file];
   var abs = path.join(ROOT, file);
-  if (!fs.existsSync(abs)) { report.push("  missing   " + file); return; }
+  var exists = fs.existsSync(abs);
+  if (!exists && !page.generated) { report.push("  missing   " + file); return; }
+
+  /* every link the chrome writes on this page hangs off this */
+  PREFIX = page.prefix || "";
+
   /* The working tree is CRLF (git checkout on Windows). Normalise for
      matching, then put the file's own endings back on the way out —
-     otherwise every run shows the whole file as changed. */
-  var raw = fs.readFileSync(abs, "utf8");
-  var crlf = raw.indexOf("\r\n") !== -1;
+     otherwise every run shows the whole file as changed. A file we are
+     about to create has no endings of its own yet, so it takes the
+     tree's. */
+  var raw = exists ? fs.readFileSync(abs, "utf8") : "";
+  var crlf = exists ? raw.indexOf("\r\n") !== -1 : TREE_CRLF;
   var before = crlf ? raw.replace(/\r\n/g, "\n") : raw;
   var html = before;
 
-  if (page.shell === false) {
+  if (page.generated) {
+    html = generatedPage(file, page);
+  } else if (page.shell === false) {
     /* chrome-free pages: keep their asset stamps in step, nothing else */
     html = html.replace(/\?v=\d{8}-\d+/g, "?v=" + STAMP);
   } else {
@@ -453,11 +646,189 @@ Object.keys(PAGES).forEach(function (file) {
 
   if (html !== before) {
     changed++;
-    report.push("  " + (CHECK ? "drift" : "wrote") + "     " + file);
+    var verb = CHECK ? (exists ? "drift" : "absent") : (exists ? "wrote" : "created");
+    report.push("  " + verb + (verb.length < 6 ? "     " : "    ") + file);
     if (!CHECK) fs.writeFileSync(abs, crlf ? html.replace(/\n/g, "\r\n") : html);
   } else {
     report.push("  ok        " + file);
   }
+});
+
+/* ------------------------------------------------------------------
+   THE GENERATED FILES THAT AREN'T PAGES.
+
+   sitemap.xml and feed.xml both need the same two things this script
+   already has and nothing else does: the full list of pages, and the
+   data behind them. Putting them anywhere else would mean a second
+   enumeration of the site that could disagree with this one.
+
+   They are written next to the pages and go through the same --check,
+   so CI fails on a stale sitemap the same way it fails on stale chrome.
+   ------------------------------------------------------------------ */
+function writeGenerated(name, body) {
+  var abs = path.join(ROOT, name);
+  var exists = fs.existsSync(abs);
+  var raw = exists ? fs.readFileSync(abs, "utf8") : "";
+  var crlf = exists ? raw.indexOf("\r\n") !== -1 : TREE_CRLF;
+  var before = crlf ? raw.replace(/\r\n/g, "\n") : raw;
+  if (before === body) { report.push("  ok        " + name); return; }
+  changed++;
+  var verb = CHECK ? (exists ? "drift" : "absent") : (exists ? "wrote" : "created");
+  report.push("  " + verb + (verb.length < 6 ? "     " : "    ") + name);
+  if (!CHECK) fs.writeFileSync(abs, crlf ? body.replace(/\n/g, "\r\n") : body);
+}
+
+function sitemap() {
+  var urls = Object.keys(PAGES).filter(function (f) {
+    return !PAGES[f].noindex && PAGES[f].shell !== false;
+  }).map(function (f) {
+    var page = PAGES[f];
+    return {
+      loc: SITE.origin + (page.canonical === "/" ? "/" : "/" + f),
+      lastmod: page.lastmod || ""
+    };
+  });
+  return '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+    urls.map(function (u) {
+      return "  <url>\n    <loc>" + esc(u.loc) + "</loc>\n" +
+        (u.lastmod ? "    <lastmod>" + esc(u.lastmod) + "</lastmod>\n" : "") +
+        "  </url>\n";
+    }).join("") +
+    "</urlset>\n";
+}
+
+/* Permissive on purpose. The pages that should stay out of an index say
+   so with <meta name="robots" content="noindex">, and a crawler has to
+   be allowed to fetch a page to read that — Disallow here would hide
+   the instruction rather than enforce it. */
+function robots() {
+  return "User-agent: *\nAllow: /\n\nSitemap: " + SITE.origin + "/sitemap.xml\n";
+}
+
+/* ---- the journal feed ----------------------------------------------
+   The same posts feed.html renders, assembled the same way: every beat
+   of every collection is its own post, plus the standalone entries in
+   window.POSTS, newest first. The anchors match `anchorFor()` in
+   js/hobby.js — if that changes, every subscriber's read state breaks,
+   so the two have to stay in step.
+   ------------------------------------------------------------------ */
+var RSS_MAX = 40;
+var RFC_DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+var RFC_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+function rfc822(s) {
+  var m = String(s || "").match(/^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2}))?/);
+  if (!m) return "";
+  var d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], +(m[4] || 0), +(m[5] || 0)));
+  return RFC_DAYS[d.getUTCDay()] + ", " + String(d.getUTCDate()).padStart(2, "0") + " " +
+    RFC_MONTHS[d.getUTCMonth()] + " " + d.getUTCFullYear() + " " +
+    String(d.getUTCHours()).padStart(2, "0") + ":" +
+    String(d.getUTCMinutes()).padStart(2, "0") + ":00 +0000";
+}
+
+function longDate(s) {
+  var m = String(s || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!m) return "";
+  var LONG = ["January", "February", "March", "April", "May", "June", "July",
+              "August", "September", "October", "November", "December"];
+  return LONG[+m[2] - 1] + " " + +m[3] + ", " + m[1];
+}
+
+function journalEntries() {
+  var out = [];
+  DATA.trips.forEach(function (t) {
+    var beats = (t.beats || []).slice();
+    if (!beats.length) return;
+    if (beats.every(function (b) { return !!b.time; })) {
+      beats.sort(function (a, b) { return a.time < b.time ? -1 : a.time > b.time ? 1 : 0; });
+    }
+    beats.forEach(function (b, i) {
+      out.push({
+        date: b.time || t.posted || "",
+        slug: t.slug, n: i,
+        where: t.loc || "", name: xpName(t),
+        say: b.say || "",
+        shots: (b.shots || []).map(function (k) { return (t.photos || [])[k]; }).filter(Boolean)
+      });
+    });
+  });
+  DATA.posts.forEach(function (p) {
+    out.push({
+      date: p.time || "", slug: "", n: 0,
+      where: p.at || "", name: p.at || "",
+      say: p.say || "",
+      shots: (p.photos || [])
+    });
+  });
+  out = out.filter(function (e) { return e.say || e.shots.length; });
+  out.sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : 0; });
+  return out.slice(0, RSS_MAX);
+}
+
+function anchorFor(e) {
+  return "post-" + (String(e.date || "").slice(0, 10) || "x") +
+    (e.slug ? "-" + e.slug : "") + (e.n ? "-" + e.n : "");
+}
+
+/* A reader shows a title whether the post has one or not, and the
+   journal deliberately has none — the date carries the post and the
+   place follows it. So the title is built from exactly those two, which
+   is what the card itself says. */
+function rssTitle(e) {
+  var when = longDate(e.date);
+  var who = e.name || e.where;
+  return who ? who + " — " + when : when || "A post";
+}
+
+function feedXml() {
+  var entries = journalEntries();
+  var self = SITE.origin + "/feed.xml";
+  return '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n' +
+    "<channel>\n" +
+    "  <title>" + esc(SITE.suffix + " — Journal") + "</title>\n" +
+    "  <link>" + SITE.origin + "/feed.html</link>\n" +
+    "  <description>Posts from things Cody Heart actually went to: what he shot, and whatever else was worth keeping.</description>\n" +
+    "  <language>en</language>\n" +
+    '  <atom:link href="' + self + '" rel="self" type="application/rss+xml"/>\n' +
+    entries.map(function (e) {
+      var url = SITE.origin + "/feed.html#" + anchorFor(e);
+      var body = "";
+      if (e.say) body += "<p>" + esc(e.say) + "</p>";
+      e.shots.forEach(function (p) {
+        if (!p || p.video) return;
+        body += '<p><img src="' + SITE.origin + "/" + esc(p.src) + '" alt="' +
+          esc(p.alt || "") + '"></p>';
+      });
+      return "  <item>\n" +
+        "    <title>" + esc(rssTitle(e)) + "</title>\n" +
+        "    <link>" + esc(url) + "</link>\n" +
+        '    <guid isPermaLink="true">' + esc(url) + "</guid>\n" +
+        (rfc822(e.date) ? "    <pubDate>" + rfc822(e.date) + "</pubDate>\n" : "") +
+        "    <description><![CDATA[" + body + "]]></description>\n" +
+        "  </item>\n";
+    }).join("") +
+    "</channel>\n</rss>\n";
+}
+
+writeGenerated("sitemap.xml", sitemap());
+writeGenerated("robots.txt", robots());
+writeGenerated("feed.xml", feedXml());
+
+/* ORPHANS. Rename a folder in photos/ and the trip changes slug, which
+   means a new <slug>.html gets generated and the old one is left behind
+   — still in the repo, still served, still in anyone's browser history,
+   now rendering whatever TRIPS[0] happens to be. This does NOT delete
+   them, because deleting files nobody asked to delete is how a generator
+   loses your trust; it just says which ones no longer belong to a trip.
+   They are recognisable by the meta only a generated page carries. */
+fs.readdirSync(ROOT).forEach(function (f) {
+  if (!/\.html$/.test(f) || PAGES[f]) return;
+  var body = fs.readFileSync(path.join(ROOT, f), "utf8");
+  if (body.indexOf('name="hl-trip"') === -1) return;
+  report.push("  ORPHAN    " + f + " — no trip has this slug any more; delete it");
 });
 
 console.log("shell " + STAMP + (CHECK ? "  (check only)" : ""));

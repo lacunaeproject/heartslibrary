@@ -149,6 +149,33 @@ sample trips in `js/photos.js` with your own and delete the folder when
 you're done with it. The pins, games, and writing files ship with clearly
 marked sample entries too.
 
+### Every collection has its own page, and you don't write it
+
+Posting is unchanged — folder, `trip.txt`, commit. But a collection is now
+a real file, `<slug>.html` at the top of the repo, generated from the data
+by `scripts/shell.js`. `photos/big-sur/` becomes **heartslibrary.com/big-sur.html**.
+
+That's what makes a link to a collection look right when you paste it into
+Instagram or a text message: the page carries its own title and its own lead
+photo as the preview image. They all used to be `gallery.html?trip=<slug>`,
+which is one file, so every collection previewed as the same photo with the
+same title.
+
+Three things worth knowing:
+
+- **Don't hand-edit `<slug>.html`.** It's rebuilt whole on every run. To
+  change how collection pages look, edit `gallery.html` — its body is the
+  template all of them are stamped from.
+- **Posting from a laptop takes one more command.** `node scripts/post.js
+  <slug>` writes the data; `node scripts/shell.js` turns it into the page,
+  the sitemap and the feed. Posting from your phone does both already.
+- **Renaming a folder in `photos/` changes the URL.** The old page is left
+  on disk — the shell run prints `ORPHAN` next to it. Delete it yourself;
+  the generator won't remove files on its own.
+
+`gallery.html?trip=<slug>` still works, so nothing you've already shared
+breaks. It just isn't where the links point any more.
+
 ## Everything else
 
 - **Dashboards / About** are plain HTML pages (`dashboards.html`,
