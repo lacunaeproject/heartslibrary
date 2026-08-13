@@ -192,11 +192,23 @@
           : "") +
         "</figure>";
     }
-    /* one or the other, never both — the same words twice would be
-       read out twice. A frame with nothing written under it says
-       nothing, rather than holding an empty line. */
-    var pill = p.caption && !capped
-      ? '<span class="shot-pill">' + esc(p.caption) + "</span>" : "";
+    /* A frame with nothing written under it says nothing, rather than
+       holding an empty line.
+
+       There used to be a second caption treatment here: `.shot-pill`,
+       a translucent lozenge laid over the bottom-left of the frame,
+       shown on hover and used wherever `capped` was false — the front
+       wall. It is gone. Hover is a desktop affordance, so it needed a
+       `@media (hover: none)` companion to be reachable at all on a
+       phone, and that rule pinned the lozenge PERMANENTLY OPEN on
+       every frame: a wall of photographs each wearing a grey label it
+       could not put down. The fix is not to hide it below some
+       breakpoint — a caption you have to guess at is not a caption —
+       it is that the wall doesn't want words on top of the pictures at
+       any width. Captions still live in the data and still read out
+       through the button's aria-label; they simply aren't painted over
+       the frame. `capped` stays because the collection page's
+       figcaption is a real, non-overlapping caption. */
     var cap = p.caption && capped
       ? '<figcaption class="shot-cap">' + esc(p.caption) + "</figcaption>" : "";
     return '<figure class="shot' + wide + (lead ? " shot--lead" : "") + '">' +
@@ -211,7 +223,7 @@
          the page doesn't open on an empty box */
       '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '" ' +
       (lead ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"') + ratio + ">" +
-      pill + "</button>" + cap + "</figure>";
+      "</button>" + cap + "</figure>";
   }
 
   /* Lightbox: one <dialog>, shared by any page that renders shots. It
