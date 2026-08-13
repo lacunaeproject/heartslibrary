@@ -109,6 +109,7 @@
     var burger = document.querySelector(".nav__burger");
     var mobile = document.querySelector(".mobile-menu");
     if (burger && mobile) {
+      var pinTimer;
       var setMobile = function (openState) {
         mobile.classList.toggle("is-open", openState);
         burger.setAttribute("aria-expanded", String(openState));
@@ -117,13 +118,22 @@
            leaves the page scrolling behind the open menu */
         document.body.classList.toggle("menu-locked", openState);
         document.documentElement.classList.toggle("menu-locked", openState);
+        /* The sheet opens under the bar and leans on it — the wordmark,
+           the theme glyph and the cross that shuts it again are all up
+           there — so the bar is pinned for as long as the sheet is on
+           screen. That is longer than it is locked: unpin on the same
+           tick as the unlock and the bar drops back into the scrolled
+           page while the sheet is still fading, and the sheet paints
+           over the top of it. 200ms is the fade in css/review.css. */
+        clearTimeout(pinTimer);
+        if (openState) document.documentElement.classList.add("menu-open");
+        else pinTimer = setTimeout(function () {
+          document.documentElement.classList.remove("menu-open");
+        }, 200);
       };
       burger.addEventListener("click", function () {
         setMobile(!mobile.classList.contains("is-open"));
       });
-      /* the menu sits above the bar now, so it carries its own way out */
-      var closer = mobile.querySelector(".mobile-menu__close");
-      if (closer) closer.addEventListener("click", function () { setMobile(false); });
       document.addEventListener("keydown", function (e) {
         if (e.key === "Escape" && mobile.classList.contains("is-open")) { setMobile(false); burger.focus(); }
       });

@@ -36,7 +36,7 @@ var fs = require("fs");
 var path = require("path");
 
 var ROOT = path.join(__dirname, "..");
-var STAMP = "20260813-18";
+var STAMP = "20260813-21";
 
 /* Every link the chrome writes goes through P(). It is "" for the whole
    site, because every page lives at the repo root and a relative href
@@ -331,14 +331,12 @@ function themeButton() {
     "</button>";
 }
 
-function themePicker() {
-  return '<div class="theme-pick" role="group" aria-label="Colour theme">' +
-    ['auto', 'light', 'dark'].map(function (v) {
-      var label = v.charAt(0).toUpperCase() + v.slice(1);
-      return '<button class="theme-pick__opt" type="button" data-theme-set="' + v + '">' + label + "</button>";
-    }).join("") +
-    "</div>";
-}
+/* There was a second, labelled three-way control (`.theme-pick`) that
+   the burger sheet carried, because the sheet used to cover the bar
+   and take the glyph with it. The sheet stops below the bar now, so
+   the glyph is visible and reachable the whole time the sheet is open
+   and one control does the whole site. The picker, its markup and its
+   CSS are gone — don't reintroduce a second way to set the theme. */
 
 /* ------------------------------------------------------------------
    NAV. One nav on every shelled page. The wordmark holds the left
@@ -414,26 +412,39 @@ function nav(page) {
     '<div class="nav__menu" id="menu-elsewhere" role="menu" aria-hidden="true"><div class="nav__menu-pad">' + elsewhereItems("menu-item") + "</div></div>" +
     "</div></div>\n" +
     "    " + themeButton() + "\n" +
-    '    <div class="nav__burger-wrap"><button class="nav__burger" aria-expanded="false" aria-label="Open menu"><span></span><span></span></button></div>\n' +
+    /* A disclosure, not a dialog: the sheet it opens sits under this
+       bar rather than over it, so everything up here stays live and
+       the button itself is the way back out. */
+    '    <div class="nav__burger-wrap"><button class="nav__burger" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu"><span></span><span></span></button></div>\n' +
     "  </div>\n" +
     "</nav>";
 }
 
-function mobileMenu() {
-  return '<div class="mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">\n' +
+/* The sheet carries NO chrome of its own — no wordmark, no theme
+   control, no close button. It opens underneath the bar rather than
+   over it, so the bar keeps all three: the wordmark still links home,
+   the glyph still sets the theme, and the burger's two rules rotate
+   into the cross that shuts the sheet again, which is what that
+   animation was drawn for. Every copy of a bar control that used to
+   live in here is deleted; if the sheet needs something the bar has,
+   the answer is the bar, not a second one.
+
+   Height is the constraint on this thing, not width. Everything it
+   holds is meant to be reachable without scrolling on a 390x844
+   phone with a browser's chrome over it, which is about 700px of
+   room, so each block is budgeted: four links 43 apiece, five
+   collection rows 54 apiece, and Elsewhere as one row of three cards
+   rather than three rows of one. If you add a block, measure —
+   `.mobile-menu__inner.scrollHeight` at 390 wide is the number, and
+   it must stay under about 620 now that the bar takes 84 off the top. */
+function mobileMenu(page) {
+  return '<div class="mobile-menu" id="mobileMenu">\n' +
     '  <div class="mobile-menu__inner">\n' +
-    '    <button class="mobile-menu__close" type="button" aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>\n' +
+    '    <div class="mobile-menu__primary">\n' +
     NAV_LINKS.map(function (l) {
-      return '    <a class="mobile-menu__link" href="' + P(l.href) + '">' + l.label + "</a>\n";
+      return '      <a class="mobile-menu__link" href="' + P(l.href) + '"' +
+        (page.current === l.key ? ' aria-current="page"' : "") + ">" + l.label + "</a>\n";
     }).join("") +
-    /* The bar's glyph sits underneath the open overlay, so the menu
-       carries the control itself — and with room for labels it offers
-       all three states instead of a two-way flip. It goes here, above
-       the lists: at the foot of the sheet it fell below the fold on a
-       phone, which is the opposite of easy to reach. */
-    '    <div class="mobile-menu__section mobile-menu__section--theme">\n' +
-    '      <p class="mobile-menu__label">Appearance</p>\n' +
-    "      " + themePicker() + "\n" +
     "    </div>\n" +
     '    <div class="mobile-menu__section">\n' +
     '      <p class="mobile-menu__label">Collections</p>\n' +
@@ -441,7 +452,7 @@ function mobileMenu() {
     "    </div>\n" +
     '    <div class="mobile-menu__section">\n' +
     '      <p class="mobile-menu__label">Elsewhere</p>\n' +
-    '      <div class="mobile-menu__list">' + elsewhereItems("mobile-menu__item") + "</div>\n" +
+    '      <div class="mobile-menu__list">' + elsewhereItems("mobile-menu__card") + "</div>\n" +
     "    </div>\n" +
     "  </div>\n" +
     "</div>";
@@ -591,7 +602,7 @@ function generatedPage(file, page) {
     fence("head", head(file, page)) + "</head>\n" +
     "<body>\n\n" +
     '<a class="skip" href="#main">Skip to content</a>\n' +
-    fence("nav", nav(page) + "\n" + mobileMenu()) + "\n\n" +
+    fence("nav", nav(page) + "\n" + mobileMenu(page)) + "\n\n" +
     page.body + "\n" +
     fence("footer", footer()) + "\n" +
     "</body>\n</html>\n";
@@ -634,7 +645,7 @@ Object.keys(PAGES).forEach(function (file) {
 
     var steps = [
       ["head", head(file, page), LEGACY.head],
-      ["nav", nav(page) + "\n" + mobileMenu(), LEGACY.nav],
+      ["nav", nav(page) + "\n" + mobileMenu(page), LEGACY.nav],
       ["footer", footer(), LEGACY.footer]
     ];
     for (var i = 0; i < steps.length; i++) {

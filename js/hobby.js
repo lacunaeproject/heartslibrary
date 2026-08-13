@@ -1268,12 +1268,15 @@
       '<div><span class="menu-item__title">See all collections</span>' +
       '<span class="menu-item__desc">' + esc(allDesc) + "</span></div>";
 
-    /* The burger says the same thing the desktop menu does: the six
+    /* The burger says what the desktop menu says, shorter: the four
        newest wearing their cover frame, then the way to the rest.
-       Both are built from the same data, so posting updates both. */
+       Both are built from the same data, so posting updates both.
+       Four, not the dropdown's six, because the sheet has a fold and
+       the dropdown does not — at six this list ran 380px and pushed
+       Elsewhere off the bottom of every phone. */
     if (menuTrips) {
       menuTrips.innerHTML =
-        withFrames.slice(0, 6).map(function (t) {
+        withFrames.slice(0, 4).map(function (t) {
           var src = thumbSrc(t);
           return '<a class="mobile-menu__item" href="' + tripHref(t) + '">' +
             '<div class="menu-item__tile menu-item__tile--photo' +

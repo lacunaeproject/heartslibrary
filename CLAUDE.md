@@ -125,8 +125,14 @@ Until 2026-08-13 it was auto that cleared and `dark` that sat on the `<html>`
 tag; flipping the default meant flipping both together. The `<html>` class is
 only the pre-script guess, and the free guess is now light. The bar carries one
 cycling glyph (`.theme-btn`,
-hidden below 768px); the mobile menu carries the labelled three-way
-(`.theme-pick`), because on phones the open overlay covers the bar. Both are
+at every width now — it used to be `display: none` below 768, because the
+burger sheet covered the bar and left the glyph visible but untouchable, and
+a second labelled three-way control (`.theme-pick`) had to be built into the
+sheet to compensate. The sheet opens *under* the bar as of 2026-08-13, so one
+glyph serves every width and the duplicate is deleted — function, markup and
+CSS. `[data-theme-set]` is still wired, so a control that sets a state
+directly could come back, but **the site should have one way to set the
+theme.** It is
 wired by `setupTheme()` in `js/review.js`, which resolves the sun exactly as
 the head script does. The head script must stay inline and blocking in `<head>`
 — deferring it causes a flash of the wrong theme. Don't hardcode hex for
@@ -171,6 +177,44 @@ surface too; and `.post__head` is deliberately 24px (the WCAG 2.5.8
 floor) and NOT 44, because it is a permalink to the post's own anchor and
 a 44px band would hang down over the post's words and take taps meant for
 them. If you add a control, check it at 320/390/768/884 before shipping.
+
+**The burger sheet opens under the bar, and carries no chrome of its own.**
+`.mobile-menu` starts at `top: var(--bar-h)`, so the bar stays where it is
+and keeps all three of its controls: the wordmark still links home, the theme
+glyph still works, and the burger's two rules rotate into the cross that
+shuts the sheet again — which is what that animation was drawn for. It used
+to sit *over* the bar, and that is what forced it to carry a duplicate close
+button and a duplicate theme control; both are deleted. **If the sheet needs
+something the bar has, the answer is the bar, not a second one.**
+
+Keeping the bar costs one non-obvious rule. `html.menu-open .nav` is
+`position: fixed`, **not sticky** — the open sheet locks the scroll with
+`overflow: hidden` on body, which makes body its own scroll container, and a
+sticky child pins to *body's* box rather than the viewport: open the menu
+1200px down the wall and the bar pins at -1236. Fixed takes the bar out of
+flow, so `html.menu-open body` is padded by `--bar-h` to put the page back
+exactly; the two revert on the same tick, and nothing moves. The class is
+added by `js/review.js` and **outlives `menu-locked` by the length of the
+sheet's fade** — drop it with the lock and the sheet paints over the bar on
+the way out.
+
+**And it has a fold, which is budgeted.** With the bar taking 84px off the
+top and a browser's chrome over the rest, there is about 620px of sheet you
+can see without scrolling. Everything in it is meant to fit: four links 43
+apiece, five collection rows 54 apiece, Elsewhere as **one row of three
+cards** (`.mobile-menu__list` is a 3-column grid, not a stack), total ~653px
+at 390 wide. `js/hobby.js` fills `#menuTrips` with **four** collections while
+the desktop dropdown gets six, because the dropdown has no fold. If you add a
+block, measure: `.mobile-menu__inner.scrollHeight` at 390 wide must stay
+under about 620. Before 2026-08-13 it was 1124 and the whole Elsewhere
+section began below the bottom edge.
+
+**`-var(--x)` is not a value.** Two declarations were written that way and
+both were dropped whole and silently: `.nav__burger`'s `margin-right` (the
+glyph sat 10px further from the right edge than the wordmark sits from the
+left) and `.mobile-menu__item`'s `margin` (every sheet row sat 16px right of
+the links above it). Negative tokens have to be `calc(-1 * var(--x))`. If
+some chrome looks a step out of line, grep for `-var(` first.
 
 **The lightbox follows the theme.** It was `#fff` in both, which meant a
 white flash at night; the mat is `--lb-mat` now (white in light, `#111110`

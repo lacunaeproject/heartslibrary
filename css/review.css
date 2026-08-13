@@ -149,6 +149,13 @@
 
   --gutter: 24px;
 
+  /* The bar's height: .nav__inner's 20px of padding either side of a
+     44px control. Only the burger sheet reads it — it starts at the
+     bar's bottom edge rather than under it — so if you change the
+     bar's padding or the size of the tallest thing in it, change this
+     to match or the sheet will overlap it or leave a gap. */
+  --bar-h: 84px;
+
   /* The one mark the library keeps: the wordmark heart. */
   --heart: #E5484D;
 
@@ -313,6 +320,31 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   position: static;
   background-color: var(--background);
 }
+/* …except while the burger sheet is open, when the bar has to stay on
+   screen because the sheet is relying on it: the wordmark, the theme
+   glyph and the burger-turned-cross are all up here and none of them
+   is duplicated below.
+
+   `sticky` is the obvious answer and it does not work. The open sheet
+   locks the scroll with `overflow: hidden` on body, which makes body a
+   scroll container of its own, and a sticky child pins to THAT — to
+   body's box, which is still sitting wherever the page was scrolled
+   to. Open the menu 1200px down the wall and the bar pins at -1236.
+
+   So: fixed, with the body padded by exactly the height it just lost.
+   The bar is the first thing in the flow (the skip link is absolute),
+   nothing else sets a top padding, and the two revert on the same tick
+   — so taking it out of flow moves nothing. The class outlives
+   `menu-locked` by the length of the sheet's fade (js/review.js), or
+   the sheet would paint over the bar on the way out. */
+html.menu-open .nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+}
+html.menu-open body { padding-top: var(--bar-h); }
 
 .nav__inner {
   display: flex;
@@ -620,7 +652,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
      optical inset is 44/2 - 10 = 12px, same as 40/2 - 8. */
   width: 44px;
   height: 44px;
-  margin-right: -var(--space-3);
+  /* `-var(...)` is not a value; this was dropped whole, and the glyph
+     sat 10px further from the right edge than the wordmark sits from
+     the left. */
+  margin-right: calc(-1 * var(--space-3));
   border-radius: 8px;
 }
 .nav__burger span {
@@ -636,22 +671,27 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 .nav__burger[aria-expanded="true"] span:first-child { transform: translateY(0) rotate(45deg); }
 .nav__burger[aria-expanded="true"] span:last-child { transform: translateY(0) rotate(-45deg); }
 
-/* Mobile menu — full-screen white overlay */
+/* The burger sheet. It hangs off the bottom of the bar rather than
+   covering it — see `html.menu-open .nav` above — so it starts at
+   --bar-h and the bar keeps painting its own strip. Sitting over the
+   bar is what forced the sheet to carry a second wordmark's worth of
+   chrome: its own close button, and a second theme control because
+   the bar's was underneath and untouchable. Both are gone. */
 .mobile-menu {
   position: fixed;
-  inset: 0;
-  /* above the bar: underneath it, the bar covered the menu's first
-     link and the only way out shared space with it */
-  z-index: calc(var(--z-nav) + 1);
+  top: var(--bar-h);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: calc(var(--z-nav) - 1);
   background: var(--background);
   opacity: 0;
   pointer-events: none;
-  /* visibility, not just opacity: a transparent overlay still keeps its
-     links in the tab order and still reports itself as an open
-     aria-modal dialog, so a keyboard user tabbing the header lands on
-     focus that is nowhere on screen — on desktop too, where the burger
-     is display:none but this container is not. Delayed to the end of
-     the fade so the transition still plays on the way out. */
+  /* visibility, not just opacity: a transparent sheet still keeps its
+     links in the tab order, so a keyboard user tabbing the header
+     lands on focus that is nowhere on screen — on desktop too, where
+     the burger is display:none but this container is not. Delayed to
+     the end of the fade so the transition still plays on the way out. */
   visibility: hidden;
   transition: opacity .15s var(--ease-out-quart), visibility 0s linear .15s;
 }
@@ -663,7 +703,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 }
 .mobile-menu__inner {
   position: relative;
-  padding: 72px 24px 24px;
+  /* sides are the bar's own gutter, so the sheet's text hangs off the
+     same left edge as the wordmark directly above it. The bottom pad
+     clears the home indicator on a notched phone. */
+  padding: var(--space-2) var(--gutter) max(var(--space-5), env(safe-area-inset-bottom));
   height: 100%;
   overflow-y: auto;
   opacity: 0;
@@ -675,68 +718,114 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   transform: translateY(0);
   transition: opacity .2s var(--ease-out-quart), transform .2s var(--ease-out-quart);
 }
-.mobile-menu__close {
-  position: absolute;
-  top: 14px;
-  right: 12px;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  color: var(--ink-55);
+/* The sheet runs to 767px — a small window or a tablet held upright —
+   and at that width full-bleed rows read as a stretched phone screen
+   rather than a considered one, so the contents keep a column. */
+.mobile-menu__primary,
+.mobile-menu__section { max-width: 520px; }
+
+/* The four links are the point of the sheet, so they are the only
+   thing in it set above body size. */
+.mobile-menu__primary {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 2;
+  flex-direction: column;
+  gap: 2px;
 }
-.mobile-menu__close:hover { background: var(--surface-hover); color: var(--ink-85); }
-.mobile-menu__close svg { width: 20px; height: 20px; }
 .mobile-menu__link {
   display: block;
-  font-size: var(--type-base);
-  font-weight: 500;
+  font-size: var(--type-md);
+  line-height: 1.35;
+  font-weight: 550;
+  letter-spacing: -.01em;
   color: var(--foreground);
-  padding: 11px 16px;
-  margin: 0 -16px 8px;
-  border-radius: 8px;
+  padding: var(--space-3) var(--space-4);
+  margin: 0 calc(-1 * var(--space-4));
+  border-radius: 10px;
   transition: background-color .15s ease;
 }
+/* the sheet says where you are; the bar's aria-current is covered */
+.mobile-menu__link[aria-current="page"] { background: var(--surface); }
 .mobile-menu__link:active { background: var(--surface-hover); }
+
 .mobile-menu__section {
-  padding-top: 12px;
+  margin-top: var(--space-3);
+  padding-top: var(--space-4);
   border-top: 1px solid var(--border);
 }
+/* the site's small-label register — same as .crumb and .prop-label */
 .mobile-menu__label {
-  font-size: var(--type-sm);
-  font-weight: 550;
-  letter-spacing: -.005em;
-  color: var(--ink-78);
-  margin-bottom: 12px;
+  font-size: var(--type-2xs);
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  font-weight: 500;
+  color: var(--ink-55);
+  margin-bottom: 8px;
 }
-.mobile-menu__section--theme { margin-top: var(--space-1); }
-.mobile-menu__list { display: flex; flex-direction: column; margin-bottom: var(--space-4); }
+
+/* the burger's collection list, matching the desktop menu */
+.mobile-menu__triplist { display: flex; flex-direction: column; gap: 2px; }
 .mobile-menu__item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  border-radius: 8px;
-  padding: var(--space-3) var(--space-4);
-  margin: 0 -var(--space-4);
+  gap: var(--space-3);
+  border-radius: 10px;
+  /* the negative margin bleeds the tap surface into the gutter while
+     the tile stays on the sheet's left edge. It was `-var(--space-4)`,
+     which is not a value — the declaration was dropped whole and every
+     row sat 16px right of the links above it. */
+  padding: var(--space-2) var(--space-4);
+  margin: 0 calc(-1 * var(--space-4));
   transition: background-color .15s ease;
 }
 .mobile-menu__item:active { background: var(--surface-hover); }
-.mobile-menu__item .menu-item__tile { width: 44px; height: 44px; }
+.mobile-menu__item .menu-item__tile {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  corner-shape: squircle;
+}
 .mobile-menu__item .menu-item__tile svg { width: 24px; height: 24px; }
-/* the burger's collection list, matching the desktop menu */
-.mobile-menu__triplist { gap: 2px; }
-.mobile-menu__triplist .mobile-menu__item { padding: 8px 12px; }
-.mobile-menu__triplist .mobile-menu__item .menu-item__tile { width: 42px; height: 42px; border-radius: 11px; }
 /* Same in the burger: the row carries a tile and reads like the
    collections above it, so it needs none of the small-print styling
    it used to wear. */
+
+/* Elsewhere is three destinations, not three paragraphs. As full-width
+   rows carrying a byline apiece it ran 240px and finished below the
+   fold; as one row of three cards it is 73px and finishes above it.
+   The handles the bylines carried are on the pages themselves. */
+.mobile-menu__list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+.mobile-menu__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 8px var(--space-2);
+  border-radius: 14px;
+  corner-shape: squircle;
+  background: var(--surface);
+  text-align: center;
+  transition: background-color .15s ease;
+}
+.mobile-menu__card:active { background: var(--surface-hover); }
+/* the icon sits on the card, so it wants no ground of its own — and
+   the tile's ground is a literal #fff, which on a dark page was a lit
+   square the icon floated in */
+.mobile-menu__card .menu-item__tile {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  box-shadow: none;
+}
+.mobile-menu__card .menu-item__tile svg { width: 26px; height: 26px; }
+.mobile-menu__card .menu-item__title { font-size: var(--type-2xs); color: var(--ink-85); }
+.mobile-menu__card .menu-item__desc { display: none; }
+
 html.menu-locked, body.menu-locked { overflow: hidden; }
 /* and a flick inside the menu shouldn't hand the scroll onward */
 .mobile-menu__inner { overscroll-behavior: contain; }
@@ -1448,8 +1537,18 @@ main { display: block; }
 /* the burger pulls itself 8px into the gutter; at desktop widths the
    glyph is the last item in the bar and needs the same optical hug */
 @media (min-width: 768px) { .theme-btn { margin-right: -var(--space-2); } }
-/* below the burger breakpoint the picker in the menu takes over */
-@media (max-width: 767.98px) { .theme-btn { display: none; } }
+/* Below the burger breakpoint the glyph stays — this used to be
+   `display: none`, because the sheet covered the bar and left the
+   switch visible but untouchable, and a second labelled control had
+   to be built into the sheet to compensate. The sheet opens under the
+   bar now, so the one glyph serves both states and the copy is gone.
+   The links and the scrolltitle are hidden at this width, so the auto
+   margin is what keeps the glyph off the wordmark and against the
+   burger; the 6px clears the burger's 44px box exactly, since this
+   button's own 44 is an ::after 6px wider than the 32px circle. */
+@media (max-width: 767.98px) {
+  .theme-btn { margin-left: auto; margin-right: var(--space-2); }
+}
 
 .theme-btn__stack { position: relative; display: block; width: 17px; height: 17px; }
 .theme-i {
@@ -1465,36 +1564,12 @@ html[data-theme="auto"]  .theme-i--auto,
 html[data-theme="light"] .theme-i--sun,
 html[data-theme="dark"]  .theme-i--moon { opacity: 1; transform: none; }
 
-.theme-pick {
-  display: flex;
-  gap: 3px;
-  padding: 3px;
-  border-radius: 999px;
-  background: var(--surface);
-  box-shadow: var(--shadow-flush);
-}
-.theme-pick__opt {
-  flex: 1;
-  height: 44px;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: var(--ink-55);
-  font-family: inherit;
-  font-size: var(--type-xs);
-  font-weight: 500;
-  letter-spacing: -.005rem;
-  cursor: pointer;
-  transition: background-color .18s var(--ease-out-quart), color .18s ease;
-}
-.theme-pick__opt:hover { color: var(--ink-85); }
-html[data-theme="auto"]  .theme-pick__opt[data-theme-set="auto"],
-html[data-theme="light"] .theme-pick__opt[data-theme-set="light"],
-html[data-theme="dark"]  .theme-pick__opt[data-theme-set="dark"] {
-  background: var(--background);
-  color: var(--foreground);
-  box-shadow: var(--shadow-raised);
-}
+/* `.theme-pick` — the labelled three-way the burger sheet used to
+   carry — is deleted, markup and CSS. It only existed because the
+   sheet covered the bar and took the glyph with it. `[data-theme-set]`
+   is still wired in js/review.js and still works, so a control that
+   sets a state directly can come back without touching that; but the
+   site should have one way to set the theme, and it is the glyph. */
 
 /* The flip used to be a hard cut across the whole page. A short
    dissolve on the surfaces that actually carry the theme reads as a
