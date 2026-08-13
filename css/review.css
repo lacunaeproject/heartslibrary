@@ -2476,16 +2476,17 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
    showed the same pictures the collection page shows. One frame per
    row says the same thing and leaves the page quiet.
    ============================================================ */
-/* THE YEAR IS THE PAGE'S SPINE. It stands in its own column, set
-   large and light, and STICKS while its own collections scroll past —
-   so the thing you are always looking at is when. That is the whole
-   argument of the site: these pictures are how a place was on a day,
-   and the day is what makes them worth keeping.
+/* THE YEAR IS THE PAGE'S SPINE — the thing you scroll past, because
+   the whole argument of the site is that these pictures are how a
+   place was on a day, and the day is what makes them worth keeping.
+   `js/hobby.js` emits one <section class="xp-era"> per year, newest
+   first, with the year as the h2 below.
 
-   Sticky inside the grid item means it releases at the end of its own
-   era rather than running the length of the page, so 2026 hands over
-   to 2025 as you reach it. Below 900px there is no room for a column,
-   so it becomes an ordinary heading above its rows. */
+   It is a plain heading above its rows at every width. An earlier
+   version put it in a column of its own down the left, set large and
+   pinned, so it rode along while its rows scrolled and handed over to
+   the next year at the end of its own era — see the note below the
+   rule for why that came out. */
 .xp-era { display: block; }
 .xp-era__year {
   font-family: var(--title-face);

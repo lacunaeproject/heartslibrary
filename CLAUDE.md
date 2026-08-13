@@ -88,7 +88,7 @@ justified that register is gone; ask Cody before unifying them.
 
 **Cache stamps.** Every `css`/`js` link carries `?v=YYYYMMDD-N`, and
 `scripts/shell.js` writes it from the `STAMP` constant at the top of that file
-(currently `20260813-16`). Change a `.css` or `.js` file → bump `STAMP`, run
+(currently `20260813-17`). Change a `.css` or `.js` file → bump `STAMP`, run
 `node scripts/shell.js`. The old "bump it on every page at once" chore is gone,
 and the `shell: false` pages are swept too.
 
