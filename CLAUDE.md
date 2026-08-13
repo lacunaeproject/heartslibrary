@@ -88,7 +88,7 @@ justified that register is gone; ask Cody before unifying them.
 
 **Cache stamps.** Every `css`/`js` link carries `?v=YYYYMMDD-N`, and
 `scripts/shell.js` writes it from the `STAMP` constant at the top of that file
-(currently `20260810-76`). Change a `.css` or `.js` file → bump `STAMP`, run
+(currently `20260813-16`). Change a `.css` or `.js` file → bump `STAMP`, run
 `node scripts/shell.js`. The old "bump it on every page at once" chore is gone,
 and the `shell: false` pages are swept too.
 
@@ -98,13 +98,21 @@ pages directly, which the next local run silently undid; it now calls
 `STAMP` constant as well as the pages, so CI and the working tree can't drift
 apart. (`scripts/post.js` doesn't stamp at all; it only prints a reminder.)
 
-**Theme — three states.** `<html class="no-js dark">` plus an inline blocking
-script in `<head>` (`THEME_INIT` in `scripts/shell.js`) that reads
-`localStorage["hl-theme"]`; anything that isn't `"light"` or `"dark"` means
-**auto**, which computes sunrise/sunset. `html[data-theme]` records what was
-chosen (auto · light · dark), `html.dark` records what that resolves to and
-flips the token scale. Choosing auto **removes** the key, so the sun-driven
-default stays reachable. The bar carries one cycling glyph (`.theme-btn`,
+**Theme — three states, and light is the default.** `<html class="no-js">` plus
+an inline blocking script in `<head>` (`THEME_INIT` in `scripts/shell.js`) that
+reads `localStorage["hl-theme"]`; anything that isn't `"dark"` or `"auto"` means
+**light**, so a first-time visitor lands in light. `"auto"` computes
+sunrise/sunset. `html[data-theme]` records what was chosen (auto · light ·
+dark), `html.dark` records what that resolves to and flips the token scale.
+
+**Light is the state stored as nothing at all** — choosing it **removes** the
+key; auto and dark are written down. That is one fact in two places: the head
+script's fallback and the `set()` branch in `js/review.js`. **They must name the
+same state or a fresh tab paints one theme while the picker claims another.**
+Until 2026-08-13 it was auto that cleared and `dark` that sat on the `<html>`
+tag; flipping the default meant flipping both together. The `<html>` class is
+only the pre-script guess, and the free guess is now light. The bar carries one
+cycling glyph (`.theme-btn`,
 hidden below 768px); the mobile menu carries the labelled three-way
 (`.theme-pick`), because on phones the open overlay covers the bar. Both are
 wired by `setupTheme()` in `js/review.js`, which resolves the sun exactly as

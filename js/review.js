@@ -137,10 +137,16 @@
      Theme. Three states. "auto" follows the sun — the inline head
      script does that arithmetic before first paint — while "light"
      and "dark" pin it. The bar's glyph cycles auto → light → dark;
-     the picker in the mobile menu sets a state directly. Both write
-     the same key, and choosing auto CLEARS it so the sun takes over
-     again: the old two-way switch stored a choice on its first click
-     and left no way back to the default.
+     the picker in the mobile menu sets a state directly.
+
+     LIGHT is the default, so light is the state that CLEARS the key
+     and auto/dark are the ones written down. Whichever state means
+     "nothing stored" has to be the same here as in THEME_INIT over in
+     scripts/shell.js, or a fresh tab paints one thing and the picker
+     claims another. (It was auto that cleared until the default moved;
+     the reason the clearing state exists at all is that the old
+     two-way switch wrote storage on its first click and left no way
+     back to the default at all.)
      ---------------------------------------------------------- */
   function setupTheme() {
     var root = document.documentElement;
@@ -153,7 +159,7 @@
 
     function current() {
       var v = root.getAttribute("data-theme");
-      return ORDER.indexOf(v) === -1 ? "auto" : v;
+      return ORDER.indexOf(v) === -1 ? "light" : v;
     }
 
     /* Resolved exactly as the head script resolves it, so cycling
@@ -186,7 +192,7 @@
     function set(next) {
       root.setAttribute("data-theme", next);
       try {
-        if (next === "auto") localStorage.removeItem("hl-theme");
+        if (next === "light") localStorage.removeItem("hl-theme");
         else localStorage.setItem("hl-theme", next);
       } catch (e) {}
       /* the dissolve is armed per deliberate change, so the theme the

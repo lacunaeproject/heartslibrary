@@ -1405,6 +1405,12 @@ main { display: block; }
    localStorage on the first click, so once you touched it the
    sun-driven default was gone for good.
 
+   LIGHT is the default a first-time visitor gets — auto is still on
+   the control, it is just no longer what you land on. Nothing in this
+   file encodes that; the default lives in the head script and in
+   `set()` in js/review.js, and the selectors below only read whatever
+   those two agreed on.
+
    The bar carries one cycling glyph. The mobile menu carries the
    labelled three-way, because below 768px the open overlay covers
    the bar entirely — the switch used to sit underneath it, visible

@@ -36,7 +36,7 @@ var fs = require("fs");
 var path = require("path");
 
 var ROOT = path.join(__dirname, "..");
-var STAMP = "20260813-15";
+var STAMP = "20260813-16";
 
 /* ------------------------------------------------------------------
    THE PAGES. Everything page-specific lives in this table — title,
@@ -154,14 +154,21 @@ function wordmark() {
 }
 
 /* ------------------------------------------------------------------
-   THEME. Three states — auto (follow the sun), light, dark. The
+   THEME. Three states — light, dark, auto (follow the sun). The
    inline script must stay blocking in <head>: deferring it flashes
    the wrong theme. It sets BOTH html.dark (which flips the token
    scale) and html[data-theme] (which tells the control what to show).
+
+   LIGHT IS THE DEFAULT, and it is the state stored as nothing at all:
+   no key, an unreadable key, or junk all resolve to light. Auto and
+   dark are the ones that have to be written down. It used to be the
+   other way round — absence meant auto — so flipping the default also
+   meant flipping which state clears the key in js/review.js `set()`.
+   The two must agree or the picker lies about what it chose.
    ------------------------------------------------------------------ */
 var THEME_INIT =
   '<script>(function(){var d=document.documentElement,s=null;try{s=localStorage.getItem("hl-theme")}catch(e){}' +
-  'if(s!=="dark"&&s!=="light")s="auto";d.setAttribute("data-theme",s);var k;' +
+  'if(s!=="dark"&&s!=="auto")s="light";d.setAttribute("data-theme",s);var k;' +
   'if(s==="auto"){var t=new Date(),r=Math.PI/180,y=Math.floor((t-new Date(t.getFullYear(),0,0))/864e5),' +
   'q=23.45*Math.sin(r*(360/365)*(284+y)),c=(Math.cos(90.833*r)-Math.sin(39*r)*Math.sin(q*r))/(Math.cos(39*r)*Math.cos(q*r)),' +
   'H=Math.acos(Math.max(-1,Math.min(1,c)))/r/15,j=new Date(t.getFullYear(),0,1).getTimezoneOffset(),' +
@@ -422,7 +429,9 @@ Object.keys(PAGES).forEach(function (file) {
     /* chrome-free pages: keep their asset stamps in step, nothing else */
     html = html.replace(/\?v=\d{8}-\d+/g, "?v=" + STAMP);
   } else {
-    var htmlTag = '<html lang="en" class="no-js dark">';
+    /* no `dark` here any more: the class is the pre-script guess, and
+       with light the default the guess that costs nothing is light */
+    var htmlTag = '<html lang="en" class="no-js">';
     html = html.replace(/<html[^>]*>/, htmlTag);
     if (page.bodyClass) {
       html = html.replace(/<body[^>]*>/, '<body class="' + page.bodyClass + '">');
