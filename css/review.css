@@ -2211,37 +2211,16 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
 @media (hover: hover) and (pointer: fine) {
   .shot-btn:hover img { transform: scale(1.03); }
 }
-.shot-pill {
-  position: absolute;
-  left: 13px;
-  bottom: 13px;
-  max-width: calc(100% - 26px);
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: rgba(10, 10, 10, .52);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  /* the nav's sans, not the mono — and not shouted. What sits in here
-     is a caption, a sentence about the frame, and uppercased mono made
-     a sentence read like a serial number. */
-  font-family: var(--sans);
-  font-size: var(--type-xs);
-  font-weight: 450;
-  letter-spacing: 0;
-  color: rgba(255, 255, 255, .92);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity .2s ease, transform .3s var(--ease-out-quart);
-}
-@media (hover: hover) and (pointer: fine) {
-  .shot-btn:hover .shot-pill { opacity: 1; transform: none; }
-}
-@media (hover: none) {
-  .shot-pill { opacity: 1; transform: none; }
-}
+/* `.shot-pill` was here — a translucent lozenge of caption laid over
+   the bottom-left of a frame on the front wall, faded in on hover.
+   Deleted along with the markup that made it (see `shotHtml` in
+   js/hobby.js). It could only be revealed by hovering, which a phone
+   cannot do, so it carried a `@media (hover: none)` rule that left it
+   permanently open on every frame — turning the wall into rows of
+   photographs each stuck behind a grey label. Hiding it under a
+   breakpoint would have left the desktop half of the same bad idea,
+   so the whole treatment went. The collection page's `.shot-cap`
+   figcaption remains: it sits under the frame and covers nothing. */
 /* The theme control lives with the other theme rules — see
    COLOUR THEME above. The old override lived here and leaked a
    `margin-bottom: 8px` from the retired track-and-knob switch it

@@ -12,3 +12,8 @@
 # The earlier zoo originals here are already tracked and stay that way;
 # ignoring a tracked file does nothing.
 photos/sandiego-zoo/DSC*.jpg
+
+# Same deal for Giverny: ~493 MB of phone originals, served as 1600px versions
+# under photos/giverny/web/. The trailing /*.jpg stops at that one directory
+# level, so the web/ subfolder is still tracked.
+photos/giverny/*.jpg
