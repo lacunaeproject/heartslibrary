@@ -226,6 +226,10 @@ window.TRIPS = [
     note: "Went for the zoo and basically never left it — most of a day with the big cats and the orangutans.",
     camera: "Sony A7CR",
     photos: [
+      { src: "photos/sandiego-zoo/web/rhino-4.jpg", best: true, w: 1600, h: 1198, alt: "An Indian rhinoceros facing the camera, chin lifted, ear tufts up and its horn worn flat", caption: "Looking right back" },
+      { src: "photos/sandiego-zoo/web/rhino-5.jpg", best: true, w: 1600, h: 1067, alt: "A rhinoceros taking a carrot from an outstretched hand across a zoo rail, mouth wide open", caption: "The carrot goes in" },
+      { src: "photos/sandiego-zoo/web/rhino-3.jpg", best: true, w: 1600, h: 1067, alt: "An Indian rhinoceros with its head raised and its eyes half shut in the sun", caption: "Half asleep in the sun" },
+      { src: "photos/sandiego-zoo/web/rhino-6.jpg", best: true, w: 1600, h: 1067, alt: "The rhinoceros chewing while the woman who fed it laughs, her hand already withdrawn", caption: "And the hand comes back" },
       { src: "photos/sandiego-zoo/web/mandrill-1.jpg", best: true, w: 1167, h: 1600, alt: "A mandrill's face, red and blue ridges along the muzzle", caption: "The best face in the park" },
       { src: "photos/sandiego-zoo/web/grizzly-1.jpg", best: true, w: 1600, h: 1067, alt: "A grizzly bear eating greens in a shadowed enclosure", caption: "Greens, in the dark" },
       { src: "photos/sandiego-zoo/web/panda-1.jpg", best: true, w: 1600, h: 1067, alt: "A giant panda in profile working on a bamboo shoot", caption: "First one, still eating" },
@@ -255,7 +259,6 @@ window.TRIPS = [
       { src: "photos/sandiego-zoo/web/elephant-3.jpg", best: true, w: 1600, h: 1067, alt: "An elephant's head in profile against bright sky", caption: "Profile, tusks and all" },
       { src: "photos/sandiego-zoo/web/grizzly-7.jpg", best: true, w: 1600, h: 1067, alt: "A grizzly bear's head in profile, pale muzzle against dark fur", caption: "Turned away" },
       { src: "photos/sandiego-zoo/web/panda-4.jpg", best: true, w: 1067, h: 1600, alt: "A giant panda facing the camera with a bamboo stalk in its mouth", caption: "Straight on" },
-      { src: "photos/sandiego-zoo/web/rhino-1.jpg", best: true, w: 1600, h: 1280, alt: "An Indian rhinoceros head-on, a visitor's arm at the edge of the frame", caption: "Both horns and an audience" },
       { src: "photos/sandiego-zoo/web/colobus.jpg", best: true, w: 1600, h: 1280, alt: "An Angolan colobus monkey, a long white mantle framing a dark face", caption: "All that hair, and a face somewhere in it" },
       { src: "photos/sandiego-zoo/web/bear-claws.jpg", best: true, w: 1600, h: 1067, alt: "A bear's front paw on rock, claws fully extended", caption: "The claws, which are the point" },
       { src: "photos/sandiego-zoo/web/binturong-1.jpg", best: true, w: 1600, h: 1280, alt: "A binturong facing the camera, long white whiskers fanned out", caption: "The binturong, awake for once" },
@@ -295,7 +298,7 @@ window.TRIPS = [
       { src: "photos/sandiego-zoo/web/hyrax-3.jpg", best: true, w: 1600, h: 1067, alt: "A hyrax resting on top of a sunlit rock", caption: "Out on the rock" },
       { src: "photos/sandiego-zoo/web/grizzly-14.jpg", best: true, w: 1600, h: 1067, alt: "A grizzly bear's face emerging from deep shadow", caption: "In the shadow" },
       { src: "photos/sandiego-zoo/web/mountain-lions.jpg", best: true, w: 1600, h: 1067, alt: "Two mountain lions pressed head to head", caption: "Two of them, sorting it out" },
-      { src: "photos/sandiego-zoo/web/rhino-2.jpg", best: true, w: 1600, h: 1280, alt: "The head and armoured folds of an Indian rhinoceros", caption: "Plate armour, worn in" },
+      { src: "photos/sandiego-zoo/web/rhino-7.jpg", best: true, w: 1600, h: 1007, alt: "An Indian rhinoceros in side profile, its horn and the folded plates of its neck against green", caption: "The armour, seen side on" },
       { src: "photos/sandiego-zoo/web/panda-10.jpg", best: true, w: 1600, h: 1067, alt: "A giant panda among bamboo stalks, mid-chew", caption: "Last of the bamboo" },
       { src: "photos/sandiego-zoo/web/grizzly-15.jpg", best: true, w: 1301, h: 1600, alt: "A very close view of a grizzly bear's muzzle and brow", caption: "Every hair of him" },
       { src: "photos/sandiego-zoo/web/binturong-2.jpg", best: true, w: 1600, h: 1067, alt: "A binturong walking down a sloping branch", caption: "Along the branch" },
@@ -303,9 +306,9 @@ window.TRIPS = [
       { src: "photos/sandiego-zoo/web/elephant-trunk.jpg", best: true, w: 1600, h: 1067, alt: "A close view of an elephant's trunk and the base of its tusks", caption: "Just the trunk" }
     ],
     beats: [
-      { at: "Balboa Park", say: "Went for the zoo and basically never left it.", shots: [2, 9, 16] },
-      { at: "The big cats", say: "The cheetah came right up to the glass. Four or five seconds, then gone.", shots: [18, 34, 53, 73] },
-      { at: "Orangutan canyon", say: "Spent way too long here. Worth it.", shots: [13, 49, 36] }
+      { at: "Balboa Park", say: "Went for the zoo and basically never left it.", shots: [6, 13, 20] },
+      { at: "The big cats", say: "The cheetah came right up to the glass. Four or five seconds, then gone.", shots: [22, 37, 56, 76] },
+      { at: "Orangutan canyon", say: "Spent way too long here. Worth it.", shots: [17, 52, 39] }
     ]
   },
   {

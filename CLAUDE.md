@@ -31,7 +31,7 @@ fix the doc.
 | One generated page per collection | `<slug>.html` at repo root — **generated, never hand-edit** |
 | Generated, not pages | `sitemap.xml`, `robots.txt`, `feed.xml` |
 | Content data (edit these to post) | `js/photos.js`, `js/pins.js`, `js/games.js`, `js/writing.js` |
-| Auto-generated | `js/photos.js` is rewritten by the poster from `photos/<slug>/trip.txt` — hand-edits to a posted trip get overwritten |
+| Auto-generated | `js/photos.js` is rewritten by the poster from `photos/<slug>/trip.txt` — hand-edits to a posted trip get overwritten. **Only for collections that have a `trip.txt`** — see below |
 | Renderers | `js/hobby.js` (front wall, galleries, collections index), `js/review.js` (nav/shell behavior), one `js/<name>.js` per collection |
 | The page shell — head, nav, mobile menu, footer | `scripts/shell.js` — one definition, swept into every page. See below |
 | Styles | `css/review.css` — all tokens live in `:root` here, and every shelled page loads it and nothing else (`print.html` also loads `css/print.css`) |
@@ -100,7 +100,7 @@ justified that register is gone; ask Cody before unifying them.
 
 **Cache stamps.** Every `css`/`js` link carries `?v=YYYYMMDD-N`, and
 `scripts/shell.js` writes it from the `STAMP` constant at the top of that file
-(currently `20260813-18`). Change a `.css` or `.js` file → bump `STAMP`, run
+(currently `20260816-6`). Change a `.css` or `.js` file → bump `STAMP`, run
 `node scripts/shell.js`. The old "bump it on every page at once" chore is gone,
 and the `shell: false` pages are swept too.
 
@@ -267,6 +267,28 @@ writes, and `<meta name="hl-base">`, which `js/hobby.js` applies to every
 href *it* writes (the nav's collection list). It is also the one page you
 cannot check by opening it off the disk — serve the repo over HTTP instead.
 Everything else stays relative, because opening a page from disk has to work.
+
+**Three collections are hand-maintained and outside the poster.**
+`sandiego-zoo`, `giverny` and `london-paris` have no `trip.txt`, so
+`scripts/post.js` never rebuilds them and `scripts/prep-media.js` — which walks
+only folders that have one — never resizes for them. Their entries in
+`js/photos.js` are edited by hand and are *not* overwritten. Note the slug and
+the folder need not match: `photos/sandiego-zoo/` is slug `san-diego`, so the
+page is `san-diego.html` and `node scripts/post.js sandiego-zoo` would look in
+the wrong place anyway. Editing one of these means: resize to 1600px/≤700 KB
+yourself, drop the file in `photos/<folder>/web/`, write the `js/photos.js`
+entry by hand, then run `scripts/shell.js`.
+
+**`beats[].shots` are positional indices into `photos[]`, and nothing
+validates them.** Insert or delete a frame and every beat below it silently
+points at the wrong picture — the page still renders, it just shows different
+photographs than it used to. Before touching a collection's `photos` array,
+resolve each beat's shots to filenames; after, look the filenames back up and
+rewrite the indices. Never renumber by arithmetic.
+
+**Image `src` values carry no `?v=` stamp** — only `css`/`js` links do. So
+reusing a filename for different content serves the old frame from cache. When
+replacing a photograph, give it a new name rather than overwriting.
 
 ## Posting a trip (the short version)
 

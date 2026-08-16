@@ -2146,23 +2146,39 @@ html.dark .filter-pill.is-active { background: #FBF9F0; color: #131313; }
   corner-shape: normal;
   background: none;
 }
-/* The two boxes. Giving the picture inside a definite width AND a
-   definite height is also what makes the per-frame aspect-ratio the
-   renderer writes inline go inert — an inline style can only be
-   beaten by !important, but a ratio simply stops applying once
-   neither dimension is left to it. */
-.stream-grid .shot--tall .shot-btn,
-.stream-grid .shot--tall .vid { aspect-ratio: 4 / 5; }
-.stream-grid .shot--wide .shot-btn,
-.stream-grid .shot--wide .vid { aspect-ratio: 5 / 4; }
+/* EVERY FRAME KEEPS THE SHAPE IT WAS SHOT IN. There were two boxes
+   here — 4:5 for uprights, 5:4 for landscapes — with the picture
+   inside them on object-fit: cover, which bought a tidy grid rhythm by
+   cutting off whatever didn't fit. It cut a lot: 63 of San Diego's 78
+   frames are the same 3:2 and each lost 16.6% off its sides, the
+   side-profile rhino lost 21.3% — which is the horn — and the average
+   across that collection was 14.8%.
+
+   Nothing was added to undo it. shotHtml() already writes
+   style="aspect-ratio:W/H" on every img and video from the recorded
+   dimensions, and the note that stood here explained why that had no
+   effect: giving the box a definite width AND a definite height is
+   precisely what makes an inline ratio go inert. Releasing the height
+   hands the frame back to it, so the box is now whatever the
+   photograph is. object-fit goes with it — once the box matches the
+   picture there is nothing left to fit.
+
+   Rows are ragged as a result, and that is the trade. `align-items:
+   center` was already on the grid, so a short frame centres against a
+   taller neighbour rather than stretching to meet it. Every frame in
+   js/photos.js carries w and h, so each one still reserves its exact
+   height before the picture loads and nothing shifts; a frame added
+   without dimensions WOULD shift the page, which is one more reason
+   the poster records them. `.shot--wide` / `.shot--tall` were read by
+   the four deleted rules and by nothing else, so they are gone from
+   the renderer too. */
 /* the flush inset ring belonged to the rounded tile; a square frame
    sits on the page unaided */
 .stream-grid .shot-btn::after { display: none; }
 .stream-grid .shot-btn img,
 .stream-grid .vid video {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
 }
 .stream-grid .shot-cap { display: none; }
 /* THE LEAD AND ITS PLATE. The frame is capped by HEIGHT and keeps its
@@ -3395,9 +3411,15 @@ html.dark .lightbox::backdrop { background: #111110; }
 
 /* ============================================================
    THE DARKROOM — park.photos' register for the photography
-   wing (home, galleries, archive): near-black ground under a
-   film-grain wash, white ink scale, Instrument Serif display
-   type. The library wings stay light; html.dark flips a page.
+   wing (home, galleries, archive): near-black ground and a
+   white ink scale. html.dark flips the token scale for a page.
+
+   Two things this comment used to claim are gone. The
+   film-grain wash was deleted 2026-08-16 (see below). The
+   display face is not Instrument Serif — that was one of the
+   nine faces dropped in the type rebuild; titles are Recoleta
+   and everything else is Geist. See the type table in
+   CLAUDE.md.
    ============================================================ */
 html.dark { background: #0A0A0A; scrollbar-color: rgba(255, 255, 255, .28) transparent; }
 html.dark::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, .22); }
@@ -3434,44 +3456,22 @@ html.dark body {
   --shadow-raised: 0 1px 2px rgba(0, 0, 0, .5), inset 0 0 0 1px rgba(255, 255, 255, .09);
   --shadow-floating: 0 8px 32px rgba(0, 0, 0, .55), inset 0 0 0 1px rgba(255, 255, 255, .12);
 }
-/* park's film grain: a fixed noise wash over everything, animated
-   like projector static — the layer is oversized and jumped to a new
-   offset in discrete steps, so the grain never reads as a still */
-html.dark body::after {
-  content: "";
-  position: fixed;
-  inset: -100%;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: .16;
-  /* Overlay blend, like park's: near-zero on the black ground, so
-     the static lives in the photos and mid-tones instead of
-     dusting the whole page */
-  mix-blend-mode: overlay;
-  /* Not a gray wash: white specks on transparency (feColorMatrix
-     maps luminance to a steep alpha ramp), so the static reads at
-     low opacity instead of veiling the page */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 9 0 0 0 -4'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 220px 220px;
-  will-change: transform;
-  animation: grain-static .6s steps(1) infinite;
-}
-@keyframes grain-static {
-  0%   { transform: translate(0, 0); }
-  10%  { transform: translate(-2%, -3%); }
-  20%  { transform: translate(3%, -1%); }
-  30%  { transform: translate(-4%, 2%); }
-  40%  { transform: translate(2%, 4%); }
-  50%  { transform: translate(-3%, -4%); }
-  60%  { transform: translate(4%, 1%); }
-  70%  { transform: translate(-1%, 3%); }
-  80%  { transform: translate(3%, -3%); }
-  90%  { transform: translate(-2%, 1%); }
-  100% { transform: translate(0, 0); }
-}
-@media (prefers-reduced-motion: reduce) {
-  html.dark body::after { animation: none; inset: 0; }
-}
+/* THERE IS NO FILM GRAIN. `html.dark body::after` held one — an SVG
+   feTurbulence wash at opacity .16 on mix-blend-mode: overlay, fixed
+   over the whole viewport at z-index 9999, borrowed from park.photos
+   along with the rest of this register. It was deleted on 2026-08-16
+   at Cody's word, in two steps: first the projector-static animation
+   that jumped it to a new offset every .6s, then the wash itself.
+
+   Nothing replaces it. The dark ground is #0A0A0A and the photographs
+   sit on it unmediated, which is the point — a texture laid over
+   every frame is a texture the photographer did not put there.
+
+   Don't reinstate it from the park.photos reference: that site is
+   still the source for the near-black ground and the ink scale, and
+   the grain was the one part of the borrow that did not survive
+   contact with a wall of actual photographs. This was the only
+   body::after rule in the file. */
 /* Literal-color components that the tokens don't reach */
 /* the bar takes the page's own ground in either theme now that it no
    longer floats over anything — the dark translucency went with the

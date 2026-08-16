@@ -11,7 +11,14 @@
 #
 # The earlier zoo originals here are already tracked and stay that way;
 # ignoring a tracked file does nothing.
-photos/sandiego-zoo/DSC*.jpg
+#
+# Widened from DSC*.jpg to the whole directory level on 2026-08-16: the five
+# replacement rhino frames came off the card named rhino_*.jpg, which the DSC
+# rule did not match, and 29 MB of originals nearly went in. This collection
+# has no trip.txt, so neither prep-media.js nor post.js ever walks it and
+# nothing here needs committing — only web/ is served. The trailing /*.jpg
+# stops at this one directory level, so web/ stays tracked.
+photos/sandiego-zoo/*.jpg
 
 # Same deal for Giverny: ~493 MB of phone originals, served as 1600px versions
 # under photos/giverny/web/. The trailing /*.jpg stops at that one directory

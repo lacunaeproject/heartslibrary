@@ -36,7 +36,7 @@ var fs = require("fs");
 var path = require("path");
 
 var ROOT = path.join(__dirname, "..");
-var STAMP = "20260813-21";
+var STAMP = "20260816-6";
 
 /* Every link the chrome writes goes through P(). It is "" for the whole
    site, because every page lives at the repo root and a relative href

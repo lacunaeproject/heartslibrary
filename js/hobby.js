@@ -180,18 +180,18 @@
      wall doesn't: there the picture is the whole message. */
   function shotHtml(t, p, i, capped, lead) {
     var ratio = p.w && p.h ? ' style="aspect-ratio:' + Number(p.w) + "/" + Number(p.h) + '"' : "";
-    /* Every frame fills its whole column on the wall, in one of two
-       boxes: uprights and squares take the 4:5, anything wider takes
-       the 5:4. The shape is read off what was shot rather than tagged
-       by hand, and a frame that never recorded its size falls to the
-       upright, which is the commoner of the two. The wall is the only
-       grid that reads these classes — in the clip row and the
-       lightbox they go unused.
+    /* Every frame is its own shape, on the wall and on a collection
+       page alike, and `ratio` above is the whole mechanism: the box
+       is the picture.
 
-       This replaced `--fw`, which sized each frame by the square root
-       of its aspect so an upright and a landscape covered equal area.
-       Nothing reads that variable now. */
-    var wide = p.w && p.h && Number(p.w) > Number(p.h) ? " shot--wide" : " shot--tall";
+       Two earlier schemes are gone. `--fw` sized each frame by the
+       square root of its aspect so an upright and a landscape covered
+       equal area. `.shot--wide` / `.shot--tall` replaced it by sorting
+       every frame into one of two boxes — 4:5 or 5:4 — with
+       object-fit: cover trimming the difference; that bought an even
+       grid at the price of 14.8% of the average photograph, and 21.3%
+       of the worst. Nothing reads either now. See css/review.css,
+       under the .stream-grid rules. */
     /* A clip's own surface opens the viewer; only the speaker
        button swallows the press. */
     if (p.video) {
@@ -200,7 +200,7 @@
          play in the viewer. */
       var badge = '<span class="vid-badge" aria-hidden="true">' +
         '<svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 6.5v11a1 1 0 0 0 1.5.87l9-5.5a1 1 0 0 0 0-1.74l-9-5.5A1 1 0 0 0 9 6.5Z"/></svg></span>';
-      return '<figure class="shot shot--video' + wide + '">' +
+      return '<figure class="shot shot--video">' +
         '<div class="vid">' +
           '<video src="' + esc(p.src) + '#t=0.1' +
           '" playsinline preload="metadata" muted' +
@@ -235,7 +235,7 @@
        figcaption is a real, non-overlapping caption. */
     var cap = p.caption && capped
       ? '<figcaption class="shot-cap">' + esc(p.caption) + "</figcaption>" : "";
-    return '<figure class="shot' + wide + (lead ? " shot--lead" : "") + '">' +
+    return '<figure class="shot' + (lead ? " shot--lead" : "") + '">' +
       /* A button's children are presentational, so the <img alt> below
          never reaches a screen reader — the tile's name is this label
          and nothing else. Most frames carry no caption but every one

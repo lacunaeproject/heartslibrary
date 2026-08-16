@@ -8,9 +8,13 @@ step, hosts anywhere (GitHub Pages, Netlify, any web server), or open
 ## What it is
 
 **Since Aug 2026 a photography site** — home, gallery pages and journal
-run DARK in park.photos' full register: near-black ground under a fixed
-film-grain wash (html.dark flips the token scale; grain is an SVG-noise
-overlay), self-hosted serif display type, and the wall of frames itself.
+can run DARK in park.photos' register: near-black ground, white ink scale
+(`html.dark` flips the token scale), self-hosted display type, and the wall
+of frames itself. The register arrived with a fixed SVG film-grain wash over
+everything; it was **deleted on 2026-08-16**, animation first and then the
+wash, and nothing replaced it — the photographs sit on the ground
+unmediated. Note also that light, not dark, is the default since 2026-08-13:
+a first-time visitor lands light and dark is a stored choice.
 The books wing (shelf, log, bookstores, Goodreads sync) was removed
 outright later that month; a few side pages survive out of the global
 nav. Every collection reads from one plain data file (see
@@ -229,8 +233,33 @@ next `node scripts/shell.js`.
   entirely** (Aug 2026), leaving photography plus a few side pages. Cody's
   standing preferences: minimal italics, no stars UI, filters integrated
   into the list, no search box, whitespace concentrated inside rows/cards.
-- **The wall crops to two boxes now, after franzgruenewald.com.** Every frame
-  fills its whole column in either a 4:5 upright or a 5:4 landscape, centre
+- **The grids don't crop any more (Aug 16 2026). Every frame is its own
+  shape.** This REVERSES the two-box scheme described below, on Cody's
+  instruction and for both grids — the collection pages and the front wall.
+  What prompted it: replacing the San Diego rhinos made the cost legible.
+  63 of that collection's 78 frames are the same 3:2 and each was losing
+  16.6% off its sides, the side-profile rhino lost 21.3% — its horn — and
+  the average across the collection was 14.8%. Undoing it took a deletion,
+  not an addition: `shotHtml()` has always written
+  `style="aspect-ratio:W/H"` on every img from the recorded dimensions, and
+  a definite width AND height on the box is exactly what made that inline
+  ratio inert. Releasing the height gives the frame back its shape.
+  `.shot--wide` / `.shot--tall` were read by the four deleted rules and
+  nothing else, so they are gone from the renderer too.
+
+  **The trade moved rather than disappeared.** Rows are now ragged: a lone
+  upright doubles its row's height and the landscapes beside it float in
+  the space, which is mild on a collection page (most frames share a shape)
+  and pronounced on the wall (it draws from every collection). `align-items:
+  center` is still what decides how that space is distributed. If the
+  gapping ever needs solving, the two candidates are `align-items: start`
+  — cheap, gives each row one clean top line — and real masonry via CSS
+  `columns`, which packs perfectly but reorders reading DOWN each column
+  instead of across, and the collection sequence is deliberate.
+
+- **[SUPERSEDED Aug 16 2026 — see above] The wall crops to two boxes, after
+  franzgruenewald.com.** Every frame fills its whole column in either a 4:5
+  upright or a 5:4 landscape, centre
   cropped, and the shape is read off what was shot so nothing has to be tagged
   by hand. It replaced a scheme that kept each frame at the proportions it was
   shot at and sized it by area (`--fw`, the square root of its aspect), which
@@ -239,11 +268,16 @@ next `node scripts/shell.js`.
   `align-items: center` turns that difference into a stagger: a landscape frame
   sits inset among uprights, shorter, starting lower and ending higher. The
   crop is a real trade and it was taken deliberately — don't restore the old
-  behaviour on the strength of a no-crop principle alone. Nothing is lost from
+  behaviour on the strength of a no-crop principle alone. *(That warning stood
+  for three days and was overridden by Cody directly, which is the one thing
+  that does outrank it. Kept here because the reasoning is still the case
+  against — read it before undoing the reversal.)* Nothing is lost from
   the photograph itself: the lightbox still opens the whole frame, and the clip
   row is untouched, since both sit outside `.stream-grid`. The column count
-  went to 1 · 2 · 4 · 5 at 768 · 1024 · 1536 with gutters of 32 · 32 · 80 · 96,
-  and it steps by VIEWPORT rather than container width — the wall once sat
+  has since gone to 1 · 2 · 3 · 4 · 5 at 768 · 1152 · 1440 · 1920 with the gap
+  interpolated by `clamp(32px, 4.2vw, 80px)` rather than stepped — see the
+  column-ladder note in CLAUDE.md — and it steps by VIEWPORT rather than
+  container width — the wall once sat
   beside a sidebar, that sidebar is gone, and `container-type` came off `.roll`
   with the last `@container` rule.
 - **The type system was rebuilt around three faces, after trying nine.**
